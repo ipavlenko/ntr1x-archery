@@ -15,11 +15,13 @@ class DefaultController extends Controller
     {
         $view = [];
 
+        $view['item'] = $item;
+
         // передавать сюда путь до json файла если нет данных из БД
         $multiple_json = file_get_contents('https://ru.bookagolf.com/api/v1/portal/i/1/rating/tournament/i/202');
         $view['multiple'] = $multiple_json;
 
-        $view['multiple']['columns'] = [
+        $view['columns'] = [
             '{$.person.data.NAME.value} {$.person.data.SURNAME.value}',
             '{$.jsAdditionalFields.r1}',
             '{$.jsAdditionalFields.r2}',
@@ -28,7 +30,6 @@ class DefaultController extends Controller
             'i/{$.points}/dev',
         ];
 
-        $item['name'] = 'Weather';
         return $this->render('NTR1XWidgetsDefaultBundle:'.$item['name'].':index.html.twig', $view);
     }
 }

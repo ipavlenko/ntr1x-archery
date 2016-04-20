@@ -4,79 +4,63 @@
 		<meta charset="UTF-8" />
 		<title>{% block title %}NTR1X{% endblock %}</title>
 
-		<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic,100,100italic,900,900italic&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic" rel="stylesheet" />
-
 		{% block stylesheets %}
 			<link href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" />
 			<link href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap-theme.min.css') }}" rel="stylesheet" />
-			<link href="{{ asset('assets/css/public.css') }}" rel="stylesheet" />
+			<link href="{{ asset('assets/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
+			<link href="{{ asset('assets/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}" rel="stylesheet" />
+
+			{% for style in widget.styles %}
+				<link href="{{ asset(style.assetPath) }}" rel="stylesheet" />
+			{% endfor %}
 		{% endblock %}
 
 		{% block javascripts %}
 			<script src="{{ asset('assets/vendor/jquery/dist/jquery.min.js') }}"></script>
+			<script src="{{ asset('assets/vendor/vue/dist/vue.min.js') }}"></script>
+			<script src="{{ asset('assets/vendor/vue-router/dist/vue-router.min.js') }}"></script>
 			<script src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+			<script src="{{ asset('assets/vendor/jsonpath-plus/lib/jsonpath.js') }}"></script>
+
+			{% for script in widget.scripts %}
+				<script src="{{ asset(script.assetPath) }}"></script>
+			{% endfor %}
+
+            <!-- from layout.scripts -->
+			<script src="{{ asset('bundles/ntr1xcontrols/vue.js') }}"></script>
+            <script src="{{ asset('/bundles/ntr1xcontrols/filters/index.js') }}"></script>
+
+
+
 		{% endblock %}
 
 		<link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 	</head>
 	<body>
 
-		{% block sheader %}
-			<section class="page-section section-super">
-				<div class="section-content">
-					<div class="super-header"></div>
-				</div>
-			</section>
+		<div data-role="page"
+			data-vue
+			data-page="{{ page | serialize('json') }}"
+		>
+
+			{% raw %}
+
+			<div v-for="w in page.widgets">
+				<div is="default-menu" :params="w.params"></div>
+			</div>
+
+			{% endraw %}
+
+		</div>
+
+		{% block templates %}
+			{% for template in widget.templates %}
+				{{ render(controller('NTR1XLayoutBundle:Layout:asset', {
+					asset: template,
+				})) }}
+			{% endfor %}
 		{% endblock %}
 
-		{% block header %}
-			<header class="page-section">
-				<div class="section-content">
-					<div class="navbar-container">
-						<nav class="navbar page-navbar" data-spy="affix" data-offset-top="590">
-							<ul class="nav navbar-nav">
-								<li class="{{ app.request.attributes.get('_route') starts with 'home' ? 'active' : '' }}"><a href="{{ path('home') }}">Главная</a></li>
-								<li class="{{ ((app.request.attributes.get('_route') starts with 'media') and (search.query.category is defined) and (search.query.category == 'news')) ? 'active' : '' }}"><a href="{{ path('media', { c: 'news' }) }}">Новости</a></li>
-								<li class="{{ ((app.request.attributes.get('_route') starts with 'media') and (search.query.category is defined) and (search.query.category == 'video')) ? 'active' : '' }}"><a href="{{ path('media', { c: 'video' }) }}">Видео</a></li>
-							</ul>
-						</nav>
-					</div>
-				</div>
-			</header>
-		{% endblock %}
-		
-		{% block body %}
-			<section class="page-section" data-spy="affix" data-offset-top="485">
-				<div class="section-content">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-xs-12">
-								Default Body
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-		{% endblock %}
-
-		{% block footer %}
-			<footer class="page-section">
-				<div class="section-content">
-					<div class="navbar-container">
-						<nav class="navbar page-navbar">
-							<ul class="nav navbar-nav">
-								<li class="{{ app.request.attributes.get('_route') starts with 'home' ? 'active' : '' }}"><a href="{{ path('home') }}">Главная</a></li>
-								<li class="{{ ((app.request.attributes.get('_route') starts with 'media') and (search.query.category is defined) and (search.query.category == 'news')) ? 'active' : '' }}"><a href="{{ path('media', { c: 'news' }) }}">Новости</a></li>
-								<li class="{{ ((app.request.attributes.get('_route') starts with 'media') and (search.query.category is defined) and (search.query.category == 'video')) ? 'active' : '' }}"><a href="{{ path('media', { c: 'video' }) }}">Видео</a></li>
-							</ul>
-						</nav>
-					</div>
-					<div class="copyright">
-						<div>© 2016. NTR1X. Все права защищены</div>
-						<div>При использовании или частичном использовании мателиалов сайта ссылка на ресурс обязательна</div>
-					</div>
-				</div>
-			</footer>
-		{% endblock %}
 	</body>
 </html>

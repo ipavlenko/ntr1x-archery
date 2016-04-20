@@ -54,20 +54,6 @@ class WidgetTwigExtension extends \Twig_Extension
         return $store->get($str);
     }
 
-    // $str = 'asdasd ad {$.asdad.234234} asdads ads  {$.get.asdasd}'
-    /*
-     * $context = {
-     *   request: {
-     *     get: ...,
-     *     post: ...,
-     *     ...
-     *   },
-     *   value: {
-     *      ... свои данные
-     *   }
-     * }
-     */
-
     public function jsonPathExpression($context, $str)
     {
         if (isset($str) && isset($context)) {

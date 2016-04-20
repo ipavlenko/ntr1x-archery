@@ -43,7 +43,7 @@ class LayoutController extends Controller
                 ->getWidgets()
             ;
 
-            // $view['widgets'] =
+            // dump($view['widgets']);
 
             // $view['widgets'] = $this
             //     ->getDoctrine()
@@ -133,6 +133,8 @@ class LayoutController extends Controller
                 ->getRepository('NTR1XLayoutBundle:Schema')
                 ->saveSchemes($settings['schemes'])
             ;
+
+            $em->clear();
 
             $view['domains'] = $this
                 ->getDoctrine()

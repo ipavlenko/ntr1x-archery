@@ -16,36 +16,20 @@ class DefaultController extends Controller {
 	 */
 	public function defaultAction(Request $request) {
 
-		$data = (new FormBuilder())
-			->add('$.get.c', FormField::TYPE_VALUE)
-			->add('$.get.s', FormField::TYPE_VALUE)
-			->add('$.get.t', FormField::TYPE_VALUE)
-			->add('$.get.d', FormField::TYPE_VALUE)
-			->build()
-			->handleRequest($request)
-		;
+		// TODO $domain = ... Взять его нужно по имени домена, с которого открыт ресурс
 
-		$category = $this
+		$page = $this
 			->getDoctrine()
-			->getRepository('NTR1XMediaBundle:Category')
-			->findOneByName(@$data->inputData['$.get.c']);
+			->getRepository('NTR1XLayoutBundle:Page')
+			->findOneByName('home');
 
 		$view = [
-
-			'category' => $category,
-
-			'search' => [
-				'query' => [
-					'category' => @$data->inputData['$.get.c'],
-					'string' => @$data->inputData['$.get.s'],
-					'tag' => @$data->inputData['$.get.t'],
-					'date' => @$data->inputData['$.get.d'],
-				],
-			],
+			'page' => $page,
+			// 'domain' => $domain,
 		];
 
 		// replace this example code with whatever you need
-		return $this->render('page-home.html.twig', $view);
+		return $this->render('public.html.twig', $view);
 	}
 
 	/**

@@ -46,16 +46,62 @@ class WidgetAdminController extends Controller
 				->findAll(['name'=>'asc'])
 			;
 
-			$view['widgets'] = $this
+            $view['widgets'] = $this
+                ->get('ntr1_x_layout.widget.manager')
+                ->getWidgets()
+            ;
+
+			/*$view['widgets'] = $this
 				->getDoctrine()
 				->getRepository('NTR1XLayoutBundle:Widget')
 				->findAll(['title'=>'asc'])
-			;
+			;*/
 			
 		});
 
 		return $this->render('NTR1XLayoutBundle:private-widgets-list.html.twig', $view);
 	}
+
+    /**
+     * @Route("/admin/layout/widgets/preview", name="admin-layout-widgets-preview")
+     */
+    public function previewAction(Request $request) {
+
+        $view = [];
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$form, &$view) {
+
+            $view['pages'] = $this
+                ->getDoctrine()
+                ->getRepository('NTR1XLayoutBundle:Page')
+                ->findAll(['title'=>'asc'])
+            ;
+
+            $view['schemes'] = $this
+                ->getDoctrine()
+                ->getRepository('NTR1XLayoutBundle:Schema')
+                ->findAll(['name'=>'asc'])
+            ;
+
+            $view['domains'] = $this
+                ->getDoctrine()
+                ->getRepository('NTR1XLayoutBundle:Domain')
+                ->findAll(['name'=>'asc'])
+            ;
+
+            $view['widgets'] = $this
+                ->get('ntr1_x_layout.widget.manager')
+                ->getWidgets()
+            ;
+            
+            $view['item'] = $request->query->all();
+
+        });
+
+        return $this->render('NTR1XLayoutBundle:private-widgets-preview.html.twig', $view);
+    }
 
 	/**
 	 * @Route("/admin/layout/widgets/create", name="admin-layout-widgets-create")
