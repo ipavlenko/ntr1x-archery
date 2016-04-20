@@ -1,0 +1,26 @@
+<template id="pages-widgets">
+
+    <section>
+
+        <div class="input-group">
+            <div class="pull-left">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span>Добавить</span>
+                    &nbsp;
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li v-for="w in globals.widgets">
+                        <a href="#" @click.prevent="create(proto(w), { widget: w })">
+                            <span><span class="label label-success">{{ w.id }}</span> {{ w.title }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <pages-widgets-list :items.sync="items" :globals.sync="globals"></pages-widgets-list>
+
+    <section>
+
+</template>

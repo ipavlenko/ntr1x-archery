@@ -1,0 +1,33 @@
+{% extends 'NTR1XLayoutBundle:private-pages-list.html.twig' %}
+
+{% block editor %}
+
+	<form enctype="multipart/form-data" id="form-create" method="POST"
+		action="{{ path('admin-layout-pages-do-create') }}"
+	>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
+					<h1>Новая страница</h1>
+				</div>
+				<div class="col-xs-12 col-md-6">
+					<div class="form-group">
+						<label for="form-create-name">Имя</label>
+						<input class="form-control" type="text" id="form-create-name" name="name" required="true" value="{{ form.inputData['$.request.name']|e }}" />
+					</div>
+					<div class="form-group">
+						<label for="form-create-title">Заголовок</label>
+						<input class="form-control" type="text" id="form-create-title" name="title" required="true" value="{{ form.inputData['$.request.title']|e }}" />
+					</div>
+					<section>
+						<nav class="navbar">
+							<input type="submit" class="btn btn-primary navbar-btn" value="Добавить" />
+						</nav>
+					</section>
+				</div>
+			</div>
+		<div>
+
+	</form>
+
+{% endblock %}

@@ -1,0 +1,165 @@
+{% extends 'NTR1XLayoutBundle:private-pages-sources-list.html.twig' %}
+
+{% block editor %}
+
+<div
+	data-vue
+	data-action="{{ path('admin-layout-pages-sources-do-update') }}"
+	data-schemes="{{ schemes | serialize('json') }}"
+	data-source="{{ source | serialize('json') }}"
+	data-dialog-binding="{}"
+>
+
+{% raw %}
+
+	<form enctype="multipart/form-data" id="form-update" method="POST" :action="action">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
+					<h1>Редактирование источника на странице</h1>
+				</div>
+				<div class="col-xs-12 col-md-6">
+					<div class="form-group">
+						<label for="form-update-name">Имя</label>
+						<input class="form-control" type="text" id="form-update-name" name="name" required="true" v-model="source.name" />
+					</div>
+					<div class="form-group">
+						<label for="form-update-schema">Схема</label>
+						<div class="dropdown">
+							<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="form-update-schema">
+								<span class="label label-primary">{{ source.schema.name|e }}</span>
+								<span>{{ source.schema.url|e }}</span>
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li v-for="s in schemes" :class="{ 'active': source.schema.id == s.id }">
+									<a href="#" @click="source.schema = s;">
+										<span class="label label-primary">{{ s.name|e }}</span>
+										<span>{{ s.url|e }}</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="form-update-path">Путь</label>
+						<div class="input-group">
+							<input class="form-control" type="text" id="form-update-path" name="path" required="true" value="{{ form.inputData['$.request.path']|e }}" />
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button">Загрузить</button>
+							</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="form-update-method">Метод</label>
+						<div class="input-group">
+							<input class="form-control" type="text" id="form-update-method" name="method" required="true" value="{{ form.inputData['$.request.method']|e }}" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="form-update-method">Параметры</label>
+						<nav class="navbar">
+							<a href="#" class="btn btn-danger navbar-btn">Перегрузить</a>
+						</nav>
+						<div>
+							<table is="grid-table" class="table table-condensed">
+								<thead>
+								<tr>
+									<th>Имя</th>
+									<th>Тип</th>
+									<th>Значение</th>
+									<th></th>
+								</tr>
+								</thead>
+								<tbody>
+									<tr v-for="item in source.params">
+										<td style="width: 100px">
+											<input type="hidden" name="params[' + $index + '][name]" v-model="item.name" />
+											<input type="hidden" name="params[' + $index + '][in]" v-model="item.in" />
+											<span class="label" :class="{
+												'label-success': item.in == 'path',
+												'label-primary': item.in == 'query',
+												'label-warning': item.in == 'formData',
+											}">{{ item.in }}</span>
+											<span>{{ item.name }}</span>
+										</td>
+										<td>
+											<input type="hidden" name="params[' + $index + '][type]" v-model="item.type" />
+											<span>{{ item.type }}</span>
+										<td>
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon">
+													<input type="checkbox"
+														@click="item.specified = !item.specified"
+														disabled="{{ item.required }}"
+														checked="{{ item.specified || item.required }}"
+													/>
+												</span>
+												<input type="text" class="form-control" :disabled="!item.specified" v-model="item.value.value" />
+												<span class="input-group-btn">
+													<button class="btn btn-default" type="button" :disabled="!item.specified"
+														v-on:click="dialogBinding = item"
+														data-toggle="modal" data-target="#dialog-binding"
+													>...</button>
+												</span>
+											</div>
+										</td>
+										<td><span class="label label-primary" v-if="item.required">required</span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<section>
+						<nav class="navbar">
+							<a href="#" class="btn btn-success navbar-btn">Проверить</a>
+							<input type="submit" class="btn btn-primary navbar-btn" value="Сохранить" />
+						</nav>
+					</section>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<modal :current="dialogBinding | copy" :original="dialogBinding" inline-template>
+		<div id="dialog-binding" class="modal modal-center" role="dialog">
+			<div class="modal-dialog">
+				<form class="modal-content"
+					@submit.prevent="submit"
+					@reset.prevent="reset"
+				>
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+						<h4 class="modal-title">
+							<span class="label" :class="{
+								'label-success': current.in == 'path',
+								'label-primary': current.in == 'query',
+								'label-warning': current.in == 'formData',
+							}">{{ current.in }}</span>
+							<span>{{ current.name }}</span>
+						</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="dialog-binding-value">Значение</label>
+							<input class="form-control" type="text" id="dialog-binding-value" v-model="current.value.value" />
+						</div>
+						<div class="form-group">
+							<label for="dialog-binding-binding">Формула</label>
+							<textarea class="form-control" id="dialog-binding-binding" v-model="current.value.binding"></textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="reset" class="btn btn-default">Отменить</button>
+						<button type="submit" class="btn btn-primary">Сохранить</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</modal>
+
+{% endraw %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+ntr1_x_default:
+    resource: "@NTR1XDefaultBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+ntr1_x_controls:
+    resource: "@NTR1XControlsBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+ntr1_x_layout:
+    resource: "@NTR1XLayoutBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+ntr1_x_apply:
+    resource: "@NTR1XApplyBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+ntr1_x_search:
+    resource: "@NTR1XSearchBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+ntr1_x_upload:
+    resource: "@NTR1XUploadBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+ntr1_x_form:
+    resource: "@NTR1XFormBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+ntr1_x_media:
+    resource: "@NTR1XMediaBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+ntr1_x_offer:
+    resource: "@NTR1XOfferBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation

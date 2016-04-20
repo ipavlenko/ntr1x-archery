@@ -1,0 +1,55 @@
+{% extends 'NTR1XOfferBundle:private-offer-list.html.twig' %}
+
+{% block editor %}
+
+	<form enctype="multipart/form-data" id="form-create" method="POST"
+		action="{{ path('admin-offer-items-do-create', {
+			category: category == null ? null : category.id
+		}) }}"
+	>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
+					<h1>Новая запись</h1>
+				</div>
+				<div class="col-xs-12 col-md-6">
+					<div class="form-group">
+						<label for="form-create-url">Ссылка</label>
+						<input class="form-control" type="text" id="form-create-url" name="url" required="true" value="{{ form.inputData['$.request.url']|e }}" />
+					</div>
+					<div class="form-group">
+						<label for="form-create-category">Категория</label>
+						<select class="form-control" id="form-create-category" name="category" required="true">
+						{% for c in categories %}
+							<option value="{{ c.id }}" {{ form.inputData['$.request.category'] == c.id ? 'selected="selected"' : ''}}>{{ c.title|e }}</option>
+						{% endfor %}
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="form-create-image">Картинка</label>
+						{% if form.inputData['$.files.image'] %}
+						<div>
+							<img src="{{ asset('uploads/%s/%s'|format(form.inputData['$.files.image'].dir, form.inputData['$.files.image'].path)) }}" class="img-thumbnail" border="0" width="200px" />
+						</div>
+						{% endif %}
+						<div>
+							<a data-form="file" class="btn btn-default">
+								<div class="control-input">
+									<input type="file" id="form-create-image" name="image" />
+								</div>
+								<span>Загрузить</span>
+							</a>
+						</div>
+					</div>
+					<section>
+						<nav class="navbar">
+							<input type="submit" class="btn btn-primary navbar-btn" value="Добавить" />
+						</nav>
+					</section>
+				</div>
+			</div>
+		<div>
+
+	</form>
+
+{% endblock %}

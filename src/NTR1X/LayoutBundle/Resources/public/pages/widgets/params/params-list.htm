@@ -1,0 +1,22 @@
+<template id="pages-widgets-params-list">
+    <div>
+        <div v-for="item in items" v-if="item.prop.tab == tab">
+            <params-string v-if="item.prop.type == 'string'" :id="'pages-widgets-dialog-props-' + $index"
+                :item.sync="item"
+                :globals.sync="globals"
+            ></params-string>
+            <params-rich v-if="item.prop.type == 'rich'" :id="'pages-widgets-dialog-props-' + $index"
+                :item.sync="item"
+                :globals.sync="globals"
+            ></params-rich>
+            <params-source v-if="item.prop.type == 'source'" :id="'pages-widgets-dialog-props-' + $index"
+                :item.sync="item"
+                :globals.sync="globals"
+            ></params-source>
+            <params-multiple v-if="item.prop.type == 'multiple'" :id="'pages-widgets-dialog-props-' + $index"
+                :item.sync="item"
+                :globals.sync="globals"
+            ></params-multiple>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,12 @@
+services:
+   ntr1_x_media.search.decorator:
+      class: NTR1X\MediaBundle\Search\MediaDecorator
+      arguments: [ '@doctrine.orm.entity_manager' ]
+      tags:
+         - { name: ntr1_x_search.decorator }
+
+   app.twig_extension:
+      class: NTR1X\MediaBundle\Twig\MediaTwigExtension
+      public: false
+      tags:
+         - { name: twig.extension }

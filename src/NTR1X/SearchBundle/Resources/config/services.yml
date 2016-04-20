@@ -1,0 +1,4 @@
+services:
+   ntr1_x_search.decorator.manager:
+      class: NTR1X\SearchBundle\Decorator\DecoratorManager
+      arguments: []

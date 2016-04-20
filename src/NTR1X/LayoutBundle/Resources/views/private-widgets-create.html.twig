@@ -1,0 +1,33 @@
+{% extends 'NTR1XLayoutBundle:private-widgets-list.html.twig' %}
+
+{% block editor %}
+
+	<form enctype="multipart/form-data" id="form-create" method="POST"
+		action="{{ path('admin-layout-widgets-do-create') }}"
+	>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
+					<h1>Новый виджет</h1>
+				</div>
+				<div class="col-xs-12 col-md-6">
+					<div class="form-group">
+						<label for="form-create-name">Имя</label>
+						<input class="form-control" type="text" id="form-create-name" name="name" required="true" value="{{ form.inputData['$.request.name']|e }}" />
+					</div>
+					<div class="form-group">
+						<label for="form-create-type">Тип</label>
+						<input class="form-control" type="text" id="form-create-type" name="type" required="true" value="{{ form.inputData['$.request.type']|e }}" />
+					</div>
+					<section>
+						<nav class="navbar">
+							<input type="submit" class="btn btn-primary navbar-btn" value="Добавить" />
+						</nav>
+					</section>
+				</div>
+			</div>
+		<div>
+
+	</form>
+
+{% endblock %}

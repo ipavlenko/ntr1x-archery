@@ -1,0 +1,50 @@
+{% extends 'public.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('bundles/ntr1xapply/js/apply.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+	<section class="page-section section-search">
+		<div class="section-content">
+			<div class="container-fluid no-padding">
+			<div class="row">
+				<div class="col-xs-9">
+					{{ render(controller('NTR1XSearchBundle:Search:search', {
+						sid: 'section-search',
+						search: search,
+					})) }}
+				</div>
+				<div class="col-xs-3">
+					{{ render(controller('NTR1XApplyBundle:Apply:button', {
+						sid: 'section-apply',
+					})) }}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div class="page-section">
+		<div class="section-content inset-top">
+			<div class="container-fluid no-padding">
+				<div class="row">
+					<div class="col-xs-8">
+						{{ render(controller('NTR1XMediaBundle:Media:details', {
+							sid: 'section-details-' ~ item.id,
+							item: item,
+						})) }}
+					</div>
+					<div class="col-xs-4">
+						{{ render(controller('NTR1XMediaBundle:Media:feed', {
+							sid: 'section-feed',
+							category: item.category.name,
+						})) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

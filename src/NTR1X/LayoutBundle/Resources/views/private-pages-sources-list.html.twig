@@ -1,0 +1,62 @@
+{% extends 'NTR1XLayoutBundle:private-pages-update.html.twig' %}
+
+{% block editor %}
+
+	<h1>Источники на странице</h1>
+
+	<section>
+		<nav class="navbar">
+			<a class="btn btn-primary navbar-btn"
+				href="{{ path('admin-layout-pages-sources-create', {
+					page: page.id
+				}) }}"
+			>Добавить</a>
+		</nav>
+	</section>
+
+	<section>
+		<table class="table table-condensed">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Схема/Имя</th>
+					<th>Метод</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in page.sources %}
+				<tr>
+					<td>{{ loop.index }}</td>
+					<td>{{ item.schema.name|e }}/{{ item.name|e }}</td>
+					<td>
+						{% if item.method == 'GET' %}
+							<span class="label label-success">{{ item.method|e }}</span>
+						{% elseif item.method == 'POST' %}
+							<span class="label label-primary">{{ item.method|e }}</span>
+						{% elseif item.method == 'PUT' %}
+							<span class="label label-warning">{{ item.method|e }}</span>
+						{% elseif item.method == 'DELETE' %}
+							<span class="label label-danger">{{ item.method|e }}</span>
+						{% else %}
+							<span class="label label-default">{{ item.method|e }}</span>
+						{% endif %}
+						{{ item.path|e }}
+					</td>
+					<td>
+						<a class="btn btn-xs btn-default" href="{{ path('admin-layout-pages-sources-update', {
+							page: item.page.id,
+							id: item.id,
+						}) }}">Редактировать</a>
+						<a class="btn btn-xs btn-danger" href="{{ path('admin-layout-pages-sources-do-delete', {
+							page: item.page.id,
+							id: item.id,
+						}) }}">Удалить</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+
+{% endblock %}

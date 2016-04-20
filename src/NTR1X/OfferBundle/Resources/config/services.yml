@@ -1,0 +1,4 @@
+services:
+#    ntr1_x_offer.example:
+#        class: NTR1X\OfferBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

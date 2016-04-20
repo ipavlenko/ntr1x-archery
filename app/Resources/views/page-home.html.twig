@@ -1,0 +1,67 @@
+{% extends 'public.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('bundles/ntr1xapply/js/apply.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+	<section class="page-section section-search">
+		<div class="section-content">
+			<div class="container-fluid no-padding">
+			<div class="row">
+				<div class="col-xs-9">
+					{{ render(controller('NTR1XSearchBundle:Search:search', {
+						sid: 'section-search',
+						search: search,
+					})) }}
+				</div>
+				<div class="col-xs-3">
+					{{ render(controller('NTR1XApplyBundle:Apply:button', {
+						sid: 'section-apply',
+					})) }}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="page-section section-offers">
+		<div class="section-content">
+			{{ render(controller('NTR1XOfferBundle:Offer:items', {
+				sid: 'section-offers-1',
+				category: 'home-1'
+			})) }}
+		</div>
+	</section>
+
+	<section class="page-section section-media">
+		<div class="section-content inset-top">
+			{{ render(controller('NTR1XMediaBundle:Media:items', {
+				sid: 'section-media-news',
+				category: 'news',
+				limit: 3
+			})) }}
+		</div>
+	</section>
+
+	<section class="page-section section-offers">
+		<div class="section-content">
+			{{ render(controller('NTR1XOfferBundle:Offer:items', {
+				sid: 'section-offers-2',
+				category: 'home-2'
+			})) }}
+		</div>
+	</section>
+
+	<section class="page-section section-media">
+		<div class="section-content inset-top">
+			{{ render(controller('NTR1XMediaBundle:Media:items', {
+				sid: 'section-media-video',
+				category: 'video',
+				limit: 3
+			})) }}
+		</div>
+	</section>
+
+{% endblock %}

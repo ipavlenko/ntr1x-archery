@@ -1,0 +1,61 @@
+<section class="widget-apply" data-widget="apply">
+
+	<div class="apply-button">
+
+		<a href="#" class="btn btn-lg btn-danger" data-toggle="modal" data-target="#apply-modal">Написать кандидату</a>
+
+		<div class="modal fade" tabindex="-1" role="dialog" id="apply-modal">
+			<div class="modal-dialog modal-lg">
+				<form class="modal-content" method="POST" action="{{ path('apply-submit') }}">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+						<h3 class="modal-title">Написать кандидату</h3>
+					</div>
+					<div class="modal-body">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label for="{{ sid }}-form-applicant">Ваше имя *</label>
+										<input type="text" name="applicant" class="form-control" id="{{ sid }}-form-applicant" placeholder="Иван Иванов" required="required" />
+									</div>
+									<div class="form-group">
+										<label for="{{ sid }}-form-email">Электронная почта</label>
+										<input type="text" name="email" class="form-control" id="{{ sid }}-form-email" placeholder="email@example.com" />
+									</div>
+									<div class="form-group">
+										<label for="{{ sid }}-form-phone">Телефонный номер</label>
+										<input type="text" name="phone" class="form-control" id="{{ sid }}-form-phone" placeholder="+7 (495) XXXXXXX" />
+									</div>
+									<div class="form-group">
+										<label for="{{ sid }}-form-category">Тип обращения</label>
+										<select class="form-control" name="category" id="{{ sid }}-form-category">
+										{% for c in categories %}
+											<option value="{{ c.id }}">{{ c.title|e }}</option>
+										{% endfor %}
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-8">
+									<div class="form-group">
+										<label for="{{ sid }}-form-subject">Тема *</label>
+										<input type="text" name="subject" class="form-control " id="{{ sid }}-form-subject" placeholder="Коррупция в образовании" required="required" />
+									</div>
+									
+									<div class="form-group">
+										<label for="{{ sid }}-form-message">Сообщение *</label>
+										<textarea name="message" class="form-control" id="{{ sid }}-form-message" placeholder="" rows="15" required="required" /></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+						<button type="submit" class="btn btn-primary">Отправить</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>

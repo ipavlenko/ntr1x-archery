@@ -1,0 +1,33 @@
+<div id="DefaultWeatherWrapper">
+    <div>
+        <span>Widget {{ item.name }}</span>
+    </div>
+
+    <h5>Demo data TWIG</h5>
+
+    <table>
+        <thead>
+        <tr>
+            <th style="min-width: 80px;">Место</th>
+            <th style="min-width: 150px;">Имя Фамилия</th>
+            <th style="min-width: 40px;">R1</th>
+            <th style="min-width: 40px;">R2</th>
+            <th style="min-width: 40px;">R3</th>
+            <th style="min-width: 40px;">R4</th>
+            <th>Итог</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for competitor in multiple | jsonPath('$.competitors.[:1]') %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                {% for column in multiple.columns %}
+                    {#<td>{ competitor | jsonExpression(column)|first }</td>#}
+                    <td>{{ jsonPathExpression(competitor, column) }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
