@@ -1,0 +1,90 @@
+WidgetMixin:
+    tabs:
+        -
+            name: data
+            title: Data
+        -
+            name: appearance
+            title: Appearance
+        -
+            name: content
+            title: Content
+    props:
+        -
+            name: id
+            title: 'ID'
+            type: 'string'
+            placeholder: 'Unique ID'
+            tab: 'data'
+
+SourceMixin:
+    props:
+        -
+            name: source
+            title: 'Source'
+            type: 'source'
+            tab: 'data'
+
+CollectionMixin:
+    props:
+        -
+            name: path
+            title: 'Items'
+            type: 'expression'
+            placeholder: '$.*'
+            tab: data
+
+ContentMixin:
+    props:
+        -
+            name: content
+            title: 'Content'
+            type: 'rich'
+            tab: 'content'
+
+BoxMixin:
+    props:
+        -
+            name: margin
+            title: 'Margin'
+            type: 'string'
+            placeholder: '0px 0px'
+            tab: appearance
+        -
+            name: padding
+            title: 'Padding'
+            type: 'string'
+            placeholder: '0px 0px'
+            tab: appearance
+        -
+            name: innerBorder
+            title: 'Inner Border'
+            type: 'string'
+            placeholder: 'solid 1px #000000'
+            tab: appearance
+        -
+            name: innerBackground
+            title: 'Inner Background'
+            type: 'string'
+            placeholder: '#FFFFFF'
+            tab: appearance
+        -
+            name: outerBorder
+            title: 'Outer Border'
+            type: 'string'
+            placeholder: 'solid 1px #000000'
+            tab: appearance
+        -
+            name: outerBackground
+            title: 'Outer Background'
+            type: 'string'
+            placeholder: '#FFFFFF'
+            tab: appearance
+
+Weather:
+    title: 'Погода'
+    size: { width: 12, height: 5 }
+    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    styles: [ 'weather/style.css' ]
+    scripts: [ 'weather/script.js' ]
+    templates: [ 'weather/template.htm' ]

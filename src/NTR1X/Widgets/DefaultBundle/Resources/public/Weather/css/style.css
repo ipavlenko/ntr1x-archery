@@ -1,0 +1,15 @@
+#DefaultWeatherWrapper {
+    border: 1px solid red;
+    overflow: hidden;
+}
+
+#DefaultWeatherWrapper .data .title{
+    font-size: 15px;
+    float: left;
+    padding: 6px 6px 6px 0px;
+}
+
+#DefaultWeatherWrapper .data .number{
+    font-size: 23px;
+    float: left;
+}

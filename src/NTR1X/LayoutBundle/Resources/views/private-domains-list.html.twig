@@ -1,0 +1,43 @@
+{% extends 'NTR1XLayoutBundle:private-layout.html.twig' %}
+
+{% block editor %}
+
+	<h1>Домены</h1>
+
+	<section>
+		<nav class="navbar">
+			<a class="btn btn-primary navbar-btn"
+				href="{{ path('admin-layout-domains-create') }}"
+			>Добавить</a>
+		</nav>
+	</section>
+
+	<section>
+		<table class="table table-condensed">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Имя</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in domains %}
+				<tr>
+					<td>{{ loop.index }}</td>
+					<td>{{ item.name|e }}</td>
+					<td>
+						<a class="btn btn-xs btn-default" href="{{ path('admin-layout-domains-update', {
+							id: item.id,
+						}) }}">Редактировать</a>
+						<a class="btn btn-xs btn-danger" href="{{ path('admin-layout-domains-do-delete', {
+							id: item.id,
+						}) }}">Удалить</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+
+{% endblock %}

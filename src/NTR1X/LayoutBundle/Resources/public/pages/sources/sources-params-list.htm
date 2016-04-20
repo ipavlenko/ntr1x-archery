@@ -1,0 +1,41 @@
+<template id="pages-sources-params-list">
+    <section>
+        <table class="table table-condensed">
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        <div style="white-space: nowrap">
+                            <span class="label" :class="{
+                                'label-default': item.in == 'path',
+                                'label-success': item.in == 'query',
+                                'label-primary': item.in == 'formData',
+                            }">{{ item.in }}</span>
+                            <span>&nbsp;{{item.name }}</span>
+                        </div>
+                    </td>
+                    <td style="width: 60%">
+                        <div class="input-group input-group-sm">
+                            <label class="input-group-addon">
+                                <input type="checkbox" id="pages-sources-dialog-specified" v-model="item.specified" :disabled="item.required" />
+                            </label>
+                            <input class="form-control" type="text" id="pages-sources-dialog-value" v-model="item.value" :disabled="!item.specified" />
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default" @click="update(item)">...</button>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-danger pull-right" @click="remove(item)">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th><a class="btn btn-xs btn-primary pull-right" @click="create({ in: 'query', specified: true, required: false })">Добавить</a></th>
+            </tfoot>
+        </table>
+    </section>
+</template>

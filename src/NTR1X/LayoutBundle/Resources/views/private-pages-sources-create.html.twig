@@ -1,0 +1,46 @@
+{% extends 'NTR1XLayoutBundle:private-pages-sources-list.html.twig' %}
+
+{% block editor %}
+
+	<form enctype="multipart/form-data" id="form-create" method="POST"
+		action="{{ path('admin-layout-pages-sources-do-create') }}"
+	>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
+					<h1>Новый источник на странице</h1>
+				</div>
+				<div class="col-xs-12 col-md-6">
+					<input type="hidden" name="page" value="{{ form.inputData['$.request.page']|e }}" />
+					<div class="form-group">
+						<label for="form-create-name">Имя</label>
+						<input class="form-control" type="text" id="form-create-name" name="name" required="true" value="{{ form.inputData['$.request.name']|e }}" />
+					</div>
+					<div class="form-group">
+						<label for="form-create-schema">Схема</label>
+						<select class="form-control" id="form-create-schema" name="schema" required="true">
+						{% for s in schemes %}
+							<option value="{{ s.id }}" {{ form.inputData['$.request.schema'] == s.id ? 'selected="selected"' : ''}}>{{ s.name|e }} - {{ s.url|e }}</option>
+						{% endfor %}
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="form-create-path">Путь</label>
+						<input class="form-control" type="text" id="form-create-path" name="path" required="true" value="{{ form.inputData['$.request.path']|e }}" />
+					</div>
+					<div class="form-group">
+						<label for="form-create-method">Метод</label>
+						<input class="form-control" type="text" id="form-create-method" name="method" required="true" value="{{ form.inputData['$.request.method']|e }}" />
+					</div>
+					<section>
+						<nav class="navbar">
+							<input type="submit" class="btn btn-primary navbar-btn" value="Добавить" />
+						</nav>
+					</section>
+				</div>
+			</div>
+		<div>
+
+	</form>
+
+{% endblock %}

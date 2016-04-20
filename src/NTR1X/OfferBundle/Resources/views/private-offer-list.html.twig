@@ -1,0 +1,66 @@
+{% extends 'private.html.twig' %}
+
+{% block javascripts %} {{ parent() }}
+{% endblock %}
+
+{% block left %}
+
+	<section>
+		<h4>Категория</h4>
+		<ul class="nav nav-pills nav-stacked">
+			<li class="{{ category ? '' : 'active' }}"><a href="/admin/offer/i">Любая</a></li>
+			{% for c in categories %}
+				<li class="{{ category == c ? 'active' : '' }}"><a href="/admin/offer/i?category={{ c.id }}">{{ c.title|e }} <span class="badge">{{ c.items.count() }}</span></a></li>
+			{% endfor %}
+		</ul>
+	</section>
+	
+{% endblock %}
+
+{% block editor %}
+
+	<h1>{{ category ? category.title : 'Все записи' }}</h1>
+
+	<section>
+		<nav class="navbar">
+			<a class="btn btn-primary navbar-btn"
+				href="{{ path('admin-offer-items-create', parameters = {
+					category: category == null ? null : category.id
+				}) }}"
+			>Добавить</a>
+		</nav>
+	</section>
+
+	<section>
+		<table class="table table-condensed">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Ссылка</th>
+					<th>Категория</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in items %}
+				<tr>
+					<td>{{ loop.index }}</td>
+					<td><a href="{{ item.url|e }}">{{ item.url|e }}</a></td>
+					<td>{{ item.category.title|e }}</td>
+					<td>
+						<a class="btn btn-xs btn-default" href="{{ path('admin-offer-items-update', {
+							id: item.id,
+							category: category == null ? null : category.id
+						}) }}">Редактировать</a>
+						<a class="btn btn-xs btn-danger" href="{{ path('admin-offer-items-do-delete', {
+							id: item.id,
+							category: category == null ? null : category.id
+						}) }}">Удалить</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+
+{% endblock %}

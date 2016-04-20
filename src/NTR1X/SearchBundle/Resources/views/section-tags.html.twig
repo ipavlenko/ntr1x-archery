@@ -1,0 +1,9 @@
+<section class="widget-tags">
+	<div class="tags-panel">
+		<div class="tags">
+			{% for t in tags %}
+				<a class="tag" href="{{ path('media', { t: t.name, c: category.name }) }}">{{ t.name|e }}</a>
+			{% endfor %}
+		</div>
+	</div>
+</section>

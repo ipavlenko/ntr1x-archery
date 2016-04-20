@@ -1,0 +1,18 @@
+all:
+    level: 2
+    scripts:
+        - 'components/editor.js'
+        - 'components/modal.js'
+        - 'components/form.js'
+        - 'components/grid.js'
+        - 'components/inline.js'
+        - 'components/modal.js'
+        - 'directives/combo.js'
+        - 'directives/date.js'
+        - 'directives/rich.js'
+        - 'directives/tags.js'
+        - 'filters/index.js'
+        - 'hooks/modal.js'
+        - 'vue.js'
+    styles:
+        - 'components/controls.css'

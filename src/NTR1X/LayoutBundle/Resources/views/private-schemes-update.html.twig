@@ -1,0 +1,72 @@
+{% extends 'NTR1XLayoutBundle:private-schemes-list.html.twig' %}
+
+{% block left %}
+
+	{{ parent() }}
+
+	<section class="private-nav">
+		<h4>Редактирование</h4>
+		<ul class="nav nav-pills nav-stacked">
+			<li class="{{ app.request.attributes.get('_route') starts with 'admin-layout-schemes-update' ? 'active' : '' }}"><a href="{{ path('admin-layout-schemes-update', {
+				id: schema.id,
+			}) }}">Основное</a></li>
+			<li class="{{ app.request.attributes.get('_route') starts with 'admin-layout-schemes-sources' ? 'active' : '' }}"><a href="{{ path('admin-layout-schemes-sources', {
+				id: schema.id,
+			}) }}">Источники <span class="badge">{{ schema.sources|length }}</span></a></li>
+		</ul>
+	</section>
+	
+{% endblock %}
+
+{% block editor %}
+
+	<div data-vue
+		data-schema="{{ schema | serialize('json') }}"
+	>
+
+		<v-form inline-template
+			enctype="multipart/form-data"
+			method="POST"
+			action="{{ path('admin-layout-schemes-do-update') }}"
+			:model="{
+				id: schema.id,
+				url: schema.url,
+				name: schema.name,
+			}"
+		>
+			<form>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-xs-12">
+							<h1>Редактирование источника</h1>
+						</div>
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="form-update-name">Имя</label>
+								<input class="form-control" type="text" id="form-update-name" required="true" v-model="model.name" />
+							</div>
+							<div class="form-group">
+								<label for="form-update-url">URL</label>
+								<input class="form-control" type="text" id="form-update-url" name="url" required="true" v-model="model.url" />
+							</div>
+							<section>
+								<nav class="navbar">
+									<input type="submit" class="btn btn-primary navbar-btn" value="Сохранить" />
+									<input type="reset" class="btn btn-default navbar-btn" value="Отменить" />
+								</nav>
+							</section>
+							{% raw %}
+								{{ model | json }}
+								<hr />
+								{{ data.original | json }}
+							{% endraw %}
+						</div>
+					</div>
+				<div>
+			</form>
+
+		</v-form>
+
+	</div>
+
+{% endblock %}

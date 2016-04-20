@@ -1,0 +1,30 @@
+{% extends 'NTR1XLayoutBundle:private-layout.html.twig' %}
+
+{% block editor %}
+
+<div
+	data-vue
+	data-model="{{ {
+		domains: domains,
+		pages: pages,
+		schemes: schemes,
+		widgets: widgets,
+	} | serialize('json') }}"
+	data-tab="schemes"
+>
+
+{% raw %}
+
+	<settings :model.sync="model" inline-template>
+        <section>
+            <nav class="navbar">
+                <a class="btn btn-primary navbar-btn" @click="open">Настройки</a>
+            </nav>
+        </section>
+    </settings>
+
+{% endraw %}
+
+</div>
+
+{% endblock %}

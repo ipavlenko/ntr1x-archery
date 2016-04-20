@@ -1,0 +1,6 @@
+services:
+    ntr1_x_default.widget.provider:
+        class: NTR1X\LayoutBundle\Widget\WidgetProvider
+        arguments: ["@kernel", "NTR1XDefaultBundle", "ntr1xdefault", "widgets.yml"]
+        tags:
+            - { name: widget.provider }

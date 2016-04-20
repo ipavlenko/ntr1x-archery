@@ -1,0 +1,29 @@
+services:
+
+    ntr1_x_layout.widget.manager:
+        class: NTR1X\LayoutBundle\Widget\WidgetManager
+        arguments: []
+
+    ntr1_x_layout.widget.twig:
+       class: NTR1X\LayoutBundle\Twig\WidgetTwigExtension
+       arguments: ["@ntr1_x_layout.widget.manager"]
+       public: false
+       tags:
+           - { name: twig.extension }
+
+    ntr1_x_layout.component.manager:
+        class: NTR1X\LayoutBundle\Component\ComponentManager
+        arguments: []
+
+    ntr1_x_layout.component.provider:
+        class: NTR1X\LayoutBundle\Component\ComponentProvider
+        arguments: ["@kernel", "NTR1XLayoutBundle", "ntr1xlayout", "components.yml"]
+        tags:
+            - { name: component.provider }
+
+    ntr1_x_layout.component.twig:
+        class: NTR1X\LayoutBundle\Twig\LayoutTwigExtension
+        arguments: ["@ntr1_x_layout.component.manager"]
+        public: false
+        tags:
+            - { name: twig.extension }

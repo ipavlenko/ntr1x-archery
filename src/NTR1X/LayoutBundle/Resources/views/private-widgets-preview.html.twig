@@ -1,0 +1,10 @@
+{% extends 'NTR1XLayoutBundle:private-widgets-list.html.twig' %}
+
+{% block editor %}
+
+    {{ render(controller(item.bundle ~':Default:index', {
+        item: item,
+    })) }}
+
+{% endblock %}
+

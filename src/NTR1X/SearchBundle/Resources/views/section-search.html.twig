@@ -1,0 +1,39 @@
+<section class="widget-search">
+	<div class="search-query">
+		<form action="{{ path('media', search.query) }}" method="GET">
+			<div class="input-group input-group-lg">
+				<input type="text" class="form-control" placeholder="Запрос для поиска..." name="s" value="{{ search.query.string }}" />
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="submit">Найти</button>
+				</span>
+			</div>
+			{% if search.query.category != null or search.query.tag != null or search.query.date != null %}
+			<div class="search-tags">
+				<div class="tags">
+					{% if search.query.category != null %}
+					<span class="tag">
+						<span>{{ search.results.title }}</span>
+						&nbsp;
+						<a href="{{ path('media', { s: search.query.string, t: search.query.tag, d: search.query.date }) }}" class="close"><span class="close">&times;</span></a>
+					</span>
+					{% endif %}
+					{% if search.query.date != null %}
+					<span class="tag">
+						<span>{{ search.query.date }}</span>
+						&nbsp;
+						<a href="{{ path('media', { s: search.query.string, c: search.query.category, t: search.query.tag }) }}" class="close"><span class="close">&times;</span></a>
+					</span>
+					{% endif %}
+					{% if search.query.tag != null %}
+					<span class="tag">
+						<span>{{ search.query.tag }}</span>
+						&nbsp;
+						<a href="{{ path('media', { s: search.query.string, c: search.query.category, d: search.query.date }) }}" class="close"><span class="close">&times;</span></a>
+					</span>
+					{% endif %}
+				</div>
+			</div>
+			{% endif %}
+		</form>
+	</div>
+</section>

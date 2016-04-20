@@ -1,0 +1,52 @@
+textarea.form-control {
+  min-height: 80px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  line-height: 1.42857143;
+  font-size: 14px;
+  padding: 6px 12px;
+}
+textarea.form-control + .cke_textarea_inline {
+  border: 1px solid #ccc;
+  min-height: 150px;
+  border-radius: 4px;
+  padding: 6px 12px;
+}
+[data-form="file"] {
+  overflow: hidden;
+}
+[data-form="file"] .control-input {
+  position: relative;
+}
+[data-form="file"] .control-input input[type="file"] {
+  cursor: pointer;
+  opacity: 0;
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  font-size: 172px;
+}
+.bootstrap-tagsinput {
+  display: block;
+}
+.img-thumbnail {
+  margin-bottom: 10px;
+}
+.table-inline .arrow {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+  opacity: 0.66;
+}
+.table-inline .arrow.asc {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid #fff;
+}
+.table-inline .arrow.desc {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #fff;
+}
