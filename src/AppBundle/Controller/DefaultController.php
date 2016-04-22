@@ -18,17 +18,25 @@ class DefaultController extends Controller {
 
 		// TODO $domain = ... Взять его нужно по имени домена, с которого открыт ресурс
 
-		$page = $this
+        $host = $request->getHost();
+
+        $domain = $this
+            ->getDoctrine()
+            ->getRepository('NTR1XLayoutBundle:Domain')
+            ->findOneByName($host);
+
+        $page = $this
 			->getDoctrine()
 			->getRepository('NTR1XLayoutBundle:Page')
 			->findOneByName('home');
 
+
 		$view = [
 			'page' => $page,
-			// 'domain' => $domain,
+			'domain' => $domain,
+			'request' => $request,
 		];
 
-		// replace this example code with whatever you need
 		return $this->render('public.html.twig', $view);
 	}
 
