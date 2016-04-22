@@ -2,8 +2,6 @@
     <section data-role="widget" style="
         background: {{ params.outerBackground.value }}
     ">
-        <pre>{{ params | json 4}}</pre>
-        {{ params.id | binding }}
         <ul>
             <li v-for="item in params.items.value">
                 <a href="{{ item.url.value }}">{{ item.title.value }}</a>
