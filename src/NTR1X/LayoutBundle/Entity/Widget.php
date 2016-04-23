@@ -31,7 +31,7 @@ class Widget
 	private $type;
 
     /**
-     * @ORM\OneToOne(targetEntity="Page")
+     * @ORM\ManyToOne(targetEntity="Page")
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=false)
      */
     private $page;
