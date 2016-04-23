@@ -1,0 +1,7 @@
+<template id="shell-palette">
+    <section class="ge ge-palette">
+        <div class="ge ge-widget" v-for="widget in category.widgets">
+            <img :src="thumbnail(widget)" />
+        </div>
+    </section>
+</template>

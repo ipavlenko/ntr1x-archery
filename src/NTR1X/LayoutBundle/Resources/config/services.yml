@@ -1,5 +1,15 @@
 services:
 
+    ntr1_x_layout.category.manager:
+        class: NTR1X\LayoutBundle\Widget\CategoryManager
+        arguments: []
+
+    ntr1_x_layout.category.provider:
+        class: NTR1X\LayoutBundle\Widget\CategoryProvider
+        arguments: ["@kernel", "NTR1XLayoutBundle", "categories.yml"]
+        tags:
+            - { name: category.provider }
+
     ntr1_x_layout.widget.manager:
         class: NTR1X\LayoutBundle\Widget\WidgetManager
         arguments: []

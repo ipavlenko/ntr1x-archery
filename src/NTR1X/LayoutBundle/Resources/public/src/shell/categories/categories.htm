@@ -1,0 +1,12 @@
+<template id="shell-categories">
+    <section class="ge ge-categories">
+        <div v-for="category in categories">
+            <h5>
+                <span>{{ category.title }}</span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in category.categories" :class="{ 'active': item == selected }"><a href="#" @click="selectCategory(item)">{{ item.title }}</a></li>
+            </ul>
+        </div>
+    </section>
+</template>

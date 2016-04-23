@@ -89,30 +89,25 @@ BoxMixin:
 #     scripts: [ 'rich/rich.js' ]
 #     templates: [ 'rich/rich.htm' ]
 
-# Header:
-#     title: 'Header'
-#     size: { width: 12, height: 5 }
-#     mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-#     styles: [ 'header/header.css' ]
-#     scripts: [ 'header/header.js' ]
-#     templates: [ 'header/header.htm' ]
+Header:
+    title: 'Header'
+    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    thumbnail: 'header/header.png'
+    styles: [ ]
+    scripts: [ ]
+    templates: [ ]
+    categories: [ composite.all, composite.header ]
 
-# Footer:
-#     title: 'Footer'
-#     size: { width: 12, height: 1 }
-#     mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-#     styles: [ 'footer/footer.css' ]
-#     scripts: [ 'footer/footer.js' ]
-#     templates: [ 'footer/footer.htm' ]
-#
 Menu:
     title: 'Menu'
     tag: default-menu
     size: { width: 12, height: 1 }
     mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    thumbnail: 'menu/menu.png'
     styles: [ 'menu/menu.css' ]
     scripts: [ 'menu/menu.js' ]
     templates: [ 'menu/menu.htm' ]
+    categories: [ composite.all, composite.header ]
     props:
         -
             name: items
@@ -135,6 +130,26 @@ Menu:
                     title: URL
                     type: string
                     tab: data
+
+Footer:
+    title: 'Footer'
+    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    thumbnail: 'footer/footer.png'
+    image: [ ]
+    styles: [ ]
+    scripts: [ ]
+    templates: [ ]
+    categories: [ composite.all, composite.footer ]
+
+Sitemap:
+    title: 'Sitemap'
+    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    thumbnail: 'sitemap/sitemap.png'
+    image: [ ]
+    styles: [ ]
+    scripts: [ ]
+    templates: [ ]
+    categories: [ composite.all, sitemap.footer ]
 
 # Table:
 #     title: 'Table'

@@ -43,6 +43,11 @@ class LayoutController extends Controller
                 ->getWidgets()
             ;
 
+            $view['categories'] = $this
+                ->get('ntr1_x_layout.category.manager')
+                ->getCategories()
+            ;
+
             // dump($view['widgets']);
 
             // $view['widgets'] = $this
@@ -89,6 +94,11 @@ class LayoutController extends Controller
             $view['widgets'] = $this
                 ->get('ntr1_x_layout.widget.manager')
                 ->getWidgets()
+            ;
+
+            $view['categories'] = $this
+                ->get('ntr1_x_layout.category.manager')
+                ->getCategories()
             ;
         });
 
@@ -157,6 +167,11 @@ class LayoutController extends Controller
             $view['widgets'] = $this
                 ->get('ntr1_x_layout.widget.manager')
                 ->getWidgets()
+            ;
+
+            $view['categories'] = $this
+                ->get('ntr1_x_layout.category.manager')
+                ->getCategories()
             ;
         });
 

@@ -1,0 +1,26 @@
+.ge.ge-categories {
+  margin-bottom: 40px;
+}
+.ge.ge-categories h5 {
+  color: #FFFFFF;
+  padding: 10px 15px;
+  margin: 0px 0px;
+}
+.ge.ge-categories ul.nav > li {
+  margin: 0px;
+}
+.ge.ge-categories ul.nav > li > a {
+  padding: 10px 40px;
+  border-radius: 0px;
+  color: #FFFFFF;
+  font-size: 1.0em;
+  font-weight: 300;
+  outline: none;
+}
+.ge.ge-categories ul.nav > li > a:hover,
+.ge.ge-categories ul.nav > li > a:focus {
+  background-color: #263949;
+}
+.ge.ge-categories ul.nav > li.active > a {
+  background-color: #1F2E3C;
+}

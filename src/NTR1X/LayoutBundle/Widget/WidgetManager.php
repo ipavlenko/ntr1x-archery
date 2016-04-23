@@ -11,11 +11,7 @@ class WidgetManager {
         $this->providers[] = $provider;
     }
 
-    private function excludeCycles($array) {
-
-    }
-
-    public function build() {
+    public function build(CategoryManager $categories) {
 
         $list = [];
         $roots = [];
@@ -82,7 +78,14 @@ class WidgetManager {
         $widgets = [];
         foreach ($list as $node) {
             if (isset($node->getMergedData()['title'])) {
-                $widgets[] = new Widget($node->getProvider(), $node->getName(), $node->getMergedData());
+                $widget = new Widget($node->getProvider(), $node->getName(), $node->getMergedData());
+                $widgets[] = $widget;
+                foreach ($widget->getCategories() as $name) {
+                    $category = $categories->findCategory($name);
+                    if ($category != null) {
+                        $category->registerWidget($widget);
+                    }
+                }
             }
         }
 

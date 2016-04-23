@@ -11,112 +11,136 @@ use NTR1X\FormBundle\Form\FormField;
 
 class DefaultController extends Controller {
 
-	/**
-	 * @Route("/", name = "home")
-	 */
-	public function defaultAction(Request $request) {
+    /**
+     * @Route("/", name = "home")
+     */
+    public function defaultAction(Request $request) {
 
-		// TODO $domain = ... Взять его нужно по имени домена, с которого открыт ресурс
+        $em = $this->getDoctrine()->getManager();
 
-		$page = $this
-			->getDoctrine()
-			->getRepository('NTR1XLayoutBundle:Page')
-			->findOneByName('home');
+        $view = [];
 
-		$view = [
-			'page' => $page,
-			// 'domain' => $domain,
-		];
+        $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$view) {
 
-		// replace this example code with whatever you need
-		return $this->render('public.html.twig', $view);
-	}
+            $view['domains'] = $this
+                ->getDoctrine()
+                ->getRepository('NTR1XLayoutBundle:Domain')
+                ->findAll(['name'=>'asc'])
+            ;
 
-	/**
-	 * @Route("/media", name = "media")
-	 */
-	public function mediaAction(Request $request) {
+            $view['pages'] = $this
+                ->getDoctrine()
+                ->getRepository('NTR1XLayoutBundle:Page')
+                ->findAll(['name'=>'asc'])
+            ;
 
-		$data = (new FormBuilder())
-			->add('$.get.c', FormField::TYPE_VALUE)
-			->add('$.get.s', FormField::TYPE_VALUE)
-			->add('$.get.t', FormField::TYPE_VALUE)
-			->add('$.get.d', FormField::TYPE_VALUE)
-			->build()
-			->handleRequest($request)
-		;
+            $view['schemes'] = $this
+                ->getDoctrine()
+                ->getRepository('NTR1XLayoutBundle:Schema')
+                ->findAll(['name'=>'asc'])
+            ;
 
-		$category = $this
-			->getDoctrine()
-			->getRepository('NTR1XMediaBundle:Category')
-			->findOneByName(@$data->inputData['$.get.c']);
+            $view['widgets'] = $this
+                ->get('ntr1_x_layout.widget.manager')
+                ->getWidgets()
+            ;
 
-		$view = [
+            $view['categories'] = $this
+                ->get('ntr1_x_layout.category.manager')
+                ->getCategories()
+            ;
+        });
 
-			'category' => $category,
+        return $this->render('public.html.twig', [
+            'settings' => $view
+        ]);
+    }
 
-			'search' => [
-				'query' => [
-					'category' => @$data->inputData['$.get.c'],
-					'string' => @$data->inputData['$.get.s'],
-					'tag' => @$data->inputData['$.get.t'],
-					'date' => @$data->inputData['$.get.d'],
-				],
-				'results' => [
-					'title' => $category != null ? $category->getTitle() : null
-				],
-			],
-		];
+    /**
+     * @Route("/media", name = "media")
+     */
+    public function mediaAction(Request $request) {
 
-		// replace this example code with whatever you need
-		return $this->render('page-media.html.twig', $view);
-	}
+        $data = (new FormBuilder())
+            ->add('$.get.c', FormField::TYPE_VALUE)
+            ->add('$.get.s', FormField::TYPE_VALUE)
+            ->add('$.get.t', FormField::TYPE_VALUE)
+            ->add('$.get.d', FormField::TYPE_VALUE)
+            ->build()
+            ->handleRequest($request)
+        ;
 
-	/**
-	 * @Route("/media/i/{id}", name = "media-details")
-	 */
-	public function mediaDetailsAction(Request $request) {
+        $category = $this
+            ->getDoctrine()
+            ->getRepository('NTR1XMediaBundle:Category')
+            ->findOneByName(@$data->inputData['$.get.c']);
 
-		$data = (new FormBuilder())
-			->add('$.path.id', FormField::TYPE_VALUE)
-			->add('$.get.c', FormField::TYPE_VALUE)
-			->add('$.get.s', FormField::TYPE_VALUE)
-			->add('$.get.t', FormField::TYPE_VALUE)
-			->add('$.get.d', FormField::TYPE_VALUE)
-			->build()
-			->handleRequest($request)
-		;
+        $view = [
 
-		$category = $this
-			->getDoctrine()
-			->getRepository('NTR1XMediaBundle:Category')
-			->findOneByName(@$data->inputData['$.get.c']);
+            'category' => $category,
 
-		$view = [
+            'search' => [
+                'query' => [
+                    'category' => @$data->inputData['$.get.c'],
+                    'string' => @$data->inputData['$.get.s'],
+                    'tag' => @$data->inputData['$.get.t'],
+                    'date' => @$data->inputData['$.get.d'],
+                ],
+                'results' => [
+                    'title' => $category != null ? $category->getTitle() : null
+                ],
+            ],
+        ];
 
-			'category' => $category,
+        // replace this example code with whatever you need
+        return $this->render('page-media.html.twig', $view);
+    }
 
-			'search' => [
-				'query' => [
-					'category' => @$data->inputData['$.get.c'],
-					'string' => @$data->inputData['$.get.s'],
-					'tag' => @$data->inputData['$.get.t'],
-					'date' => @$data->inputData['$.get.d'],
-				],
-			],
+    /**
+     * @Route("/media/i/{id}", name = "media-details")
+     */
+    public function mediaDetailsAction(Request $request) {
 
-			'tags' => $this
-				->getDoctrine()
-				->getRepository('NTR1XMediaBundle:Media')
-				->findOneById($data->inputData['$.path.id']),
+        $data = (new FormBuilder())
+            ->add('$.path.id', FormField::TYPE_VALUE)
+            ->add('$.get.c', FormField::TYPE_VALUE)
+            ->add('$.get.s', FormField::TYPE_VALUE)
+            ->add('$.get.t', FormField::TYPE_VALUE)
+            ->add('$.get.d', FormField::TYPE_VALUE)
+            ->build()
+            ->handleRequest($request)
+        ;
 
-			'item' => $this
-				->getDoctrine()
-				->getRepository('NTR1XMediaBundle:Media')
-				->findOneById($data->inputData['$.path.id']),
-		];
+        $category = $this
+            ->getDoctrine()
+            ->getRepository('NTR1XMediaBundle:Category')
+            ->findOneByName(@$data->inputData['$.get.c']);
 
-		// replace this example code with whatever you need
-		return $this->render('page-media-details.html.twig', $view);
-	}
+        $view = [
+
+            'category' => $category,
+
+            'search' => [
+                'query' => [
+                    'category' => @$data->inputData['$.get.c'],
+                    'string' => @$data->inputData['$.get.s'],
+                    'tag' => @$data->inputData['$.get.t'],
+                    'date' => @$data->inputData['$.get.d'],
+                ],
+            ],
+
+            'tags' => $this
+                ->getDoctrine()
+                ->getRepository('NTR1XMediaBundle:Media')
+                ->findOneById($data->inputData['$.path.id']),
+
+            'item' => $this
+                ->getDoctrine()
+                ->getRepository('NTR1XMediaBundle:Media')
+                ->findOneById($data->inputData['$.path.id']),
+        ];
+
+        // replace this example code with whatever you need
+        return $this->render('page-media-details.html.twig', $view);
+    }
 }

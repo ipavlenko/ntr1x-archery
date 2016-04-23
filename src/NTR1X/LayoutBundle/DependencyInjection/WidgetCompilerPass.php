@@ -10,26 +10,35 @@ class WidgetCompilerPass implements CompilerPassInterface {
 
     public function process(ContainerBuilder $container) {
 
-        if (!$container->has('ntr1_x_layout.widget.manager')) {
-            return;
-        }
+        if (!$container->has('ntr1_x_layout.widget.manager')) return;
+        if (!$container->has('ntr1_x_layout.category.manager')) return;
 
-        $definition = $container->findDefinition(
-            'ntr1_x_layout.widget.manager'
-        );
+        $categoryManager = $container->findDefinition('ntr1_x_layout.category.manager');
+        $widgetManager = $container->findDefinition('ntr1_x_layout.widget.manager');
 
-        $taggedServices = $container->findTaggedServiceIds(
-            'widget.provider'
-        );
+        $categoryProviders = $container->findTaggedServiceIds('category.provider');
+        $widgetProviders = $container->findTaggedServiceIds('widget.provider');
 
-        foreach ($taggedServices as $id=>$tags) {
+        foreach ($categoryProviders as $id=>$tags) {
 
-            $definition->addMethodCall(
+            $categoryManager->addMethodCall(
                 'register',
                 array(new Reference($id))
             );
         }
 
-        $definition->addMethodCall('build');
+        $categoryManager->addMethodCall('build');
+
+        foreach ($widgetProviders as $id=>$tags) {
+
+            $widgetManager->addMethodCall(
+                'register',
+                array(new Reference($id))
+            );
+        }
+
+        $widgetManager->addMethodCall('build', array(
+            new Reference('ntr1_x_layout.category.manager')
+        ));
     }
 }

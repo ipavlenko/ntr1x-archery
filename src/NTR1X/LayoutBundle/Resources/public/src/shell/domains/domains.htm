@@ -1,0 +1,10 @@
+<template id="shell-domains">
+    <section class="ge ge-domains">
+        <h5>
+            <span>Domains</span>
+        </h5>
+        <ul class="nav nav-pills nav-stacked">
+            <li v-for="domain in domains" :class="{ 'active': domain == selected }"><a href="#" @click="selectDomain(domain)">{{ domain.name }}</a></li>
+        </ul>
+    </section>
+</template>

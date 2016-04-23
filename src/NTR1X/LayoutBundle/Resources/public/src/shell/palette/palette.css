@@ -1,0 +1,14 @@
+.ge.ge-palette .ge.ge-widget {
+  margin: 20px 20px 0px 20px;
+}
+.ge.ge-palette .ge.ge-widget:last-child {
+  margin-bottom: 20px;
+}
+.ge.ge-palette .ge.ge-widget img {
+  width: 240px;
+  border: 1px solid #3C4049;
+  box-sizing: border-box;
+}
+.ge.ge-palette .ge.ge-widget img:hover {
+  border: 1px solid #CCDAC6;
+}

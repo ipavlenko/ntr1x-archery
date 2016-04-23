@@ -26,6 +26,7 @@
     "text": "requirejs-text#^2.0.14",
     "lodash": "^4.8.2",
     "vue-router": "^0.7.11",
-    "jsonpath-plus": "*"
+    "jsonpath-plus": "*",
+    "perfect-scrollbar": "^0.6.10"
   }
 }

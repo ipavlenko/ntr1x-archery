@@ -1,0 +1,31 @@
+-
+    name: composite
+    title: Composites
+    items:
+        - { name: all, title: All Items }
+        - { name: header, title: Headers }
+        - { name: service, title: Services }
+        - { name: price, title: Pricing Tables }
+        - { name: promo,  title: Promo sections }
+        - { name: footer, title: Footers }
+-
+    name: layout
+    title: Layouts
+    items:
+        - { name: all, title: All Items }
+        - { name: row, title: Rows }
+        - { name: column, title: Columns }
+-
+    name: form
+    title: Forms
+    items:
+        - { name: all, title: All Items }
+        - { name: button, title: Buttons }
+        - { name: input, title: Inputs }
+-
+    name: text
+    title: Text Blocks
+    items:
+        - { name: all, title: All Items }
+        - { name: header, title: Headers }
+        - { name: block, title: Blocks }

@@ -13,12 +13,14 @@ class Widget {
     private $id;
     private $name;
     private $title;
+    private $thumbnail;
 
     private $styles = [];
     private $scripts = [];
     private $templates = [];
     private $props = [];
     private $tabs = [];
+    private $categories = [];
 
     public function __construct($provider, $name, $config) {
 
@@ -28,6 +30,12 @@ class Widget {
         $this->id = $this->provider->getBundle() . '/' . $this->name;
 
         $this->title = $config['title'];
+
+        $this->thumbnail = new WidgetAsset($this, $config['thumbnail']);
+
+        if (isset($config['categories'])) {
+            $this->categories = $config['categories'];
+        }
 
         if (isset($config['tabs'])) {
             foreach ($config['tabs'] as $tab) {
@@ -74,6 +82,14 @@ class Widget {
 
     public function getTitle() {
         return $this->title;
+    }
+
+    public function getThumbnail() {
+        return $this->thumbnail;
+    }
+
+    public function getCategories() {
+        return $this->categories;
     }
 
     public function getProps() {

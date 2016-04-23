@@ -1,0 +1,10 @@
+<template id="shell-pages">
+    <section class="ge ge-pages">
+        <h5>
+            <span>Pages</span>
+        </h5>
+        <ul class="nav nav-pills nav-stacked">
+            <li v-for="page in pages" :class="{ 'active': page == selected }"><a href="#" @click="selectPage(page)">{{ page.name }}</a></li>
+        </ul>
+    </section>
+</template>
