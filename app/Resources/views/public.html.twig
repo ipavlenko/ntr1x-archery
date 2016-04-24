@@ -48,70 +48,23 @@
     </head>
     <body
         data-vue
-        data-settings="{{ settings | serialize('json') }}"
         data-model="{{ model | serialize('json') }}"
-        data-selected="{{ {
-            category: {},
-            page: {},
-            domain: {},
-            source: {},
-        } | serialize('json') }}"
+        data-settings="{{ settings | serialize('json') }}"
+        data-selection="{{ {
+            category: null,
+            domain: null,
+            page: null,
+            source: null,
+        } | serialize('json', layout.jms.withNulls) }}"
     >
 
         {% raw %}
 
-        <div class="ge ge-shell">
-            <div class="ge ge-head">
-                <div class="ge ge-nav">
-                    <shell-brand></shell-brand>
-                </div>
-                <div class="ge ge-subnav">
-                </div>
-                <div class="ge ge-structure">
-                </div>
-                <div class="ge ge-editor">
-                    <shell-actions
-                        :model.sync="model"
-                        :category.sync="selected.category"
-                        :domain.sync="selected.domain"
-                        :page.sync="selected.page">
-                    </shell-actions>
-                </div>
-            </div>
-            <div class="ge ge-body">
-                <div class="ge ge-nav" v-scrollable>
-                    <shell-categories :categories.sync="settings.categories" :selected.sync="selected.category"></shell-categories>
-                </div>
-                <div class="ge ge-subnav" v-scrollable>
-                    <shell-palette :category.sync="selected.category"></shell-palette>
-                </div>
-                <div class="ge ge-structure" v-scrollable>
-                    <shell-domains :domains.sync="model.domains" :selected.sync="selected.domain"></shell-domains>
-                    <shell-pages :pages.sync="model.pages" :selected.sync="selected.page"></shell-pages>
-                    <shell-sources :sources.sync="selected.page.sources" :selected.sync="selected.source"></shell-sources>
-                </div>
-                <div class="ge ge-editor" v-scrollable>
-                    <div class="ge ge-container">
-                        <div class="ge ge-page">
-                            <shell-stacked>
-                                <shell-widget>
-                                    <shell-stub></shell-stub>
-                                </shell-widget>
-                                <shell-widget>
-                                    <shell-stub></shell-stub>
-                                </shell-widget>
-                                <shell-widget>
-                                    <shell-stub></shell-stub>
-                                </shell-widget>
-                                <shell-target></shell-target>
-                            </shell-stacked>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="ge ge-foot">
-            </div>
-        </div>
+        <shell
+            :model.sync="model"
+            :settings.sync="settings"
+            :selection.sync="selection"
+        ></shell>
 
         {% endraw %}
 

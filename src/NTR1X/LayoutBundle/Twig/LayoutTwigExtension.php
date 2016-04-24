@@ -3,6 +3,7 @@
 namespace NTR1X\LayoutBundle\Twig;
 
 use NTR1X\LayoutBundle\Component\ComponentManager;
+use JMS\Serializer\SerializationContext;
 
 class LayoutTwigExtension extends \Twig_Extension {
 
@@ -14,11 +15,19 @@ class LayoutTwigExtension extends \Twig_Extension {
 
 	public function getGlobals() {
 
+        $withoutNulls = new SerializationContext();
+        $withNulls = new SerializationContext();
+        $withNulls->setSerializeNull(true);
+
 		return [
             'layout' => array(
                 'styles' => $this->manager->getStyles(),
                 'scripts' => $this->manager->getScripts(),
                 'templates' => $this->manager->getTemplates(),
+                'jms' => [
+                    'withNulls' => $withNulls,
+                    'withoutNulls' => $withoutNulls,
+                ]
             )
 		];
 	}

@@ -25,7 +25,7 @@ class Category {
         if (isset($data['items'])) {
             foreach ($data['items'] as $item) {
                 $category = new Category($item);
-                $categories[$category->getName()] = $category;
+                $categories[] = $category;
             }
         }
 
@@ -41,15 +41,15 @@ class Category {
     }
 
     public function getCategories() {
-        // TODO Sort
-        return array_values($this->categories);
+        return $this->categories;
     }
 
     public function getCategory($name) {
-        return isset($this->categories[$name])
-            ? $this->categories[$name]
-            : null
-        ;
+        foreach ($this->categories as $category) {
+            if ($category->getName() == $name) {
+                return $category;
+            }
+        }
     }
 
     public function registerWidget($widget) {
@@ -57,7 +57,6 @@ class Category {
     }
 
     public function getWidgets() {
-        // TODO Sort
-        return array_values($this->widgets);
+        return $this->widgets;
     }
 }

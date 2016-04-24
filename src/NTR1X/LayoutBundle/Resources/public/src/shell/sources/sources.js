@@ -4,13 +4,8 @@
         template: '#shell-sources',
         props: {
             sources: Array,
-            selected: Object
+            selection: Object
         },
-        methods: {
-            selectSource: function(source) {
-                this.selected = source;
-            }
-        }
     });
 
 })(jQuery, Vue);

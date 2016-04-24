@@ -89,6 +89,10 @@ Core = window.Core || {};
 
             methods: {
 
+                trigger: function(event, item, context) {
+                    this.$dispatch(event, { item: item, context: context });
+                },
+
                 create: function(item, context) {
 
                     var dialog = new ModalEditor({
@@ -113,6 +117,10 @@ Core = window.Core || {};
                             }
                         }
                     }).$mount().$appendTo($('body').get(0));
+                },
+
+                remove: function(item, context) {
+                    this.doRemove(item, context);
                 },
 
                 update: function(item, context) {
@@ -185,6 +193,7 @@ Core = window.Core || {};
             events: {
                 create: function(data) { this.create(data.item, data.context); },
                 update: function(data) { this.update(data.item, data.context); },
+                remove: function(data) { this.remove(data.item, data.context); },
                 doCreate: function(data) { this.doCreate(data.item, data.context); },
                 doUpdate: function(data) { this.doUpdate(data.item, data.context); },
                 doRemove: function(data) { this.doRemove(data.item, data.context); },
@@ -200,9 +209,10 @@ Core = window.Core || {};
         },
 
         methods: {
+            trigger: function(event, data) { this.$dispatch(event, { item: item, context: context }); },
             create: function(item, context) { this.$dispatch('create', { item: item, context: context} ); },
             update: function(item, context) { this.$dispatch('update', { item: item, context: context} ); },
-            remove: function(item, context) { this.$dispatch('doRemove', { item: item, context: context} ); }
+            remove: function(item, context) { this.$dispatch('remove', { item: item, context: context} ); },
         }
     };
 

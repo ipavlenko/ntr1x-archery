@@ -4,13 +4,8 @@
         template: '#shell-domains',
         props: {
             domains: Array,
-            selected: Object
+            selection: Object
         },
-        methods: {
-            selectDomain: function(domain) {
-                this.selected = domain;
-            }
-        }
     });
 
 })(jQuery, Vue);

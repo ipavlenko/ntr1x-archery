@@ -1,22 +1,24 @@
 <template id="shell-pages">
     <section class="ge ge-panel ge-pages">
-        <h5>
-            <span>Pages</span>
-            <span class="ge ge-overlays">
-                <span class="ge ge-overlay"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                <span class="ge ge-overlay"><span class="glyphicon glyphicon-edit"></span></span>
-            </span>
-        </h5>
-        <ul class="nav nav-pills nav-stacked">
-            <li v-for="page in pages" :class="{ 'active': page == selected }">
-                <a href="#" @click="selectPage(page)">
-                    <span>{{ page.name }}</span>
-                    <span class="ge ge-overlays">
-                        <span class="ge ge-overlay"><span class="glyphicon glyphicon-trash"></span></span>
-                        <span class="ge ge-overlay"><span class="glyphicon glyphicon-edit"></span></span>
-                    </span>
-                </a>
-            </li>
-        </ul>
+        <pages :items.sync="pages" inline-template>
+            <h5>
+                <span>Pages</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ title: {}, resource: { params: [] }, sources: [], widgets: [], metas: []})"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                    <span class="ge ge-overlay"><span class="glyphicon glyphicon-edit"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == selection }">
+                    <a href="#" @click="trigger('selectPage', item)">
+                        <span>{{ item.name }}</span>
+                        <span class="ge ge-overlays">
+                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </pages>
     </section>
 </template>

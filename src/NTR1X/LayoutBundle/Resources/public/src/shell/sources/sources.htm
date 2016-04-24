@@ -1,22 +1,24 @@
 <template id="shell-sources">
     <section class="ge ge-panel ge-sources">
-        <h5>
-            <span>Sources</span>
-            <span class="ge ge-overlays">
-                <span class="ge ge-overlay"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                <span class="ge ge-overlay"><span class="glyphicon glyphicon-edit"></span></span>
-            </span>
-        </h5>
-        <ul class="nav nav-pills nav-stacked">
-            <li v-for="source in sources" :class="{ 'active': source == selected }">
-                <a href="#" @click="selectSource(source)">
-                    <span>{{ source.name }}</span>
-                    <span class="ge ge-overlays">
-                        <span class="ge ge-overlay"><span class="glyphicon glyphicon-trash"></span></span>
-                        <span class="ge ge-overlay"><span class="glyphicon glyphicon-edit"></span></span>
-                    </span>
-                </a>
-            </li>
-        </ul>
+        <sources :items.sync="sources" inline-template>
+            <h5>
+                <span>Sources</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ schema: 'petstore', method: 'GET', params: [] })"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                    <span class="ge ge-overlay"><span class="glyphicon glyphicon-edit"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == selection }">
+                    <a href="#" @click="trigger('selectSource', item)">
+                        <span>{{ item.name }}</span>
+                        <span class="ge ge-overlays">
+                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </sources>
     </section>
 </template>

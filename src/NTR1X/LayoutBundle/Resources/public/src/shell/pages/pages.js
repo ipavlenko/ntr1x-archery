@@ -4,13 +4,8 @@
         template: '#shell-pages',
         props: {
             pages: Array,
-            selected: Object
+            selection: Object
         },
-        methods: {
-            selectPage: function(page) {
-                this.selected = page;
-            }
-        }
     });
 
 })(jQuery, Vue);

@@ -4,11 +4,11 @@
         template: '#shell-categories',
         props: {
             categories: Array,
-            selected: Object,
+            selection: Object,
         },
         methods: {
             selectCategory: function(category) {
-                this.selected = category;
+                this.selection = category;
             }
         }
     });

@@ -19,7 +19,7 @@ class CategoryManager {
             foreach ($provider->getCategories() as $data) {
 
                 $category = new Category($data);
-                $categories[$category->getName()] = $category;
+                $categories[] = $category;
             }
         }
 
@@ -27,15 +27,15 @@ class CategoryManager {
     }
 
     public function getCategories() {
-        // TODO Sort
-        return array_values($this->categories);
+        return $this->categories;
     }
 
     public function getCategory($name) {
-        return isset($this->categories[$name])
-            ? $this->categories[$name]
-            : null
-        ;
+        foreach ($this->categories as $category) {
+            if ($category->getName() == $name) {
+                return $category;
+            }
+        }
     }
 
     public function findCategory($fullName) {
