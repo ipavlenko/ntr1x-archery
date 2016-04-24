@@ -1079,29 +1079,6 @@
     </section>
 </template>
 
-<template id="shell-domains">
-    <section class="ge ge-panel ge-domains">
-        <h5>
-            <span>Domains</span>
-            <span class="ge ge-overlays">
-                <span class="ge ge-overlay"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                <span class="ge ge-overlay"><span class="glyphicon glyphicon-edit"></span></span>
-            </span>
-        </h5>
-        <ul class="nav nav-pills nav-stacked">
-            <li v-for="domain in domains" :class="{ 'active': domain == selected }">
-                <a href="#" @click="selectDomain(domain)">
-                    <span>{{ domain.name }}</span>
-                    <span class="ge ge-overlays">
-                        <span class="ge ge-overlay"><span class="glyphicon glyphicon-trash"></span></span>
-                        <span class="ge ge-overlay"><span class="glyphicon glyphicon-edit"></span></span>
-                    </span>
-                </a>
-            </li>
-        </ul>
-    </section>
-</template>
-
 <template id="shell-categories">
     <section class="ge ge-categories">
         <div v-for="category in categories">
@@ -1138,6 +1115,41 @@
     </section>
 </template>
 
+<template id="shell-palette-item">
+    <div class="ge ge-widget" >
+        <img :src="thumbnail" />
+    </div>
+</template>
+
+<template id="shell-palette">
+    <section class="ge ge-palette">
+        <palette-item v-for="widget in category.widgets" :widget.sync="widget"></palette-item>
+    </section>
+</template>
+
+<template id="shell-domains">
+    <section class="ge ge-panel ge-domains">
+        <h5>
+            <span>Domains</span>
+            <span class="ge ge-overlays">
+                <span class="ge ge-overlay"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                <span class="ge ge-overlay"><span class="glyphicon glyphicon-edit"></span></span>
+            </span>
+        </h5>
+        <ul class="nav nav-pills nav-stacked">
+            <li v-for="domain in domains" :class="{ 'active': domain == selected }">
+                <a href="#" @click="selectDomain(domain)">
+                    <span>{{ domain.name }}</span>
+                    <span class="ge ge-overlays">
+                        <span class="ge ge-overlay"><span class="glyphicon glyphicon-trash"></span></span>
+                        <span class="ge ge-overlay"><span class="glyphicon glyphicon-edit"></span></span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </section>
+</template>
+
 <template id="shell-sources">
     <section class="ge ge-panel ge-sources">
         <h5>
@@ -1161,18 +1173,6 @@
     </section>
 </template>
 
-<template id="shell-palette-item">
-    <div class="ge ge-widget" >
-        <img :src="thumbnail" />
-    </div>
-</template>
-
-<template id="shell-palette">
-    <section class="ge ge-palette">
-        <palette-item v-for="widget in category.widgets" :widget.sync="widget"></palette-item>
-    </section>
-</template>
-
 <template id="shell-stacked">
     <div class="ge ge-stacked">
         <slot></slot>
@@ -1185,15 +1185,15 @@
     </div>
 </template>
 
-<template id="shell-widget">
-    <div class="ge ge-widget">
-        <slot></slot>
-    </div>
-</template>
-
 <template id="shell-target">
     <div class="ge ge-target">
         <span>Drop Here</span>
+    </div>
+</template>
+
+<template id="shell-widget">
+    <div class="ge ge-widget">
+        <slot></slot>
     </div>
 </template>
 

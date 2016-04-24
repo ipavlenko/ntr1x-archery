@@ -48,7 +48,8 @@
     </head>
     <body
         data-vue
-        data-model="{{ settings | serialize('json') }}"
+        data-settings="{{ settings | serialize('json') }}"
+        data-model="{{ model | serialize('json') }}"
         data-selected="{{ {
             category: {},
             page: {},
@@ -79,7 +80,7 @@
             </div>
             <div class="ge ge-body">
                 <div class="ge ge-nav" v-scrollable>
-                    <shell-categories :categories.sync="model.categories" :selected.sync="selected.category"></shell-categories>
+                    <shell-categories :categories.sync="settings.categories" :selected.sync="selected.category"></shell-categories>
                 </div>
                 <div class="ge ge-subnav" v-scrollable>
                     <shell-palette :category.sync="selected.category"></shell-palette>
