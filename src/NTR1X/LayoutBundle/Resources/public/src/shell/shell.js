@@ -14,7 +14,6 @@
             if (!this.selection.category) {
                 if (this.settings.categories.length > 0) {
                     var sub = this.settings.categories[0];
-                    console.log(sub);
                     if (sub.categories.length > 0) {
                         this.selection.category = sub.categories[0];
                     }
