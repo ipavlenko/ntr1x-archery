@@ -21,7 +21,13 @@
   right: 0px;
   bottom: 0px;
 }
-.ge.ge-shell .ge.ge-body .ge.ge-nav {
+.ge.ge-shell .ge.ge-body .ge.ge-subnav {
+  background: #1F2E3C;
+}
+.ge.ge-shell .ge.ge-body .ge.ge-editor {
+  background-color: #F3F7F7;
+}
+.ge.ge-shell .ge.ge-nav {
   position: absolute;
   top: 0px;
   left: 0px;
@@ -29,37 +35,35 @@
   bottom: 0px;
   padding-bottom: 20px;
 }
-.ge.ge-shell .ge.ge-body .ge.ge-subnav {
+.ge.ge-shell .ge.ge-subnav {
   position: absolute;
   top: 0px;
   left: 220px;
   width: 280px;
   bottom: 0px;
-  background: #1F2E3C;
 }
-.ge.ge-shell .ge.ge-body .ge.ge-structure {
+.ge.ge-shell .ge.ge-structure {
   position: absolute;
   top: 0px;
   right: 0px;
   width: 220px;
   bottom: 0px;
 }
-.ge.ge-shell .ge.ge-body .ge.ge-editor {
+.ge.ge-shell .ge.ge-editor {
   position: absolute;
   top: 0px;
   bottom: 0px;
   left: 500px;
   right: 220px;
-  background-color: #F3F7F7;
 }
-.ge.ge-shell .ge.ge-body .ge.ge-editor .ge.ge-container {
+.ge.ge-shell .ge.ge-editor .ge.ge-container {
   position: absolute;
   top: 0px;
   bottom: 0px;
   left: 0px;
   right: 0px;
 }
-.ge.ge-shell .ge.ge-body .ge.ge-editor .ge.ge-container .ge.ge-page {
+.ge.ge-shell .ge.ge-editor .ge.ge-container .ge.ge-page {
   width: 960px;
   min-height: 1200px;
   margin: 50px auto 50px auto;
@@ -67,32 +71,46 @@
   box-sizing: border-box;
   border: 1px solid #E5E5E5;
 }
-[data-role="palette"] {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  width: 200px;
-  height: 500px;
-  background-color: rgba(200, 200, 200, 0.5);
+.ge.ge-shell .ge.ge-panel {
+  margin-bottom: 40px;
 }
-[data-role="palette"] ul {
-  padding: 0px 0px;
+.ge.ge-shell .ge.ge-panel .ge.ge-overlays {
+  float: right;
 }
-[data-role="palette"] ul li {
-  display: block;
-}
-[data-role="palette"] ul li a {
-  display: block;
-  padding: 4px 4px;
-  margin: 4px 4px;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  cursor: move;
-  background: #333333;
+.ge.ge-shell .ge.ge-panel .ge.ge-overlays .ge.ge-overlay {
   color: #FFFFFF;
-  text-decoration: none;
+  opacity: 0.7;
+  cursor: pointer;
+}
+.ge.ge-shell .ge.ge-panel .ge.ge-overlays .ge.ge-overlay:hover {
+  opacity: 1;
+}
+.ge.ge-shell .ge.ge-panel h5 {
+  color: #FFFFFF;
+  padding: 10px 15px;
+  margin: 0px 0px;
+}
+.ge.ge-shell .ge.ge-panel ul.nav > li {
+  margin: 0px;
+}
+.ge.ge-shell .ge.ge-panel ul.nav > li > a {
+  padding: 10px 15px 10px 40px;
+  border-radius: 0px;
+  color: #FFFFFF;
+  font-size: 1.0em;
+  font-weight: 300;
+  outline: none;
+}
+.ge.ge-shell .ge.ge-panel ul.nav > li > a:hover,
+.ge.ge-shell .ge.ge-panel ul.nav > li > a:focus {
+  background-color: #263949;
+}
+.ge.ge-shell .ge.ge-panel ul.nav > li > a .ge.ge-overlays {
+  display: none;
+}
+.ge.ge-shell .ge.ge-panel ul.nav > li > a:hover .ge.ge-overlays {
+  display: block;
+}
+.ge.ge-shell .ge.ge-panel ul.nav > li.active > a {
+  background-color: #1F2E3C;
 }

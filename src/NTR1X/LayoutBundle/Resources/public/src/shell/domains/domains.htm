@@ -1,10 +1,22 @@
 <template id="shell-domains">
-    <section class="ge ge-domains">
+    <section class="ge ge-panel ge-domains">
         <h5>
             <span>Domains</span>
+            <span class="ge ge-overlays">
+                <span class="ge ge-overlay"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                <span class="ge ge-overlay"><span class="glyphicon glyphicon-edit"></span></span>
+            </span>
         </h5>
         <ul class="nav nav-pills nav-stacked">
-            <li v-for="domain in domains" :class="{ 'active': domain == selected }"><a href="#" @click="selectDomain(domain)">{{ domain.name }}</a></li>
+            <li v-for="domain in domains" :class="{ 'active': domain == selected }">
+                <a href="#" @click="selectDomain(domain)">
+                    <span>{{ domain.name }}</span>
+                    <span class="ge ge-overlays">
+                        <span class="ge ge-overlay"><span class="glyphicon glyphicon-trash"></span></span>
+                        <span class="ge ge-overlay"><span class="glyphicon glyphicon-edit"></span></span>
+                    </span>
+                </a>
+            </li>
         </ul>
     </section>
 </template>

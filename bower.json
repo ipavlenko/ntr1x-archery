@@ -27,6 +27,7 @@
     "lodash": "^4.8.2",
     "vue-router": "^0.7.11",
     "jsonpath-plus": "*",
-    "perfect-scrollbar": "^0.6.10"
+    "perfect-scrollbar": "^0.6.10",
+    "jquery-ui": "^1.11.4"
   }
 }

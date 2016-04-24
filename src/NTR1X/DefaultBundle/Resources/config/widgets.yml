@@ -151,6 +151,16 @@ Sitemap:
     templates: [ ]
     categories: [ composite.all, sitemap.footer ]
 
+2ColumnsLayout:
+    title: '2 Columns'
+    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    thumbnail: 'columns/columns-2.png'
+    image: [ ]
+    styles: [ ]
+    scripts: [ ]
+    templates: [ ]
+    categories: [ layout.all, layout.column ]
+
 # Table:
 #     title: 'Table'
 #     size: { width: 12, height: 5 }

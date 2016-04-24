@@ -27,6 +27,7 @@
         {% block javascripts %}
 
             <script src="{{ asset('assets/vendor/jquery/dist/jquery.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/jquery-ui/jquery-ui.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/vue/dist/vue.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/vue-router/dist/vue-router.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
@@ -52,6 +53,7 @@
             category: {},
             page: {},
             domain: {},
+            source: {},
         } | serialize('json') }}"
     >
 
@@ -59,6 +61,21 @@
 
         <div class="ge ge-shell">
             <div class="ge ge-head">
+                <div class="ge ge-nav">
+                    <shell-brand></shell-brand>
+                </div>
+                <div class="ge ge-subnav">
+                </div>
+                <div class="ge ge-structure">
+                </div>
+                <div class="ge ge-editor">
+                    <shell-actions
+                        :model.sync="model"
+                        :category.sync="selected.category"
+                        :domain.sync="selected.domain"
+                        :page.sync="selected.page">
+                    </shell-actions>
+                </div>
             </div>
             <div class="ge ge-body">
                 <div class="ge ge-nav" v-scrollable>
@@ -68,13 +85,25 @@
                     <shell-palette :category.sync="selected.category"></shell-palette>
                 </div>
                 <div class="ge ge-structure" v-scrollable>
-                    <shell-pages :pages.sync="model.pages" :selected.sync="selected.page"></shell-pages>
                     <shell-domains :domains.sync="model.domains" :selected.sync="selected.domain"></shell-domains>
+                    <shell-pages :pages.sync="model.pages" :selected.sync="selected.page"></shell-pages>
+                    <shell-sources :sources.sync="selected.page.sources" :selected.sync="selected.source"></shell-sources>
                 </div>
                 <div class="ge ge-editor" v-scrollable>
                     <div class="ge ge-container">
                         <div class="ge ge-page">
-
+                            <shell-stacked>
+                                <shell-widget>
+                                    <shell-stub></shell-stub>
+                                </shell-widget>
+                                <shell-widget>
+                                    <shell-stub></shell-stub>
+                                </shell-widget>
+                                <shell-widget>
+                                    <shell-stub></shell-stub>
+                                </shell-widget>
+                                <shell-target></shell-target>
+                            </shell-stacked>
                         </div>
                     </div>
                 </div>
