@@ -12,20 +12,6 @@ Vue.filter('jsonPath', function (context, str) {
     }
 });
 
-
-Vue.filter('binding', function (data) {
-
-	console.log(data);
-	console.log('param = get binding value from data');
-	console.log('get param from global scope');
-
-    // for example, binding param is "{{ 'asd' }}"
-    // that's mean 'asd' must be concatiname with value.
-
-    // If value is 'QWE' and binding param is 'asd', result will be QWEasd
-
-});
-
 Vue.filter('assign', function (target, source1, source2, source3) {
 
 	return Object.assign(target, source1, source2, source3);
