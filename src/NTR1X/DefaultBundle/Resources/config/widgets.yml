@@ -91,6 +91,7 @@ BoxMixin:
 
 Header:
     title: 'Header'
+    tag: default-header
     mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
     thumbnail: 'header/header.png'
     styles: [ ]
@@ -133,6 +134,7 @@ Menu:
 
 Footer:
     title: 'Footer'
+    tag: default-footer
     mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
     thumbnail: 'footer/footer.png'
     image: [ ]
@@ -143,6 +145,7 @@ Footer:
 
 Sitemap:
     title: 'Sitemap'
+    tag: default-sitemap
     mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
     thumbnail: 'sitemap/sitemap.png'
     image: [ ]
@@ -153,6 +156,7 @@ Sitemap:
 
 2ColumnsLayout:
     title: '2 Columns'
+    tag: default-2columns
     mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
     thumbnail: 'columns/columns-2.png'
     image: [ ]
