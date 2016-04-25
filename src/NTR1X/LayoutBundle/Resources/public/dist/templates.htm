@@ -727,37 +727,17 @@
                     <div class="ge ge-page">
 
                         <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <shell-stacked>
-                                        <shell-widget>
-                                            <shell-stub></shell-stub>
-                                        </shell-widget>
-                                        <shell-target></shell-target>
-                                    </shell-stacked>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-8">
-                                    <shell-stacked>
-                                        <shell-widget>
-                                            <shell-stub></shell-stub>
-                                        </shell-widget>
-                                        <shell-widget>
-                                            <shell-stub></shell-stub>
-                                        </shell-widget>
-                                        <shell-target></shell-target>
-                                    </shell-stacked>
-                                </div>
-                                <div class="col-xs-4">
-                                    <shell-stacked>
-                                        <shell-widget>
-                                            <shell-stub></shell-stub>
-                                        </shell-widget>
-                                        <shell-target></shell-target>
-                                    </shell-stacked>
-                                </div>
-                            </div>
+
+                            <h4>Widget: default-menu</h4>
+
+                            <div is="default-menu" :params="model.pages[0].widgets[0].params"></div>
+
+                            <!--
+                            <pre>
+                            {{ model.pages[0].widgets | json 4 }}
+                            </pre>
+                            -->
+
                         </div>
 
                     </div>
@@ -1426,23 +1406,11 @@
     <div class="form-group">
         <label for="{{ id }}">{{ item.prop.title }}</label>
         <div class="input-group">
+            <input class="form-control" type="text" id="{{ id }}" v-model="item.param.value" />
             <div class="input-group-btn">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span><span class="label label-success">{{ param._source }}</span> {{ param._source.name }}</span>
-                    &nbsp;
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li v-for="s in globals.sources">
-                        <a href="#" @click.prevent="selectSource(s)">
-                            <span><span class="label label-success">{{ s.name }}</span> {{ s.url }}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <span class="form-control">{{ item.param.value }}</span>
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-default">...</button>
+                <bindings :model.sync="item.param" inline-template>
+                    <button type="button" class="btn btn-default" @click="open">...</button>
+                </bindings>
             </div>
         </div>
     </div>

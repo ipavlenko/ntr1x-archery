@@ -1,4 +1,20 @@
 <template id="default-menu">
+
+    <!-- Menu can be nested -->
+
+    <h5>Source</h5>
+    <section data-role="widget" style="
+        background: {{ params.outerBackground.value }}
+    ">
+        <ul>
+            <li v-for="item in fetchData.children">
+                <a href="{{ item.desc.data.URL }}">{{ item.desc.data.TITLE }}</a>
+            </li>
+        </ul>
+    </section>
+
+
+    <h5>Params</h5>
     <section data-role="widget" style="
         background: {{ params.outerBackground.value }}
     ">

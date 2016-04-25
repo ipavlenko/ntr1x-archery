@@ -11,11 +11,17 @@ Core = window.Core || {};
         },
         data: function() {
             return {
-                binding: this.binding
+                fetchData: this.fetchData
             }
         },
         ready: function() {
-            var that = this;
+
+            var self = this;
+            $.get(this.params.source.value, function( data ) {
+                self.fetchData = data;
+            });
+
+            var that = this; // self
             function recur(params) {
                 for(var key in params) {
                     if (params[key]['binding']) {
