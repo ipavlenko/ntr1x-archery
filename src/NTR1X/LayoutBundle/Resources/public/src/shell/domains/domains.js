@@ -4,7 +4,7 @@
         template: '#shell-domains',
         props: {
             domains: Array,
-            selection: Object
+            globals: Object,
         },
     });
 

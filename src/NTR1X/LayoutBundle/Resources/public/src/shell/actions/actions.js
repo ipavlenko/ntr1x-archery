@@ -7,6 +7,11 @@
             category: Object,
             domain: Object,
             page: Object
+        },
+        methods: {
+            trigger: function(event, item, context) {
+                this.$dispatch(event, { item: item, context: context });
+            },
         }
     });
 

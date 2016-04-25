@@ -4,7 +4,8 @@
     Vue.component('shell-palette-item', {
         template: '#shell-palette-item',
         props: {
-            widget: Object
+            widget: Object,
+            globals: Object,
         },
         computed: {
             thumbnail: function() {

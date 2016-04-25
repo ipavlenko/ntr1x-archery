@@ -4,7 +4,7 @@
         template: '#shell-pages',
         props: {
             pages: Array,
-            selection: Object
+            globals: Object,
         },
     });
 

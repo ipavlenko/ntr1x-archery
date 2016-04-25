@@ -456,6 +456,60 @@
 
 </template>
 
+<template id="settings-dialog">
+    <div class="ge ge-modal modal modal-center">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span>Настройки сайта</span>
+                        <span>&gt;</span>
+                        <span v-if="isActive('domains')">Домены</span>
+                        <span v-if="isActive('pages')">Страницы</span>
+                        <span v-if="isActive('schemes')">Схемы</span>
+                        <span v-if="isActive('widgets')">Виджеты</span>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li :class="{ 'active': isActive('domains') }"><a href="#" @click="activate('domains')">Домены</a></li>
+                                <li :class="{ 'active': isActive('pages') }"><a href="#" @click="activate('pages')">Страницы</a></li>
+                                <li :class="{ 'active': isActive('schemes') }"><a href="#" @click="activate('schemes')">Схемы</a></li>
+                                <li :class="{ 'active': isActive('widgets') }"><a href="#" @click="activate('widgets')">Виджеты</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="overflow: auto">
+                                <div class="tab-pane" :class="{ 'active': isActive('domains') }">
+                                    <domains :items.sync="current.domains" :globals.sync="globals"></domains>
+                                </div>
+                                <div class="tab-pane" :class="{ 'active': isActive('pages') }">
+                                    <pages :items.sync="current.pages" :globals.sync="globals"></pages>
+                                </div>
+                                <div class="tab-pane" :class="{ 'active': isActive('schemes') }">
+                                    <schemes :items.sync="current.schemes" :globals.sync="globals"></schemes>
+                                </div>
+                                <div class="tab-pane" :class="{ 'active': isActive('widgets') }">
+                                    <widgets :items.sync="current.widgets" :globals.sync="globals"></widgets>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
 <template id="schemes-dialog">
 	<div class="ge ge-modal modal modal-center" role="dialog">
 		<div class="modal-dialog modal-lg">
@@ -621,56 +675,73 @@
 
 </template>
 
-<template id="settings-dialog">
-    <div class="ge ge-modal modal modal-center">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span>Настройки сайта</span>
-                        <span>&gt;</span>
-                        <span v-if="isActive('domains')">Домены</span>
-                        <span v-if="isActive('pages')">Страницы</span>
-                        <span v-if="isActive('schemes')">Схемы</span>
-                        <span v-if="isActive('widgets')">Виджеты</span>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li :class="{ 'active': isActive('domains') }"><a href="#" @click="activate('domains')">Домены</a></li>
-                                <li :class="{ 'active': isActive('pages') }"><a href="#" @click="activate('pages')">Страницы</a></li>
-                                <li :class="{ 'active': isActive('schemes') }"><a href="#" @click="activate('schemes')">Схемы</a></li>
-                                <li :class="{ 'active': isActive('widgets') }"><a href="#" @click="activate('widgets')">Виджеты</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="overflow: auto">
-                                <div class="tab-pane" :class="{ 'active': isActive('domains') }">
-                                    <domains :items.sync="current.domains" :globals.sync="globals"></domains>
-                                </div>
-                                <div class="tab-pane" :class="{ 'active': isActive('pages') }">
-                                    <pages :items.sync="current.pages" :globals.sync="globals"></pages>
-                                </div>
-                                <div class="tab-pane" :class="{ 'active': isActive('schemes') }">
-                                    <schemes :items.sync="current.schemes" :globals.sync="globals"></schemes>
-                                </div>
-                                <div class="tab-pane" :class="{ 'active': isActive('widgets') }">
-                                    <widgets :items.sync="current.widgets" :globals.sync="globals"></widgets>
-                                </div>
-                            </div>
-                        </div>
+<template id="shell">
+    <div class="ge ge-shell">
+        <div class="ge ge-head">
+            <div class="ge ge-nav">
+                <shell-brand
+                    :model.sync="model"
+                    :globals.sync="globals"
+                ></shell-brand>
+            </div>
+            <div class="ge ge-subnav">
+            </div>
+            <div class="ge ge-structure">
+            </div>
+            <div class="ge ge-editor">
+                <shell-actions
+                    :model.sync="model"
+                    :globals.sync="globals"
+                ></shell-actions>
+            </div>
+        </div>
+        <div class="ge ge-body">
+            <div class="ge ge-nav" v-scrollable>
+                <shell-categories
+                    :categories.sync="settings.categories"
+                    :globals.sync="globals"
+                ></shell-categories>
+            </div>
+            <div class="ge ge-subnav" v-scrollable>
+                <shell-palette
+                    :category.sync="selection.category"
+                    :globals.sync="globals"
+                ></shell-palette>
+            </div>
+            <div class="ge ge-structure" v-scrollable>
+                <shell-domains
+                    :domains.sync="model.domains"
+                    :globals.sync="globals"
+                ></shell-domains>
+                <shell-pages
+                    :pages.sync="model.pages"
+                    :globals.sync="globals"
+                ></shell-pages>
+                <shell-sources
+                    :sources.sync="selection.page.sources"
+                    :globals.sync="globals"
+                ></shell-sources>
+            </div>
+            <div class="ge ge-editor" v-scrollable>
+                <div class="ge ge-container">
+                    <div class="ge ge-page">
+                        <shell-stacked>
+                            <shell-widget>
+                                <shell-stub></shell-stub>
+                            </shell-widget>
+                            <shell-widget>
+                                <shell-stub></shell-stub>
+                            </shell-widget>
+                            <shell-widget>
+                                <shell-stub></shell-stub>
+                            </shell-widget>
+                            <shell-target></shell-target>
+                        </shell-stacked>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
+            </div>
+        </div>
+        <div class="ge ge-foot">
         </div>
     </div>
 </template>
@@ -732,61 +803,6 @@
 
     <widgets-list :items.sync="items"></widgets-list>
 
-</template>
-
-<template id="shell">
-    <div class="ge ge-shell">
-        <div class="ge ge-head">
-            <div class="ge ge-nav">
-                <shell-brand></shell-brand>
-            </div>
-            <div class="ge ge-subnav">
-            </div>
-            <div class="ge ge-structure">
-            </div>
-            <div class="ge ge-editor">
-                <shell-actions
-                    :model.sync="model"
-                    :category.sync="selection.category"
-                    :domain.sync="selection.domain"
-                    :page.sync="selection.page">
-                </shell-actions>
-            </div>
-        </div>
-        <div class="ge ge-body">
-            <div class="ge ge-nav" v-scrollable>
-                <shell-categories :categories.sync="settings.categories" :selection.sync="selection.category"></shell-categories>
-            </div>
-            <div class="ge ge-subnav" v-scrollable>
-                <shell-palette :category.sync="selection.category"></shell-palette>
-            </div>
-            <div class="ge ge-structure" v-scrollable>
-                <shell-domains :domains.sync="model.domains" :selection.sync="selection.domain"></shell-domains>
-                <shell-pages :pages.sync="model.pages" :selection.sync="selection.page"></shell-pages>
-                <shell-sources :sources.sync="selection.page.sources" :selection.sync="selection.source"></shell-sources>
-            </div>
-            <div class="ge ge-editor" v-scrollable>
-                <div class="ge ge-container">
-                    <div class="ge ge-page">
-                        <shell-stacked>
-                            <shell-widget>
-                                <shell-stub></shell-stub>
-                            </shell-widget>
-                            <shell-widget>
-                                <shell-stub></shell-stub>
-                            </shell-widget>
-                            <shell-widget>
-                                <shell-stub></shell-stub>
-                            </shell-widget>
-                            <shell-target></shell-target>
-                        </shell-stacked>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="ge ge-foot">
-        </div>
-    </div>
 </template>
 
 <template id="pages-sources-dialog">
@@ -1112,11 +1128,11 @@
 <template id="shell-actions">
     <section class="ge ge-actions">
         <div class="pull-left">
-            <button type="button" class="btn btn-default">
+            <button type="button" class="btn btn-default" @click="trigger('push')">
                 <span class="glyphicon glyphicon-cloud-upload"></span>
                 <span>Store Changes</span>
             </button>
-            <button type="button" class="btn btn-default">
+            <button type="button" class="btn btn-default" @click="trigger('pull')">
                 <span class="glyphicon glyphicon-cloud-download"></span>
                 <span>Discard Changes</span>
             </button>
@@ -1125,12 +1141,6 @@
             <button type="button" class="btn btn-default">Page Settings</button>
             <button type="button" class="btn btn-default">Add Source</button>
         </div>
-    </section>
-</template>
-
-<template id="shell-brand">
-    <section class="ge ge-brand">
-        <a href="#"></a>
     </section>
 </template>
 
@@ -1145,7 +1155,7 @@
                 </span>
             </h5>
             <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == selection }">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
                     <a href="#" @click="trigger('selectDomain', item)">
                         <span>{{ item.name }}</span>
                         <span class="ge ge-overlays">
@@ -1159,6 +1169,12 @@
     </section>
 </template>
 
+<template id="shell-brand">
+    <section class="ge ge-brand">
+        <a href="#"></a>
+    </section>
+</template>
+
 <template id="shell-categories">
     <section class="ge ge-categories">
         <div v-for="category in categories">
@@ -1166,7 +1182,7 @@
                 <span>{{ category.title }}</span>
             </h5>
             <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in category.categories" :class="{ 'active': item == selected }"><a href="#" @click="selectCategory(item)">{{ item.title }}</a></li>
+                <li v-for="item in category.categories" :class="{ 'active': item == globals.selection.category }"><a href="#" @click="trigger('selectCategory', item)">{{ item.title }}</a></li>
             </ul>
         </div>
     </section>
@@ -1174,7 +1190,7 @@
 
 <template id="shell-pages">
     <section class="ge ge-panel ge-pages">
-        <pages :items.sync="pages" inline-template>
+        <pages :items.sync="pages" :globals.sync="globals" inline-template>
             <h5>
                 <span>Pages</span>
                 <span class="ge ge-overlays">
@@ -1183,7 +1199,7 @@
                 </span>
             </h5>
             <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == selection }">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.page }">
                     <a href="#" @click="trigger('selectPage', item)">
                         <span>{{ item.name }}</span>
                         <span class="ge ge-overlays">
@@ -1211,7 +1227,7 @@
 
 <template id="shell-sources">
     <section class="ge ge-panel ge-sources">
-        <sources :items.sync="sources" inline-template>
+        <pages-sources :items.sync="sources" :globals.sync="globals" inline-template>
             <h5>
                 <span>Sources</span>
                 <span class="ge ge-overlays">
@@ -1220,7 +1236,7 @@
                 </span>
             </h5>
             <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == selection }">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.source }">
                     <a href="#" @click="trigger('selectSource', item)">
                         <span>{{ item.name }}</span>
                         <span class="ge ge-overlays">
@@ -1230,7 +1246,7 @@
                     </a>
                 </li>
             </ul>
-        </sources>
+        </pages-sources>
     </section>
 </template>
 
@@ -1246,15 +1262,15 @@
     </div>
 </template>
 
-<template id="shell-target">
-    <div class="ge ge-target">
-        <span>Drop Here</span>
-    </div>
-</template>
-
 <template id="shell-widget">
     <div class="ge ge-widget">
         <slot></slot>
+    </div>
+</template>
+
+<template id="shell-target">
+    <div class="ge ge-target">
+        <span>Drop Here</span>
     </div>
 </template>
 

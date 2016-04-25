@@ -4,7 +4,7 @@
         template: '#shell-sources',
         props: {
             sources: Array,
-            selection: Object
+            globals: Object,
         },
     });
 

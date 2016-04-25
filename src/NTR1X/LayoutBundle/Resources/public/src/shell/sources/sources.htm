@@ -1,6 +1,6 @@
 <template id="shell-sources">
     <section class="ge ge-panel ge-sources">
-        <sources :items.sync="sources" inline-template>
+        <pages-sources :items.sync="sources" :globals.sync="globals" inline-template>
             <h5>
                 <span>Sources</span>
                 <span class="ge ge-overlays">
@@ -9,7 +9,7 @@
                 </span>
             </h5>
             <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == selection }">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.source }">
                     <a href="#" @click="trigger('selectSource', item)">
                         <span>{{ item.name }}</span>
                         <span class="ge ge-overlays">
@@ -19,6 +19,6 @@
                     </a>
                 </li>
             </ul>
-        </sources>
+        </pages-sources>
     </section>
 </template>

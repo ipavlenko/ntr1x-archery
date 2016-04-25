@@ -2,7 +2,10 @@
     <div class="ge ge-shell">
         <div class="ge ge-head">
             <div class="ge ge-nav">
-                <shell-brand></shell-brand>
+                <shell-brand
+                    :model.sync="model"
+                    :globals.sync="globals"
+                ></shell-brand>
             </div>
             <div class="ge ge-subnav">
             </div>
@@ -11,23 +14,36 @@
             <div class="ge ge-editor">
                 <shell-actions
                     :model.sync="model"
-                    :category.sync="selection.category"
-                    :domain.sync="selection.domain"
-                    :page.sync="selection.page">
-                </shell-actions>
+                    :globals.sync="globals"
+                ></shell-actions>
             </div>
         </div>
         <div class="ge ge-body">
             <div class="ge ge-nav" v-scrollable>
-                <shell-categories :categories.sync="settings.categories" :selection.sync="selection.category"></shell-categories>
+                <shell-categories
+                    :categories.sync="settings.categories"
+                    :globals.sync="globals"
+                ></shell-categories>
             </div>
             <div class="ge ge-subnav" v-scrollable>
-                <shell-palette :category.sync="selection.category"></shell-palette>
+                <shell-palette
+                    :category.sync="selection.category"
+                    :globals.sync="globals"
+                ></shell-palette>
             </div>
             <div class="ge ge-structure" v-scrollable>
-                <shell-domains :domains.sync="model.domains" :selection.sync="selection.domain"></shell-domains>
-                <shell-pages :pages.sync="model.pages" :selection.sync="selection.page"></shell-pages>
-                <shell-sources :sources.sync="selection.page.sources" :selection.sync="selection.source"></shell-sources>
+                <shell-domains
+                    :domains.sync="model.domains"
+                    :globals.sync="globals"
+                ></shell-domains>
+                <shell-pages
+                    :pages.sync="model.pages"
+                    :globals.sync="globals"
+                ></shell-pages>
+                <shell-sources
+                    :sources.sync="selection.page.sources"
+                    :globals.sync="globals"
+                ></shell-sources>
             </div>
             <div class="ge ge-editor" v-scrollable>
                 <div class="ge ge-container">

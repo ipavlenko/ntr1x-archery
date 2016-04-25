@@ -4,12 +4,12 @@
         template: '#shell-categories',
         props: {
             categories: Array,
-            selection: Object,
+            globals: Object,
         },
         methods: {
-            selectCategory: function(category) {
-                this.selection = category;
-            }
+            trigger: function(event, item, context) {
+                this.$dispatch(event, { item: item, context: context });
+            },
         }
     });
 

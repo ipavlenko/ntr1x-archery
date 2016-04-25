@@ -7,6 +7,15 @@
             settings: Object,
             model: Object,
         },
+        data: function() {
+            return {
+                globals: {
+                    selection: this.selection,
+                    settings: this.settings,
+                    model: this.model,
+                },
+            };
+        },
         ready: function() {
 
             // TODO Тут игнорируется тот факт, что запись может быть с _action: removed
@@ -42,14 +51,24 @@
             }
         },
         events: {
-            selectDomain: function(domain) {
-                this.selection.domain = domain;
+            pull: function(data) {
+                // this.selection.category = data.item;
+                console.log('pull');
             },
-            selectPage: function(page) {
-                this.selection.page = page;
+            push: function(data) {
+                console.log('push');
             },
-            selectSource: function(source) {
-                this.selection.source = source;
+            selectCategory: function(data) {
+                this.selection.category = data.item;
+            },
+            selectDomain: function(data) {
+                this.selection.domain = data.item;
+            },
+            selectPage: function(data) {
+                this.selection.page = data.item;
+            },
+            selectSource: function(data) {
+                this.selection.source = data.item;
             },
         }
     });

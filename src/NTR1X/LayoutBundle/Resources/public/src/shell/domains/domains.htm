@@ -9,7 +9,7 @@
                 </span>
             </h5>
             <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == selection }">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
                     <a href="#" @click="trigger('selectDomain', item)">
                         <span>{{ item.name }}</span>
                         <span class="ge ge-overlays">

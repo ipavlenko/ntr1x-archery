@@ -1,11 +1,11 @@
 <template id="shell-actions">
     <section class="ge ge-actions">
         <div class="pull-left">
-            <button type="button" class="btn btn-default">
+            <button type="button" class="btn btn-default" @click="trigger('push')">
                 <span class="glyphicon glyphicon-cloud-upload"></span>
                 <span>Store Changes</span>
             </button>
-            <button type="button" class="btn btn-default">
+            <button type="button" class="btn btn-default" @click="trigger('pull')">
                 <span class="glyphicon glyphicon-cloud-download"></span>
                 <span>Discard Changes</span>
             </button>

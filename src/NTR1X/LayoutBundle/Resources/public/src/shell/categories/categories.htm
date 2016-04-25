@@ -5,7 +5,7 @@
                 <span>{{ category.title }}</span>
             </h5>
             <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in category.categories" :class="{ 'active': item == selected }"><a href="#" @click="selectCategory(item)">{{ item.title }}</a></li>
+                <li v-for="item in category.categories" :class="{ 'active': item == globals.selection.category }"><a href="#" @click="trigger('selectCategory', item)">{{ item.title }}</a></li>
             </ul>
         </div>
     </section>
