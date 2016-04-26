@@ -118,7 +118,6 @@ class DefaultController extends Controller {
             ],
         ];
 
-        // replace this example code with whatever you need
         return $this->render('page-media.html.twig', $view);
     }
 
