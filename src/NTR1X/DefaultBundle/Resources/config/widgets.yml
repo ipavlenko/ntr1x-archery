@@ -205,9 +205,65 @@ Sitemap:
     thumbnail: 'sitemap/sitemap.png'
     image: [ ]
     styles: [ ]
-    scripts: [ ]
-    templates: [ ]
+    scripts: [ 'sitemap/sitemap.js' ]
+    templates: [ 'sitemap/sitemap.htm' ]
     categories: [ composite.all, sitemap.footer ]
+
+
+#Sitemap2:
+#    title: 'Sitemap2'
+#    tag: default-sitemap2
+#    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+#    thumbnail: 'sitemap/sitemap.png'
+#    image: [ ]
+#    styles: [ ]
+#    scripts: [ ]
+#    templates: [ ]
+#    categories: [ composite.all, sitemap.footer ]
+#    props:
+#        -
+#            name: items
+#            type: multiple
+#            display: '{{ params.title }}'
+#            title: Menu Items
+#            tab: data
+#            tabs:
+#                -
+#                    name: data
+#                    title: Data
+#            props:
+#                -
+#                    name: title
+#                    title: Title
+#                    type: string
+#                    tab: data
+#                -
+#                    name: url
+#                    title: URL
+#                    type: string
+#                    tab: data
+#                -
+#                    name: items
+#                    type: multiple
+#                    display: '{{ params.title }}'
+#                    title: Menu Items
+#                    tab: data
+#                    tabs:
+#                        -
+#                            name: data
+#                            title: Data
+#                    props:
+#                        -
+#                            name: title
+#                            title: Title
+#                            type: string
+#                            tab: data
+#                        -
+#                            name: url
+#                            title: URL
+#                            type: string
+#                            tab: data
+
 
 2ColumnsLayout:
     title: '2 Columns'

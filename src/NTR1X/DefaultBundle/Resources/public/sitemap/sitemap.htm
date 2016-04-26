@@ -1,0 +1,20 @@
+<template id="default-sitemap">
+    <h5>Source</h5>
+    <section data-role="widget" style="
+        background: {{ params.outerBackground.value }}
+    ">
+        <ul>
+            <li v-for="item in fetchData.children">
+                <a href="{{ item.desc.data.URL }}">{{ item.desc.data.TITLE }}</a>
+
+                <ul>
+                    <li v-for="item in item.children">
+                        <a href="{{ item.desc.data.URL }}">{{ item.desc.data.TITLE }}</a>
+                    </li>
+                </ul>
+
+            </li>
+        </ul>
+    </section>
+
+</template>
