@@ -1,0 +1,57 @@
+footer {
+    position: relative;
+    height: 300px; /*height: 100%;*/
+    width: 660px; /*width: 100%;*/
+    font-family: "Open Sans", sans-serif;
+    color: #fff;
+    background-color: rgba(51, 51, 51, 0.4);
+    background-color: #333;
+}
+footer .widget-content {
+    padding: 13px 23px;
+}
+footer .logo {
+    display: block;
+    float: left;
+    padding-top: 3px;
+}
+footer .copyright {
+    display: block;
+    float: left;
+    margin: 0 0 0 25px;
+}
+footer .contacts-block .phone-block {
+    margin-top: 1px;
+    display: block;
+    float: right;
+    margin-right: 20px;
+}
+footer .contacts-block .social-list {
+    display: block;
+    float: right;
+    vertical-align: top;
+    list-style: none;
+    padding: 0;
+    margin: 3px 0 0 -5px;
+}
+footer .contacts-block .social-list li {
+    display: block;
+    float: left;
+    margin-left: 5px;
+}
+footer .contacts-block .social-list li a {
+    display: inline-block;
+    padding: 3px 6px;
+    border: 1px solid #999;
+    font-size: 16px;
+    color: #fff;
+    -webkit-border-radius: 50%;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 50%;
+    -moz-background-clip: padding;
+    border-radius: 50%;
+    background-clip: padding-box;
+}
+footer .contacts-block .social-list li a:hover {
+    text-decoration: none;
+}
