@@ -81,14 +81,6 @@ BoxMixin:
             placeholder: '#FFFFFF'
             tab: appearance
 
-# Rich:
-#     title: 'Rich'
-#     size: { width: 6, height: 5 }
-#     mixins: [ WidgetMixin, BoxMixin, SourceMixin, ContentMixin ]
-#     styles: [ 'rich/rich.css' ]
-#     scripts: [ 'rich/rich.js' ]
-#     templates: [ 'rich/rich.htm' ]
-
 Header:
     title: 'Header'
     tag: default-header
@@ -209,62 +201,6 @@ Sitemap:
     templates: [ 'sitemap/sitemap.htm' ]
     categories: [ composite.all, sitemap.footer ]
 
-
-#Sitemap2:
-#    title: 'Sitemap2'
-#    tag: default-sitemap2
-#    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-#    thumbnail: 'sitemap/sitemap.png'
-#    image: [ ]
-#    styles: [ ]
-#    scripts: [ ]
-#    templates: [ ]
-#    categories: [ composite.all, sitemap.footer ]
-#    props:
-#        -
-#            name: items
-#            type: multiple
-#            display: '{{ params.title }}'
-#            title: Menu Items
-#            tab: data
-#            tabs:
-#                -
-#                    name: data
-#                    title: Data
-#            props:
-#                -
-#                    name: title
-#                    title: Title
-#                    type: string
-#                    tab: data
-#                -
-#                    name: url
-#                    title: URL
-#                    type: string
-#                    tab: data
-#                -
-#                    name: items
-#                    type: multiple
-#                    display: '{{ params.title }}'
-#                    title: Menu Items
-#                    tab: data
-#                    tabs:
-#                        -
-#                            name: data
-#                            title: Data
-#                    props:
-#                        -
-#                            name: title
-#                            title: Title
-#                            type: string
-#                            tab: data
-#                        -
-#                            name: url
-#                            title: URL
-#                            type: string
-#                            tab: data
-
-
 2ColumnsLayout:
     title: '2 Columns'
     tag: default-2columns
@@ -276,53 +212,60 @@ Sitemap:
     templates: [ ]
     categories: [ layout.all, layout.column ]
 
-# Table:
-#     title: 'Table'
-#     size: { width: 12, height: 5 }
-#     mixins: [ WidgetMixin, CollectionMixin, BoxMixin, SourceMixin ]
-#     styles: [ 'table/table.css' ]
-#     scripts: [ 'table/table.js' ]
-#     templates: [ 'table/table.htm' ]
-#     props:
-#         -
-#             name: columns
-#             type: multiple
-#             display: '{{ params.title }}'
-#             title: Columns
-#             tab: data
-#             tabs:
-#                 -
-#                     name: data
-#                     title: Data
-#                 -
-#                     name: appearance
-#                     title: Appearance
-#                 -
-#                     name: content
-#                     title: Content
-#             props:
-#                 -
-#                     name: title
-#                     title: Title
-#                     type: string
-#                     tab: content
-#                 -
-#                     name: width
-#                     title: Width
-#                     type: string
-#                     tab: appearance
-#                 -
-#                     name: type
-#                     title: Type
-#                     type: string
-#                     tab: data
-#                 -
-#                     name: url
-#                     title: URL
-#                     type: string
-#                     tab: data
-#                 -
-#                     name: value
-#                     title: Value
-#                     type: string
-#                     tab: data
+Table:
+    title: 'Table'
+    tag: default-table
+    size: { width: 12, height: 5 }
+    mixins: [ WidgetMixin, CollectionMixin, BoxMixin, SourceMixin ]
+    thumbnail: 'table/table.png'
+    styles: [ 'table/table.css' ]
+    scripts: [ 'table/table.js' ]
+    templates: [ 'table/table.htm' ]
+    props:
+       -
+           name: jsonpath
+           title: Json Path
+           type: string
+           tab: data
+       -
+           name: columns
+           type: multiple
+           display: '{{ params.title }}'
+           title: Columns
+           tab: data
+           tabs:
+               -
+                   name: data
+                   title: Data
+               -
+                   name: appearance
+                   title: Appearance
+               -
+                   name: content
+                   title: Content
+           props:
+               -
+                   name: title
+                   title: Title
+                   type: string
+                   tab: content
+               -
+                   name: width
+                   title: Width
+                   type: string
+                   tab: appearance
+               -
+                   name: type
+                   title: Type
+                   type: string
+                   tab: data
+               -
+                   name: url
+                   title: URL
+                   type: string
+                   tab: data
+               -
+                   name: value
+                   title: Value
+                   type: string
+                   tab: data

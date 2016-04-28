@@ -1,0 +1,20 @@
+<template id="default-table">
+    <table>
+        <thead>
+        <tr>
+            <th v-for="item in params.columns.value">
+                {{ item.title.value }}
+            </th>
+        </tr>
+        </thead>
+        <tbody v-for="item in fetchData | jsonPath params.jsonpath.value">
+
+        <tr>
+            <td> {{ $index+1 }}</td>
+            <td v-for="param in params.columns.value">
+                {{ item | jsonPath param.value.value }}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</template>
