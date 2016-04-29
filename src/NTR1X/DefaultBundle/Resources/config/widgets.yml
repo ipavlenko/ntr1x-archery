@@ -199,7 +199,7 @@ Sitemap:
     styles: [ ]
     scripts: [ 'sitemap/sitemap.js' ]
     templates: [ 'sitemap/sitemap.htm' ]
-    categories: [ composite.all, sitemap.footer ]
+    categories: [ composite.all]
 
 2ColumnsLayout:
     title: '2 Columns'
@@ -221,6 +221,7 @@ Table:
     styles: [ 'table/table.css' ]
     scripts: [ 'table/table.js' ]
     templates: [ 'table/table.htm' ]
+    categories: [ composite.all]
     props:
        -
            name: jsonpath
@@ -279,6 +280,7 @@ Gallery:
     styles: [ 'gallery/gallery.css' ]
     scripts: [ 'gallery/gallery.js' ]
     templates: [ 'gallery/gallery.htm' ]
+    categories: [ composite.all]
     props:
        -
            name: jsonpath
@@ -305,3 +307,13 @@ Gallery:
            title: Item Description
            type: string
            tab: data
+
+Slider:
+    title: 'Slider'
+    tag: default-slider
+    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    thumbnail: 'slider/slider.png'
+    styles: [ 'slider/slider.css' ]
+    scripts: [ 'slider/slider.js' ]
+    templates: [ 'slider/slider.htm' ]
+    categories: [ composite.all]
