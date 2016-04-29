@@ -269,3 +269,39 @@ Table:
                    title: Value
                    type: string
                    tab: data
+
+Gallery:
+    title: 'Gallery'
+    tag: default-gallery
+    size: { width: 12, height: 5 }
+    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    thumbnail: 'gallery/gallery.png'
+    styles: [ 'gallery/gallery.css' ]
+    scripts: [ 'gallery/gallery.js' ]
+    templates: [ 'gallery/gallery.htm' ]
+    props:
+       -
+           name: jsonpath
+           title: Json Path
+           type: string
+           tab: data
+       -
+           name: itemUrl
+           title: Item URL
+           type: string
+           tab: data
+       -
+           name: itemImageUrl
+           title: Item Image URL
+           type: string
+           tab: data
+       -
+           name: itemTitle
+           title: Item Title
+           type: string
+           tab: data
+       -
+           name: itemDescription
+           title: Item Description
+           type: string
+           tab: data
