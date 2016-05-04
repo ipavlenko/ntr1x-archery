@@ -1,25 +1,9 @@
 <template id="default-slider">
-
-
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-        </ol>
-
-        <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
-
-            <!-- set active only for first -->
-            <div v-for="item in fetchData" class="item active">
-                <img src="{{ params.source.value }}/i/{{ item.id }}/thumbnail" alt="...">
-                <div class="carousel-caption">
-                    ...
-                </div>
+            <div v-for="item in fetchData" class="item {{ $index == 0 ? 'active' : ''}}">
+                <img src="{{ params.source.value }}/i/{{ item.id }}/thumbnail">
             </div>
-
         </div>
 
         <!-- Controls -->
@@ -32,6 +16,4 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-
-
 </template>
