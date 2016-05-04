@@ -56,6 +56,32 @@ gulp.task('templates-layout', function() {
         .pipe(gulp.dest('src/NTR1X/LayoutBundle/Resources/public/dist/'));
 })
 
+gulp.task('scripts-default', function() {
+    gulp.src(['src/NTR1X/DefaultBundle/Resources/public/src/**/*.js'])
+        .pipe(sourcemaps.init())
+        // .pipe(browserify())
+        .pipe(concat('scripts.js'))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('src/NTR1X/DefaultBundle/Resources/public/dist/'))
+})
+
+gulp.task('styles-default', function() {
+    gulp.src(['src/NTR1X/DefaultBundle/Resources/public/src/**/*.css'])
+        .pipe(sourcemaps.init())
+        .pipe(cleancss())
+        .pipe(concat('styles.css'))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('src/NTR1X/DefaultBundle/Resources/public/dist/'));
+})
+
+gulp.task('templates-default', function() {
+    gulp.src(['src/NTR1X/DefaultBundle/Resources/public/src/**/*.htm'])
+        .pipe(sourcemaps.init())
+        .pipe(concat('templates.htm'))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('src/NTR1X/DefaultBundle/Resources/public/dist/'));
+})
+
 gulp.task('default', function() {
 
     gulp.run('scripts-controls');
@@ -64,6 +90,9 @@ gulp.task('default', function() {
     gulp.run('scripts-layout');
     gulp.run('styles-layout');
     gulp.run('templates-layout');
+    gulp.run('scripts-default');
+    gulp.run('styles-default');
+    gulp.run('templates-default');
 })
 
 gulp.task('watch', function() {
@@ -92,5 +121,17 @@ gulp.task('watch', function() {
 
     gulp.watch('src/NTR1X/LayoutBundle/Resources/public/src/**/*.htm', function(event) {
         gulp.run('templates-layout');
+    })
+
+    gulp.watch('src/NTR1X/DefaultBundle/Resources/public/src/**/*.js', function(event) {
+        gulp.run('scripts-default');
+    })
+
+    gulp.watch('src/NTR1X/DefaultBundle/Resources/public/src/**/*.css', function(event) {
+        gulp.run('styles-default');
+    })
+
+    gulp.watch('src/NTR1X/DefaultBundle/Resources/public/src/**/*.htm', function(event) {
+        gulp.run('templates-default');
     })
 })

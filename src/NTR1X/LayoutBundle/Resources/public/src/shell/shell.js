@@ -58,6 +58,9 @@
             push: function(data) {
                 console.log('push');
             },
+            tree: function(data) {
+                console.log(this);
+            },
             selectCategory: function(data) {
                 this.selection.category = data.item;
             },

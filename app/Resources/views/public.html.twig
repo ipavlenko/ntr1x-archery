@@ -14,10 +14,6 @@
             <link href="{{ asset('assets/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}" rel="stylesheet" />
             <link href="{{ asset('assets/vendor/perfect-scrollbar/css/perfect-scrollbar.min.css') }}" rel="stylesheet" />
 
-            {% for style in widget.styles %}
-                <link href="{{ asset(style.assetPath) }}" rel="stylesheet" />
-            {% endfor %}
-
             {% for style in layout.styles %}
                 <link href="{{ asset(style.assetPath) }}" rel="stylesheet" />
             {% endfor %}
@@ -31,12 +27,8 @@
             <script src="{{ asset('assets/vendor/vue/dist/vue.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/vue-router/dist/vue-router.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-            <script src="{{ asset('assets/vendor/perfect-scrollbar/js/min/perfect-scrollbar.jquery.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/jsonpath-plus/lib/jsonpath.js') }}"></script>
-
-            {% for script in widget.scripts %}
-                <script src="{{ asset(script.assetPath) }}"></script>
-            {% endfor %}
 
             {% for script in layout.scripts %}
                 <script src="{{ asset(script.assetPath) }}"></script>
@@ -69,12 +61,6 @@
         {% endraw %}
 
         {% block templates %}
-
-            {% for template in widget.templates %}
-                {{ render(controller('NTR1XLayoutBundle:Layout:asset', {
-                    asset: template,
-                })) }}
-            {% endfor %}
 
             {% for template in layout.templates %}
                 {{ render(controller('NTR1XLayoutBundle:Layout:asset', {

@@ -1,0 +1,9 @@
+.wg.wg-default-sitemap {
+  position: relative;
+  width: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+}
+.wg.wg-default-sitemap .wg.wg-content {
+  box-sizing: border-box;
+}

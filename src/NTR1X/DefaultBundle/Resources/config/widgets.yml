@@ -83,30 +83,31 @@ BoxMixin:
 
 # Rich:
 #     title: 'Rich'
-#     size: { width: 6, height: 5 }
+#     tag: default-rich
 #     mixins: [ WidgetMixin, BoxMixin, SourceMixin, ContentMixin ]
 #     styles: [ 'rich/rich.css' ]
 #     scripts: [ 'rich/rich.js' ]
 #     templates: [ 'rich/rich.htm' ]
 
+Placeholder:
+    title: 'Placeholder'
+    tag: default-placeholder
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/placeholder/placeholder.png'
+    categories: [ composite.all, composite.header ]
+
 Header:
     title: 'Header'
+    tag: default-header
     mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-    thumbnail: 'header/header.png'
-    styles: [ ]
-    scripts: [ ]
-    templates: [ ]
+    thumbnail: 'src/header/header.png'
     categories: [ composite.all, composite.header ]
 
 Menu:
     title: 'Menu'
     tag: default-menu
-    size: { width: 12, height: 1 }
     mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-    thumbnail: 'menu/menu.png'
-    styles: [ 'menu/menu.css' ]
-    scripts: [ 'menu/menu.js' ]
-    templates: [ 'menu/menu.htm' ]
+    thumbnail: 'src/menu/menu.png'
     categories: [ composite.all, composite.header ]
     props:
         -
@@ -133,37 +134,26 @@ Menu:
 
 Footer:
     title: 'Footer'
+    tag: default-footer
     mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-    thumbnail: 'footer/footer.png'
-    image: [ ]
-    styles: [ ]
-    scripts: [ ]
-    templates: [ ]
+    thumbnail: 'src/footer/footer.png'
     categories: [ composite.all, composite.footer ]
 
 Sitemap:
     title: 'Sitemap'
+    tag: default-sitemap
     mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-    thumbnail: 'sitemap/sitemap.png'
-    image: [ ]
-    styles: [ ]
-    scripts: [ ]
-    templates: [ ]
+    thumbnail: 'src/sitemap/sitemap.png'
     categories: [ composite.all, sitemap.footer ]
 
-2ColumnsLayout:
-    title: '2 Columns'
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-    thumbnail: 'columns/columns-2.png'
-    image: [ ]
-    styles: [ ]
-    scripts: [ ]
-    templates: [ ]
-    categories: [ layout.all, layout.column ]
+# 2ColumnsLayout:
+#     title: '2 Columns'
+#     mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+#     thumbnail: 'src/columns/columns-2.png'
+#     categories: [ layout.all, layout.column ]
 
 # Table:
 #     title: 'Table'
-#     size: { width: 12, height: 5 }
 #     mixins: [ WidgetMixin, CollectionMixin, BoxMixin, SourceMixin ]
 #     styles: [ 'table/table.css' ]
 #     scripts: [ 'table/table.js' ]

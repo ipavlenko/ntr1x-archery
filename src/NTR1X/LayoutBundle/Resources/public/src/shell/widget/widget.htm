@@ -1,5 +1,17 @@
 <template id="shell-widget">
     <div class="ge ge-widget">
-        <slot></slot>
+        <div class="ge ge-content">
+            <div
+                :is="widget.tag"
+                :page.sync="page"
+                :bindings.sync="bindings"
+            ></div>
+        </div>
+        <div class="ge ge-overlay">
+            <div class="ge ge-settings">
+                <a href="#" @click.stop.prevent="removeWidget()">Remove</a>
+                <a href="#" @click.stop.prevent="showSettings()">Settings</a>
+            </div>
+        </div>
     </div>
 </template>

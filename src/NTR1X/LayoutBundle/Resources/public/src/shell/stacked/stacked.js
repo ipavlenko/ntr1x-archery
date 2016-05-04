@@ -18,6 +18,8 @@
 
                     receive: function(event, ui) {
 
+                        console.log($(this.draggable).data('widget'));
+
                         // TODO Create widget and place it here
                         var el =
                         $('<div>').css({

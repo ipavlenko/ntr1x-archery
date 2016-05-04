@@ -12,6 +12,7 @@ class Widget {
     private $provider;
     private $id;
     private $name;
+    private $tag;
     private $title;
     private $thumbnail;
 
@@ -29,6 +30,7 @@ class Widget {
 
         $this->id = $this->provider->getBundle() . '/' . $this->name;
 
+        $this->tag = $config['tag'];
         $this->title = $config['title'];
 
         $this->thumbnail = new WidgetAsset($this, $config['thumbnail']);
@@ -78,6 +80,10 @@ class Widget {
 
     public function getName() {
         return $this->name;
+    }
+
+    public function getTag() {
+        return $this->tag;
     }
 
     public function getTitle() {
