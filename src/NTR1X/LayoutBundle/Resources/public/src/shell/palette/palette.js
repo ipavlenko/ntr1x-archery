@@ -13,11 +13,21 @@
             }
         },
         ready: function() {
-            $(this.$el).draggable({
-                connectToSortable: ".ge.ge-stacked",
-                helper: "clone",
-                revert: "invalid"
+            console.log(this.$el);
+            Sortable.create(this.$el, {
+                group: {
+                    name: 'widgets',
+                    pull: 'clone',
+                    put: false
+                },
+                animation: 150,
+                sort: false
             });
+            // $(this.$el).draggable({
+            //     connectToSortable: ".ge.ge-stacked",
+            //     helper: "clone",
+            //     revert: "invalid"
+            // });
         }
     });
 
