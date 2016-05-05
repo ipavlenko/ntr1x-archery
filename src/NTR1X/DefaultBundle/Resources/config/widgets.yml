@@ -341,3 +341,67 @@ Rich:
             type: string
             placeholder: ''
             tab: content
+
+Form:
+    title: 'Form'
+    tag: default-form
+    size: { width: 12, height: 5 }
+    mixins: [ WidgetMixin, CollectionMixin, BoxMixin, SourceMixin ]
+    thumbnail: 'form/form.png'
+    styles: [ 'form/form.css' ]
+    scripts: [ 'form/form.js' ]
+    templates: [ 'form/form.htm' ]
+    categories: [ composite.all]
+    props:
+       -
+          name: action
+          title: Action
+          type: source
+          tab: data
+       -
+           name: jsonpath
+           title: Json Path
+           type: string
+           tab: data
+       -
+           name: columns
+           type: multiple
+           display: '{{ params.title }}'
+           title: Columns
+           tab: data
+           tabs:
+               -
+                   name: data
+                   title: Data
+               -
+                   name: appearance
+                   title: Appearance
+               -
+                   name: content
+                   title: Content
+           props:
+               -
+                   name: title
+                   title: Title
+                   type: string
+                   tab: content
+               -
+                   name: width
+                   title: Width
+                   type: string
+                   tab: appearance
+               -
+                   name: type
+                   title: Type
+                   type: string
+                   tab: data
+               -
+                   name: url
+                   title: URL
+                   type: string
+                   tab: data
+               -
+                   name: value
+                   title: Value
+                   type: string
+                   tab: data
