@@ -41,20 +41,24 @@
 
                 onAdd: function (evt) {
 
-                    $(evt.item).remove();
+                    var palette = $(evt.item).closest('.ge.ge-palette');
+                    console.log(palette);
+                    if (!palette.length) {
+                        $(evt.item).remove();
 
-                    var i = find(self.items, evt.newIndex);
+                        var i = find(self.items, evt.newIndex);
 
-                    self.items.splice(i.index, 0, {
-                        type: $(evt.item).data('widget'),
-                        resource: {
-                            params: [],
-                            _action: 'create'
-                        },
-                        _action: 'create',
-                    });
+                        self.items.splice(i.index, 0, {
+                            type: $(evt.item).data('widget'),
+                            resource: {
+                                params: [],
+                                _action: 'create'
+                            },
+                            _action: 'create',
+                        });
 
-                    self.items = $.extend(true, [], self.items);
+                        self.items = $.extend(true, [], self.items);
+                    }
                 },
 
                 onEnd: function (evt) {
