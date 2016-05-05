@@ -13,6 +13,7 @@
                     selection: this.selection,
                     settings: this.settings,
                     model: this.model,
+                    data: this.data,
                 },
             };
         },
@@ -39,8 +40,7 @@
 
             if (!this.selection.page) {
                 if (this.model.pages.length > 0) {
-                    this.selection.page = this.model.pages[0];
-                    this.selection.source = null;
+                    this.selectPage(this.model.pages[0]);
                 }
             }
 
@@ -48,6 +48,33 @@
                 if (this.selection.page && this.selection.page.sources.length > 0) {
                     this.selection.source = this.selection.page.sources[0];
                 }
+            }
+        },
+        methods: {
+            selectPage: function(page) {
+
+                this.selection.page = page;
+                this.selection.source = null;
+
+                var data = {};
+
+                // TODO Сделать запросы
+
+                if (page && page.sources) {
+                    for (var i = 0; i < page.sources.length; i++) {
+                        var s = page.sources[i];
+                        data[s.name] = [
+                            { one: 11, two: 12 },
+                            { one: 21, two: 22 },
+                            { one: 31, two: 32 },
+                            { one: 41, two: 42 },
+                        ];
+                    }
+                }
+
+                this.globals.data = data;
+
+                console.log(this.globals.data);
             }
         },
         events: {
@@ -68,7 +95,7 @@
                 this.selection.domain = data.item;
             },
             selectPage: function(data) {
-                this.selection.page = data.item;
+                this.selectPage(data.item);
             },
             selectSource: function(data) {
                 this.selection.source = data.item;

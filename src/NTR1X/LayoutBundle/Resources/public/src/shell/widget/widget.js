@@ -8,6 +8,7 @@ Shell = window.Shell || {};
         props: {
             globals: Object,
             settings: Object,
+            page: Object,
             stack: Object,
             data: Object,
         },

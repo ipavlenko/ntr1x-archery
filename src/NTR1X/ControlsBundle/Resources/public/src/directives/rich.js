@@ -26,15 +26,22 @@ Vue.directive('rich', {
 					//{name: 'about'}
 				]
 			});
+
+            this.editor.on('change', function() {
+                this.editor.updateElement();
+                this.vm.$set(this.expression, $(this.el).val());
+            }.bind(this));
 		}
 	},
 
 	update: function (newValue, oldValue) {
-        // console.log('update', newValue, oldValue);
+        console.log('update', newValue, oldValue);
 	},
 
 	unbind: function () {
         // console.log('unbind', this.editor);
+        this.textarea = null;
+        this.input = null;
         this.editor.destroy();
 	}
 });

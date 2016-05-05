@@ -1,5 +1,25 @@
 (function($,Vue, undefined) {
 
+    function find(items, domIndex) {
+
+        var index = 0;
+        var item = null;
+
+        for (var i = 0; i < items.length && index < domIndex; i++) {
+
+            item = items[i];
+
+            if (item._action != 'remove') {
+                index++;
+            }
+        }
+
+        return {
+            item: item,
+            index: index,
+        };
+    }
+
     Vue.component('shell-stacked', {
 
         template: '#shell-stacked',
@@ -21,23 +41,11 @@
 
                 onAdd: function (evt) {
 
-                    console.log('add', evt);
-
                     $(evt.item).remove();
 
-                    var index = 0;
-                    var item = null;
+                    var i = find(self.items, evt.newIndex);
 
-                    for (var i = 0; i < self.items.length && index < evt.newIndex; i++) {
-
-                        item = self.items[i];
-
-                        if (item._action != 'remove') {
-                            index++;
-                        }
-                    }
-
-                    self.items.splice(index, 0, {
+                    self.items.splice(i.index, 0, {
                         type: $(evt.item).data('widget'),
                         resource: {
                             params: [],
@@ -46,16 +54,24 @@
                         _action: 'create',
                     });
 
-                    // console.log(evt, self.items);
                     self.items = $.extend(true, [], self.items);
                 },
 
                 onEnd: function (evt) {
-                    // $(evt.item).remove();
+
+                    $(evt.item).remove();
+
                     if  (evt.newIndex != evt.oldIndex) {
-                        console.log('end', evt);
+
                         evt.preventDefault();
+
+                        var oi = find(self.items, evt.oldIndex);
+                        var ni = find(self.items, evt.newIndex);
+
+                        self.items.splice(ni.index, 0, self.items.splice(oi.index, 1)[0]);
                     }
+
+                    self.items = $.extend(true, [], self.items);
                 }
             });
         },

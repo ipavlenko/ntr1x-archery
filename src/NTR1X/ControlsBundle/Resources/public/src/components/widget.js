@@ -6,6 +6,8 @@ Core = window.Core || {};
 
         props: {
             page: Object,
+            data: Object,
+            stack: Object,
             bindings: Object,
         },
 

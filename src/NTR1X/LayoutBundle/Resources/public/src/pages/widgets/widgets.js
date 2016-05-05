@@ -28,7 +28,10 @@
             for (var i = 0; i < this.context.widget.props.length; i++) {
 
                 var prop = this.context.widget.props[i];
-                var param = this.current.params[prop.name] = this.current.params[prop.name] || {};
+                var param = this.current.params[prop.name] = this.current.params[prop.name] || {
+                    value: null,
+                    binding: null
+                };
 
                 param._action = param._action == 'update'
                     ? 'update'

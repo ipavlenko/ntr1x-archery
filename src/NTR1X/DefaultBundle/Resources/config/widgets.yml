@@ -53,7 +53,7 @@ BoxMixin:
         -
             name: padding
             title: 'Padding'
-            type: 'string'
+            type: 'rich'
             placeholder: '0px 0px'
             tab: appearance
         -
