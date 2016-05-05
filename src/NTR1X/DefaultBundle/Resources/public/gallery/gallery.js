@@ -24,9 +24,13 @@ Core = window.Core || {};
         }
     };
 
+    // will be removed, when implementation will be common
+    // https://vuejs.org/guide/components.html#Dynamic-Components
     Vue.component('default-gallery', {
         template: '#default-gallery',
         mixins: [ Core.WidgetMixin ]
     });
+
+
 
 })(jQuery, Vue, Core);

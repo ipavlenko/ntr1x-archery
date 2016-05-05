@@ -1,3 +1,13 @@
+#available types
+#string
+#source
+#rich
+#multiple
+#multiple-list
+#multiple-editor
+#multiple-dialog
+#list
+
 WidgetMixin:
     tabs:
         -
@@ -94,7 +104,7 @@ Header:
         -
             name: phone
             title: 'Phone'
-            type: 'string'
+            type: 'rich'
             placeholder: '8 800 555 35 35'
             tab: content
         -

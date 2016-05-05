@@ -2,8 +2,6 @@ Core = window.Core || {};
 
 (function($, Vue, Core) {
 
-    //"use strict";
-
     Core.WidgetMixin = {
         props: {
             data: Object,
@@ -17,9 +15,13 @@ Core = window.Core || {};
         ready: function() {
 
             var self = this;
-            $.get(this.params.source.value, function( data ) {
+
+            $.when( $.ajax( this.params.source.value ) ).then(function( data, textStatus, jqXHR ) {
+                console.log(data);
+
                 self.fetchData = data;
             });
+
         }
     };
 

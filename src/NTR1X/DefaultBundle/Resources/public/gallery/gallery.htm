@@ -1,26 +1,15 @@
 <template id="default-gallery">
-123
-
-<!--
-<pre>
-    {{ params | json 4 }}
-    {{ fetchData | json 4 }}
-</pre>
--->
-
-
 
     <section class="gallery-base">
-    <ul class="grade-list clearfix">
-        <li v-for="item in fetchData" class="grade-element">
+        <ul class="grade-list clearfix">
+            <li v-for="item in fetchData" class="grade-element">
                 <a href="{{item | jsonPath params.itemUrl.value }}">
                     <img  src="{{params.source.value}}/{{item | jsonPath params.itemImageUrl.value }}" />
                     <span class="title">{{item | jsonPath params.itemTitle.value }}</span>
                 </a>
                 <span class="description">{{item | jsonPath params.itemDescription.value }}</span>
-
-        </li>
-    </ul>
+            </li>
+        </ul>
     </section>
 
 </template>

@@ -1,15 +1,17 @@
 <template id="default-header">
+
     <header style="{{ params.fill.value }}">
-    <div class="widget-content">
-        <div class="info-block">
-            <a class="logo" href="/" title="Moscow Academy"><img src="{{ params.logo.value }}" alt="Logo"/></a>
-            <div class="phone-block">
-                {{ params.phone.value }}
+        <div class="widget-content">
+            <div class="info-block">
+                <a class="logo" href="/" title="Moscow Academy"><img src="{{ params.logo.value }}" alt="Logo"/></a>
+                <div class="phone-block">
+                    {{ params.phone.value }}
+                </div>
             </div>
+            <ul class="partners-block clearfix" v-for="item in fetchData">
+                <li><a href="{{ item.data.URL }}" target="_blank"><img src="{{ params.source.value }}/i/{{ item.id }}/thumbnail" alt="{{ item.data.TITLE }}"/></a></li>
+            </ul>
         </div>
-        <ul class="partners-block clearfix" v-for="item in fetchData">
-            <li><a href="{{ item.data.URL }}" target="_blank"><img src="{{ params.source.value }}/i/{{ item.id }}/thumbnail" alt="{{ item.data.TITLE }}"/></a></li>
-        </ul>
-    </div>
     </header>
+
 </template>
