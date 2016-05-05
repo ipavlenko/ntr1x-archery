@@ -1,5 +1,8 @@
-(function($,Vue, undefined) {
+Shell = window.Shell || {};
 
+(function($, Vue, Shell, undefined) {
+
+    Shell.Widget =
     Vue.component('shell-widget', {
         template: '#shell-widget',
         props: {
@@ -40,4 +43,4 @@
         }
     });
 
-})(jQuery, Vue);
+})(jQuery, Vue, Shell);

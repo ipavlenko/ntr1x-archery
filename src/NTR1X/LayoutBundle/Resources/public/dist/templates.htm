@@ -1196,129 +1196,12 @@
 <template id="shell-page">
 
     <div class="ge ge-page">
-        <shell-stacked>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-            <shell-widget v-for="data in page.widgets"
-                :globals.sync="globals"
-                :settings.sync="settings"
-                :page.sync="page"
-                :data.sync="data"
-            ></shell-widget>
-        </shell-stacked>
-
+        <shell-stacked
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :items.sync="page.widgets"
+        ></shell-stacked>
     </div>
 
 </template>
@@ -1349,8 +1232,8 @@
 </template>
 
 <template id="shell-palette-item">
-    <div class="ge ge-widget" data-widget="{{ widget.id }}">
-        <div>
+    <div class="ge ge-widget">
+        <div data-widget="{{ widget.id }}">
             <img :src="thumbnail" />
         </div>
     </div>
@@ -1387,15 +1270,20 @@
     </section>
 </template>
 
-<template id="shell-stacked">
-    <div class="ge ge-stacked">
-        <slot></slot>
-    </div>
-</template>
-
 <template id="shell-stub">
     <div class="ge ge-stub">
         <span>Stub</span>
+    </div>
+</template>
+
+<template id="shell-stacked">
+    <div class="ge ge-stacked">
+        <shell-widget v-for="item in items"
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :data.sync="item"
+        ></shell-widget>
     </div>
 </template>
 
