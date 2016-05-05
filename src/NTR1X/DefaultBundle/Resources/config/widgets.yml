@@ -3,9 +3,6 @@
 #source
 #rich
 #multiple
-#multiple-list
-#multiple-editor
-#multiple-dialog
 #list
 
 WidgetMixin:
@@ -327,3 +324,20 @@ Slider:
     scripts: [ 'slider/slider.js' ]
     templates: [ 'slider/slider.htm' ]
     categories: [ composite.all]
+
+Rich:
+    title: 'Rich'
+    tag: default-rich
+    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    thumbnail: 'rich/rich.png'
+    styles: [ 'rich/rich.css' ]
+    scripts: [ 'rich/rich.js' ]
+    templates: [ 'rich/rich.htm' ]
+    categories: [ composite.all]
+    props:
+        -
+            name: content
+            title: 'Content'
+            type: string
+            placeholder: ''
+            tab: content
