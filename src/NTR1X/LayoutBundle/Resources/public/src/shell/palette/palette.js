@@ -13,7 +13,6 @@
             }
         },
         ready: function() {
-            console.log(this.$el);
             Sortable.create(this.$el, {
                 group: {
                     name: 'widgets',

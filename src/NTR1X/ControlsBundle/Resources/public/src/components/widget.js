@@ -27,6 +27,12 @@ Core = window.Core || {};
             //     }
             // }
             // recur(this.params);
+        },
+
+        methods: {
+            trigger: function(event, item, context) {
+                this.$dispatch(event, { item: item, context: context });
+            },
         }
     };
 

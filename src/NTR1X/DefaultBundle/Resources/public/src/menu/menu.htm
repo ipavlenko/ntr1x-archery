@@ -1,14 +1,9 @@
 <template id="default-menu">
     <section class="wg wg-default-menu">
-        Menu
-        <div class="wg wg-content" style="
-            background: {{ params.outerBackground.value }}
-        ">
-            <ul>
-                <li v-for="item in params.items.value">
-                    <a href="{{ item.url.value }}">{{ item.title.value }}</a>
-                </li>
-            </ul>
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <span class="wg wg-cell">Menu</span>
+            </div>
         </div>
     </section>
 </template>

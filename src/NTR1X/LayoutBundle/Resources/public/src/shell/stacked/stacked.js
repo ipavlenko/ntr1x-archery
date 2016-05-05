@@ -18,15 +18,26 @@
                     name: 'widgets',
                 },
                 animation: 150,
+
                 onAdd: function (evt) {
 
-                    console.log($(evt.item));
+                    console.log('add', evt);
 
                     $(evt.item).remove();
 
-                    console.log(self.items);
+                    var index = 0;
+                    var item = null;
 
-                    self.items.splice(evt.newIndex, 0, {
+                    for (var i = 0; i < self.items.length && index < evt.newIndex; i++) {
+
+                        item = self.items[i];
+
+                        if (item._action != 'remove') {
+                            index++;
+                        }
+                    }
+
+                    self.items.splice(index, 0, {
                         type: $(evt.item).data('widget'),
                         resource: {
                             params: [],
@@ -35,71 +46,35 @@
                         _action: 'create',
                     });
 
-                    console.log(evt, self.items);
-
-                    // this.items = $.extend(true, [], items);
-                    // evt.preventDefault();
-                    // items.
-
-                    // .$mount().$appendTo($('body').get(0));
-                    //
-                    // var el = new
-
-                    // var widget = new Shell.Widget({
-                    //     data: {
-                    //         globals: this.globals,
-                    //         settings: this.settings,
-                    //         page: this.page,
-                    //         data: {
-                    //             type: $(evt.item).data('widget'),
-                    //             resource: {
-                    //                 params: [],
-                    //                 _action: 'create'
-                    //             },
-                    //             _action: 'create',
-                    //         },
-                    //     }
-                    // });
-                    //
-                    // var el =
-                    //     $('<div>').css({
-                    //         background: 'red',
-                    //         height: '100px'
-                    //     });
-                    //
-                    //     $(evt.item).replaceWith(el);
-
-                    // $(evt.item).
-                    // var itemEl = evt.item;  // dragged HTMLElement
-                    // evt.from;  // previous list
-                    // + indexes from onEnd
+                    // console.log(evt, self.items);
+                    self.items = $.extend(true, [], self.items);
                 },
+
+                onEnd: function (evt) {
+                    // $(evt.item).remove();
+                    if  (evt.newIndex != evt.oldIndex) {
+                        console.log('end', evt);
+                        evt.preventDefault();
+                    }
+                }
             });
-            // $(this.$el)
-            //     .sortable({
-            //         revert: 200,
-            //         connectWith: ".ge.ge-stacked",
-            //
-            //         beforeStop: function(event, ui) {
-            //             this.draggable = ui.item;
-            //         }.bind(this),
-            //
-            //         receive: function(event, ui) {
-            //
-            //             console.log($(this.draggable).data('widget'));
-            //
-            //             // TODO Create widget and place it here
-            //             var el =
-            //             $('<div>').css({
-            //                 background: 'red',
-            //                 height: '100px'
-            //             });
-            //
-            //             $(this.draggable).replaceWith(el);
-            //             this.draggable = null;
-            //         }.bind(this),
-            //     })
-            // ;
+        },
+        events: {
+
+            removeWidget: function(data) {
+
+                var index = this.items.indexOf(data.item);
+                if (index !== -1) {
+                    var item = this.items[index];
+                    if (item._action == 'create') {
+                        this.items.$remove(item);
+                    } else {
+                        item._action = 'remove';
+                    }
+                }
+
+                this.items = $.extend(true, [], this.items);
+            }
         }
     });
 

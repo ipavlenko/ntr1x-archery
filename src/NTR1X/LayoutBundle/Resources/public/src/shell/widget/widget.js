@@ -8,7 +8,7 @@ Shell = window.Shell || {};
         props: {
             globals: Object,
             settings: Object,
-            page: Object,
+            stack: Object,
             data: Object,
         },
         ready: function() {
@@ -38,7 +38,10 @@ Shell = window.Shell || {};
         },
         methods: {
             showSettings: function() {
-                console.log('settings');
+                this.$dispatch('showSettings', { item: this.data });
+            },
+            removeWidget: function() {
+                this.$dispatch('removeWidget', { item: this.data });
             }
         }
     });

@@ -4,10 +4,29 @@
 
     position: relative;
     width: 100%;
-    overflow: auto;
+    overflow: hidden;
     box-sizing: border-box;
 
     .wg.wg-content {
+
         box-sizing: border-box;
+        margin: 1px 1px;
+        border: 2px solid rgba(200, 73, 94, 0.5);
+        background: rgba(200, 73, 94, 0.3);
+
+        .wg.wg-table {
+            display: table;
+            width: 100%;
+            min-height: 150px;
+
+            .wg.wg-cell {
+
+                display: table-cell;
+                vertical-align: middle;
+                text-align: center;
+                color: rgba(200, 73, 94, 0.7);
+                font-weight: bold;
+            }
+        }
     }
 }
