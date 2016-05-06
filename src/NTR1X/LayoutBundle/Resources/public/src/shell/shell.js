@@ -73,8 +73,6 @@
                 }
 
                 this.globals.data = data;
-
-                console.log(this.globals.data);
             }
         },
         events: {

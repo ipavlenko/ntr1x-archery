@@ -9,7 +9,7 @@
             category: Object,
         },
         data: function() {
-            console.log(this.globals, this.settings, this.page, this.category);
+            // console.log(this.globals, this.settings, this.page, this.category);
             // return {
             //     page: this.globals.selection.page
             // }

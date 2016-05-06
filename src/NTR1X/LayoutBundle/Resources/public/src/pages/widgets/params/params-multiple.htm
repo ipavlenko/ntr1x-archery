@@ -1,6 +1,5 @@
 <template id="pages-widgets-params-multiple">
     <label for="{{ id }}">{{ item.prop.title }}</label>
-    <pre>{{ item.param | json 4}}</pre>
     <pages-widgets-params-multiple-editor
         :prop.sync="item.prop"
         :param.sync="item.param"

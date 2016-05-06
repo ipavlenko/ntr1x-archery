@@ -35,13 +35,13 @@ Vue.directive('rich', {
 	},
 
 	update: function (newValue, oldValue) {
-        console.log('update', newValue, oldValue);
+        // console.log('update', newValue, oldValue);
 	},
 
 	unbind: function () {
-        // console.log('unbind', this.editor);
+        this.editor.destroy();
+        this.editor = null;
         this.textarea = null;
         this.input = null;
-        this.editor.destroy();
 	}
 });

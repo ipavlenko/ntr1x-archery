@@ -1,4 +1,7 @@
-(function($,Vue, undefined) {
+Shell = window.Shell || {};
+Shell.Widgets = window.Shell.Widgets || {};
+
+(function($,Vue, Shell, undefined) {
 
     function find(items, domIndex) {
 
@@ -42,7 +45,7 @@
                 onAdd: function (evt) {
 
                     var palette = $(evt.item).closest('.ge.ge-palette');
-                    console.log(palette);
+
                     if (!palette.length) {
                         $(evt.item).remove();
 
@@ -54,6 +57,7 @@
                                 params: [],
                                 _action: 'create'
                             },
+                            params: {},
                             _action: 'create',
                         });
 
@@ -98,4 +102,4 @@
         }
     });
 
-})(jQuery, Vue);
+})(jQuery, Vue, Shell);

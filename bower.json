@@ -26,7 +26,6 @@
     "text": "requirejs-text#^2.0.14",
     "lodash": "^4.8.2",
     "jsonpath-plus": "*",
-    "perfect-scrollbar": "^0.6.10",
     "jquery-ui": "^1.11.4",
     "Sortable": "^1.4.2"
   }

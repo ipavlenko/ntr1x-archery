@@ -12,19 +12,19 @@
                         <span v-if="original">&nbsp;Редактирование виджета</span>
                         <span v-if="!original">Новый виджет</span>
                         <span>&gt;</span>
-                        <span v-for="tab in context.widget.tabs" v-if="isActive('tabs-' + tab.name)">{{ tab.title }}</span>
+                        <span v-for="tab in context.widget.tabs" v-if="isActive(tab.name)">{{ tab.title }}</span>
                     </h4>
                 </div>
                 <div class="modal-body" style="height: 500px;">
                     <div class="row">
                         <div class="col-xs-3">
                             <ul class="nav nav-pills nav-stacked">
-                                <li v-for="tab in context.widget.tabs" v-if="hasProps(tab.name)" :class="{ 'active': isActive('tabs-' + tab.name) }"><a href="#" @click="activate('tabs-' + tab.name)">{{ tab.title }}</a></li>
+                                <li v-for="tab in context.widget.tabs" v-if="hasProps(tab.name)" :class="{ 'active': isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
                             </ul>
                         </div>
                         <div class="col-xs-9">
                             <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive('tabs-' + tab.name) }">
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
                                     <pages-widgets-params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></pages-widgets-params>
                                 </div>
                             </div>

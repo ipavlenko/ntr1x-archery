@@ -2,9 +2,17 @@ Vue.directive('scrollable', {
 
     bind: function () {
 
-        if ($.fn.perfectScrollbar) {
-            $(this.el).perfectScrollbar();
-        }
+        $(this.el).css({
+            'overflow': 'auto',
+        });
+
+        // if ($.fn.mCustomScrollbar) {
+        //     Vue.nextTick(function() {
+        //         $(this.el).mCustomScrollbar({
+        //             axis: this.expression
+        //         });
+        //     }.bind(this));
+        // }
 
     },
     update: function (newValue, oldValue) {

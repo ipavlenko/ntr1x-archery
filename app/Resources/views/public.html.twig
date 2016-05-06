@@ -12,7 +12,6 @@
             <link href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap-theme.min.css') }}" rel="stylesheet" />
             <link href="{{ asset('assets/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
             <link href="{{ asset('assets/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}" rel="stylesheet" />
-            <link href="{{ asset('assets/vendor/perfect-scrollbar/css/perfect-scrollbar.min.css') }}" rel="stylesheet" />
 
             {% for style in layout.styles %}
                 <link href="{{ asset(style.assetPath) }}" rel="stylesheet" />
@@ -27,7 +26,9 @@
             <script src="{{ asset('assets/vendor/vue/dist/vue.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/vue-router/dist/vue-router.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-            <script src="{{ asset('assets/vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}"></script>
             <script src="{{ asset('assets/vendor/jsonpath-plus/lib/jsonpath.js') }}"></script>
 
             {% for script in layout.scripts %}

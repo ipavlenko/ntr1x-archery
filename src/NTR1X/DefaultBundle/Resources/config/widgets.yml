@@ -17,14 +17,6 @@ WidgetMixin:
             placeholder: 'Unique ID'
             tab: 'data'
 
-SourceMixin:
-    props:
-        -
-            name: source
-            title: 'Source'
-            type: 'source'
-            tab: 'data'
-
 CollectionMixin:
     props:
         -
@@ -53,7 +45,7 @@ BoxMixin:
         -
             name: padding
             title: 'Padding'
-            type: 'rich'
+            type: 'string'
             placeholder: '0px 0px'
             tab: appearance
         -
@@ -81,10 +73,19 @@ BoxMixin:
             placeholder: '#FFFFFF'
             tab: appearance
 
+HeightMixin:
+    props:
+        -
+            name: height
+            title: 'Height'
+            type: 'string'
+            placeholder: '100px'
+            tab: appearance
+
 # Rich:
 #     title: 'Rich'
 #     tag: default-rich
-#     mixins: [ WidgetMixin, BoxMixin, SourceMixin, ContentMixin ]
+#     mixins: [ WidgetMixin, BoxMixin, ContentMixin ]
 #     styles: [ 'rich/rich.css' ]
 #     scripts: [ 'rich/rich.js' ]
 #     templates: [ 'rich/rich.htm' ]
@@ -92,21 +93,21 @@ BoxMixin:
 Placeholder:
     title: 'Placeholder'
     tag: default-placeholder
-    mixins: [ WidgetMixin, BoxMixin ]
+    mixins: [ WidgetMixin, BoxMixin, HeightMixin ]
     thumbnail: 'src/placeholder/placeholder.png'
     categories: [ composite.all, composite.header ]
 
 Header:
     title: 'Header'
     tag: default-header
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/header/header.png'
     categories: [ composite.all, composite.header ]
 
 Menu:
     title: 'Menu'
     tag: default-menu
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/menu/menu.png'
     categories: [ composite.all, composite.header ]
     props:
@@ -135,26 +136,26 @@ Menu:
 Footer:
     title: 'Footer'
     tag: default-footer
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/footer/footer.png'
     categories: [ composite.all, composite.footer ]
 
 Sitemap:
     title: 'Sitemap'
     tag: default-sitemap
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/sitemap/sitemap.png'
     categories: [ composite.all, sitemap.footer ]
 
 # 2ColumnsLayout:
 #     title: '2 Columns'
-#     mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+#     mixins: [ WidgetMixin, BoxMixin ]
 #     thumbnail: 'src/columns/columns-2.png'
 #     categories: [ layout.all, layout.column ]
 
 # Table:
 #     title: 'Table'
-#     mixins: [ WidgetMixin, CollectionMixin, BoxMixin, SourceMixin ]
+#     mixins: [ WidgetMixin, CollectionMixin, BoxMixin ]
 #     styles: [ 'table/table.css' ]
 #     scripts: [ 'table/table.js' ]
 #     templates: [ 'table/table.htm' ]
