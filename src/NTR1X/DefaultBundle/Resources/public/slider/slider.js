@@ -1,13 +1,18 @@
-Core = window.Core || {};
+// Core = window.Core || {};
 
 (function($, Vue, Core) {
 
-    Core.WidgetMixin = {
-        props: {
-            data: Object,
-            params: Object,
-        },
-        data: function() {
+    // Core.WidgetMixin = {
+    //     props: {
+    //         data: Object,
+    //         params: Object,
+    //     }
+    // };
+
+    Vue.component('default-slider', {
+        template: '#default-slider',
+        mixins: [ Core.WidgetMixin ],
+        /*data: function() {
             return {
                 fetchData: this.fetchData
             }
@@ -17,16 +22,15 @@ Core = window.Core || {};
 
             // add params '?category=main' here while not use swager
 
-            $.when( $.ajax( this.params.source.value + '?category=main' ) ).then(function( data, textStatus, jqXHR ) {
+            //this.params.source.value +
+
+            $.when( $.ajax( 'https://ru.bookagolf.com/api/v1/portal/i/5/adverts/items?category=main' ) ).then(function( data, textStatus, jqXHR ) {
                 self.fetchData = data;
+                console.log(data);
+
             });
             return true;
-        }
-    };
-
-    Vue.component('default-slider', {
-        template: '#default-slider',
-        mixins: [ Core.WidgetMixin ]
+        }*/
     });
 
 })(jQuery, Vue, Core);

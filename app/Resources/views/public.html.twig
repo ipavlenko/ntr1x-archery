@@ -18,6 +18,10 @@
                 <link href="{{ asset(style.assetPath) }}" rel="stylesheet" />
             {% endfor %}
 
+            {% for style in widget.styles %}
+                <link href="{{ asset(style.assetPath) }}" rel="stylesheet" />
+            {% endfor %}
+
         {% endblock %}
 
         {% block javascripts %}
@@ -33,6 +37,11 @@
             {% for script in layout.scripts %}
                 <script src="{{ asset(script.assetPath) }}"></script>
             {% endfor %}
+
+            {% for script in widget.scripts %}
+            <script src="{{ asset(script.assetPath) }}"></script>
+            {% endfor %}
+
 
         {% endblock %}
 
@@ -61,6 +70,12 @@
         {% endraw %}
 
         {% block templates %}
+
+            {% for template in widget.templates %}
+                {{ render(controller('NTR1XLayoutBundle:Layout:asset', {
+                    asset: template,
+                })) }}
+            {% endfor %}
 
             {% for template in layout.templates %}
                 {{ render(controller('NTR1XLayoutBundle:Layout:asset', {
