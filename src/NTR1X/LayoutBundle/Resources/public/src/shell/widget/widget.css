@@ -1,7 +1,6 @@
 .ge.ge-widget {
   position: relative;
   width: 100%;
-  overflow: auto;
 }
 .ge.ge-widget .ge.ge-overlay {
   position: absolute;

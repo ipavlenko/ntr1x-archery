@@ -1,4 +1,7 @@
-(function(Vue, $, Core) {
+Shell = window.Shell || {};
+Shell.Widgets = window.Shell.Widgets || {};
+
+(function(Vue, $, Core, Shell, undefined) {
 
     var WidgetsListViewer =
     Vue.component('pages-widgets-list', {
@@ -17,10 +20,10 @@
         }
     });
 
-    var WidgetsModalEditor =
+    var WidgetsModalEditor = Shell.Widgets.ModalEditor =
     Vue.component('pages-widgets-dialog', {
         template: '#pages-widgets-dialog',
-        mixins: [Core.ModalEditorMixin, Core.TabsMixin('main')],
+        mixins: [Core.ModalEditorMixin, Core.TabsMixin('data')],
         ready: function() {
 
             var items = [];
@@ -112,4 +115,4 @@
         }
     });
 
-})(Vue, jQuery, Core, undefined);
+})(Vue, jQuery, Core, Shell, undefined);

@@ -31,6 +31,14 @@
                     :globals.sync="globals"
                 ></shell-palette>
             </div>
+            <div class="ge ge-editor" v-scrollable>
+                <shell-container
+                    :globals.sync="globals"
+                    :settings.sync="settings"
+                    :page.sync="selection.page"
+                    :category.sync="selection.category"
+                ></shell-container>
+            </div>
             <div class="ge ge-structure" v-scrollable>
                 <shell-domains
                     :domains.sync="model.domains"
@@ -44,14 +52,6 @@
                     :sources.sync="selection.page.sources"
                     :globals.sync="globals"
                 ></shell-sources>
-            </div>
-            <div class="ge ge-editor" v-scrollable>
-                <shell-container
-                    :globals.sync="globals"
-                    :settings.sync="settings"
-                    :page.sync="selection.page"
-                    :category.sync="selection.category"
-                ></shell-container>
             </div>
         </div>
         <div class="ge ge-foot">
