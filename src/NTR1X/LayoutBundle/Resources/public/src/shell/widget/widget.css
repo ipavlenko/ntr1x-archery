@@ -1,0 +1,41 @@
+.ge.ge-widget {
+  position: relative;
+  width: 100%;
+  overflow: auto;
+}
+.ge.ge-widget .ge.ge-overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  opacity: 0;
+}
+.ge.ge-widget .ge.ge-overlay .ge.ge-settings {
+  display: block;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+.ge.ge-widget .ge.ge-overlay .ge.ge-settings a {
+  display: inline-block;
+  pointer-events: auto;
+  background-color: rgba(52, 73, 94, 0.8);
+  color: #FFFFFF;
+  font-size: 10px;
+  padding: 2px 4px;
+  margin: 0px 0px;
+}
+.ge.ge-widget:hover .ge.ge-overlay {
+  opacity: 1;
+}
+.ge.ge-widget .ge.ge-content {
+  position: relative;
+  width: 100%;
+  overflow: auto;
+}

@@ -1,5 +1,7 @@
 <template id="shell-palette-item">
-    <div class="ge ge-widget" >
-        <img :src="thumbnail" />
+    <div class="ge ge-widget">
+        <div data-widget="{{ widget.id }}">
+            <img :src="thumbnail" />
+        </div>
     </div>
 </template>

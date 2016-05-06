@@ -5,3 +5,9 @@ services:
         arguments: ["@kernel", "NTR1XDefaultBundle", "ntr1xdefault", "widgets.yml"]
         tags:
             - { name: widget.provider }
+
+    ntr1_x_default.component.provider:
+        class: NTR1X\LayoutBundle\Component\ComponentProvider
+        arguments: ["@kernel", "NTR1XDefaultBundle", "ntr1xdefault", "components.yml"]
+        tags:
+            - { name: component.provider }

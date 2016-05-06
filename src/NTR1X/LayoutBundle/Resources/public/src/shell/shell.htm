@@ -46,45 +46,12 @@
                 ></shell-sources>
             </div>
             <div class="ge ge-editor" v-scrollable>
-                <div class="ge ge-container">
-                    <div class="ge ge-page">
-
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <shell-stacked>
-                                        <shell-widget>
-                                            <shell-stub></shell-stub>
-                                        </shell-widget>
-                                        <shell-target></shell-target>
-                                    </shell-stacked>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-8">
-                                    <shell-stacked>
-                                        <shell-widget>
-                                            <shell-stub></shell-stub>
-                                        </shell-widget>
-                                        <shell-widget>
-                                            <shell-stub></shell-stub>
-                                        </shell-widget>
-                                        <shell-target></shell-target>
-                                    </shell-stacked>
-                                </div>
-                                <div class="col-xs-4">
-                                    <shell-stacked>
-                                        <shell-widget>
-                                            <shell-stub></shell-stub>
-                                        </shell-widget>
-                                        <shell-target></shell-target>
-                                    </shell-stacked>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+                <shell-container
+                    :globals.sync="globals"
+                    :settings.sync="settings"
+                    :page.sync="selection.page"
+                    :category.sync="selection.category"
+                ></shell-container>
             </div>
         </div>
         <div class="ge ge-foot">
