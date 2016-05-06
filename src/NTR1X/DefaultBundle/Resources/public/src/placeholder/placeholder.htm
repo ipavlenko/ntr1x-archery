@@ -2,10 +2,9 @@
     <section class="wg wg-default-placeholder">
         <div class="wg wg-content">
             <div class="wg wg-table" style="
-                height: {{ bindings.height.value }}
+                height: {{ bindings.height }}
             ">
-                <pre>{{ bindings | json 4 }}</pre>
-                <span class="wg wg-cell">Placeholder asdsa dsad a sd <a href="http://ya.ru">ya.ru</a></span>
+                <span class="wg wg-cell">{{{ bindings.content }}}</span>
             </div>
         </div>
     </section>

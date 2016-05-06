@@ -93,7 +93,7 @@ HeightMixin:
 Placeholder:
     title: 'Placeholder'
     tag: default-placeholder
-    mixins: [ WidgetMixin, BoxMixin, HeightMixin ]
+    mixins: [ WidgetMixin, BoxMixin, HeightMixin, ContentMixin ]
     thumbnail: 'src/placeholder/placeholder.png'
     categories: [ composite.all, composite.header ]
 
