@@ -15,17 +15,7 @@ Shell.Widgets = window.Shell.Widgets || {};
         },
         ready: function() {
 
-            var widget = null;
-
-            for (var i = 0; i < this.settings.widgets.length; i++) {
-                var w = this.settings.widgets[i];
-                if (w.id == this.data.type) {
-                    widget = w;
-                    break;
-                }
-            }
-
-            this.widget = widget;
+            this.widget = Shell.Services.Layout.getWidget(this.data.type);
 
             var self = this;
 

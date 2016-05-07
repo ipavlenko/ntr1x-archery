@@ -73,8 +73,14 @@ BoxMixin:
             placeholder: '#FFFFFF'
             tab: appearance
 
-HeightMixin:
+SizeMixin:
     props:
+        -
+            name: width
+            title: 'Width'
+            type: 'string'
+            placeholder: '100px'
+            tab: appearance
         -
             name: height
             title: 'Height'
@@ -93,9 +99,12 @@ HeightMixin:
 Placeholder:
     title: 'Placeholder'
     tag: default-placeholder
-    mixins: [ WidgetMixin, BoxMixin, HeightMixin, ContentMixin ]
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
     thumbnail: 'src/placeholder/placeholder.png'
     categories: [ composite.all, composite.header ]
+    params:
+        height: { value: 100px }
+        content: {value: Placeholder }
 
 Header:
     title: 'Header'
@@ -147,11 +156,19 @@ Sitemap:
     thumbnail: 'src/sitemap/sitemap.png'
     categories: [ composite.all, sitemap.footer ]
 
-# 2ColumnsLayout:
-#     title: '2 Columns'
-#     mixins: [ WidgetMixin, BoxMixin ]
-#     thumbnail: 'src/columns/columns-2.png'
-#     categories: [ layout.all, layout.column ]
+Horisontal:
+    title: 'Horisontal Stack'
+    tag: default-stack-horisontal
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/stack/horisontal.png'
+    categories: [ layout.all, layout.stack ]
+
+Vertical:
+    title: 'Vertical Stack'
+    tag: default-stack-vertical
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/stack/vertical.png'
+    categories: [ layout.all, layout.stack ]
 
 # Table:
 #     title: 'Table'

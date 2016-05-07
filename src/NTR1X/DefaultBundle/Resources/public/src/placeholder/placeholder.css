@@ -13,7 +13,6 @@
 .wg.wg-default-placeholder .wg.wg-content .wg.wg-table {
   display: table;
   width: 100%;
-  min-height: 75px;
 }
 .wg.wg-default-placeholder .wg.wg-content .wg.wg-table .wg.wg-cell {
   display: table-cell;
@@ -21,4 +20,7 @@
   text-align: center;
   color: rgba(52, 73, 94, 0.7);
   font-weight: bold;
+}
+.wg.wg-default-placeholder .wg.wg-content .wg.wg-table .wg.wg-cell:empty:after {
+  content: "<Empty>";
 }

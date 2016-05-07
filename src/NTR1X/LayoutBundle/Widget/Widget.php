@@ -20,6 +20,7 @@ class Widget {
     private $scripts = [];
     private $templates = [];
     private $props = [];
+    private $params = null;
     private $tabs = [];
     private $categories = [];
 
@@ -49,6 +50,10 @@ class Widget {
             foreach ($config['props'] as $prop) {
                 $this->props[] = $prop;
             }
+        }
+
+        if (isset($config['params'])) {
+            $this->params = $config['params'];
         }
 
         if (isset($config['styles'])) {
@@ -100,6 +105,10 @@ class Widget {
 
     public function getProps() {
         return $this->props;
+    }
+
+    public function getParams() {
+        return $this->params;
     }
 
     public function getTabs() {

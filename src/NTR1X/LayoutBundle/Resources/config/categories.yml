@@ -13,8 +13,7 @@
     title: Layouts
     items:
         - { name: all, title: All Items }
-        - { name: row, title: Rows }
-        - { name: column, title: Columns }
+        - { name: stack, title: Stack }
 -
     name: form
     title: Forms

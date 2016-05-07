@@ -1,5 +1,11 @@
 <template id="shell">
     <div class="ge ge-shell">
+
+        <service-layout
+            :settings.sync="settings"
+            :globals.sync="globals"
+        ></service-layout>
+
         <div class="ge ge-head">
             <div class="ge ge-nav">
                 <shell-brand
