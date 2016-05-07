@@ -552,6 +552,31 @@ Vue.filter('clone', function (source) {
 
                 if (page && page.sources) {
                     for (var i = 0; i < page.sources.length; i++) {
+
+                        console.log(page.sources[i].method);
+                        console.log(page.sources[i].url);
+
+                        for (var y = 0; y < page.sources[i].params.length; y++) {
+
+                                console.log(page.sources[i].params[y].name);
+                                console.log(page.sources[i].params[y].value);
+
+                        }
+
+
+                        /*
+
+                         $.ajax({
+                         url: '/settings',
+                         method: 'GET',
+                         dataType: "json"
+                         })
+                         .done((d) => {
+                         Object.assign(this.model, d);
+                         })
+
+                         */
+
                         var s = page.sources[i];
                         data[s.name] = [
                             { one: 11, two: 12 },
