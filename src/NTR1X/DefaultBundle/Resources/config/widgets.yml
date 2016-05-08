@@ -17,14 +17,6 @@ WidgetMixin:
             placeholder: 'Unique ID'
             tab: 'data'
 
-SourceMixin:
-    props:
-        -
-            name: source
-            title: 'Source'
-            type: 'source'
-            tab: 'data'
-
 CollectionMixin:
     props:
         -
@@ -53,7 +45,7 @@ BoxMixin:
         -
             name: padding
             title: 'Padding'
-            type: 'rich'
+            type: 'string'
             placeholder: '0px 0px'
             tab: appearance
         -
@@ -81,10 +73,25 @@ BoxMixin:
             placeholder: '#FFFFFF'
             tab: appearance
 
+SizeMixin:
+    props:
+        -
+            name: width
+            title: 'Width'
+            type: 'string'
+            placeholder: '100px'
+            tab: appearance
+        -
+            name: height
+            title: 'Height'
+            type: 'string'
+            placeholder: '100px'
+            tab: appearance
+
 # Rich:
 #     title: 'Rich'
 #     tag: default-rich
-#     mixins: [ WidgetMixin, BoxMixin, SourceMixin, ContentMixin ]
+#     mixins: [ WidgetMixin, BoxMixin, ContentMixin ]
 #     styles: [ 'rich/rich.css' ]
 #     scripts: [ 'rich/rich.js' ]
 #     templates: [ 'rich/rich.htm' ]
@@ -92,21 +99,24 @@ BoxMixin:
 Placeholder:
     title: 'Placeholder'
     tag: default-placeholder
-    mixins: [ WidgetMixin, BoxMixin ]
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
     thumbnail: 'src/placeholder/placeholder.png'
     categories: [ composite.all, composite.header ]
+    params:
+        height: { value: 100px }
+        content: {value: Placeholder }
 
 Header:
     title: 'Header'
     tag: default-header
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/header/header.png'
     categories: [ composite.all, composite.header ]
 
 Menu:
     title: 'Menu'
     tag: default-menu
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/menu/menu.png'
     categories: [ composite.all, composite.header ]
     props:
@@ -135,241 +145,77 @@ Menu:
 Footer:
     title: 'Footer'
     tag: default-footer
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/footer/footer.png'
     categories: [ composite.all, composite.footer ]
 
 Sitemap:
     title: 'Sitemap'
     tag: default-sitemap
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/sitemap/sitemap.png'
     categories: [ composite.all, sitemap.footer ]
 
+Horisontal:
+    title: 'Horisontal Stack'
+    tag: default-stack-horisontal
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/stack/horisontal.png'
+    categories: [ layout.all, layout.stack ]
 
+Vertical:
+    title: 'Vertical Stack'
+    tag: default-stack-vertical
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/stack/vertical.png'
+    categories: [ layout.all, layout.stack ]
 
-#Header:
-#    title: 'Header'
-#    tag: default-header
-#    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-#    thumbnail: 'header/header.png'
-#    styles: [ 'header/header.css' ]
-#    scripts: [ 'header/header.js' ]
-#    templates: [ 'header/header.htm' ]
-#    categories: [ composite.all, composite.header ]
-#    props:
-#        -
-#            name: phone
-#            title: 'Phone'
-#            type: 'rich'
-#            placeholder: '8 800 555 35 35'
-#            tab: content
-#        -
-#            name: fill
-#            title: 'Fill'
-#            type: 'string'
-#            placeholder: ''
-#            tab: appearance
-#        -
-#            name: logo
-#            title: 'Logo'
-#            type: 'string'
-#            placeholder: ''
-#            tab: appearance
-#Menu:
-#    title: 'Menu'
-#    tag: default-menu
-#    size: { width: 12, height: 1 }
-#    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-#    thumbnail: 'menu/menu.png'
-#    styles: [ 'menu/menu.css' ]
-#    scripts: [ 'menu/menu.js' ]
-#    templates: [ 'menu/menu.htm' ]
-#    categories: [ composite.all, composite.header ]
-#    props:
-#        -
-#            name: items
-#            type: multiple
-#            display: '{{ params.title }}'
-#            title: Menu Items
-#            tab: data
-#            tabs:
-#                -
-#                    name: data
-#                    title: Data
-#            props:
-#                -
-#                    name: title
-#                    title: Title
-#                    type: string
-#                    tab: data
-#                -
-#                    name: url
-#                    title: URL
-#                    type: string
-#                    tab: data
-#
-#Footer:
-#    title: 'Footer'
-#    tag: default-footer
-#    size: { width: 12, height: 1 }
-#    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-#    thumbnail: 'footer/footer.png'
-#    styles: [ 'footer/footer.css',  'footer/icons.css']
-#    scripts: [ 'footer/footer.js' ]
-#    templates: [ 'footer/footer.htm' ]
-#    categories: [ composite.all, composite.footer ]
-#    props:
-#        -
-#            name: logo
-#            title: 'Logo Image'
-#            type: 'string'
-#            placeholder: ''
-#            tab: data
-#        -
-#            name: copyright
-#            title: 'Copyright'
-#            type: 'string'
-#            placeholder: ''
-#            tab: data
-#        -
-#            name: contacts
-#            title: 'Contacts'
-#            type: 'string'
-#            placeholder: ''
-#            tab: data
-#        -
-#            name: facebook
-#            title: 'Facebook'
-#            type: 'string'
-#            placeholder: ''
-#            tab: data
-#        -
-#            name: twitter
-#            title: 'Twitter'
-#            type: 'string'
-#            placeholder: ''
-#            tab: data
-#        -
-#            name: google
-#            title: 'Google'
-#            type: 'string'
-#            placeholder: ''
-#            tab: data
-#
-#Sitemap:
-#    title: 'Sitemap'
-#    tag: default-sitemap
-#    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-#    thumbnail: 'sitemap/sitemap.png'
-#    image: [ ]
-#    styles: [ ]
-#    scripts: [ 'sitemap/sitemap.js' ]
-#    templates: [ 'sitemap/sitemap.htm' ]
-#    categories: [ composite.all]
-#
-#Table:
-#    title: 'Table'
-#    tag: default-table
-#    size: { width: 12, height: 5 }
-#    mixins: [ WidgetMixin, CollectionMixin, BoxMixin, SourceMixin ]
-#    thumbnail: 'table/table.png'
-#    styles: [ 'table/table.css' ]
-#    scripts: [ 'table/table.js' ]
-#    templates: [ 'table/table.htm' ]
-#    categories: [ composite.all]
-#    props:
-#       -
-#           name: jsonpath
-#           title: Json Path
-#           type: string
-#           tab: data
-#       -
-#           name: columns
-#           type: multiple
-#           display: '{{ params.title }}'
-#           title: Columns
-#           tab: data
-#           tabs:
-#               -
-#                   name: data
-#                   title: Data
-#               -
-#                   name: appearance
-#                   title: Appearance
-#               -
-#                   name: content
-#                   title: Content
-#           props:
-#               -
-#                   name: title
-#                   title: Title
-#                   type: string
-#                   tab: content
-#               -
-#                   name: width
-#                   title: Width
-#                   type: string
-#                   tab: appearance
-#               -
-#                   name: type
-#                   title: Type
-#                   type: string
-#                   tab: data
-#               -
-#                   name: url
-#                   title: URL
-#                   type: string
-#                   tab: data
-#               -
-#                   name: value
-#                   title: Value
-#                   type: string
-#                   tab: data
-#
-#Gallery:
-#    title: 'Gallery'
-#    tag: default-gallery
-#    size: { width: 12, height: 5 }
-#    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-#    thumbnail: 'gallery/gallery.png'
-#    styles: [ 'gallery/gallery.css' ]
-#    scripts: [ 'gallery/gallery.js' ]
-#    templates: [ 'gallery/gallery.htm' ]
-#    categories: [ composite.all]
-#    props:
-#       -
-#           name: jsonpath
-#           title: Json Path
-#           type: string
-#           tab: data
-#       -
-#           name: itemUrl
-#           title: Item URL
-#           type: string
-#           tab: data
-#       -
-#           name: itemImageUrl
-#           title: Item Image URL
-#           type: string
-#           tab: data
-#       -
-#           name: itemTitle
-#           title: Item Title
-#           type: string
-#           tab: data
-#       -
-#           name: itemDescription
-#           title: Item Description
-#           type: string
-#           tab: data
-
-Slider:
-    title: 'Slider'
-    tag: default-slider
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-    thumbnail: 'slider/slider.png'
-    styles: [ 'slider/slider.css' ]
-    scripts: [ 'slider/slider.js' ]
-    templates: [ 'slider/slider.htm' ]
-    categories: [ composite.all]
+# Table:
+#     title: 'Table'
+#     mixins: [ WidgetMixin, CollectionMixin, BoxMixin ]
+#     styles: [ 'table/table.css' ]
+#     scripts: [ 'table/table.js' ]
+#     templates: [ 'table/table.htm' ]
+#     props:
+#         -
+#             name: columns
+#             type: multiple
+#             display: '{{ params.title }}'
+#             title: Columns
+#             tab: data
+#             tabs:
+#                 -
+#                     name: data
+#                     title: Data
+#                 -
+#                     name: appearance
+#                     title: Appearance
+#                 -
+#                     name: content
+#                     title: Content
+#             props:
+#                 -
+#                     name: title
+#                     title: Title
+#                     type: string
+#                     tab: content
+#                 -
+#                     name: width
+#                     title: Width
+#                     type: string
+#                     tab: appearance
+#                 -
+#                     name: type
+#                     title: Type
+#                     type: string
+#                     tab: data
+#                 -
+#                     name: url
+#                     title: URL
+#                     type: string
+#                     tab: data
+#                 -
+#                     name: value
+#                     title: Value
+#                     type: string
+#                     tab: data

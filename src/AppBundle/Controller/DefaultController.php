@@ -28,21 +28,6 @@ class DefaultController extends Controller {
 
             $host = $request->getHost();
 
-            // $view['selected'] = [
-            //
-            //     'domain' => $this
-            //         ->getDoctrine()
-            //         ->getRepository('NTR1XLayoutBundle:Domain')
-            //         ->findOneByName($host)
-            //     ,
-            //
-            //     'page' => $this
-            //         ->getDoctrine()
-            //         ->getRepository('NTR1XLayoutBundle:Page')
-            //         ->findOneByName('home')
-            //     ,
-            // ];
-
             $view['model'] = [
 
                 'domains' => $this

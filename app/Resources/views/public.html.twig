@@ -28,7 +28,6 @@
             <script src="{{ asset('assets/vendor/jquery/dist/jquery.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/Sortable/Sortable.js') }}"></script>
             <script src="{{ asset('assets/vendor/vue/dist/vue.min.js') }}"></script>
-            <script src="{{ asset('assets/vendor/vue-router/dist/vue-router.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
@@ -63,6 +62,7 @@
         {% raw %}
 
         <shell
+            v-ref:shell
             :model.sync="model"
             :settings.sync="settings"
             :selection.sync="selection"

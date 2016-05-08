@@ -20,7 +20,19 @@
                     put: false
                 },
                 animation: 150,
-                sort: false
+                sort: false,
+                // onStart: function(evt) {
+                //     console.log(evt);
+                //     $(evt.item).html('<b>Data</b>');
+                // }
+                // setData: function (dataTransfer, dragEl) {
+                //     console.log(dragEl);
+                //     $(dragEl).html('<b>Hello</b>');
+                //     // dataTransfer.setData('Text', dragEl.textContent);
+                // },
+                // setData: function(dataTransfer, dragEl) {
+                //     dataTransfer.setData('Text', dragEl.textContent);
+                // }
             });
             // $(this.$el).draggable({
             //     connectToSortable: ".ge.ge-stacked",

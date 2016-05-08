@@ -15,17 +15,8 @@ Shell.Widgets = window.Shell.Widgets || {};
         },
         ready: function() {
 
-            var widget = null;
-
-            for (var i = 0; i < this.settings.widgets.length; i++) {
-                var w = this.settings.widgets[i];
-                if (w.id == this.data.type) {
-                    widget = w;
-                    break;
-                }
-            }
-
-            this.widget = widget;
+            this.editable = false;
+            this.widget = this.$root.$refs.shell.getWidget(this.data.type);
 
             var self = this;
 
@@ -69,9 +60,18 @@ Shell.Widgets = window.Shell.Widgets || {};
             return {
                 widget: this.widget,
                 bindings: this.bindings,
+                editable: this.editable,
             };
         },
         methods: {
+
+            lockWidget: function() {
+
+            },
+
+            unlockWidget: function() {
+
+            },
 
             doApply: function(model) {
 

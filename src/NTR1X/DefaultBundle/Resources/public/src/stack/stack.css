@@ -1,0 +1,74 @@
+.wg.wg-default-stack > .wg.wg-content > .wg.wg-table {
+  width: 100%;
+  display: table;
+}
+.wg.wg-default-stack > .wg.wg-content > .wg.wg-table:empty {
+  border-spacing: 1px 1px;
+}
+.wg.wg-default-stack > .wg.wg-content > .wg.wg-table:empty::after {
+  content: "Drop Here";
+  display: table-cell;
+  height: 50px;
+  text-align: center;
+  vertical-align: middle;
+  color: rgba(52, 73, 94, 0.7);
+  border: 2px dashed rgba(52, 73, 94, 0.5);
+  background: rgba(52, 73, 94, 0.2);
+  font-weight: bold;
+}
+.wg.wg-default-stack > .wg.wg-content > .wg.wg-table > .wg.wg-row {
+  display: table-row;
+}
+.wg.wg-default-stack > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell {
+  display: table-cell;
+  vertical-align: top;
+}
+.wg.wg-default-stack > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell > .wg.wg-inner {
+  position: relative;
+}
+.wg.wg-default-stack > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell.wg-cell-placeholder {
+  text-align: center;
+  vertical-align: middle;
+  border-spacing: 1px 1px;
+  color: rgba(52, 73, 94, 0.7);
+  border: 2px dashed rgba(52, 73, 94, 0.5);
+  background: rgba(52, 73, 94, 0.2);
+  font-weight: bold;
+}
+.wg.wg-default-stack > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell.wg-cell-placeholder > .wg.wg-inner {
+  display: block;
+  margin: 1px 1px;
+}
+.wg.wg-default-stack.wg-default-stack-horisontal > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell.wg-cell-placeholder {
+  height: 50px;
+}
+.wg.wg-default-stack.wg-default-stack-horisontal > .wg.wg-content > .wg.wg-table > .wg.wg-row > .sortable-ghost {
+  display: table-cell;
+  background-color: yellow;
+}
+.wg.wg-default-stack.wg-default-stack-horisontal > .wg.wg-content > .wg.wg-table > .wg.wg-row > .sortable-ghost > img {
+  display: none;
+}
+.wg.wg-default-stack.wg-default-stack-horisontal > .wg.wg-content > .wg.wg-table > .wg.wg-row > .sortable-ghost::after {
+  display: block;
+  content: 'Blabla';
+}
+.wg.wg-default-stack.wg-default-stack-page > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell.wg-cell-placeholder,
+.wg.wg-default-stack.wg-default-stack-vertical > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell.wg-cell-placeholder {
+  height: 50px;
+  width: 50px;
+}
+.wg.wg-default-stack.wg-default-stack-page > .wg.wg-content > .wg.wg-table > .sortable-ghost,
+.wg.wg-default-stack.wg-default-stack-vertical > .wg.wg-content > .wg.wg-table > .sortable-ghost {
+  display: table-row;
+}
+.wg.wg-default-stack.wg-default-stack-page > .wg.wg-content > .wg.wg-table > .sortable-ghost > img,
+.wg.wg-default-stack.wg-default-stack-vertical > .wg.wg-content > .wg.wg-table > .sortable-ghost > img {
+  display: none;
+}
+.wg.wg-default-stack.wg-default-stack-page > .wg.wg-content > .wg.wg-table > .sortable-ghost::after,
+.wg.wg-default-stack.wg-default-stack-vertical > .wg.wg-content > .wg.wg-table > .sortable-ghost::after {
+  display: table-cell;
+  content: 'Blabla';
+  background-color: yellow;
+}

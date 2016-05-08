@@ -51,6 +51,19 @@
             }
         },
         methods: {
+
+            getWidget: function(id) {
+
+                for (var i = 0; i < this.settings.widgets.length; i++) {
+                    var w = this.settings.widgets[i];
+                    if (w.id == id) {
+                        return w;
+                    }
+                }
+
+                return null;
+            },
+
             selectPage: function(page) {
 
                 this.selection.page = page;
@@ -89,11 +102,26 @@
         },
         events: {
             pull: function(data) {
-                // this.selection.category = data.item;
-                console.log('pull');
+                $.ajax({
+                    url: '/settings',
+                    method: 'GET',
+                    dataType: "json"
+                })
+                .done((d) => {
+                    Object.assign(this.model, d);
+                })
             },
             push: function(data) {
-                console.log('push');
+                $.ajax({
+                    url: '/settings/do-update',
+                    method: 'POST',
+                    dataType: "json",
+                    data: JSON.stringify(this.model),
+                    contentType: "application/json",
+                })
+                .done((d) => {
+                    Object.assign(this.model, d);
+                })
             },
             tree: function(data) {
                 console.log(this);
