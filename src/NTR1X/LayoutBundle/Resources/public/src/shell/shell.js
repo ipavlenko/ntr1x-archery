@@ -62,16 +62,28 @@
 
                 if (page && page.sources) {
                     for (var i = 0; i < page.sources.length; i++) {
+                        q = '?';
+                        for (var y = 0; y < page.sources[i].params.length; y++) {
+                            if ( y>0 ) {
+                                q += '&';
+                            }
+                            q += page.sources[i].params[y].name + '=' + page.sources[i].params[y].value;
+                        }
+
                         var s = page.sources[i];
-                        data[s.name] = [
-                            { one: 11, two: 12 },
-                            { one: 21, two: 22 },
-                            { one: 31, two: 32 },
-                            { one: 41, two: 42 },
-                        ];
+
+                        $.ajax({
+                            url: page.sources[i].url + q,
+                            method: page.sources[i].method,
+                            async: false,
+                            dataType: "json"
+                        }).success(function( data_r, textStatus, jqXHR ) {
+                            console.log(data_r);
+                            data[s.name] = data_r;
+                        });
+
                     }
                 }
-
                 this.globals.data = data;
             }
         },
