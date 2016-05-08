@@ -10,8 +10,10 @@
         </div>
         <div class="ge ge-overlay">
             <div class="ge ge-settings">
-                <a href="#" @click.stop.prevent="removeWidget()">Remove</a>
-                <a href="#" @click.stop.prevent="showSettings()">Settings</a>
+                <a href="#" v-if="!editable" @click.stop.prevent="removeWidget()">Remove</a>
+                <a href="#" v-if="!editable" @click.stop.prevent="showSettings()">Settings</a>
+                <a href="#" v-if="!editable" @click.stop.prevent="lockWidget()">Lock</a>
+                <a href="#" v-if="editable" @click.stop.prevent="unlockWidget()">Unlock</a>
             </div>
         </div>
     </div>

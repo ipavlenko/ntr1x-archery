@@ -90,16 +90,6 @@ class LayoutController extends Controller
                 ->getRepository('NTR1XLayoutBundle:Schema')
                 ->findAll(['name'=>'asc'])
             ;
-
-            $view['widgets'] = $this
-                ->get('ntr1_x_layout.widget.manager')
-                ->getWidgets()
-            ;
-
-            $view['categories'] = $this
-                ->get('ntr1_x_layout.category.manager')
-                ->getCategories()
-            ;
         });
 
         $serializer = $this->container->get('jms_serializer');
@@ -163,37 +153,7 @@ class LayoutController extends Controller
                 ->getRepository('NTR1XLayoutBundle:Schema')
                 ->findAll(['name'=>'asc'])
             ;
-
-            $view['widgets'] = $this
-                ->get('ntr1_x_layout.widget.manager')
-                ->getWidgets()
-            ;
-
-            $view['categories'] = $this
-                ->get('ntr1_x_layout.category.manager')
-                ->getCategories()
-            ;
         });
-
-        // $ids = [];
-        // foreach ($domain in $settings['domains']) {
-        //
-        //     if (isset($id)) {
-        //         $ids[] = $id;
-        //     }
-        // }
-        //
-        // foreach ($page in $settings->pages) {
-        //
-        // }
-        //
-        // foreach ($schema in $settings->schemes) {
-        //
-        // }
-        //
-        // foreach ($widget in $settings->widgets) {
-        //
-        // }
 
         $response = (new Response())
             ->setContent($serializer->serialize($view, 'json'))

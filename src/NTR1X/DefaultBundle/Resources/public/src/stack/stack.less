@@ -2,53 +2,119 @@
 
 .wg.wg-default-stack {
 
-    &.wg-stack-horisontal {
-    }
+    >.wg.wg-content {
 
-    &.wg-stack-vertical {
-    }
+        >.wg.wg-table {
 
-    &.wg-default-stack-page {
-    }
+            width: 100%;
+            display: table;
 
-    .wg.wg-row {
-        display: table-row;
-    }
+            &:empty {
 
-    .wg.wg-cell {
-        display: table-cell;
-    }
+                border-spacing: 1px 1px;
 
-    .wg.wg-table {
+                &::after {
+                    content: "Drop Here";
+                    display: table-cell;
+                    height: 50px;
+                    text-align: center;
+                    vertical-align: middle;
+                    color: rgba(52, 73, 94, 0.7);
+                    border: 2px dashed rgba(52, 73, 94, 0.5);
+                    background: rgba(52, 73, 94, 0.2);
+                    font-weight: bold;
+                }
+            }
 
-        width: 100%;
-        display: table;
+            >.wg.wg-row {
 
-        &:empty {
+                display: table-row;
 
-            border-spacing: 1px 1px;
+                >.wg.wg-cell {
 
-            &:after {
-                content: "Drop Here";
-                display: table-cell;
-                height: 50px;
-                text-align: center;
-                vertical-align: middle;
-                color: rgba(52, 73, 94, 0.7);
-                border: 2px dashed rgba(52, 73, 94, 0.5);
-                background: rgba(52, 73, 94, 0.2);
-                font-weight: bold;
+                    display: table-cell;
+                    vertical-align: top;
+
+                    >.wg.wg-inner {
+                        position: relative;
+                    }
+
+                    &.wg-cell-placeholder {
+
+                        text-align: center;
+                        vertical-align: middle;
+                        border-spacing: 1px 1px;
+                        color: rgba(52, 73, 94, 0.7);
+                        border: 2px dashed rgba(52, 73, 94, 0.5);
+                        background: rgba(52, 73, 94, 0.2);
+                        font-weight: bold;
+
+                        >.wg.wg-inner {
+                            display: block;
+                            margin: 1px 1px;
+                        }
+                    }
+                }
             }
         }
     }
 
-    .wg.wg-inner {
+    &.wg-default-stack-horisontal {
+        >.wg.wg-content {
+            >.wg.wg-table {
+                >.wg.wg-row {
+                    >.wg.wg-cell {
+                        &.wg-cell-placeholder {
+                            height: 50px;
+                        }
+                    }
+                    >.sortable-ghost {
 
-        position: relative;
-        min-height: 50px;
-        min-width: 50px;
+                        display: table-cell;
+                        background-color: yellow;
 
+                        >img {
+                            display: none;
+                        }
 
+                        &::after {
+                            display: block;
+                            content: 'Blabla';
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &.wg-default-stack-page,
+    &.wg-default-stack-vertical {
+        >.wg.wg-content {
+            >.wg.wg-table {
+                >.wg.wg-row {
+                    >.wg.wg-cell {
+                        &.wg-cell-placeholder {
+                            height: 50px;
+                            width: 50px;
+                        }
+                    }
+                }
+                >.sortable-ghost {
+
+                    display: table-row;
+
+                    >img {
+                        display: none;
+                    }
+
+                    &::after {
+                        display: table-cell;
+                        content: 'Blabla';
+                        background-color: yellow;
+                    }
+                }
+            }
+        }
     }
 }
 

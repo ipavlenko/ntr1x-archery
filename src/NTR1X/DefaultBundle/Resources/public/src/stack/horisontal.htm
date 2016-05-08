@@ -1,19 +1,27 @@
 <template id="default-stack-horisontal">
     <section class="wg wg-default-stack wg-default-stack-horisontal">
         <div class="wg wg-content">
-            <div class="wg wg-table"
-                ><div class="wg wg-cell" v-for="item in items" v-if="item._action != 'remove'">
-                    <div class="wg wg-inner">
-                        <shell-widget
-                            :globals.sync="globals"
-                            :settings.sync="settings"
-                            :stack.sync="page"
-                            :page.sync="page"
-                            :data.sync="item"
-                        ></shell-widget>
+            <div class="wg wg-table">
+                <div class="wg wg-row">
+                    <div class="wg wg-cell" v-for="item in visibleItems">
+                        <div class="wg wg-inner">
+                            <shell-widget
+                                :globals.sync="globals"
+                                :settings.sync="settings"
+                                :stack.sync="page"
+                                :page.sync="page"
+                                :data.sync="item"
+                            ></shell-widget>
+                        </div>
                     </div>
-                </div
-            ></div>
+                    <div class="wg wg-cell wg-cell-placeholder" v-for="item in placeholderItems">
+                        <div class="wg wg-inner">
+                            <div><small>Horisontal Stack</small></div>
+                            <div>Drop Here</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </template>
