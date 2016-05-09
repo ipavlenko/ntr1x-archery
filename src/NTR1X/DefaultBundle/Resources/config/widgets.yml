@@ -96,6 +96,17 @@ SizeMixin:
 #     scripts: [ 'rich/rich.js' ]
 #     templates: [ 'rich/rich.htm' ]
 
+Stub:
+    title: Stub
+    tag: default-stub
+    props:
+        -
+            name: title
+            type: 'string'
+        -
+            name: subtitle
+            type: 'string'
+
 Placeholder:
     title: 'Placeholder'
     tag: default-placeholder

@@ -1139,6 +1139,12 @@
     </section>
 </template>
 
+<template id="shell-brand">
+    <section class="ge ge-brand">
+        <a href="#"></a>
+    </section>
+</template>
+
 <template id="shell-categories">
     <section class="ge ge-categories">
         <div v-for="category in categories">
@@ -1152,12 +1158,6 @@
     </section>
 </template>
 
-<template id="shell-brand">
-    <section class="ge ge-brand">
-        <a href="#"></a>
-    </section>
-</template>
-
 <template id="shell-container">
 
     <section class="ge ge-container">
@@ -1165,9 +1165,114 @@
             :globals.sync="globals"
             :settings.sync="settings"
             :page.sync="page"
+            :items.sync="page.widgets"
         ></shell-page>
     </section>
 
+</template>
+
+<template id="shell-decorator-canvas">
+    <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
+        <div class="ge ge-content">
+            <default-stack-canvas
+                :page.sync="page"
+                :data.sync="globals.data"
+                :children.sync="children"
+            ></default-stack-canvas>
+        </div>
+        <div class="ge ge-overlay">
+            <div class="ge ge-overlay-right">
+                <a href="#" v-if="!selected" @click.stop.prevent="selectTarget()" class="label label-success">Select</a>
+                <a href="#" v-if="selected" @click.stop.prevent="unselectTarget()" class="label label-success">Unselect</a>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="shell-decorator-horisontal">
+    <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
+        <div class="ge ge-content">
+            <div
+                :is="widget.tag"
+                v-ref:widget
+                :page.sync="page"
+                :data.sync="globals.data"
+                :bindings.sync="bindings"
+                :children.sync="children"
+            ></div>
+        </div>
+        <div class="ge ge-overlay">
+            <div class="ge ge-overlay-left">
+                <a href="#" v-if="!selected" @click.stop.prevent="showSettings()" class="label label-primary">Settings</a>
+                <a href="#" v-if="!selected" @click.stop.prevent="removeWidget()" class="label label-danger">Remove</a>
+            </div>
+            <div class="ge ge-overlay-right">
+                <a href="#" v-if="!selected" @click.stop.prevent="selectTarget()" class="label label-success">Select</a>
+                <a href="#" v-if="selected" @click.stop.prevent="unselectTarget()" class="label label-success">Unselect</a>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="shell-decorator-stub">
+    <div class="ge ge-widget">
+        <div class="ge ge-content">
+            <div
+                :is="widget.tag"
+                v-ref:widget
+                :page.sync="page"
+                :data.sync="globals.data"
+                :bindings.sync="bindings"
+                :children.sync="children"
+            ></div>
+        </div>
+    </div>
+</template>
+
+<template id="shell-decorator-vertical">
+    <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
+        <div class="ge ge-content">
+            <div
+                :is="widget.tag"
+                v-ref:widget
+                :page.sync="page"
+                :data.sync="globals.data"
+                :bindings.sync="bindings"
+                :children.sync="children"
+            ></div>
+        </div>
+        <div class="ge ge-overlay">
+            <div class="ge ge-overlay-left">
+                <a href="#" v-if="!selected" @click.stop.prevent="showSettings()" class="label label-primary">Settings</a>
+                <a href="#" v-if="!selected" @click.stop.prevent="removeWidget()" class="label label-danger">Remove</a>
+            </div>
+            <div class="ge ge-overlay-right">
+                <a href="#" v-if="!selected" @click.stop.prevent="selectTarget()" class="label label-success">Select</a>
+                <a href="#" v-if="selected" @click.stop.prevent="unselectTarget()" class="label label-success">Unselect</a>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="shell-decorator-widget">
+    <div class="ge ge-widget">
+        <div class="ge ge-content">
+            <div
+                :is="widget.tag"
+                v-ref:widget
+                :page.sync="page"
+                :data.sync="globals.data"
+                :bindings.sync="bindings"
+                :children.sync="children"
+            ></div>
+        </div>
+        <div class="ge ge-overlay">
+            <div class="ge ge-overlay-left">
+                <a href="#" @click.stop.prevent="showSettings()" class="label label-primary">Settings</a>
+                <a href="#" @click.stop.prevent="removeWidget()" class="label label-danger">Remove</a>
+            </div>
+        </div>
+    </div>
 </template>
 
 <template id="shell-domains">
@@ -1198,14 +1303,30 @@
 <template id="shell-page">
 
     <div class="ge ge-page">
-        <default-stack-page
+        <div
+            :is="decorator"
             :globals.sync="globals"
             :settings.sync="settings"
             :page.sync="page"
+            :data.sync="globals.data"
             :items.sync="page.widgets"
-        ></default-stack-page>
+        ></div>
     </div>
 
+</template>
+
+<template id="shell-palette-item">
+    <div class="ge ge-palette-item">
+        <div data-widget="{{ widget.id }}">
+            <img class="when-in-palette" :src="thumbnail" />
+        </div>
+    </div>
+</template>
+
+<template id="shell-palette">
+    <section class="ge ge-palette">
+        <palette-item v-for="widget in category.widgets" :widget.sync="widget"></palette-item>
+    </section>
 </template>
 
 <template id="shell-pages">
@@ -1230,20 +1351,6 @@
                 </li>
             </ul>
         </pages>
-    </section>
-</template>
-
-<template id="shell-palette-item">
-    <div class="ge ge-palette-item">
-        <div data-widget="{{ widget.id }}">
-            <img class="when-in-palette" :src="thumbnail" />
-        </div>
-    </div>
-</template>
-
-<template id="shell-palette">
-    <section class="ge ge-palette">
-        <palette-item v-for="widget in category.widgets" :widget.sync="widget"></palette-item>
     </section>
 </template>
 
@@ -1290,30 +1397,22 @@
     </div>
 </template>
 
+<template id="shell-widget">
+    <div
+        :is="decorator"
+        :globals.sync="globals"
+        :settings.sync="settings"
+        :page.sync="page"
+        :data.sync="globals.data"
+        :model.sync="model"
+        :widget.sync="widget"
+        :items.sync="model.widgets"
+    ></div>
+</template>
+
 <template id="shell-target">
     <div class="ge ge-target">
         <span>Drop Here</span>
-    </div>
-</template>
-
-<template id="shell-widget">
-    <div class="ge ge-widget">
-        <div class="ge ge-content">
-            <div
-                :is="widget.tag"
-                :page.sync="page"
-                :data.sync="globals.data"
-                :bindings.sync="bindings"
-            ></div>
-        </div>
-        <div class="ge ge-overlay">
-            <div class="ge ge-settings">
-                <a href="#" v-if="!editable" @click.stop.prevent="removeWidget()">Remove</a>
-                <a href="#" v-if="!editable" @click.stop.prevent="showSettings()">Settings</a>
-                <a href="#" v-if="!editable" @click.stop.prevent="lockWidget()">Lock</a>
-                <a href="#" v-if="editable" @click.stop.prevent="unlockWidget()">Unlock</a>
-            </div>
-        </div>
     </div>
 </template>
 

@@ -1,0 +1,20 @@
+<template id="shell-decorator-widget">
+    <div class="ge ge-widget">
+        <div class="ge ge-content">
+            <div
+                :is="widget.tag"
+                v-ref:widget
+                :page.sync="page"
+                :data.sync="globals.data"
+                :bindings.sync="bindings"
+                :children.sync="children"
+            ></div>
+        </div>
+        <div class="ge ge-overlay">
+            <div class="ge ge-overlay-left">
+                <a href="#" @click.stop.prevent="showSettings()" class="label label-primary">Settings</a>
+                <a href="#" @click.stop.prevent="removeWidget()" class="label label-danger">Remove</a>
+            </div>
+        </div>
+    </div>
+</template>

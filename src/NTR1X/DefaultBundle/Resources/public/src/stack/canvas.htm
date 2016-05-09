@@ -1,8 +1,8 @@
-<template id="default-stack-page">
-    <section class="wg wg-default-stack wg-default-stack-page">
+<template id="default-stack-canvas">
+    <section class="wg wg-default-stack wg-default-stack-canvas">
         <div class="wg wg-content">
             <div class="wg wg-table">
-                <div class="wg wg-row" v-for="item in visibleItems">
+                <div class="wg wg-row" v-for="child in children">
                     <div class="wg wg-cell">
                         <div class="wg wg-inner">
                             <shell-widget
@@ -10,16 +10,9 @@
                                 :settings.sync="settings"
                                 :stack.sync="page"
                                 :page.sync="page"
-                                :data.sync="item"
+                                :model.sync="child"
+                                :items.sync="child.widgets"
                             ></shell-widget>
-                        </div>
-                    </div>
-                </div>
-                <div class="wg wg-row" v-for="item in placeholderItems">
-                    <div class="wg wg-cell wg-cell-placeholder">
-                        <div class="wg wg-inner">
-                            <div><small>Vertical Stack</small></div>
-                            <div>Drop Here</div>
                         </div>
                     </div>
                 </div>

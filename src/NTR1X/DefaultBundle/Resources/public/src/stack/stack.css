@@ -53,20 +53,20 @@
   display: block;
   content: 'Blabla';
 }
-.wg.wg-default-stack.wg-default-stack-page > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell.wg-cell-placeholder,
+.wg.wg-default-stack.wg-default-stack-canvas > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell.wg-cell-placeholder,
 .wg.wg-default-stack.wg-default-stack-vertical > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell.wg-cell-placeholder {
   height: 50px;
   width: 50px;
 }
-.wg.wg-default-stack.wg-default-stack-page > .wg.wg-content > .wg.wg-table > .sortable-ghost,
+.wg.wg-default-stack.wg-default-stack-canvas > .wg.wg-content > .wg.wg-table > .sortable-ghost,
 .wg.wg-default-stack.wg-default-stack-vertical > .wg.wg-content > .wg.wg-table > .sortable-ghost {
   display: table-row;
 }
-.wg.wg-default-stack.wg-default-stack-page > .wg.wg-content > .wg.wg-table > .sortable-ghost > img,
+.wg.wg-default-stack.wg-default-stack-canvas > .wg.wg-content > .wg.wg-table > .sortable-ghost > img,
 .wg.wg-default-stack.wg-default-stack-vertical > .wg.wg-content > .wg.wg-table > .sortable-ghost > img {
   display: none;
 }
-.wg.wg-default-stack.wg-default-stack-page > .wg.wg-content > .wg.wg-table > .sortable-ghost::after,
+.wg.wg-default-stack.wg-default-stack-canvas > .wg.wg-content > .wg.wg-table > .sortable-ghost::after,
 .wg.wg-default-stack.wg-default-stack-vertical > .wg.wg-content > .wg.wg-table > .sortable-ghost::after {
   display: table-cell;
   content: 'Blabla';

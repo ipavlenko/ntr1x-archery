@@ -1,0 +1,17 @@
+<template id="shell-decorator-canvas">
+    <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
+        <div class="ge ge-content">
+            <default-stack-canvas
+                :page.sync="page"
+                :data.sync="globals.data"
+                :children.sync="children"
+            ></default-stack-canvas>
+        </div>
+        <div class="ge ge-overlay">
+            <div class="ge ge-overlay-right">
+                <a href="#" v-if="!selected" @click.stop.prevent="selectTarget()" class="label label-success">Select</a>
+                <a href="#" v-if="selected" @click.stop.prevent="unselectTarget()" class="label label-success">Unselect</a>
+            </div>
+        </div>
+    </div>
+</template>
