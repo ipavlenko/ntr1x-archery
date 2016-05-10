@@ -1,0 +1,67 @@
+.ge.ge-widget .ge.ge-content {
+    overflow: visible;
+}
+
+section.nav {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(71, 107, 12, 0.95);
+}
+section.nav .widget-content {
+    overflow: inherit;
+}
+section.nav .site-menu {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font: bold 16px/120% "Open Sans";
+    text-transform: uppercase;
+}
+section.nav .site-menu .menu-element {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 20px;
+}
+section.nav .site-menu .menu-element.open a {
+    background: none;
+}
+section.nav .site-menu .menu-element > a {
+    display: inline-block;
+    padding: 18px 10px;
+    line-height: normal;
+    text-decoration: none;
+    color: #fff;
+}
+section.nav .site-menu .menu-element > a.bookagolf-logo {
+    padding: 6px 5px;
+    margin-left: 48px;
+}
+section.nav .site-menu .menu-element .dropdown-menu {
+    position: absolute;
+    padding: 0;
+    list-style: none;
+    min-width: 100%;
+    white-space: nowrap;
+    background-color: #454933;
+    margin: 0;
+    border: none;
+    -webkit-border-radius: 0;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 0;
+    -moz-background-clip: padding;
+    border-radius: 0;
+    background-clip: padding-box;
+}
+section.nav .site-menu .menu-element .dropdown-menu li {
+    padding: 5px 10px;
+    box-sizing: content-box;
+}
+section.nav .site-menu .menu-element .dropdown-menu li:hover {
+    background-color: #7e855d;
+}
+section.nav .site-menu .menu-element .dropdown-menu li a {
+    padding: 0;
+}

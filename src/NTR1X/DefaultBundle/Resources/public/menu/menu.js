@@ -2,8 +2,8 @@ Core = window.Core || {};
 
 (function($, Vue, Core) {
 
-    Vue.component('default-gallery', {
-        template: '#default-gallery',
+    Vue.component('default-menu', {
+        template: '#default-menu',
         mixins: [ Core.WidgetMixin ],
         data: function() {
             return {
@@ -13,7 +13,7 @@ Core = window.Core || {};
         ready: function() {
             var self = this;
             $.ajax({
-                url: "/bundles/ntr1xdefault/gallery/data.json",
+                url: "/bundles/ntr1xdefault/menu/data.json",
                 async: false,
                 dataType: "json"
             }).success(function( data_r, textStatus, jqXHR ) {
@@ -21,7 +21,5 @@ Core = window.Core || {};
             });
         }
     });
-
-
 
 })(jQuery, Vue, Core);

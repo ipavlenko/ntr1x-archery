@@ -4,8 +4,7 @@ Core = window.Core || {};
     
     Vue.component('default-rich', {
         template: '#default-rich',
-        mixins: [ Core.WidgetMixin ],
-        
+        mixins: [ Core.WidgetMixin ]
     });
 
 })(jQuery, Vue, Core);

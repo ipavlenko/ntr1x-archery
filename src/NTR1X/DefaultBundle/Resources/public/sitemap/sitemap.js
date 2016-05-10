@@ -2,9 +2,7 @@ Core = window.Core || {};
 
 (function($, Vue, Core) {
 
-    //"use strict";
-
-    Core.WidgetMixin = {
+    /*Core.WidgetMixin = {
         props: {
             data: Object,
             params: Object,
@@ -22,7 +20,7 @@ Core = window.Core || {};
             });
 
         }
-    };
+    };*/
 
     Vue.component('default-sitemap', {
         template: '#default-sitemap',

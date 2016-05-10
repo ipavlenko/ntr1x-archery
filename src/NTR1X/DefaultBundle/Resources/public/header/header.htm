@@ -1,17 +1,15 @@
 <template id="default-header">
-
-    <header style="{{ params.fill.value }}">
+    <header style="{{ bindings.fill }}">
         <div class="widget-content">
             <div class="info-block">
-                <a class="logo" href="/" title="Moscow Academy"><img src="{{ params.logo.value }}" alt="Logo"/></a>
+                <a class="logo" href="/" title="Moscow Academy"><img src="{{ bindings.logo }}" alt="Logo"/></a>
                 <div class="phone-block">
-                    {{ params.phone.value }}
+                    {{{ bindings.phone }}}
                 </div>
             </div>
             <ul class="partners-block clearfix" v-for="item in fetchData">
-                <li><a href="{{ item.data.URL }}" target="_blank"><img src="{{ params.source.value }}/i/{{ item.id }}/thumbnail" alt="{{ item.data.TITLE }}"/></a></li>
+                <li><a href="{{ item.data.URL }}" target="_blank"><img src="https://ru.bookagolf.com/api/v1/portal/i/5/partners/i/{{ item.id }}/thumbnail" alt="{{ item.data.TITLE }}"/></a></li>
             </ul>
         </div>
     </header>
-
 </template>

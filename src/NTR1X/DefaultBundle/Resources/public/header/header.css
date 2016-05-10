@@ -1,7 +1,7 @@
 header {
     position: relative;
     height: 300px; /*height: 100%;*/
-    width: 660px; /*width: 100%;*/
+    width: 100%;
     background-size: cover;
 }
 header .info-block {

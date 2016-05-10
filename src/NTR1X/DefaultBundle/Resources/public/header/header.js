@@ -2,32 +2,24 @@ Core = window.Core || {};
 
 (function($, Vue, Core) {
 
-    Core.WidgetMixin = {
-        props: {
-            data: Object,
-            params: Object,
-        },
+    Vue.component('default-header', {
+        template: '#default-header',
+        mixins: [ Core.WidgetMixin ],
         data: function() {
             return {
                 fetchData: this.fetchData
             }
         },
         ready: function() {
-
             var self = this;
-
-            $.when( $.ajax( this.params.source.value ) ).then(function( data, textStatus, jqXHR ) {
-                console.log(data);
-
-                self.fetchData = data;
+            $.ajax({
+                url: "/bundles/ntr1xdefault/header/data.json",
+                async: false,
+                dataType: "json"
+            }).success(function( data_r, textStatus, jqXHR ) {
+                self.fetchData = data_r;
             });
-
         }
-    };
-
-    Vue.component('default-header', {
-        template: '#default-header',
-        mixins: [ Core.WidgetMixin ]
     });
 
 })(jQuery, Vue, Core);

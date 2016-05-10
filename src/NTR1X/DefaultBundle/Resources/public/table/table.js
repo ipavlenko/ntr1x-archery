@@ -2,7 +2,7 @@ Core = window.Core || {};
 
 (function($, Vue, Core) {
 
-    Core.WidgetMixin = {
+    /*Core.WidgetMixin = {
         props: {
             data: Object,
             params: Object,
@@ -19,7 +19,7 @@ Core = window.Core || {};
             });
             return true;
         }
-    };
+    };*/
 
     Vue.component('default-table', {
         template: '#default-table',
