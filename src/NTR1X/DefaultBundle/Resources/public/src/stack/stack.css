@@ -42,33 +42,8 @@
 .wg.wg-default-stack.wg-default-stack-horisontal > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell.wg-cell-placeholder {
   height: 50px;
 }
-.wg.wg-default-stack.wg-default-stack-horisontal > .wg.wg-content > .wg.wg-table > .wg.wg-row > .sortable-ghost {
-  display: table-cell;
-  background-color: yellow;
-}
-.wg.wg-default-stack.wg-default-stack-horisontal > .wg.wg-content > .wg.wg-table > .wg.wg-row > .sortable-ghost > img {
-  display: none;
-}
-.wg.wg-default-stack.wg-default-stack-horisontal > .wg.wg-content > .wg.wg-table > .wg.wg-row > .sortable-ghost::after {
-  display: block;
-  content: 'Blabla';
-}
 .wg.wg-default-stack.wg-default-stack-canvas > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell.wg-cell-placeholder,
 .wg.wg-default-stack.wg-default-stack-vertical > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell.wg-cell-placeholder {
   height: 50px;
   width: 50px;
-}
-.wg.wg-default-stack.wg-default-stack-canvas > .wg.wg-content > .wg.wg-table > .sortable-ghost,
-.wg.wg-default-stack.wg-default-stack-vertical > .wg.wg-content > .wg.wg-table > .sortable-ghost {
-  display: table-row;
-}
-.wg.wg-default-stack.wg-default-stack-canvas > .wg.wg-content > .wg.wg-table > .sortable-ghost > img,
-.wg.wg-default-stack.wg-default-stack-vertical > .wg.wg-content > .wg.wg-table > .sortable-ghost > img {
-  display: none;
-}
-.wg.wg-default-stack.wg-default-stack-canvas > .wg.wg-content > .wg.wg-table > .sortable-ghost::after,
-.wg.wg-default-stack.wg-default-stack-vertical > .wg.wg-content > .wg.wg-table > .sortable-ghost::after {
-  display: table-cell;
-  content: 'Blabla';
-  background-color: yellow;
 }

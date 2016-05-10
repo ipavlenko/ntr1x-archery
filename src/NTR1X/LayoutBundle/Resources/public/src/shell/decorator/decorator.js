@@ -237,10 +237,15 @@ Shell = window.Shell || {};
                                     var oi = find(self.items, evt.oldIndex);
                                     var ni = find(self.items, evt.newIndex);
 
-                                    self.items.splice(ni.index, 0, self.items.splice(oi.index, 1)[0]);
+                                    console.log('end', oi, ni);
+                                    console.log(self.items);
+
+                                    self.items.splice(ni, 0, self.items.splice(oi, 1)[0]);
                                 }
 
                                 self.items = $.extend(true, [], self.items);
+
+                                console.log(self.items);
                             }
                         });
 
