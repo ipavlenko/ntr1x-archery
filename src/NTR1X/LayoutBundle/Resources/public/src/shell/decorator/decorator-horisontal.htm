@@ -8,16 +8,17 @@
                 :data.sync="globals.data"
                 :bindings.sync="bindings"
                 :children.sync="children"
+                :editable.sync="selected"
             ></div>
         </div>
-        <div class="ge ge-overlay">
+        <div class="ge ge-overlay" v-if="editable">
             <div class="ge ge-overlay-left">
-                <a href="#" v-if="!selected" @click.stop.prevent="showSettings()" class="label label-primary">Settings</a>
-                <a href="#" v-if="!selected" @click.stop.prevent="removeWidget()" class="label label-danger">Remove</a>
-            </div>
-            <div class="ge ge-overlay-right">
                 <a href="#" v-if="!selected" @click.stop.prevent="selectTarget()" class="label label-success">Select</a>
                 <a href="#" v-if="selected" @click.stop.prevent="unselectTarget()" class="label label-success">Unselect</a>
+            </div>
+            <div class="ge ge-overlay-right">
+                <a href="#" v-if="!selected" @click.stop.prevent="showSettings()" class="label label-primary">Settings</a>
+                <a href="#" v-if="!selected" @click.stop.prevent="removeWidget()" class="label label-danger">Remove</a>
             </div>
         </div>
     </div>

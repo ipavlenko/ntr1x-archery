@@ -10,6 +10,7 @@ Core = window.Core || {};
             stack: Object,
             bindings: Object,
             children: Array,
+            editable: Boolean,
         },
 
         methods: {
@@ -25,6 +26,7 @@ Core = window.Core || {};
             globals: Object,
             settings: Object,
             page: Object,
+            editable: Boolean,
             children: Array,
         },
     };

@@ -284,6 +284,7 @@ Shell = window.Shell || {};
             data: Object,
             model: Object,
             widget: Object,
+            editable: Boolean,
             items: Array,
         },
     });
@@ -299,6 +300,7 @@ Shell = window.Shell || {};
             data: Object,
             model: Object,
             widget: Object,
+            editable: Boolean,
             items: Array,
         },
     });
@@ -314,6 +316,7 @@ Shell = window.Shell || {};
             data: Object,
             model: Object,
             widget: Object,
+            editable: Boolean,
             items: Array,
         },
         methods: {
@@ -332,6 +335,7 @@ Shell = window.Shell || {};
             data: Object,
             model: Object,
             widget: Object,
+            editable: Boolean,
             items: Array,
         },
         methods: {
@@ -348,6 +352,7 @@ Shell = window.Shell || {};
             stack: Object,
             page: Object,
             data: Object,
+            editable: Boolean,
             items: Array,
         },
         methods: {

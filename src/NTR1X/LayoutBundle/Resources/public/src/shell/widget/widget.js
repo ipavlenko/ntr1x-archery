@@ -13,6 +13,7 @@ Shell.Widgets = window.Shell.Widgets || {};
             page: Object,
             stack: Object,
             model: Object,
+            editable: Boolean,
         },
         init: function() {
             this.decorators = {
