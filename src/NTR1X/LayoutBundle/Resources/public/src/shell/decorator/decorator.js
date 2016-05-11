@@ -84,7 +84,6 @@ Shell = window.Shell || {};
                 for(var key in params) {
                     if (params[key]['binding']) {
                         value[key] = self.$interpolate(params[key]['binding']);
-                        console.log(key, params[key], value[key]);
                     } else if ($.isArray(params[key]['value'])) {
                         value[key] = [];
                         for(var i = 0; i < params[key]['value'].length; i++) {
@@ -212,14 +211,14 @@ Shell = window.Shell || {};
                                 var palette = $(evt.item).closest('.ge.ge-palette');
 
                                 if (!palette.length) {
+
                                     $(evt.item).remove();
 
-                                    console.log(self);
                                     var i = find(self.items, evt.newIndex);
 
                                     var widget = self.$root.$refs.shell.getWidget($(evt.item).data('widget'));
 
-                                    self.items.splice(i.index, 0, {
+                                    self.items.splice(i, 0, {
                                         type: widget.id,
                                         resource: {
                                             params: [],
