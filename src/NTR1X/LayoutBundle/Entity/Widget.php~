@@ -31,13 +31,13 @@ class Widget
 	private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Page")
+     * @ORM\ManyToOne(targetEntity="Page", inversedBy="widgets")
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=true)
      */
     private $page;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Widget")
+     * @ORM\ManyToOne(targetEntity="Widget", inversedBy="widgets")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
      */
     private $parent;
@@ -285,5 +285,63 @@ class Widget
     public function getParams()
     {
         return $this->params;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Widget $parent
+     *
+     * @return Widget
+     */
+    public function setParent(\NTR1X\LayoutBundle\Entity\Widget $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return \NTR1X\LayoutBundle\Entity\Widget
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Add widget
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Widget $widget
+     *
+     * @return Widget
+     */
+    public function addWidget(\NTR1X\LayoutBundle\Entity\Widget $widget)
+    {
+        $this->widgets[] = $widget;
+
+        return $this;
+    }
+
+    /**
+     * Remove widget
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Widget $widget
+     */
+    public function removeWidget(\NTR1X\LayoutBundle\Entity\Widget $widget)
+    {
+        $this->widgets->removeElement($widget);
+    }
+
+    /**
+     * Get widgets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getWidgets()
+    {
+        return $this->widgets;
     }
 }

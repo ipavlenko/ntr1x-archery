@@ -26,6 +26,7 @@ Core = window.Core || {};
             globals: Object,
             settings: Object,
             page: Object,
+            data: Object,
             editable: Boolean,
             children: Array,
         },

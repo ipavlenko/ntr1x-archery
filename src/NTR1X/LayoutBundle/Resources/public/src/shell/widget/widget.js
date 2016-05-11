@@ -13,6 +13,7 @@ Shell.Widgets = window.Shell.Widgets || {};
             page: Object,
             stack: Object,
             model: Object,
+            data: Object,
             editable: Boolean,
         },
         init: function() {

@@ -84,6 +84,7 @@ Shell = window.Shell || {};
                 for(var key in params) {
                     if (params[key]['binding']) {
                         value[key] = self.$interpolate(params[key]['binding']);
+                        console.log(key, params[key], value[key]);
                     } else if ($.isArray(params[key]['value'])) {
                         value[key] = [];
                         for(var i = 0; i < params[key]['value'].length; i++) {
@@ -97,8 +98,16 @@ Shell = window.Shell || {};
                 return value;
             }
 
-            this.$watch('model', (params) => {
+            this.$watch('data', (data) => {
                 this.bindings = recur(this.model.params);
+            }, {
+                deep: true,
+                immediate: true,
+            });
+
+            this.$watch('model', (model) => {
+                this.bindings = recur(model.params);
+                // console.log(this.bindings);
             }, {
                 deep: true,
                 immediate: true,

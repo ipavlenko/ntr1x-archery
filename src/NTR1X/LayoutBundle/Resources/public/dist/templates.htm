@@ -1139,19 +1139,6 @@
     </section>
 </template>
 
-<template id="shell-categories">
-    <section class="ge ge-categories">
-        <div v-for="category in categories">
-            <h5>
-                <span>{{ category.title }}</span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in category.categories" :class="{ 'active': item == globals.selection.category }"><a href="#" @click="trigger('selectCategory', item)">{{ item.title }}</a></li>
-            </ul>
-        </div>
-    </section>
-</template>
-
 <template id="shell-brand">
     <section class="ge ge-brand">
         <a href="#"></a>
@@ -1171,12 +1158,25 @@
 
 </template>
 
+<template id="shell-categories">
+    <section class="ge ge-categories">
+        <div v-for="category in categories">
+            <h5>
+                <span>{{ category.title }}</span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in category.categories" :class="{ 'active': item == globals.selection.category }"><a href="#" @click="trigger('selectCategory', item)">{{ item.title }}</a></li>
+            </ul>
+        </div>
+    </section>
+</template>
+
 <template id="shell-decorator-canvas">
     <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
         <div class="ge ge-content">
             <default-stack-canvas
                 :page.sync="page"
-                :data.sync="globals.data"
+                :data.sync="data"
                 :children.sync="children"
                 :editable.sync="selected"
             ></default-stack-canvas>
@@ -1197,7 +1197,7 @@
                 :is="widget.tag"
                 v-ref:widget
                 :page.sync="page"
-                :data.sync="globals.data"
+                :data.sync="data"
                 :bindings.sync="bindings"
                 :children.sync="children"
                 :editable.sync="selected"
@@ -1223,7 +1223,7 @@
                 :is="widget.tag"
                 v-ref:widget
                 :page.sync="page"
-                :data.sync="globals.data"
+                :data.sync="data"
                 :bindings.sync="bindings"
                 :children.sync="children"
             ></div>
@@ -1238,7 +1238,7 @@
                 :is="widget.tag"
                 v-ref:widget
                 :page.sync="page"
-                :data.sync="globals.data"
+                :data.sync="data"
                 :bindings.sync="bindings"
                 :children.sync="children"
                 :editable.sync="selected"
@@ -1264,7 +1264,7 @@
                 :is="widget.tag"
                 v-ref:widget
                 :page.sync="page"
-                :data.sync="globals.data"
+                :data.sync="data"
                 :bindings.sync="bindings"
                 :children.sync="children"
             ></div>
@@ -1311,7 +1311,7 @@
             :globals.sync="globals"
             :settings.sync="settings"
             :page.sync="page"
-            :data.sync="globals.data"
+            :data.sync="data"
             :items.sync="page.widgets"
         ></div>
     </div>
@@ -1394,15 +1394,15 @@
     ></div>
 </template>
 
-<template id="shell-stub">
-    <div class="ge ge-stub">
-        <span>Stub</span>
-    </div>
-</template>
-
 <template id="shell-target">
     <div class="ge ge-target">
         <span>Drop Here</span>
+    </div>
+</template>
+
+<template id="shell-stub">
+    <div class="ge ge-stub">
+        <span>Stub</span>
     </div>
 </template>
 
@@ -1412,7 +1412,7 @@
         :globals.sync="globals"
         :settings.sync="settings"
         :page.sync="page"
-        :data.sync="globals.data"
+        :data.sync="data"
         :model.sync="model"
         :widget.sync="widget"
         :editable.sync="editable"

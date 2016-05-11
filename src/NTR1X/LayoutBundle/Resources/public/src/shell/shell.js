@@ -8,16 +8,18 @@
             model: Object,
         },
         data: function() {
+
             return {
-                globals: {
-                    selection: this.selection,
-                    settings: this.settings,
-                    model: this.model,
-                    data: this.data,
-                },
+                globals: this.globals,
             };
         },
         ready: function() {
+
+            this.globals = {
+                selection: this.selection,
+                settings: this.settings,
+                model: this.model,
+            };
 
             function relevant(current, collection) {
 
@@ -73,47 +75,6 @@
                 // console.log(sources, this.selection.source);
             }, {
                 immediate: true,
-            });
-
-            this.$watch('selection.page.sources', (sources) => {
-
-                this.data = {};
-
-                if (sources) {
-                    for (var i = 0; i < sources.length; i++) {
-
-                        var s = sources[i];
-
-                        var query = {};
-                        for (var i = 0; i < s.params.length; i++) {
-                            var param = s.params[i];
-                            if (param.in == 'query' && param.specified) {
-
-                                var value = param.binding
-                                    ? this.$interpolate(param.binding) // TODO Interpolate in page context
-                                    : param.value
-                                ;
-
-                                query[param.name] = value;
-                            }
-                        }
-
-                        $.ajax({
-                            method: s.method,
-                            url: s.url,
-                            dataType: "json",
-                            data: query,
-
-                        })
-                        .done((d) => {
-                            this.data[s.name] = d;
-                        });
-                    }
-                }
-
-            }, {
-                immediate: true,
-                deep: true,
             });
 
         },
