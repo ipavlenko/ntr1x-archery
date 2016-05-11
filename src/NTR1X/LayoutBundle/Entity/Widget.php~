@@ -222,7 +222,7 @@ class Widget
      *
      * @return Widget
      */
-    public function setPage(\NTR1X\LayoutBundle\Entity\Page $page)
+    public function setPage(\NTR1X\LayoutBundle\Entity\Page $page = null)
     {
         $this->page = $page;
 
