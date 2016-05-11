@@ -245,9 +245,6 @@ Shell = window.Shell || {};
                                     var oi = find(self.items, evt.oldIndex);
                                     var ni = find(self.items, evt.newIndex);
 
-                                    console.log('end', oi, ni);
-                                    console.log(self.items);
-
                                     self.items.splice(ni, 0, self.items.splice(oi, 1)[0]);
                                 }
 
