@@ -116,30 +116,31 @@ Vertical:
 Header:
     title: 'Header'
     tag: default-header
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'header/header.png'
     styles: [ 'header/header.css' ]
     scripts: [ 'header/header.js' ]
     templates: [ 'header/header.htm' ]
     categories: [ composite.all, composite.header ]
+    params:
+            phone: { value: '8 800 555 35 35' }
+            fill: { value: 'background: url(https://ru.bookagolf.com/bunches/academies/i/23/images/i/36) center right no-repeat; background-size: cover;' }
+            logo: { value: 'https://ru.bookagolf.com/bunches/academies/i/23/images/i/28' }
     props:
         -
             name: phone
             title: 'Phone'
             type: 'rich'
-            placeholder: '8 800 555 35 35'
             tab: content
         -
             name: fill
             title: 'Fill'
             type: 'string'
-            placeholder: ''
             tab: appearance
         -
             name: logo
             title: 'Logo'
             type: 'string'
-            placeholder: ''
             tab: appearance
 
 Menu:
@@ -185,13 +186,13 @@ Gallery:
     scripts: [ 'gallery/gallery.js' ]
     templates: [ 'gallery/gallery.htm' ]
     categories: [ composite.all]
+    params:
+                jsonpath: { value: '$.*' }
+                itemUrl: { value: '{$.data.URL}' }
+                itemImageUrl: { value: 'i/{$.id}/thumbnail' }
+                itemTitle: { value: '{$.data.TITLE}' }
+                itemDescription: { value: '{$.data.DESCRIPTION}' }
     props:
-       -
-            name: source
-            title: 'Source'
-            type: string
-            value: '111'
-            tab: data
        -
            name: jsonpath
            title: Json Path
@@ -227,7 +228,9 @@ Rich:
     scripts: [ 'rich/rich.js' ]
     templates: [ 'rich/rich.htm' ]
     categories: [ composite.all]
-
+    params:
+            height: { value: '100px' }
+            content: {value: 'Rich' }
 Slider:
     title: 'Slider'
     tag: default-slider
@@ -248,6 +251,13 @@ Footer:
     scripts: [ 'footer/footer.js' ]
     templates: [ 'footer/footer.htm' ]
     categories: [ composite.all]
+    params:
+            logo: { value: 'https://ru.bookagolf.com/images/i/4' }
+            copyright: { value: 'Все права защищены' }
+            contacts: { value: '+7 (495) 410-47-16' }
+            facebook: { value: 'https://www.facebook.com/bookagolf' }
+            twitter: { value: 'https://twitter.com/bookAgolf' }
+            google: { value: 'https://plus.google.com/u/0/communities/102202642996727382512' }
     props:
         -
             name: logo
@@ -307,6 +317,8 @@ Table:
     scripts: [ 'table/table.js' ]
     templates: [ 'table/table.htm' ]
     categories: [ composite.all]
+    params:
+            jsonpath: { value: '{$.competitors.*}' }
     props:
        -
            name: jsonpath
@@ -355,3 +367,46 @@ Table:
                    title: Value
                    type: string
                    tab: data
+
+Items:
+    title: 'Items'
+    tag: default-items
+    size: { width: 12, height: 5 }
+    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
+    thumbnail: 'items/items.png'
+    styles: [ 'items/items.css' ]
+    scripts: [ 'items/items.js' ]
+    templates: [ 'items/items.htm' ]
+    categories: [ composite.all]
+    params:
+                jsonpath: { value: '$.*' }
+                itemUrl: { value: '{$.data.URL}' }
+                itemImageUrl: { value: 'i/{$.id}/thumbnail' }
+                itemTitle: { value: '{$.data.TITLE}' }
+                itemPromo: { value: '{$.data.PROMO}' }
+    props:
+       -
+           name: jsonpath
+           title: Json Path
+           type: string
+           tab: data
+       -
+           name: itemUrl
+           title: Item URL
+           type: string
+           tab: data
+       -
+           name: itemImageUrl
+           title: Item Image URL
+           type: string
+           tab: data
+       -
+           name: itemTitle
+           title: Item Title
+           type: string
+           tab: data
+       -
+           name: itemPromo
+           title: Item Promo
+           type: string
+           tab: data

@@ -1,22 +1,23 @@
-header {
+.wg.wg-default-header {
     position: relative;
     height: 300px; /*height: 100%;*/
     width: 100%;
     background-size: cover;
 }
-header .info-block {
+
+.wg.wg-default-header .info-block {
     position: absolute;
     top: 30px;
     left: 40px;
     text-align: center;
 }
-header .info-block .phone-block {
+.wg.wg-default-header .info-block .phone-block {
     color: #fff;
 }
-header .info-block .logo img {
+.wg.wg-default-header .info-block .logo img {
     width: 345px;
 }
-header .partners-block {
+.wg.wg-default-header .partners-block {
     position: absolute;
     margin-bottom: 0;
     left: 0;
@@ -27,11 +28,11 @@ header .partners-block {
     height: 40px;
     background: rgba(0, 0, 0, 0.2);
 }
-header .partners-block li {
+.wg.wg-default-header .partners-block li {
     margin-left: 20px;
     float: left;
 }
-header .partners-block li a {
+.wg.wg-default-header .partners-block li a {
     display: inline-block;
     padding: 6px 0;
     zoom: 1;
@@ -44,13 +45,13 @@ header .partners-block li a {
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
-header .partners-block li a:hover {
+.wg.wg-default-header .partners-block li a:hover {
     zoom: 1;
     filter: alpha(opacity=100);
     -webkit-opacity: 1;
     -moz-opacity: 1;
     opacity: 1;
 }
-header .partners-block li a img {
+.wg.wg-default-header .partners-block li a img {
     height: 28px;
 }

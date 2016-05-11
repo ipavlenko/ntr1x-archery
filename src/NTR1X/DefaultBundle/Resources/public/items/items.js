@@ -2,8 +2,8 @@ Core = window.Core || {};
 
 (function($, Vue, Core) {
 
-    Vue.component('default-table', {
-        template: '#default-table',
+    Vue.component('default-items', {
+        template: '#default-items',
         mixins: [ Core.WidgetMixin ],
         data: function() {
             return {
@@ -13,7 +13,7 @@ Core = window.Core || {};
         ready: function() {
             var self = this;
             $.ajax({
-                url: "/bundles/ntr1xdefault/table/data.json",
+                url: "/bundles/ntr1xdefault/items/data.json",
                 async: false,
                 dataType: "json"
             }).success(function( data_r, textStatus, jqXHR ) {

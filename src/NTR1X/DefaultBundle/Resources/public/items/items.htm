@@ -1,0 +1,30 @@
+<template id="default-items">
+    <section class="wg wg-default-items" id="{{ bindings.id }}" style="
+        {{ bindings.outerBorder | style 'border' }}
+        {{ bindings.outerBackground | style 'background' }}
+    ">
+        <div class="wg wg-content" style="
+            {{ bindings.margin | style 'margin' }}
+            {{ bindings.padding | style 'padding' }}
+            {{ bindings.innerBorder | style 'border' }}
+            {{ bindings.innerBackground | style 'background' }}
+        ">
+            <div v-for="item in fetchData" class="items-list">
+                <div class="item clearfix">
+                    <div class="left-part pull-left">
+                        <img src="https://ru.bookagolf.com/api/v1/portal/i/5/bunches/i/23/items/{{item | jsonPath bindings.itemImageUrl }}" />
+                    </div>
+                    <div class="right-part">
+                        <div class="title">{{item | jsonPath bindings.itemTitle }}</div>
+                        <ul class="link-list">
+                            <li><a href="{{item | jsonPath bindings.itemUrl }}">Страница клуба</a></li>
+                        </ul>
+                        <div class="text">
+                            {{{item | jsonPath bindings.itemPromo }}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>

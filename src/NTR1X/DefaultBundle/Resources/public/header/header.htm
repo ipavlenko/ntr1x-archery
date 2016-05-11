@@ -1,6 +1,15 @@
 <template id="default-header">
-    <header style="{{ bindings.fill }}">
-        <div class="widget-content">
+    <section class="wg wg-default-header" id="{{ bindings.id }}" style="
+        {{ bindings.fill | style }}
+        {{ bindings.outerBorder | style 'border' }}
+        {{ bindings.outerBackground | style 'background' }}
+    ">
+        <div class="wg wg-content" style="
+            {{ bindings.margin | style 'margin' }}
+            {{ bindings.padding | style 'padding' }}
+            {{ bindings.innerBorder | style 'border' }}
+            {{ bindings.innerBackground | style 'background' }}
+        ">
             <div class="info-block">
                 <a class="logo" href="/" title="Moscow Academy"><img src="{{ bindings.logo }}" alt="Logo"/></a>
                 <div class="phone-block">
@@ -11,5 +20,5 @@
                 <li><a href="{{ item.data.URL }}" target="_blank"><img src="https://ru.bookagolf.com/api/v1/portal/i/5/partners/i/{{ item.id }}/thumbnail" alt="{{ item.data.TITLE }}"/></a></li>
             </ul>
         </div>
-    </header>
+    </section>
 </template>

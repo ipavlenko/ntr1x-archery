@@ -1,9 +1,14 @@
 <template id="default-menu">
 
-    <section class="nav " style="">
-        <div class="widget-content no-overflow" style="
-            background: rgba(71, 107, 12, 0.95);
-            color: #fff;
+    <section v-if="!bindings.items" class="wg wg-default-menu" id="{{ bindings.id }}" style="
+        {{ bindings.outerBorder | style 'border' }}
+        {{ bindings.outerBackground | style 'background' }}
+    ">
+        <div class="wg wg-content" style="
+            {{ bindings.margin | style 'margin' }}
+            {{ bindings.padding | style 'padding' }}
+            {{ bindings.innerBorder | style 'border' }}
+            {{ bindings.innerBackground | style 'background' }}
         ">
             <ul class="site-menu clearfix">
                 <li v-for="item in fetchData.children" class="menu-element {{ (item.children.length > 0) ? 'dropdown' : '' }}">
@@ -27,16 +32,24 @@
         </div>
     </section>
 
-    <!--
-    <section data-role="widget" style="
-        background: {{ params.outerBackground.value }}
+    <section v-if="bindings.items" class="wg wg-default-menu" id="{{ bindings.id }}" style="
+        {{ bindings.fill | style }}
+        {{ bindings.outerBorder | style 'border' }}
+        {{ bindings.outerBackground  | style 'background' }}
     ">
-        <ul>
-            <li v-for="item in fetchData.children">
-                <a href="{{ item.desc.data.URL }}">{{ item.desc.data.TITLE }}</a>
-            </li>
-        </ul>
+        <div class="wg wg-content" style="
+            {{ bindings.margin | style 'margin' }}
+            {{ bindings.padding | style 'padding' }}
+            {{ bindings.innerBorder | style 'border' }}
+            {{ bindings.innerBackground | style 'background' }}
+        ">
+            <ul class="site-menu clearfix">
+                <li v-for="item in bindings.items" class="menu-element">
+                    <a href="{{ item.url }}" style="color: #fff;">{{ item.title }}</a>
+                </li>
+                <li class="menu-element"><a class="bookagolf-logo" href="#"><img src="https://ru.bookagolf.com/assets/img/logo.png" alt=""></a></li>
+            </ul>
+        </div>
     </section>
--->
 
 </template>

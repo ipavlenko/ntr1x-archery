@@ -2,29 +2,24 @@ Core = window.Core || {};
 
 (function($, Vue, Core) {
 
-    /*Core.WidgetMixin = {
-        props: {
-            data: Object,
-            params: Object,
-        },
+    Vue.component('default-sitemap', {
+        template: '#default-sitemap',
+        mixins: [ Core.WidgetMixin ],
         data: function() {
             return {
                 fetchData: this.fetchData
             }
         },
         ready: function() {
-
             var self = this;
-            $.get(this.params.source.value, function( data ) {
-                self.fetchData = data;
+            $.ajax({
+                url: "/bundles/ntr1xdefault/sitemap/data.json",
+                async: false,
+                dataType: "json"
+            }).success(function( data_r, textStatus, jqXHR ) {
+                self.fetchData = data_r;
             });
-
         }
-    };*/
-
-    Vue.component('default-sitemap', {
-        template: '#default-sitemap',
-        mixins: [ Core.WidgetMixin ]
     });
 
 })(jQuery, Vue, Core);

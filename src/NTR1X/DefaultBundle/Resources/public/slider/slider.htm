@@ -1,6 +1,14 @@
 <template id="default-slider">
-    <section class="wg wg-default-slider">
-        <div class="wg wg-content">
+    <section class="wg wg-default-slider" id="{{ bindings.id }}" style="
+        {{ bindings.outerBorder | style 'border' }}
+        {{ bindings.outerBackground | style 'background' }}
+    ">
+        <div class="wg wg-content" style="
+            {{ bindings.margin | style 'margin' }}
+            {{ bindings.padding | style 'padding' }}
+            {{ bindings.innerBorder | style 'border' }}
+            {{ bindings.innerBackground | style 'background' }}
+        ">
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner" role="listbox">
                     <div v-for="item in fetchData" class="item {{ $index == 0 ? 'active' : ''}}">
