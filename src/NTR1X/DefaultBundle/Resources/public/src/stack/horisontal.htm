@@ -3,21 +3,17 @@
         <div class="wg wg-content">
             <div class="wg wg-table">
                 <div class="wg wg-row">
-                    <div class="wg wg-cell" v-for="item in visibleItems">
+                    <div class="wg wg-cell" v-for="child in children">
                         <div class="wg wg-inner">
                             <shell-widget
                                 :globals.sync="globals"
                                 :settings.sync="settings"
                                 :stack.sync="page"
                                 :page.sync="page"
-                                :data.sync="item"
+                                :model.sync="child"
+                                :editable.sync="editable"
+                                :items.sync="child.widgets"
                             ></shell-widget>
-                        </div>
-                    </div>
-                    <div class="wg wg-cell wg-cell-placeholder" v-for="item in placeholderItems">
-                        <div class="wg wg-inner">
-                            <div><small>Horisontal Stack</small></div>
-                            <div>Drop Here</div>
                         </div>
                     </div>
                 </div>

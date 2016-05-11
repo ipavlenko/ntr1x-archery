@@ -15,22 +15,33 @@
   pointer-events: none;
   opacity: 0;
 }
-.ge.ge-widget .ge.ge-overlay .ge.ge-settings {
+.ge.ge-widget .ge.ge-overlay > .ge.ge-overlay-left {
   display: block;
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: 2px;
+  left: 4px;
 }
-.ge.ge-widget .ge.ge-overlay .ge.ge-settings a {
+.ge.ge-widget .ge.ge-overlay > .ge.ge-overlay-left > a {
   display: inline-block;
   pointer-events: auto;
-  background-color: rgba(52, 73, 94, 0.8);
-  color: #FFFFFF;
-  font-size: 10px;
+  font-size: 12px;
   padding: 2px 4px;
   margin: 0px 0px;
 }
-.ge.ge-widget:hover .ge.ge-overlay {
+.ge.ge-widget .ge.ge-overlay > .ge.ge-overlay-right {
+  display: block;
+  position: absolute;
+  top: 2px;
+  right: 4px;
+}
+.ge.ge-widget .ge.ge-overlay > .ge.ge-overlay-right > a {
+  display: inline-block;
+  pointer-events: auto;
+  font-size: 12px;
+  padding: 2px 4px;
+  margin: 0px 0px;
+}
+.ge.ge-widget:hover > .ge.ge-overlay {
   opacity: 1;
 }
 .ge.ge-widget .ge.ge-content {

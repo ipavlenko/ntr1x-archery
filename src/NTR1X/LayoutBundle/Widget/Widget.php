@@ -34,7 +34,9 @@ class Widget {
         $this->title = $config['title'];
         $this->tag = $config['tag'];
 
-        $this->thumbnail = new WidgetAsset($this, $config['thumbnail']);
+        if (isset($config['thumbnail'])) {
+            $this->thumbnail = new WidgetAsset($this, $config['thumbnail']);
+        }
 
         if (isset($config['categories'])) {
             $this->categories = $config['categories'];

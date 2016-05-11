@@ -88,6 +88,25 @@ SizeMixin:
             placeholder: '100px'
             tab: appearance
 
+# Rich:
+#     title: 'Rich'
+#     tag: default-rich
+#     mixins: [ WidgetMixin, BoxMixin, ContentMixin ]
+#     styles: [ 'rich/rich.css' ]
+#     scripts: [ 'rich/rich.js' ]
+#     templates: [ 'rich/rich.htm' ]
+
+Stub:
+    title: Stub
+    tag: default-stub
+    props:
+        -
+            name: title
+            type: 'string'
+        -
+            name: subtitle
+            type: 'string'
+
 Placeholder:
     title: 'Placeholder'
     tag: default-placeholder
@@ -98,60 +117,18 @@ Placeholder:
         height: { value: 100px }
         content: {value: Placeholder }
 
-
-Horisontal:
-    title: 'Horisontal Stack'
-    tag: default-stack-horisontal
-    mixins: [ WidgetMixin, BoxMixin ]
-    thumbnail: 'src/stack/horisontal.png'
-    categories: [ layout.all, layout.stack ]
-
-Vertical:
-    title: 'Vertical Stack'
-    tag: default-stack-vertical
-    mixins: [ WidgetMixin, BoxMixin ]
-    thumbnail: 'src/stack/vertical.png'
-    categories: [ layout.all, layout.stack ]
-
 Header:
     title: 'Header'
     tag: default-header
     mixins: [ WidgetMixin, BoxMixin ]
-    thumbnail: 'header/header.png'
-    styles: [ 'header/header.css' ]
-    scripts: [ 'header/header.js' ]
-    templates: [ 'header/header.htm' ]
+    thumbnail: 'src/header/header.png'
     categories: [ composite.all, composite.header ]
-    params:
-            phone: { value: '8 800 555 35 35' }
-            fill: { value: 'background: url(https://ru.bookagolf.com/bunches/academies/i/23/images/i/36) center right no-repeat; background-size: cover;' }
-            logo: { value: 'https://ru.bookagolf.com/bunches/academies/i/23/images/i/28' }
-    props:
-        -
-            name: phone
-            title: 'Phone'
-            type: 'rich'
-            tab: content
-        -
-            name: fill
-            title: 'Fill'
-            type: 'string'
-            tab: appearance
-        -
-            name: logo
-            title: 'Logo'
-            type: 'string'
-            tab: appearance
 
 Menu:
     title: 'Menu'
     tag: default-menu
-    size: { width: 12, height: 1 }
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-    thumbnail: 'menu/menu.png'
-    styles: [ 'menu/menu.css' ]
-    scripts: [ 'menu/menu.js' ]
-    templates: [ 'menu/menu.htm' ]
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/menu/menu.png'
     categories: [ composite.all, composite.header ]
     props:
         -
@@ -176,237 +153,80 @@ Menu:
                     type: string
                     tab: data
 
-Gallery:
-    title: 'Gallery'
-    tag: default-gallery
-    size: { width: 12, height: 5 }
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-    thumbnail: 'gallery/gallery.png'
-    styles: [ 'gallery/gallery.css' ]
-    scripts: [ 'gallery/gallery.js' ]
-    templates: [ 'gallery/gallery.htm' ]
-    categories: [ composite.all]
-    params:
-                jsonpath: { value: '$.*' }
-                itemUrl: { value: '{$.data.URL}' }
-                itemImageUrl: { value: 'i/{$.id}/thumbnail' }
-                itemTitle: { value: '{$.data.TITLE}' }
-                itemDescription: { value: '{$.data.DESCRIPTION}' }
-    props:
-       -
-           name: jsonpath
-           title: Json Path
-           type: string
-           tab: data
-       -
-           name: itemUrl
-           title: Item URL
-           type: string
-           tab: data
-       -
-           name: itemImageUrl
-           title: Item Image URL
-           type: string
-           tab: data
-       -
-           name: itemTitle
-           title: Item Title
-           type: string
-           tab: data
-       -
-           name: itemDescription
-           title: Item Description
-           type: string
-           tab: data
-
-Rich:
-    title: 'Rich'
-    tag: default-rich
-    mixins: [ WidgetMixin, BoxMixin, ContentMixin ]
-    thumbnail: 'rich/rich.png'
-    styles: [ 'rich/rich.css' ]
-    scripts: [ 'rich/rich.js' ]
-    templates: [ 'rich/rich.htm' ]
-    categories: [ composite.all]
-    params:
-            height: { value: '100px' }
-            content: {value: 'Rich' }
-Slider:
-    title: 'Slider'
-    tag: default-slider
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-    thumbnail: 'slider/slider.png'
-    styles: [ 'slider/slider.css' ]
-    scripts: [ 'slider/slider.js' ]
-    templates: [ 'slider/slider.htm' ]
-    categories: [ composite.all]
-
 Footer:
     title: 'Footer'
     tag: default-footer
-    size: { width: 12, height: 1 }
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-    thumbnail: 'footer/footer.png'
-    styles: [ 'footer/footer.css',  'footer/icons.css']
-    scripts: [ 'footer/footer.js' ]
-    templates: [ 'footer/footer.htm' ]
-    categories: [ composite.all]
-    params:
-            logo: { value: 'https://ru.bookagolf.com/images/i/4' }
-            copyright: { value: 'Все права защищены' }
-            contacts: { value: '+7 (495) 410-47-16' }
-            facebook: { value: 'https://www.facebook.com/bookagolf' }
-            twitter: { value: 'https://twitter.com/bookAgolf' }
-            google: { value: 'https://plus.google.com/u/0/communities/102202642996727382512' }
-    props:
-        -
-            name: logo
-            title: 'Logo Image'
-            type: 'string'
-            placeholder: ''
-            tab: data
-        -
-            name: copyright
-            title: 'Copyright'
-            type: 'string'
-            placeholder: ''
-            tab: data
-        -
-            name: contacts
-            title: 'Contacts'
-            type: 'string'
-            placeholder: ''
-            tab: data
-        -
-            name: facebook
-            title: 'Facebook'
-            type: 'string'
-            placeholder: ''
-            tab: data
-        -
-            name: twitter
-            title: 'Twitter'
-            type: 'string'
-            placeholder: ''
-            tab: data
-        -
-            name: google
-            title: 'Google'
-            type: 'string'
-            placeholder: ''
-            tab: data
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/footer/footer.png'
+    categories: [ composite.all, composite.footer ]
 
 Sitemap:
     title: 'Sitemap'
     tag: default-sitemap
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-    thumbnail: 'sitemap/sitemap.png'
-    image: [ ]
-    styles: [ ]
-    scripts: [ 'sitemap/sitemap.js' ]
-    templates: [ 'sitemap/sitemap.htm' ]
-    categories: [ composite.all]
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/sitemap/sitemap.png'
+    categories: [ composite.all, sitemap.footer ]
 
-Table:
-    title: 'Table'
-    tag: default-table
-    size: { width: 12, height: 5 }
-    mixins: [ WidgetMixin, CollectionMixin, BoxMixin, SourceMixin ]
-    thumbnail: 'table/table.png'
-    styles: [ 'table/table.css' ]
-    scripts: [ 'table/table.js' ]
-    templates: [ 'table/table.htm' ]
-    categories: [ composite.all]
-    params:
-            jsonpath: { value: '{$.competitors.*}' }
-    props:
-       -
-           name: jsonpath
-           title: Json Path
-           type: string
-           tab: data
-       -
-           name: columns
-           type: multiple
-           display: '{{ params.title }}'
-           title: Columns
-           tab: data
-           tabs:
-               -
-                   name: data
-                   title: Data
-               -
-                   name: appearance
-                   title: Appearance
-               -
-                   name: content
-                   title: Content
-           props:
-               -
-                   name: title
-                   title: Title
-                   type: string
-                   tab: content
-               -
-                   name: width
-                   title: Width
-                   type: string
-                   tab: appearance
-               -
-                   name: type
-                   title: Type
-                   type: string
-                   tab: data
-               -
-                   name: url
-                   title: URL
-                   type: string
-                   tab: data
-               -
-                   name: value
-                   title: Value
-                   type: string
-                   tab: data
+Horisontal:
+    title: 'Horisontal Stack'
+    tag: default-stack-horisontal
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/stack/horisontal.png'
+    categories: [ layout.all, layout.stack ]
 
-Items:
-    title: 'Items'
-    tag: default-items
-    size: { width: 12, height: 5 }
-    mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-    thumbnail: 'items/items.png'
-    styles: [ 'items/items.css' ]
-    scripts: [ 'items/items.js' ]
-    templates: [ 'items/items.htm' ]
-    categories: [ composite.all]
-    params:
-                jsonpath: { value: '$.*' }
-                itemUrl: { value: '{$.data.URL}' }
-                itemImageUrl: { value: 'i/{$.id}/thumbnail' }
-                itemTitle: { value: '{$.data.TITLE}' }
-                itemPromo: { value: '{$.data.PROMO}' }
-    props:
-       -
-           name: jsonpath
-           title: Json Path
-           type: string
-           tab: data
-       -
-           name: itemUrl
-           title: Item URL
-           type: string
-           tab: data
-       -
-           name: itemImageUrl
-           title: Item Image URL
-           type: string
-           tab: data
-       -
-           name: itemTitle
-           title: Item Title
-           type: string
-           tab: data
-       -
-           name: itemPromo
-           title: Item Promo
-           type: string
-           tab: data
+Vertical:
+    title: 'Vertical Stack'
+    tag: default-stack-vertical
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/stack/vertical.png'
+    categories: [ layout.all, layout.stack ]
+
+# Table:
+#     title: 'Table'
+#     mixins: [ WidgetMixin, CollectionMixin, BoxMixin ]
+#     styles: [ 'table/table.css' ]
+#     scripts: [ 'table/table.js' ]
+#     templates: [ 'table/table.htm' ]
+#     props:
+#         -
+#             name: columns
+#             type: multiple
+#             display: '{{ params.title }}'
+#             title: Columns
+#             tab: data
+#             tabs:
+#                 -
+#                     name: data
+#                     title: Data
+#                 -
+#                     name: appearance
+#                     title: Appearance
+#                 -
+#                     name: content
+#                     title: Content
+#             props:
+#                 -
+#                     name: title
+#                     title: Title
+#                     type: string
+#                     tab: content
+#                 -
+#                     name: width
+#                     title: Width
+#                     type: string
+#                     tab: appearance
+#                 -
+#                     name: type
+#                     title: Type
+#                     type: string
+#                     tab: data
+#                 -
+#                     name: url
+#                     title: URL
+#                     type: string
+#                     tab: data
+#                 -
+#                     name: value
+#                     title: Value
+#                     type: string
+#                     tab: data

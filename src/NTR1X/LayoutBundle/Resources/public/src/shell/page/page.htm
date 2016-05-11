@@ -1,12 +1,14 @@
 <template id="shell-page">
 
     <div class="ge ge-page">
-        <default-stack-page
+        <div
+            :is="decorator"
             :globals.sync="globals"
             :settings.sync="settings"
             :page.sync="page"
+            :data.sync="data"
             :items.sync="page.widgets"
-        ></default-stack-page>
+        ></div>
     </div>
 
 </template>

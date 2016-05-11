@@ -21,22 +21,43 @@
 
         opacity: 0;
 
-        .ge.ge-settings {
+        >.ge.ge-overlay-left {
 
             display: block;
             position: absolute;
-            top: 4px;
-            right: 4px;
+            top: 2px;
+            left: 4px;
 
-            a {
+            >a {
 
                 display: inline-block;
                 pointer-events: auto;
 
-                background-color: rgba(52, 73, 94, 0.8);
-                color: #FFFFFF;
+                // background-color: rgba(52, 73, 94, 0.8);
+                // color: #FFFFFF;
 
-                font-size: 10px;
+                font-size: 12px;
+                padding: 2px 4px;
+                margin: 0px 0px;
+            }
+        }
+
+        >.ge.ge-overlay-right {
+
+            display: block;
+            position: absolute;
+            top: 2px;
+            right: 4px;
+
+            >a {
+
+                display: inline-block;
+                pointer-events: auto;
+
+                // background-color: rgba(52, 73, 94, 0.8);
+                // color: #FFFFFF;
+
+                font-size: 12px;
                 padding: 2px 4px;
                 margin: 0px 0px;
             }
@@ -44,7 +65,7 @@
     }
 
     &:hover {
-        .ge.ge-overlay {
+        >.ge.ge-overlay {
             opacity: 1;
         }
     }

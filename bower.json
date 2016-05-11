@@ -27,6 +27,7 @@
     "lodash": "^4.8.2",
     "jsonpath-plus": "*",
     "jquery-ui": "^1.11.4",
-    "Sortable": "^1.4.2"
+    "Sortable": "^1.4.2",
+    "axios": "^0.11.0"
   }
 }

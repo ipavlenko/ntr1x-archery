@@ -31,7 +31,7 @@ class Source
 	private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Page", inversedBy="schemes")
+     * @ORM\ManyToOne(targetEntity="Page", inversedBy="sources")
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=false)
      */
     private $page;

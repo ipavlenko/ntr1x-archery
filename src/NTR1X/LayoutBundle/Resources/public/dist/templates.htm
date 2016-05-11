@@ -1139,19 +1139,6 @@
     </section>
 </template>
 
-<template id="shell-categories">
-    <section class="ge ge-categories">
-        <div v-for="category in categories">
-            <h5>
-                <span>{{ category.title }}</span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in category.categories" :class="{ 'active': item == globals.selection.category }"><a href="#" @click="trigger('selectCategory', item)">{{ item.title }}</a></li>
-            </ul>
-        </div>
-    </section>
-</template>
-
 <template id="shell-brand">
     <section class="ge ge-brand">
         <a href="#"></a>
@@ -1165,9 +1152,130 @@
             :globals.sync="globals"
             :settings.sync="settings"
             :page.sync="page"
+            :items.sync="page.widgets"
         ></shell-page>
     </section>
 
+</template>
+
+<template id="shell-categories">
+    <section class="ge ge-categories">
+        <div v-for="category in categories">
+            <h5>
+                <span>{{ category.title }}</span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in category.categories" :class="{ 'active': item == globals.selection.category }"><a href="#" @click="trigger('selectCategory', item)">{{ item.title }}</a></li>
+            </ul>
+        </div>
+    </section>
+</template>
+
+<template id="shell-decorator-canvas">
+    <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
+        <div class="ge ge-content">
+            <default-stack-canvas
+                :page.sync="page"
+                :data.sync="data"
+                :children.sync="children"
+                :editable.sync="selected"
+            ></default-stack-canvas>
+        </div>
+        <div class="ge ge-overlay">
+            <div class="ge ge-overlay-left">
+                <a href="#" v-if="!selected" @click.stop.prevent="selectTarget()" class="label label-success">Select</a>
+                <a href="#" v-if="selected" @click.stop.prevent="unselectTarget()" class="label label-success">Unselect</a>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="shell-decorator-horisontal">
+    <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
+        <div class="ge ge-content">
+            <div
+                :is="widget.tag"
+                v-ref:widget
+                :page.sync="page"
+                :data.sync="data"
+                :bindings.sync="bindings"
+                :children.sync="children"
+                :editable.sync="selected"
+            ></div>
+        </div>
+        <div class="ge ge-overlay" v-if="editable">
+            <div class="ge ge-overlay-left">
+                <a href="#" v-if="!selected" @click.stop.prevent="selectTarget()" class="label label-success">Select</a>
+                <a href="#" v-if="selected" @click.stop.prevent="unselectTarget()" class="label label-success">Unselect</a>
+            </div>
+            <div class="ge ge-overlay-right">
+                <a href="#" v-if="!selected" @click.stop.prevent="showSettings()" class="label label-primary">Settings</a>
+                <a href="#" v-if="!selected" @click.stop.prevent="removeWidget()" class="label label-danger">Remove</a>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="shell-decorator-stub">
+    <div class="ge ge-widget">
+        <div class="ge ge-content">
+            <div
+                :is="widget.tag"
+                v-ref:widget
+                :page.sync="page"
+                :data.sync="data"
+                :bindings.sync="bindings"
+                :children.sync="children"
+            ></div>
+        </div>
+    </div>
+</template>
+
+<template id="shell-decorator-vertical">
+    <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
+        <div class="ge ge-content">
+            <div
+                :is="widget.tag"
+                v-ref:widget
+                :page.sync="page"
+                :data.sync="data"
+                :bindings.sync="bindings"
+                :children.sync="children"
+                :editable.sync="selected"
+            ></div>
+        </div>
+        <div class="ge ge-overlay" v-if="editable">
+            <div class="ge ge-overlay-left">
+                <a href="#" v-if="!selected" @click.stop.prevent="selectTarget()" class="label label-success">Select</a>
+                <a href="#" v-if="selected" @click.stop.prevent="unselectTarget()" class="label label-success">Unselect</a>
+            </div>
+            <div class="ge ge-overlay-right">
+                <a href="#" v-if="!selected" @click.stop.prevent="showSettings()" class="label label-primary">Settings</a>
+                <a href="#" v-if="!selected" @click.stop.prevent="removeWidget()" class="label label-danger">Remove</a>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="shell-decorator-widget">
+    <div class="ge ge-widget">
+        <div class="ge ge-content">
+            <div
+                :is="widget.tag"
+                v-ref:widget
+                :page.sync="page"
+                :data.sync="data"
+                :bindings.sync="bindings"
+                :children.sync="children"
+            ></div>
+        </div>
+        <div class="ge ge-overlay" v-if="editable">
+            <div class="ge ge-overlay-right">
+                <a href="#" v-if="editable" @click.stop.prevent="showSettings()" class="label label-primary">Settings</a>
+                <a href="#" v-if="editable" @click.stop.prevent="removeWidget()" class="label label-danger">Remove</a>
+            </div>
+        </div>
+    </div>
 </template>
 
 <template id="shell-domains">
@@ -1198,12 +1306,14 @@
 <template id="shell-page">
 
     <div class="ge ge-page">
-        <default-stack-page
+        <div
+            :is="decorator"
             :globals.sync="globals"
             :settings.sync="settings"
             :page.sync="page"
+            :data.sync="data"
             :items.sync="page.widgets"
-        ></default-stack-page>
+        ></div>
     </div>
 
 </template>
@@ -1284,37 +1394,30 @@
     ></div>
 </template>
 
-<template id="shell-stub">
-    <div class="ge ge-stub">
-        <span>Stub</span>
-    </div>
-</template>
-
 <template id="shell-target">
     <div class="ge ge-target">
         <span>Drop Here</span>
     </div>
 </template>
 
-<template id="shell-widget">
-    <div class="ge ge-widget">
-        <div class="ge ge-content">
-            <div
-                :is="widget.tag"
-                :page.sync="page"
-                :data.sync="globals.data"
-                :bindings.sync="bindings"
-            ></div>
-        </div>
-        <div class="ge ge-overlay">
-            <div class="ge ge-settings">
-                <a href="#" v-if="!editable" @click.stop.prevent="removeWidget()">Remove</a>
-                <a href="#" v-if="!editable" @click.stop.prevent="showSettings()">Settings</a>
-                <a href="#" v-if="!editable" @click.stop.prevent="lockWidget()">Lock</a>
-                <a href="#" v-if="editable" @click.stop.prevent="unlockWidget()">Unlock</a>
-            </div>
-        </div>
+<template id="shell-stub">
+    <div class="ge ge-stub">
+        <span>Stub</span>
     </div>
+</template>
+
+<template id="shell-widget">
+    <div
+        :is="decorator"
+        :globals.sync="globals"
+        :settings.sync="settings"
+        :page.sync="page"
+        :data.sync="data"
+        :model.sync="model"
+        :widget.sync="widget"
+        :editable.sync="editable"
+        :items.sync="model.widgets"
+    ></div>
 </template>
 
 <template id="pages-widgets-params-list">

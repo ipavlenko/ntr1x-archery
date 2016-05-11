@@ -68,26 +68,12 @@
                             height: 50px;
                         }
                     }
-                    >.sortable-ghost {
-
-                        display: table-cell;
-                        background-color: yellow;
-
-                        >img {
-                            display: none;
-                        }
-
-                        &::after {
-                            display: block;
-                            content: 'Blabla';
-                        }
-                    }
                 }
             }
         }
     }
 
-    &.wg-default-stack-page,
+    &.wg-default-stack-canvas,
     &.wg-default-stack-vertical {
         >.wg.wg-content {
             >.wg.wg-table {
@@ -99,41 +85,14 @@
                         }
                     }
                 }
-                >.sortable-ghost {
-
-                    display: table-row;
-
-                    >img {
-                        display: none;
-                    }
-
-                    &::after {
-                        display: table-cell;
-                        content: 'Blabla';
-                        background-color: yellow;
-                    }
-                }
             }
         }
     }
-}
 
-// :empty {
-//
-//     display: table;
-//     width: 100%;
-//     min-height: 100px;
-//     // margin: 1px 1px;
-//     border-spacing: 1px 1px;
-//
-//     &:after {
-//         content: "Drop Here";
-//         display: table-cell;
-//         vertical-align: middle;
-//         text-align: center;
-//         color: rgba(52, 73, 94, 0.7);
-//         border: 2px dashed rgba(52, 73, 94, 0.5);
-//         background: rgba(52, 73, 94, 0.2);
-//         font-weight: bold;
-//     }
-// }
+    &:hover {
+
+        >.wg.wg-content {
+            // outline: 4px solid red;
+        }
+    }
+}

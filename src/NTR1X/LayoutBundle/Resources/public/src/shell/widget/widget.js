@@ -6,116 +6,41 @@ Shell.Widgets = window.Shell.Widgets || {};
     Shell.Widget =
     Vue.component('shell-widget', {
         template: '#shell-widget',
+        mixins: [ /* Core.DecoratorMixin, Core.ContainerMixin, Core.SortableMixin, Core.BindingsMixin */ ],
         props: {
             globals: Object,
             settings: Object,
             page: Object,
             stack: Object,
+            model: Object,
             data: Object,
+            editable: Boolean,
+        },
+        init: function() {
+            this.decorators = {
+                alternatives: {
+                    // 'default-stack-page': function() { Object.assign(this, { selector: '.wg.wg-table', stub: stub('Vertical Stack', 'Drop Here') }) },
+                    // 'default-stack-horisontal': function() { Object.assign(this, { selector: '.wg.wg-row', stub: stub('Horisontal Stack', 'Drop Here') }) },
+                    // 'default-stack-vertical': function() { Object.assign(this, { selector: '.wg.wg-table', stub: stub('Vertical Stack', 'Drop Here') }) },
+                    'default-stack-horisontal': 'shell-decorator-horisontal',
+                    'default-stack-vertical': 'shell-decorator-vertical',
+                    'default-stub': 'shell-decorator-stub',
+                },
+                fallback: 'shell-decorator-widget'
+            };
         },
         ready: function() {
-
-            this.editable = false;
-            this.widget = this.$root.$refs.shell.getWidget(this.data.type);
-
-            var self = this;
-
-            this.$watch('data.params', function(params) {
-
-                function recur(params) {
-
-                    var value = {};
-
-                    for(var key in params) {
-
-                        if (params[key]['binding']) {
-
-                            value[key] = self.$interpolate(params[key]['binding']);
-
-                        } else if ($.isArray(params[key]['value'])) {
-
-                            value[key] = [];
-
-                            for(var i = 0; i < params[key]['value'].length; i++) {
-                                value[key][i] = recur(params[key]['value'][i]);
-                            }
-
-                        } else {
-                            value[key] = params[key]['value'];
-                        }
-                    }
-
-                    return value;
-                }
-
-                self.bindings = recur(self.data.params);
-
-            }, {
-              deep: true,
-              immediate: true,
-            });
+            this.widget = this.$root.$refs.shell.getWidget(this.model.type);
+            this.decorator = this.decorators.alternatives[this.widget.tag] || this.decorators.fallback;
         },
         data: function() {
 
             return {
                 widget: this.widget,
-                bindings: this.bindings,
-                editable: this.editable,
+                decorator: this.decorator,
+                // items: this.widgets,
             };
         },
-        methods: {
-
-            lockWidget: function() {
-
-            },
-
-            unlockWidget: function() {
-
-            },
-
-            doApply: function(model) {
-
-                Object.assign(this.data, JSON.parse(JSON.stringify(model)), {
-                    _action: this.data._action
-                        ? this.data._action
-                        : 'update'
-                });
-
-                $(window).trigger('resize');
-            },
-
-            showSettings: function() {
-
-                var dialog = new Shell.Widgets.ModalEditor({
-
-                    data: {
-                        globals: this.globals,
-                        owner: this,
-                        context: {
-                            widget: this.widget
-                        },
-                        original: this.data,
-                        current: JSON.parse(JSON.stringify(this.data))
-                    },
-
-                    methods: {
-                        submit: function() {
-                            this.owner.doApply(this.current);
-                            this.$remove();
-                            this.$destroy();
-                        },
-                        reset: function() {
-                            this.$remove();
-                            this.$destroy();
-                        }
-                    }
-                }).$mount().$appendTo($('body').get(0));
-            },
-
-            removeWidget: function() {
-                this.$dispatch('removeWidget', { item: this.data });
-            }
-        }
     });
 
 })(jQuery, Vue, Shell);
