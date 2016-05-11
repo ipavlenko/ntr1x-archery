@@ -10,6 +10,11 @@
             {{ bindings.innerBorder | style 'border' }}
             {{ bindings.innerBackground | style 'background' }}
         ">
+
+            <pre>
+                {{ data | json 4 }}
+            </pre>
+
             <div class="info-block">
                 <a class="logo" href="/" title="Moscow Academy"><img src="{{ bindings.logo }}" alt="Logo"/></a>
                 <div class="phone-block">

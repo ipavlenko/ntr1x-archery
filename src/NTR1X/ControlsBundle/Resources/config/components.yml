@@ -2,7 +2,7 @@ all:
     level: 2
     scripts:
         - 'src/components/editor.js'
-        - 'src/components/widget.js'
+        - 'src/components/mixins.js'
         - 'src/components/modal.js'
         - 'src/components/form.js'
         - 'src/components/grid.js'
