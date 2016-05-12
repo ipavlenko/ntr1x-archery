@@ -1,0 +1,74 @@
+<template id="default-form">
+    <section class="wg wg-default-form" id="{{ bindings.id }}" style="
+        {{ bindings.outerBorder | style 'border' }}
+        {{ bindings.outerBackground | style 'background' }}
+    ">
+        <div class="wg wg-content" style="
+            {{ bindings.margin | style 'margin' }}
+            {{ bindings.padding | style 'padding' }}
+            {{ bindings.innerBorder | style 'border' }}
+            {{ bindings.innerBackground | style 'background' }}
+        ">
+
+            <pre>
+                {{ bindings | json 4}}
+            </pre>
+
+<!--
+<form data-role="submit" data-success="modal:///modal-success" data-failure="modal:///modal-failure">
+
+<div class="title" style=""><p>Заказать</p>
+
+</div>
+<div class="text-top"></div>
+                                                                                                                                                            <div class="form-group">
+<input
+class="form-control"
+type="text"
+name="name"
+placeholder="Ваше имя"
+value=""
+data-role="input"
+data-scope="FORM"
+required="">
+</div>
+                                                                                                                                                                                            <div class="form-group">
+<input class="form-control" type="email" name="email" placeholder="Электронная почта" value="" data-role="input" data-scope="FORM" required="">
+</div>
+                                                                                                                                                                                            <div class="form-group">
+<input class="form-control" type="text" name="phone" placeholder="Номер телефона" value="" data-role="input" data-scope="FORM" required="">
+</div>
+                                                                                                                                                                                            <div class="form-group">
+<input class="form-control" type="submit" name="submit" placeholder="" value="Заказать" data-role="input" data-scope="0" required="">
+</div>
+<div class="text-bot"></div>
+
+</form>
+-->
+
+            <form action="{{ bindings.acton }}" data-role="submit" data-success="modal:///modal-success" data-failure="modal:///modal-failure">
+
+                <div class="title" style="">{{{ bindings.title }}}</div>
+                <div class="text-top">{{{ bindings.textabove }}}</div>
+
+                <div v-for="field in bindings.fields" class="form-group">
+                    {{ field.title }}
+                    <input
+                            class="form-control"
+                            type="{{ field.type }}"
+                            name="{{ field.name }}"
+                            placeholder="{{ field.placeholder }}"
+                            value=""
+                            data-role="input"
+                            data-scope="{{ field.scope }}"
+                            required=""
+                    >
+
+                </div>
+
+                <div class="text-bot">{{{ bindings.textbelow }}}</div>
+
+            </form>
+        </div>
+    </section>
+</template>

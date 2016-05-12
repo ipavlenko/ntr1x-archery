@@ -17,6 +17,10 @@
                 <link href="{{ asset(style.assetPath) }}" rel="stylesheet" />
             {% endfor %}
 
+            {% for style in widget.styles %}
+                <link href="{{ asset(style.assetPath) }}" rel="stylesheet" />
+            {% endfor %}
+
         {% endblock %}
 
         {% block javascripts %}
@@ -31,6 +35,10 @@
             <script src="{{ asset('assets/vendor/jsonpath-plus/lib/jsonpath.js') }}"></script>
 
             {% for script in layout.scripts %}
+                <script src="{{ asset(script.assetPath) }}"></script>
+            {% endfor %}
+
+            {% for script in widget.scripts %}
                 <script src="{{ asset(script.assetPath) }}"></script>
             {% endfor %}
 
@@ -64,6 +72,12 @@
         {% block templates %}
 
             {% for template in layout.templates %}
+                {{ render(controller('NTR1XLayoutBundle:Layout:asset', {
+                    asset: template,
+                })) }}
+            {% endfor %}
+
+            {% for template in widget.templates %}
                 {{ render(controller('NTR1XLayoutBundle:Layout:asset', {
                     asset: template,
                 })) }}
