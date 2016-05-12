@@ -1,29 +1,29 @@
-(function($, Vue, Core) {
-
-    Vue.component('default-footer', {
-        template: '#default-footer',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-})(jQuery, Vue, Core);
-
-(function($, Vue, Core) {
-
-    Vue.component('default-header', {
-        template: '#default-header',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-})(jQuery, Vue, Core);
-
-(function($, Vue, Core) {
-
-    Vue.component('default-menu', {
-        template: '#default-menu',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-})(jQuery, Vue, Core);
+// (function($, Vue, Core) {
+//
+//     Vue.component('default-footer', {
+//         template: '#default-footer',
+//         mixins: [ Core.WidgetMixin ],
+//     });
+//
+// })(jQuery, Vue, Core);
+//
+// (function($, Vue, Core) {
+//
+//     Vue.component('default-header', {
+//         template: '#default-header',
+//         mixins: [ Core.WidgetMixin ],
+//     });
+//
+// })(jQuery, Vue, Core);
+//
+// (function($, Vue, Core) {
+//
+//     Vue.component('default-menu', {
+//         template: '#default-menu',
+//         mixins: [ Core.WidgetMixin ],
+//     });
+//
+// })(jQuery, Vue, Core);
 
 (function($, Vue, Core) {
 
@@ -34,14 +34,14 @@
 
 })(jQuery, Vue, Core);
 
-(function($, Vue, Core) {
-
-    Vue.component('default-sitemap', {
-        template: '#default-sitemap',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-})(jQuery, Vue, Core);
+// (function($, Vue, Core) {
+//
+//     Vue.component('default-sitemap', {
+//         template: '#default-sitemap',
+//         mixins: [ Core.WidgetMixin ],
+//     });
+//
+// })(jQuery, Vue, Core);
 
 Shell = window.Shell || {};
 
