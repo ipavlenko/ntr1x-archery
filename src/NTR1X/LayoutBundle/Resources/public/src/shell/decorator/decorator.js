@@ -106,7 +106,6 @@ Shell = window.Shell || {};
 
             this.$watch('model', (model) => {
                 this.bindings = recur(model.params);
-                // console.log(this.bindings);
             }, {
                 deep: true,
                 immediate: true,
@@ -141,7 +140,6 @@ Shell = window.Shell || {};
                 }
 
                 this.children = children;
-                // console.log('composite', this.children);
             }, {
                 immediate: true,
                 deep: true,
@@ -160,7 +158,7 @@ Shell = window.Shell || {};
                     item._action = 'remove';
                 }
 
-                this.items = this.items.slice();//$.extend([], this.items);
+                this.items = this.items.slice();
             },
         },
     };
@@ -191,7 +189,7 @@ Shell = window.Shell || {};
                 };
             },
 
-            ready: function() {
+            created: function() {
 
                 var self = this;
                 this.$watch('selected', function(selected) {
@@ -211,9 +209,41 @@ Shell = window.Shell || {};
 
                                 var palette = $(evt.item).closest('.ge.ge-palette');
 
-                                if (self.globals.selection.dragged) {
+                                var w = $(evt.item).data('widget');
 
-                                    var dragged = self.globals.selection.dragged;
+                                if (w) {
+
+                                    if (!palette.length) {
+
+                                       $(evt.item).remove();
+
+                                       var ni = find(self.items, evt.newIndex);
+
+                                       var widget = self.$root.$refs.shell.getWidget(w);
+
+                                       self.items.splice(ni, 0, {
+                                           type: widget.id,
+                                           resource: {
+                                               params: [],
+                                               _action: 'create'
+                                           },
+                                           params: widget.params
+                                               ? JSON.parse(JSON.stringify(widget.params))
+                                               : {}
+                                           ,
+                                           widgets: [],
+                                           _action: 'create',
+                                       });
+                                   }
+
+                                } else {
+
+                                    var dragged = {
+                                        vue: evt.from.__dragged__,
+                                        item: $('.ge.ge-widget', evt.item),
+                                        clone: $('.ge.ge-widget', evt.clone),
+                                    };
+
                                     var container = $(evt.to).closest('.ge.ge-widget').get(0).__vue__;
 
                                     var ni = find(self.items, evt.newIndex);
@@ -227,57 +257,36 @@ Shell = window.Shell || {};
 
                                     container.items.splice(ni, 0, newItem);
                                     container.items = container.items.slice();
-
-                                } else if (!palette.length) {
-
-                                    $(evt.item).remove();
-
-                                    var ni = find(self.items, evt.newIndex);
-
-                                    var widget = self.$root.$refs.shell.getWidget($(evt.item).data('widget'));
-
-                                    self.items.splice(ni, 0, {
-                                        type: widget.id,
-                                        resource: {
-                                            params: [],
-                                            _action: 'create'
-                                        },
-                                        params: widget.params
-                                            ? JSON.parse(JSON.stringify(widget.params))
-                                            : {}
-                                        ,
-                                        widgets: [],
-                                        _action: 'create',
-                                    });
                                 }
                             },
 
                             onStart: function (evt) {
-
-                                self.globals.selection.dragged = {
-                                    vue: $('.ge.ge-widget', evt.item).get(0).__vue__,
-                                    item: $('.ge.ge-widget', evt.item),
-                                    clone: $('.ge.ge-widget', evt.clone),
-                                };
+                                evt.from.__dragged__ = $('.ge.ge-widget', evt.item).get(0).__vue__;
                             },
 
                             onRemove: function(evt) {
 
-                                if (self.globals.selection.dragged) {
+                                // if (self.globals && self.globals.selection && self.globals.selection.dragged) {
 
-                                    var dragged = self.globals.selection.dragged;
-                                    var stack =  dragged.vue.$parent.$parent.$parent;
+                                console.log('remove', evt);
 
-                                    dragged.clone.remove();
+                                var dragged = {
+                                    vue: evt.from.__dragged__,
+                                    item: $('.ge.ge-widget', evt.item),
+                                    clone: $('.ge.ge-widget', evt.clone),
+                                };
 
-                                    if (dragged.vue.model._action == 'create') {
-                                        stack.items.$remove(dragged.vue.model);
-                                    } else {
-                                        dragged.vue.model._action = 'remove';
-                                    }
+                                var stack =  dragged.vue.$parent.$parent.$parent;
 
-                                    stack.items = stack.items.slice();
+                                dragged.clone.remove();
+
+                                if (dragged.vue.model._action == 'create') {
+                                    stack.items.$remove(dragged.vue.model);
+                                } else {
+                                    dragged.vue.model._action = 'remove';
                                 }
+
+                                stack.items = stack.items.slice();
                             },
 
                             onUpdate: function (evt) {
@@ -293,9 +302,7 @@ Shell = window.Shell || {};
 
                             onEnd: function (evt) {
 
-                                console.log('end', evt);
-
-                                self.globals.selection.dragged = null;
+                                delete evt.from.__dragged__;
                             }
                         });
 
