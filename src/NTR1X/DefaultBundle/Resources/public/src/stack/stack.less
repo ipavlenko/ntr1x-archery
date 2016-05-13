@@ -63,6 +63,18 @@
         >.wg.wg-content {
             >.wg.wg-table {
                 >.wg.wg-row {
+
+                    >.sortable-ghost {
+
+                        display: table-cell;
+                        width: auto;
+                        background: yellow;
+
+                        >img {
+                            opacity: 0;
+                        }
+                    }
+
                     >.wg.wg-cell {
                         &.wg-cell-placeholder {
                             height: 50px;
@@ -77,6 +89,18 @@
     &.wg-default-stack-vertical {
         >.wg.wg-content {
             >.wg.wg-table {
+
+                >.sortable-ghost {
+
+                    display: table-row;
+                    width: auto;
+                    background: yellow;
+
+                    >img {
+                        opacity: 0;
+                    }
+                }
+
                 >.wg.wg-row {
                     >.wg.wg-cell {
                         &.wg-cell-placeholder {

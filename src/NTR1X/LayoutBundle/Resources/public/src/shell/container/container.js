@@ -8,12 +8,12 @@
             page: Object,
             category: Object,
         },
-        data: function() {
+        // data: function() {
             // console.log(this.globals, this.settings, this.page, this.category);
             // return {
             //     page: this.globals.selection.page
             // }
-        },
+        // },
         // ready: function() {
         //     console.log(this.globals, this.settings, this.page);
         // }

@@ -13,7 +13,7 @@
                 globals: this.globals,
             };
         },
-        ready: function() {
+        created: function() {
 
             this.globals = {
                 selection: this.selection,
@@ -92,29 +92,29 @@
                 return null;
             },
 
-            selectPage: function(page) {
-
-                this.selection.page = page;
-                this.selection.source = null;
-
-                var data = {};
-
-                // TODO Сделать запросы
-
-                if (page && page.sources) {
-                    for (var i = 0; i < page.sources.length; i++) {
-                        var s = page.sources[i];
-                        data[s.name] = [
-                            { one: 11, two: 12 },
-                            { one: 21, two: 22 },
-                            { one: 31, two: 32 },
-                            { one: 41, two: 42 },
-                        ];
-                    }
-                }
-
-                this.globals.data = data;
-            },
+            // selectPage: function(page) {
+            //
+            //     this.selection.page = page;
+            //     this.selection.source = null;
+            //
+            //     var data = {};
+            //
+            //     // TODO Сделать запросы
+            //
+            //     if (page && page.sources) {
+            //         for (var i = 0; i < page.sources.length; i++) {
+            //             var s = page.sources[i];
+            //             data[s.name] = [
+            //                 { one: 11, two: 12 },
+            //                 { one: 21, two: 22 },
+            //                 { one: 31, two: 32 },
+            //                 { one: 41, two: 42 },
+            //             ];
+            //         }
+            //     }
+            //
+            //     this.globals.data = data;
+            // },
 
             selectSource: function(source) {
 

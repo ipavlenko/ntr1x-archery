@@ -74,7 +74,7 @@ Shell = window.Shell || {};
             };
         },
 
-        ready: function() {
+        created: function() {
 
             var self = this;
 
@@ -122,7 +122,7 @@ Shell = window.Shell || {};
             };
         },
 
-        ready: function() {
+        created: function() {
 
             this.$watch('items', (items) => {
 
@@ -136,11 +136,12 @@ Shell = window.Shell || {};
                     }
                 }
 
-                if (children.length < 2) {
+                if (children.length < 1) {
                     children.push(JSON.parse(JSON.stringify(this.stub())));
                 }
 
                 this.children = children;
+                // console.log('composite', this.children);
             }, {
                 immediate: true,
                 deep: true,
@@ -153,15 +154,13 @@ Shell = window.Shell || {};
 
                 var item = data.item;
 
-                console.log(item, this.items);
-
                 if (item._action == 'create') {
                     this.items.$remove(item);
                 } else {
                     item._action = 'remove';
                 }
 
-                this.items = $.extend(true, [], this.items);
+                this.items = this.items.slice();//$.extend([], this.items);
             },
         },
     };
@@ -201,8 +200,10 @@ Shell = window.Shell || {};
 
                         self.sortable =
                         Sortable.create($(selector, self.$el).get(0), {
+
                             group: {
                                 name: 'widgets',
+                                pull: 'clone',
                             },
                             animation: 150,
 
@@ -210,15 +211,32 @@ Shell = window.Shell || {};
 
                                 var palette = $(evt.item).closest('.ge.ge-palette');
 
-                                if (!palette.length) {
+                                if (self.globals.selection.dragged) {
+
+                                    var dragged = self.globals.selection.dragged;
+                                    var container = $(evt.to).closest('.ge.ge-widget').get(0).__vue__;
+
+                                    var ni = find(self.items, evt.newIndex);
+
+                                    var newItem = JSON.parse(JSON.stringify(dragged.vue.model));
+                                    newItem._action = 'create';
+                                    delete newItem.resource.id;
+                                    delete newItem.id;
+
+                                    dragged.item.remove();
+
+                                    container.items.splice(ni, 0, newItem);
+                                    container.items = container.items.slice();
+
+                                } else if (!palette.length) {
 
                                     $(evt.item).remove();
 
-                                    var i = find(self.items, evt.newIndex);
+                                    var ni = find(self.items, evt.newIndex);
 
                                     var widget = self.$root.$refs.shell.getWidget($(evt.item).data('widget'));
 
-                                    self.items.splice(i, 0, {
+                                    self.items.splice(ni, 0, {
                                         type: widget.id,
                                         resource: {
                                             params: [],
@@ -231,26 +249,53 @@ Shell = window.Shell || {};
                                         widgets: [],
                                         _action: 'create',
                                     });
-
-                                    self.items = $.extend(true, [], self.items);
                                 }
                             },
 
-                            onEnd: function (evt) {
+                            onStart: function (evt) {
+
+                                self.globals.selection.dragged = {
+                                    vue: $('.ge.ge-widget', evt.item).get(0).__vue__,
+                                    item: $('.ge.ge-widget', evt.item),
+                                    clone: $('.ge.ge-widget', evt.clone),
+                                };
+                            },
+
+                            onRemove: function(evt) {
+
+                                if (self.globals.selection.dragged) {
+
+                                    var dragged = self.globals.selection.dragged;
+                                    var stack =  dragged.vue.$parent.$parent.$parent;
+
+                                    dragged.clone.remove();
+
+                                    if (dragged.vue.model._action == 'create') {
+                                        stack.items.$remove(dragged.vue.model);
+                                    } else {
+                                        dragged.vue.model._action = 'remove';
+                                    }
+
+                                    stack.items = stack.items.slice();
+                                }
+                            },
+
+                            onUpdate: function (evt) {
 
                                 if  (evt.newIndex != evt.oldIndex) {
-
-                                    evt.preventDefault();
 
                                     var oi = find(self.items, evt.oldIndex);
                                     var ni = find(self.items, evt.newIndex);
 
                                     self.items.splice(ni, 0, self.items.splice(oi, 1)[0]);
                                 }
+                            },
 
-                                self.items = $.extend(true, [], self.items);
+                            onEnd: function (evt) {
 
-                                console.log(self.items);
+                                console.log('end', evt);
+
+                                self.globals.selection.dragged = null;
                             }
                         });
 
@@ -312,7 +357,7 @@ Shell = window.Shell || {};
 
     Vue.component('shell-decorator-horisontal', {
         template: '#shell-decorator-horisontal',
-        mixins: [ DecoratorMixin, CompositeMixin, SortableMixin('.wg.wg-row'), BindingsMixin ],
+        mixins: [ DecoratorMixin, CompositeMixin, SortableMixin('>.ge.ge-content >.wg.wg-default-stack >.wg.wg-content >.wg.wg-table >.wg.wg-row'), BindingsMixin ],
         props: {
             globals: Object,
             settings: Object,
@@ -331,7 +376,7 @@ Shell = window.Shell || {};
 
     Vue.component('shell-decorator-vertical', {
         template: '#shell-decorator-vertical',
-        mixins: [ DecoratorMixin, CompositeMixin, SortableMixin('.wg.wg-table'), BindingsMixin ],
+        mixins: [ DecoratorMixin, CompositeMixin, SortableMixin('>.ge.ge-content >.wg.wg-default-stack >.wg.wg-content >.wg.wg-table'), BindingsMixin ],
         props: {
             globals: Object,
             settings: Object,
@@ -350,7 +395,7 @@ Shell = window.Shell || {};
 
     Vue.component('shell-decorator-canvas', {
         template: '#shell-decorator-canvas',
-        mixins: [ CompositeMixin, SortableMixin('.wg.wg-table') ],
+        mixins: [ CompositeMixin, SortableMixin('>.ge.ge-content >.wg.wg-default-stack >.wg.wg-content >.wg.wg-table') ],
         props: {
             globals: Object,
             settings: Object,
