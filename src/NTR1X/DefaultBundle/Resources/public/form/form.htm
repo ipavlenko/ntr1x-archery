@@ -1,0 +1,45 @@
+<template id="default-form">
+    <section class="wg wg-default-form" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
+
+            <form action="{{ bindings.acton }}">
+
+                <div class="title" style="">{{{ bindings.title }}}</div>
+                <div class="text-top">{{{ bindings.textabove }}}</div>
+
+                <div v-for="field in bindings.fields" class="form-group">
+
+                    <input v-if="field.type != 'textarea'"
+                            class="form-control"
+                            type="{{ field.type }}"
+                            name="{{ field.name }}"
+                            placeholder="{{ field.placeholder }}"
+                            value=""
+                            data-role="input"
+                            data-scope="{{ field.scope }}"
+                    >
+
+                    <textarea v-if="field.type == 'textarea'"
+                              name="{{ field.name }}"
+                              placeholder="{{ field.placeholder }}"
+                              class="form-control"
+                    ></textarea>
+
+                </div>
+
+                <input class="form-control" type="submit" name="submit" value="Отправить" data-role="input" data-scope="0">
+
+                <div class="text-bot">{{{ bindings.textbelow }}}</div>
+
+            </form>
+        </div>
+    </section>
+</template>

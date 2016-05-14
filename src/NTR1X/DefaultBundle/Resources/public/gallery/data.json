@@ -1,0 +1,85 @@
+[ {
+  "id" : 18,
+  "category" : {
+    "id" : 3,
+    "portal" : 5,
+    "name" : "directories",
+    "data" : {
+      "WIDTH" : "232",
+      "NUMERIC_ORDER" : null,
+      "HEIGHT" : "300",
+      "TITLE" : "Разделы"
+    }
+  },
+  "lock" : 2147483645,
+  "data" : {
+    "NUMERIC_ORDER" : "1",
+    "RATING" : null,
+    "URL" : "http://moscowacademy.com/programs#widget-programs-beginners",
+    "TITLE" : "Для начинающих гольфистов",
+    "DESCRIPTION" : ""
+  }
+}, {
+  "id" : 19,
+  "category" : {
+    "id" : 3,
+    "portal" : 5,
+    "name" : "directories",
+    "data" : {
+      "WIDTH" : "232",
+      "NUMERIC_ORDER" : null,
+      "HEIGHT" : "300",
+      "TITLE" : "Разделы"
+    }
+  },
+  "lock" : 2147483645,
+  "data" : {
+    "NUMERIC_ORDER" : "2",
+    "RATING" : null,
+    "URL" : "http://moscowacademy.com/programs#widget-programs-av",
+    "TITLE" : "Для среднего уровня",
+    "DESCRIPTION" : ""
+  }
+}, {
+  "id" : 20,
+  "category" : {
+    "id" : 3,
+    "portal" : 5,
+    "name" : "directories",
+    "data" : {
+      "WIDTH" : "232",
+      "NUMERIC_ORDER" : null,
+      "HEIGHT" : "300",
+      "TITLE" : "Разделы"
+    }
+  },
+  "lock" : 2147483645,
+  "data" : {
+    "NUMERIC_ORDER" : null,
+    "RATING" : null,
+    "URL" : "http://moscowacademy.com/programs#widget-programs-pro",
+    "TITLE" : "Для продвинутых гольфистов",
+    "DESCRIPTION" : ""
+  }
+}, {
+  "id" : 21,
+  "category" : {
+    "id" : 3,
+    "portal" : 5,
+    "name" : "directories",
+    "data" : {
+      "WIDTH" : "232",
+      "NUMERIC_ORDER" : null,
+      "HEIGHT" : "300",
+      "TITLE" : "Разделы"
+    }
+  },
+  "lock" : 2147483645,
+  "data" : {
+    "NUMERIC_ORDER" : null,
+    "RATING" : null,
+    "URL" : "http://moscowacademy.com/corporate",
+    "TITLE" : "Корпоративный гольф",
+    "DESCRIPTION" : ""
+  }
+} ]

@@ -1,0 +1,43 @@
+[ {
+  "id" : 62,
+  "category" : {
+    "id" : 11,
+    "portal" : 5,
+    "name" : "main",
+    "data" : {
+      "WIDTH" : "880",
+      "NUMERIC_ORDER" : null,
+      "HEIGHT" : "400",
+      "TITLE" : "Баннеры на главную стр"
+    }
+  },
+  "lock" : 2147483645,
+  "data" : {
+    "NUMERIC_ORDER" : null,
+    "RATING" : null,
+    "URL" : "",
+    "TITLE" : "Скидка",
+    "DESCRIPTION" : ""
+  }
+}, {
+  "id" : 63,
+  "category" : {
+    "id" : 11,
+    "portal" : 5,
+    "name" : "main",
+    "data" : {
+      "WIDTH" : "880",
+      "NUMERIC_ORDER" : null,
+      "HEIGHT" : "400",
+      "TITLE" : "Баннеры на главную стр"
+    }
+  },
+  "lock" : 2147483645,
+  "data" : {
+    "NUMERIC_ORDER" : null,
+    "RATING" : null,
+    "URL" : "",
+    "TITLE" : "Пригласите друзей",
+    "DESCRIPTION" : ""
+  }
+} ]
