@@ -369,6 +369,118 @@ InputRadio:
         value: { value: true }
         label: { value: 'I have read and agree to the terms of use' }
 
+ButtonDefault:
+    title: 'Button'
+    tag: default-button
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/button/default.png'
+    categories: [ form.all, form.button ]
+    props:
+        - { name: type, title: Type, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        - { name: title, title: Title, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        type: button
+        title: { value: 'Default' }
+        stereotype: { value: 'default' }
+
+ButtonPrimary:
+    title: 'Button'
+    tag: default-button
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/button/primary.png'
+    categories: [ form.all, form.button ]
+    props:
+        - { name: type, title: Type, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        - { name: title, title: Title, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        type: button
+        title: { value: 'Primary' }
+        stereotype: { value: 'primary' }
+
+ButtonSuccess:
+    title: 'Button'
+    tag: default-button
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/button/success.png'
+    categories: [ form.all, form.button ]
+    props:
+        - { name: type, title: Type, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        - { name: title, title: Title, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        type: button
+        title: { value: 'Success' }
+        stereotype: { value: 'success' }
+
+ButtonInfo:
+    title: 'Button'
+    tag: default-button
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/button/info.png'
+    categories: [ form.all, form.button ]
+    props:
+        - { name: type, title: Type, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        - { name: title, title: Title, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        type: button
+        title: { value: 'Info' }
+        stereotype: { value: 'info' }
+
+ButtonWarning:
+    title: 'Button'
+    tag: default-button
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/button/warning.png'
+    categories: [ form.all, form.button ]
+    props:
+        - { name: type, title: Type, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        - { name: title, title: Title, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        type: button
+        title: { value: 'Warning' }
+        stereotype: { value: 'warning' }
+
+ButtonDanger:
+    title: 'Button'
+    tag: default-button
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/button/danger.png'
+    categories: [ form.all, form.button ]
+    props:
+        - { name: type, title: Type, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        - { name: title, title: Title, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        type: button
+        title: { value: 'Danger' }
+        stereotype: { value: 'danger' }
+
+ButtonLink:
+    title: 'Button'
+    tag: default-button
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/button/link.png'
+    categories: [ form.all, form.button ]
+    props:
+        - { name: type, title: Type, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        - { name: title, title: Title, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        type: button
+        title: { value: 'Link' }
+        stereotype: { value: 'link' }
+
 Rich:
     title: 'Rich'
     tag: default-rich
