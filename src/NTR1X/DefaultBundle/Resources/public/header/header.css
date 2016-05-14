@@ -1,8 +1,9 @@
 .wg.wg-default-header {
+    height: 330px;
+}
+.wg.wg-default-header .wg.wg-content {
     position: relative;
-    height: 300px; /*height: 100%;*/
-    width: 100%;
-    background-size: cover;
+    height: inherit;
 }
 
 .wg.wg-default-header .info-block {
@@ -17,6 +18,7 @@
 .wg.wg-default-header .info-block .logo img {
     width: 345px;
 }
+
 .wg.wg-default-header .partners-block {
     position: absolute;
     margin-bottom: 0;

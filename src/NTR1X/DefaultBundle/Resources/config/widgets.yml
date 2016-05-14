@@ -242,7 +242,7 @@ Header:
     categories: [ composite.all, composite.header ]
     params:
             phone: { value: '8 800 555 35 35' }
-            fill: { value: 'background: url(https://ru.bookagolf.com/bunches/academies/i/23/images/i/36) center right no-repeat; background-size: cover;' }
+            outerBackground: { value: 'url(https://ru.bookagolf.com/bunches/academies/i/23/images/i/36) center right no-repeat' }
             logo: { value: 'https://ru.bookagolf.com/bunches/academies/i/23/images/i/28' }
     props:
         -
@@ -250,11 +250,6 @@ Header:
             title: 'Phone'
             type: 'rich'
             tab: content
-        -
-            name: fill
-            title: 'Fill'
-            type: 'string'
-            tab: appearance
         -
             name: logo
             title: 'Logo'
@@ -310,6 +305,7 @@ Gallery:
                 itemImageUrl: { value: 'i/{$.id}/thumbnail' }
                 itemTitle: { value: '{$.data.TITLE}' }
                 itemDescription: { value: '{$.data.DESCRIPTION}' }
+                itemMargin: { value: '3px' }
     props:
        -
            name: jsonpath
@@ -336,6 +332,11 @@ Gallery:
            title: Item Description
            type: string
            tab: data
+       -
+           name: itemMargin
+           title: Item Margin
+           type: string
+           tab: appearance
 
 Rich:
     title: 'Rich'
@@ -358,7 +359,15 @@ Slider:
     scripts: [ 'slider/slider.js' ]
     templates: [ 'slider/slider.htm' ]
     categories: [ composite.all]
-
+    params:
+            ItemsData: { value: '12' }
+    props:
+        -
+            name: ItemsData
+            title: 'Items Data'
+            type: 'string'
+            placeholder: ''
+            tab: data
 Footer:
     title: 'Footer'
     tag: default-footer
@@ -538,7 +547,9 @@ Form:
     styles: [ 'form/form.css' ]
     scripts: [ 'form/form.js' ]
     templates: [ 'form/form.htm' ]
-    categories: [ composite.all]
+    categories: [ form.all]
+    params:
+                fields: { value: [{ name: {value:'name'}, scope: {value:'FORM'}, type: {value:'type'}, title: {value:'Ваше имя'}, placeholder: {value:'Ваше имя'}}] }
     props:
        -
            name: success

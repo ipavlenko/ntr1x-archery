@@ -1,15 +1,15 @@
 <template id="default-menu">
 
-    <section v-if="!bindings.items" class="wg wg-default-menu" id="{{ bindings.id }}" style="
-        {{ bindings.outerBorder | style 'border' }}
-        {{ bindings.outerBackground | style 'background' }}
-    ">
-        <div class="wg wg-content" style="
-            {{ bindings.margin | style 'margin' }}
-            {{ bindings.padding | style 'padding' }}
-            {{ bindings.innerBorder | style 'border' }}
-            {{ bindings.innerBackground | style 'background' }}
-        ">
+    <section v-if="!bindings.items" class="wg wg-default-menu" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
             <ul class="site-menu clearfix">
                 <li v-for="item in fetchData.children" class="menu-element {{ (item.children.length > 0) ? 'dropdown' : '' }}">
                     <a href="{{ (item.children.length > 0) ? '#' : item.desc.data.URL }}"
@@ -32,17 +32,16 @@
         </div>
     </section>
 
-    <section v-if="bindings.items" class="wg wg-default-menu" id="{{ bindings.id }}" style="
-        {{ bindings.fill | style }}
-        {{ bindings.outerBorder | style 'border' }}
-        {{ bindings.outerBackground  | style 'background' }}
-    ">
-        <div class="wg wg-content" style="
-            {{ bindings.margin | style 'margin' }}
-            {{ bindings.padding | style 'padding' }}
-            {{ bindings.innerBorder | style 'border' }}
-            {{ bindings.innerBackground | style 'background' }}
-        ">
+    <section v-if="bindings.items" class="wg wg-default-menu" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
             <ul class="site-menu clearfix">
                 <li v-for="item in bindings.items" class="menu-element">
                     <a href="{{ item.url }}" style="color: #fff;">{{ item.title }}</a>

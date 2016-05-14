@@ -1,14 +1,14 @@
 <template id="default-footer">
-    <section class="wg wg-default-footer" id="{{ bindings.id }}" style="
-        {{ bindings.outerBorder | style 'border' }}
-        {{ bindings.outerBackground | style 'background' }}
-    ">
-        <div class="wg wg-content" style="
-            {{ bindings.margin | style 'margin' }}
-            {{ bindings.padding | style 'padding' }}
-            {{ bindings.innerBorder | style 'border' }}
-            {{ bindings.innerBackground | style 'background' }}
-        ">
+    <section class="wg wg-default-footer" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
             <a class="logo"><img src="{{ bindings.logo }}" alt="logo" height="20px"/></a>
             <div class="copyright">{{ params.copyright.value }}</div>
             <div class="contacts-block pull-right">

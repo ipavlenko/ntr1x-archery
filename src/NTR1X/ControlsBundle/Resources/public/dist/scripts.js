@@ -168,11 +168,6 @@ Core = window.Core || {};
                 },
 
                 doCreate: function(item, context) {
-
-                    console.log(this);
-                    console.log(this.items);
-
-
                     this.items.push(Object.assign({}, JSON.parse(JSON.stringify(item)), { _action: 'create' }));
                     $(window).trigger('resize');
                     this.active = null;

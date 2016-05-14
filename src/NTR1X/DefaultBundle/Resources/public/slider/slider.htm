@@ -1,14 +1,28 @@
 <template id="default-slider">
-    <section class="wg wg-default-slider" id="{{ bindings.id }}" style="
-        {{ bindings.outerBorder | style 'border' }}
-        {{ bindings.outerBackground | style 'background' }}
-    ">
-        <div class="wg wg-content" style="
-            {{ bindings.margin | style 'margin' }}
-            {{ bindings.padding | style 'padding' }}
-            {{ bindings.innerBorder | style 'border' }}
-            {{ bindings.innerBackground | style 'background' }}
-        ">
+
+    <!--<div v-for="item in data.slider">-->
+
+        <!--<pre>-->
+            <!--{{ item.id }}-->
+        <!--</pre>-->
+
+    <!--</div>-->
+
+    <pre>
+        {{ bindings.ItemsData | json 4 }}
+    </pre>
+
+
+    <section class="wg wg-default-slider" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner" role="listbox">
                     <div v-for="item in fetchData" class="item {{ $index == 0 ? 'active' : ''}}">

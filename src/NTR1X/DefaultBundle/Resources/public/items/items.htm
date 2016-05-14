@@ -1,14 +1,14 @@
 <template id="default-items">
-    <section class="wg wg-default-items" id="{{ bindings.id }}" style="
-        {{ bindings.outerBorder | style 'border' }}
-        {{ bindings.outerBackground | style 'background' }}
-    ">
-        <div class="wg wg-content" style="
-            {{ bindings.margin | style 'margin' }}
-            {{ bindings.padding | style 'padding' }}
-            {{ bindings.innerBorder | style 'border' }}
-            {{ bindings.innerBackground | style 'background' }}
-        ">
+    <section class="wg wg-default-items" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
             <div v-for="item in fetchData" class="items-list">
                 <div class="item clearfix">
                     <div class="left-part pull-left">
