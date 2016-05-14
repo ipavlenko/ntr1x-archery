@@ -1,0 +1,10 @@
+<template id="default-input-text">
+    <section class="wg wg-default-input wg-default-input-text">
+        <default-box :bindings.sync="bindings">
+            <div class="form-group">
+                <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
+                <input type="{{ bindings.type }}" class="form-control" placeholder="{{ bindings.placeholder}}" v-model="bindings.model" />
+            </div>
+        </default-box>
+    <section>
+</template>
