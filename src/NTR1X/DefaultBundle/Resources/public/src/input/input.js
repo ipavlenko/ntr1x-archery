@@ -5,6 +5,11 @@
         mixins: [ Core.WidgetMixin ],
     });
 
+    Vue.component('default-input-textarea', {
+        template: '#default-input-textarea',
+        mixins: [ Core.WidgetMixin ],
+    });
+
     Vue.component('default-input-checkbox', {
         template: '#default-input-checkbox',
         mixins: [ Core.WidgetMixin ],

@@ -307,7 +307,7 @@ NavVertical:
                     url: { value: null }
 
 InputText:
-    title: 'Text Input'
+    title: 'Text'
     tag: default-input-text
     mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/input/text.png'
@@ -321,6 +321,21 @@ InputText:
         margin: { value: '15px 15px' }
         label: { value: 'Email' }
         placeholder: { value: 'user@example.com' }
+
+InputTextarea:
+    title: 'Textarea'
+    tag: default-input-textarea
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/input/textarea.png'
+    categories: [ form.all, form.input ]
+    props:
+        - { name: model, title: Model, type: string, tab: data }
+        - { name: label, title: Label, type: string, tab: data }
+        - { name: placeholder, title: Placeholder, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        label: { value: 'Message' }
+        placeholder: { value: 'Type message here' }
 
 InputCheckbox:
     title: 'Checkbox'
