@@ -76,29 +76,19 @@ class LayoutController extends Controller
             $view['domains'] = $this
                 ->getDoctrine()
                 ->getRepository('NTR1XLayoutBundle:Domain')
-                ->findAll(['name'=>'asc'])
+                ->findBy([], ['name'=>'asc'])
             ;
 
             $view['pages'] = $this
                 ->getDoctrine()
                 ->getRepository('NTR1XLayoutBundle:Page')
-                ->findAll(['name'=>'asc'])
+                ->findBy([], ['name'=>'asc'])
             ;
 
             $view['schemes'] = $this
                 ->getDoctrine()
                 ->getRepository('NTR1XLayoutBundle:Schema')
-                ->findAll(['name'=>'asc'])
-            ;
-
-            $view['widgets'] = $this
-                ->get('ntr1_x_layout.widget.manager')
-                ->getWidgets()
-            ;
-
-            $view['categories'] = $this
-                ->get('ntr1_x_layout.category.manager')
-                ->getCategories()
+                ->findBy([], ['name'=>'asc'])
             ;
         });
 
@@ -149,51 +139,21 @@ class LayoutController extends Controller
             $view['domains'] = $this
                 ->getDoctrine()
                 ->getRepository('NTR1XLayoutBundle:Domain')
-                ->findAll(['name'=>'asc'])
+                ->findBy([], ['name'=>'asc'])
             ;
 
             $view['pages'] = $this
                 ->getDoctrine()
                 ->getRepository('NTR1XLayoutBundle:Page')
-                ->findAll(['name'=>'asc'])
+                ->findBy([], ['name'=>'asc'])
             ;
 
             $view['schemes'] = $this
                 ->getDoctrine()
                 ->getRepository('NTR1XLayoutBundle:Schema')
-                ->findAll(['name'=>'asc'])
-            ;
-
-            $view['widgets'] = $this
-                ->get('ntr1_x_layout.widget.manager')
-                ->getWidgets()
-            ;
-
-            $view['categories'] = $this
-                ->get('ntr1_x_layout.category.manager')
-                ->getCategories()
+                ->findBy([], ['name'=>'asc'])
             ;
         });
-
-        // $ids = [];
-        // foreach ($domain in $settings['domains']) {
-        //
-        //     if (isset($id)) {
-        //         $ids[] = $id;
-        //     }
-        // }
-        //
-        // foreach ($page in $settings->pages) {
-        //
-        // }
-        //
-        // foreach ($schema in $settings->schemes) {
-        //
-        // }
-        //
-        // foreach ($widget in $settings->widgets) {
-        //
-        // }
 
         $response = (new Response())
             ->setContent($serializer->serialize($view, 'json'))

@@ -2,7 +2,7 @@
     <div class="form-group">
         <label for="{{ id }}">{{ item.prop.title }}</label>
         <div class="input-group">
-            <textarea v-rich v-model="item.param.value" class="form-control" id="{{ id }}"></textarea>
+            <textarea class="form-control" id="{{ id }}" v-rich="item.param.value"></textarea>
             <div class="input-group-btn">
                 <bindings :model.sync="item.param" inline-template>
                     <button type="button" class="btn btn-default" @click="open">...</button>

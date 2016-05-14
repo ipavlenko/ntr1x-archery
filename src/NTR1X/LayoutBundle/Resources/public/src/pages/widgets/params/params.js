@@ -73,7 +73,7 @@
     var ParamMultipleModalEditor =
     Vue.component('pages-widgets-params-multiple-dialog', {
         template: '#pages-widgets-params-multiple-dialog',
-        mixins: [Core.ModalEditorMixin, Core.TabsMixin('main')],
+        mixins: [Core.ModalEditorMixin, Core.TabsMixin('data')],
         data: function() {
             return {
                 items: this.items,
@@ -117,7 +117,7 @@
             items: Array,
         },
         ready: function() {
-            console.log(this);
+            // console.log(this);
         }
     });
 

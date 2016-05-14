@@ -153,7 +153,6 @@ Core = window.Core || {};
 
                 doCreate: function(item, context) {
 
-                    console.log(this);
                     this.items.push(Object.assign({}, JSON.parse(JSON.stringify(item)), { _action: 'create' }));
                     $(window).trigger('resize');
                     this.active = null;

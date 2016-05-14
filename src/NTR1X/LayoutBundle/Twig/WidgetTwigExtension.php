@@ -6,7 +6,7 @@ use NTR1X\LayoutBundle\Widget\WidgetManager;
 
 use Peekmo\JsonPath\JsonStore;
 
-class WidgetTwigExtension extends \Twig_Extension
+class WidgetTwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
 
     private $manager;

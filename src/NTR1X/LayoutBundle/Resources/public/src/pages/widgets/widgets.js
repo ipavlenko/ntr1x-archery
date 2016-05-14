@@ -1,4 +1,7 @@
-(function(Vue, $, Core) {
+Shell = window.Shell || {};
+Shell.Widgets = window.Shell.Widgets || {};
+
+(function(Vue, $, Core, Shell, undefined) {
 
     var WidgetsListViewer =
     Vue.component('pages-widgets-list', {
@@ -17,10 +20,10 @@
         }
     });
 
-    var WidgetsModalEditor =
+    var WidgetsModalEditor = Shell.Widgets.ModalEditor =
     Vue.component('pages-widgets-dialog', {
         template: '#pages-widgets-dialog',
-        mixins: [Core.ModalEditorMixin, Core.TabsMixin('main')],
+        mixins: [Core.ModalEditorMixin, Core.TabsMixin('data')],
         ready: function() {
 
             var items = [];
@@ -28,7 +31,10 @@
             for (var i = 0; i < this.context.widget.props.length; i++) {
 
                 var prop = this.context.widget.props[i];
-                var param = this.current.params[prop.name] = this.current.params[prop.name] || {};
+                var param = this.current.params[prop.name] = this.current.params[prop.name] || {
+                    value: null,
+                    binding: null
+                };
 
                 param._action = param._action == 'update'
                     ? 'update'
@@ -109,4 +115,4 @@
         }
     });
 
-})(Vue, jQuery, Core, undefined);
+})(Vue, jQuery, Core, Shell, undefined);

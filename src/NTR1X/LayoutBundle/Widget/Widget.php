@@ -12,6 +12,7 @@ class Widget {
     private $provider;
     private $id;
     private $name;
+    private $tag;
     private $title;
     private $thumbnail;
 
@@ -19,6 +20,7 @@ class Widget {
     private $scripts = [];
     private $templates = [];
     private $props = [];
+    private $params = null;
     private $tabs = [];
     private $categories = [];
 
@@ -29,9 +31,12 @@ class Widget {
 
         $this->id = $this->provider->getBundle() . '/' . $this->name;
 
+        $this->tag = $config['tag'];
         $this->title = $config['title'];
 
-        $this->thumbnail = new WidgetAsset($this, $config['thumbnail']);
+        if (isset($config['thumbnail'])) {
+            $this->thumbnail = new WidgetAsset($this, $config['thumbnail']);
+        }
 
         if (isset($config['categories'])) {
             $this->categories = $config['categories'];
@@ -47,6 +52,10 @@ class Widget {
             foreach ($config['props'] as $prop) {
                 $this->props[] = $prop;
             }
+        }
+
+        if (isset($config['params'])) {
+            $this->params = $config['params'];
         }
 
         if (isset($config['styles'])) {
@@ -80,6 +89,10 @@ class Widget {
         return $this->name;
     }
 
+    public function getTag() {
+        return $this->tag;
+    }
+
     public function getTitle() {
         return $this->title;
     }
@@ -94,6 +107,10 @@ class Widget {
 
     public function getProps() {
         return $this->props;
+    }
+
+    public function getParams() {
+        return $this->params;
     }
 
     public function getTabs() {

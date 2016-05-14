@@ -1,36 +1,8 @@
-(function($,Vue, undefined) {
-
-    Vue.component('shell-stacked', {
-
-        template: '#shell-stacked',
-        props: {
-        },
-        ready: function() {
-
-            $(this.$el)
-                .sortable({
-                    revert: 200,
-                    connectWith: ".ge.ge-stacked",
-
-                    beforeStop: function(event, ui) {
-                        this.draggable = ui.item;
-                    }.bind(this),
-
-                    receive: function(event, ui) {
-
-                        // TODO Create widget and place it here
-                        var el =
-                        $('<div>').css({
-                            background: 'red',
-                            height: '100px'
-                        });
-
-                        $(this.draggable).replaceWith(el);
-                        this.draggable = null;
-                    }.bind(this),
-                })
-            ;
-        }
-    });
-
-})(jQuery, Vue);
+// (function($, Vue, Core, undefined) {
+//
+//     Vue.component('shell-stacked', {
+//         template: '#shell-stacked',
+//         mixins: [ Core.Stacked ]
+//     });
+//
+// })(jQuery, Vue, Core, Shell);

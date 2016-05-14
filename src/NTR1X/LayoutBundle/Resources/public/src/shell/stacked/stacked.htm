@@ -1,5 +1,11 @@
 <template id="shell-stacked">
-    <div class="ge ge-stacked">
-        <slot></slot>
-    </div>
+    <div class="ge ge-stacked"
+        ><shell-widget v-for="item in items" v-if="item._action != 'remove'"
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :stack.sync="page"
+            :page.sync="page"
+            :data.sync="item"
+        ></shell-widget
+    ></div>
 </template>

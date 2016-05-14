@@ -1,0 +1,138 @@
+<template id="default-footer">
+    <section class="wg wg-default-footer">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <span class="wg wg-cell">Footer</span>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="default-header">
+    <section class="wg wg-default-header">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <span class="wg wg-cell">Header</span>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="default-menu">
+    <section class="wg wg-default-menu">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <span class="wg wg-cell">Menu</span>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="default-placeholder">
+    <section class="wg wg-default-placeholder">
+        <div class="wg wg-content">
+            <div class="wg wg-table" :style="{
+                height: bindings.height,
+                width: bindings.width,
+            }">
+                <span class="wg wg-cell">{{{ bindings.content }}}</span>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="default-sitemap">
+    <section class="wg wg-default-sitemap">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <span class="wg wg-cell">Sitemap</span>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="default-stack-canvas">
+    <section class="wg wg-default-stack wg-default-stack-canvas">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <div class="wg wg-row" v-for="child in children">
+                    <div class="wg wg-cell">
+                        <div class="wg wg-inner">
+                            <shell-widget
+                                :globals.sync="globals"
+                                :settings.sync="settings"
+                                :stack.sync="page"
+                                :page.sync="page"
+                                :model.sync="child"
+                                :data.sync="data"
+                                :editable.sync="editable"
+                                :items.sync="child.widgets"
+                            ></shell-widget>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="default-stack-horisontal">
+    <section class="wg wg-default-stack wg-default-stack-horisontal">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <div class="wg wg-row">
+                    <div class="wg wg-cell" v-for="child in children">
+                        <div class="wg wg-inner">
+                            <shell-widget
+                                :globals.sync="globals"
+                                :settings.sync="settings"
+                                :stack.sync="page"
+                                :page.sync="page"
+                                :model.sync="child"
+                                :editable.sync="editable"
+                                :items.sync="child.widgets"
+                            ></shell-widget>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="default-stack-vertical">
+    <section class="wg wg-default-stack wg-default-stack-vertical">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <div class="wg wg-row" v-for="child in children">
+                    <div class="wg wg-cell">
+                        <div class="wg wg-inner">
+                            <shell-widget
+                                :globals.sync="globals"
+                                :settings.sync="settings"
+                                :stack.sync="page"
+                                :page.sync="page"
+                                :model.sync="child"
+                                :editable.sync="editable"
+                                :items.sync="child.widgets"
+                            ></shell-widget>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="default-stub">
+    <section class="wg wg-default-stub">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <span class="wg wg-cell">
+                    <div><small>{{ bindings.title }}</small></div>
+                    <div>{{ bindings.subtitle }}</div>
+                </span>
+            </div>
+        </div>
+    </section>
+</template>

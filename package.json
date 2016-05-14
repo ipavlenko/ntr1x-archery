@@ -11,15 +11,7 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "gulp-browserify": "^0.5.1",
-    "gulp-clean-css": "^2.0.6",
-    "gulp-cli": "^1.2.1",
-    "gulp-concat": "^2.6.0",
-    "gulp-livereload": "^3.8.1",
-    "gulp-sourcemaps": "^1.6.0",
-    "tiny-lr": "^0.2.1"
-  },
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ipavlenko/ntr1x-archery.git"
@@ -27,5 +19,15 @@
   "bugs": {
     "url": "https://github.com/ipavlenko/ntr1x-archery/issues"
   },
-  "homepage": "https://github.com/ipavlenko/ntr1x-archery#readme"
+  "homepage": "https://github.com/ipavlenko/ntr1x-archery#readme",
+  "devDependencies": {
+    "gulp-cli": "^1.2.1",
+    "gulp-browserify": "^0.5.1",
+    "gulp-clean-css": "^2.0.6",
+    "gulp-concat": "^2.6.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "tiny-lr": "^0.2.1",
+    "gulp": "~3.9.1"
+  }
 }

@@ -1,5 +1,6 @@
 <template id="shell">
     <div class="ge ge-shell">
+
         <div class="ge ge-head">
             <div class="ge ge-nav">
                 <shell-brand
@@ -31,6 +32,14 @@
                     :globals.sync="globals"
                 ></shell-palette>
             </div>
+            <div class="ge ge-editor" v-scrollable>
+                <shell-container
+                    :globals.sync="globals"
+                    :settings.sync="settings"
+                    :page.sync="selection.page"
+                    :category.sync="selection.category"
+                ></shell-container>
+            </div>
             <div class="ge ge-structure" v-scrollable>
                 <shell-domains
                     :domains.sync="model.domains"
@@ -44,47 +53,6 @@
                     :sources.sync="selection.page.sources"
                     :globals.sync="globals"
                 ></shell-sources>
-            </div>
-            <div class="ge ge-editor" v-scrollable>
-                <div class="ge ge-container">
-                    <div class="ge ge-page">
-
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <shell-stacked>
-                                        <shell-widget>
-                                            <shell-stub></shell-stub>
-                                        </shell-widget>
-                                        <shell-target></shell-target>
-                                    </shell-stacked>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-8">
-                                    <shell-stacked>
-                                        <shell-widget>
-                                            <shell-stub></shell-stub>
-                                        </shell-widget>
-                                        <shell-widget>
-                                            <shell-stub></shell-stub>
-                                        </shell-widget>
-                                        <shell-target></shell-target>
-                                    </shell-stacked>
-                                </div>
-                                <div class="col-xs-4">
-                                    <shell-stacked>
-                                        <shell-widget>
-                                            <shell-stub></shell-stub>
-                                        </shell-widget>
-                                        <shell-target></shell-target>
-                                    </shell-stacked>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
             </div>
         </div>
         <div class="ge ge-foot">

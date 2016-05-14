@@ -28,39 +28,24 @@ class DefaultController extends Controller {
 
             $host = $request->getHost();
 
-            // $view['selected'] = [
-            //
-            //     'domain' => $this
-            //         ->getDoctrine()
-            //         ->getRepository('NTR1XLayoutBundle:Domain')
-            //         ->findOneByName($host)
-            //     ,
-            //
-            //     'page' => $this
-            //         ->getDoctrine()
-            //         ->getRepository('NTR1XLayoutBundle:Page')
-            //         ->findOneByName('home')
-            //     ,
-            // ];
-
             $view['model'] = [
 
                 'domains' => $this
                     ->getDoctrine()
                     ->getRepository('NTR1XLayoutBundle:Domain')
-                    ->findAll(['name'=>'asc'])
+                    ->findBy([], ['name'=>'asc'])
                 ,
 
                 'pages' => $this
                     ->getDoctrine()
                     ->getRepository('NTR1XLayoutBundle:Page')
-                    ->findAll(['name'=>'asc'])
+                    ->findBy([], ['name'=>'asc'])
                 ,
 
                 'schemes' => $this
                     ->getDoctrine()
                     ->getRepository('NTR1XLayoutBundle:Schema')
-                    ->findAll(['name'=>'asc'])
+                    ->findBy([], ['name'=>'asc'])
                 ,
             ];
 

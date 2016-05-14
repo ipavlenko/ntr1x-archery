@@ -1,0 +1,12 @@
+<template id="shell-container">
+
+    <section class="ge ge-container">
+        <shell-page
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :items.sync="page.widgets"
+        ></shell-page>
+    </section>
+
+</template>

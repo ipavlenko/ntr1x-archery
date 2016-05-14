@@ -85,6 +85,3 @@ Weather:
     title: 'Погода'
     size: { width: 12, height: 5 }
     mixins: [ WidgetMixin, BoxMixin, SourceMixin ]
-    styles: [ 'weather/style.css' ]
-    scripts: [ 'weather/script.js' ]
-    templates: [ 'weather/template.htm' ]

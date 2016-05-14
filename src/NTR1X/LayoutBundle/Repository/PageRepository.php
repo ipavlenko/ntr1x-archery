@@ -107,9 +107,14 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
             $this->handlePageSource($em, $page, $source);
         }
 
-        foreach ($data['widgets'] as $widget) {
+        $nextedContext = [
+            'index' => 0,
+            'page' => $page,
+            'parent' => null,
+        ];
 
-            $this->handlePageWidget($em, $page, $widget);
+        foreach ($data['widgets'] as $widget) {
+            $this->handlePageWidget($em, $nextedContext, $widget);
         }
     }
 
@@ -132,7 +137,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
             }
 
         } else {
-            $source = $this->findOneById($data['id']);
+            $source = $em->getRepository('NTR1XLayoutBundle:Source')->findOneById($data['id']);
             $this->handlePageSourceTree($em, $page, $source, $data);
         }
     }
@@ -179,34 +184,36 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
     private function handlePageSourceTree($em, $page, $source, $data) {
     }
 
-    private function handlePageWidget($em, $page, $data) {
+    private function handlePageWidget($em, &$context, $data) {
 
         if (isset($data['_action'])) {
 
             switch ($data['_action']) {
                 case 'remove':
-                    $this->handlePageWidgetRemove($em, $page, $data);
+                    $this->handlePageWidgetRemove($em, $context, $data);
                     break;
                 case 'update':
-                    $widget = $this->handlePageWidgetUpdate($em, $page, $data);
-                    $this->handlePageWidgetTree($em, $page, $widget, $data);
+                    $widget = $this->handlePageWidgetUpdate($em, $context, $data);
+                    $this->handlePageWidgetTree($em, $context, $widget, $data);
                     break;
                 case 'create':
-                    $widget = $this->handlePageWidgetCreate($em, $page, $data);
-                    $this->handlePageWidgetTree($em, $page, $widget, $data);
+                    $widget = $this->handlePageWidgetCreate($em, $context, $data);
+                    $this->handlePageWidgetTree($em, $context, $widget, $data);
                     break;
             }
 
         } else {
-            $widget = $this->findOneById($data['id']);
-            $this->handlePageWidgetTree($em, $page, $widget, $data);
+            $widget = $this->handlePageWidgetIndex($em, $context, $data);
+            $this->handlePageWidgetTree($em, $context, $widget, $data);
         }
     }
 
-    private function handlePageWidgetCreate($em, $page, $data) {
+    private function handlePageWidgetCreate($em, &$context, $data) {
 
         $widget = (new Widget())
-            ->setPage($page)
+            ->setPage($context['page'])
+            ->setIndex($context['index']++)
+            ->setParent($context['parent'])
             ->setType($data['type'])
             // TODO: Проверить/очистить
             ->setParams($data['params'])
@@ -229,10 +236,23 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
         return $widget;
     }
 
-    private function handlePageWidgetUpdate($em, $page, $data) {
+    private function handlePageWidgetIndex($em, &$context, $data) {
+
+        $widget = $em->getRepository('NTR1XLayoutBundle:Widget')->findOneById($data['id'])
+            ->setIndex($context['index']++)
+        ;
+
+        $em->persist($widget);
+        $em->flush();
+
+        return $widget;
+    }
+
+    private function handlePageWidgetUpdate($em, &$context, $data) {
 
         $widget = $em->getRepository('NTR1XLayoutBundle:Widget')->findOneById($data['id'])
             ->setType($data['type'])
+            ->setIndex($context['index']++)
             ->setParams($data['params'])
         ;
 
@@ -248,7 +268,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
         return $widget;
     }
 
-    private function handlePageWidgetRemove($em, $page, $data) {
+    private function handlePageWidgetRemove($em, &$context, $data) {
 
         $widget = $em->getRepository('NTR1XLayoutBundle:Widget')->findOneById($data['id']);
 
@@ -256,7 +276,18 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
         $em->flush();
     }
 
-    private function handlePageWidgetTree($em, $page, $source, $data) {
+    private function handlePageWidgetTree($em, &$context, $widget, $data) {
+
+        $nestedContext = [
+            'index' => 0,
+            'page' => null,
+            'parent' => $widget,
+        ];
+
+        foreach ($data['widgets'] as $widget) {
+
+            $this->handlePageWidget($em, $nestedContext, $widget);
+        }
     }
 
     private function clearParams($data) {

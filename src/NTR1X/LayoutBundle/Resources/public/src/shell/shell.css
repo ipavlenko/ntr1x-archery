@@ -56,21 +56,6 @@
   left: 500px;
   right: 220px;
 }
-.ge.ge-shell .ge.ge-editor .ge.ge-container {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-}
-.ge.ge-shell .ge.ge-editor .ge.ge-container .ge.ge-page {
-  width: 960px;
-  min-height: 1200px;
-  margin: 50px auto 50px auto;
-  background-color: #FFFFFF;
-  box-sizing: border-box;
-  border: 1px solid #E5E5E5;
-}
 .ge.ge-shell .ge.ge-panel {
   margin-bottom: 40px;
 }
