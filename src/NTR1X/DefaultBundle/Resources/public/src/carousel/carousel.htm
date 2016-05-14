@@ -1,0 +1,37 @@
+<template id="default-carousel">
+    <section class="wg wg-default-carousel">
+        <default-box :bindings.sync="bindings">
+            <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
+
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li v-for="item in bindings.items" data-target="#{{ systemId }}" data-slide-to="{{ $index }}" :class="{ 'active' : !$index }"></li>
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div v-for="item in bindings.items" class="item" :class="{ 'active' : !$index }" :style="{
+                        'height': bindings.height,
+                        'background': item.background,
+                        'background-size': item.backgroundSize,
+                    }">
+                        <div v-if="item.caption" class="carousel-caption">
+                            {{{ item.caption }}}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <a class="left carousel-control" href="#{{ systemId }}" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#{{ systemId }}" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+
+            </div>
+        </default-box>
+    <section>
+</template>

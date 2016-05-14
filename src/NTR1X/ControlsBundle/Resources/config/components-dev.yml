@@ -6,7 +6,7 @@ all:
         - 'src/components/form.js'
         - 'src/components/grid.js'
         - 'src/components/inline.js'
-        - 'src/components/modal.js'
+        - 'src/components/mixins.js'
         - 'src/directives/combo.js'
         - 'src/directives/date.js'
         - 'src/directives/rich.js'

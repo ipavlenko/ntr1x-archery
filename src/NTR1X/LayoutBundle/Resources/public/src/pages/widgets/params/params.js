@@ -83,8 +83,6 @@
 
             var items = [];
 
-            console.log(this.context);
-
             for (var i = 0; i < this.context.prop.props.length; i++) {
 
                 var prop = this.context.prop.props[i];

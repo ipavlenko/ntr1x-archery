@@ -265,7 +265,7 @@ Shell = window.Shell || {};
                             },
 
                             onRemove: function(evt) {
-                                
+
                                 var dragged = {
                                     vue: evt.from.__dragged__,
                                     item: $('.ge.ge-widget', evt.item),
@@ -407,6 +407,9 @@ Shell = window.Shell || {};
             data: Object,
             editable: Boolean,
             items: Array,
+        },
+        created: function() {
+            this.selected = true;
         },
         methods: {
             stub: function() { return stub('Vertical Stack', 'Drop Here'); }
