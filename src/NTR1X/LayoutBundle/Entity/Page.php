@@ -49,12 +49,13 @@ class Page
     private $metas;
 
     /**
-     * @ORM\OneToMany(targetEntity="Widget", mappedBy="page", orphanRemoval=true, fetch="EAGER", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Widget", mappedBy="page", orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\OrderBy({"index" = "ASC"})
      */
     private $widgets;
 
     /**
-     * @ORM\OneToMany(targetEntity="Source", mappedBy="page", orphanRemoval=true, fetch="EAGER", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Source", mappedBy="page", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $sources;
 
@@ -119,40 +120,6 @@ class Page
     public function getResource()
     {
         return $this->resource;
-    }
-
-    /**
-     * Add widget
-     *
-     * @param \NTR1X\LayoutBundle\Entity\Widget $widget
-     *
-     * @return Page
-     */
-    public function addWidget(\NTR1X\LayoutBundle\Entity\Widget $widget)
-    {
-        $this->widgets[] = $widget;
-
-        return $this;
-    }
-
-    /**
-     * Remove widget
-     *
-     * @param \NTR1X\LayoutBundle\Entity\Widget $widget
-     */
-    public function removeWidget(\NTR1X\LayoutBundle\Entity\Widget $widget)
-    {
-        $this->widgets->removeElement($widget);
-    }
-
-    /**
-     * Get widgets
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getWidgets()
-    {
-        return $this->widgets;
     }
 
     /**
@@ -235,5 +202,39 @@ class Page
     public function getMetas()
     {
         return $this->metas;
+    }
+
+    /**
+     * Add widget
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Widget $widget
+     *
+     * @return Page
+     */
+    public function addWidget(\NTR1X\LayoutBundle\Entity\Widget $widget)
+    {
+        $this->widgets[] = $widget;
+
+        return $this;
+    }
+
+    /**
+     * Remove widget
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Widget $widget
+     */
+    public function removeWidget(\NTR1X\LayoutBundle\Entity\Widget $widget)
+    {
+        $this->widgets->removeElement($widget);
+    }
+
+    /**
+     * Get widgets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getWidgets()
+    {
+        return $this->widgets;
     }
 }

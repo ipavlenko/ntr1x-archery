@@ -5,7 +5,7 @@ namespace NTR1X\LayoutBundle\Twig;
 use NTR1X\LayoutBundle\Component\ComponentManager;
 use JMS\Serializer\SerializationContext;
 
-class LayoutTwigExtension extends \Twig_Extension {
+class LayoutTwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface {
 
     private $manager;
 

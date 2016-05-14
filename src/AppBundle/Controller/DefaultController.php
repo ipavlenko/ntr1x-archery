@@ -33,19 +33,19 @@ class DefaultController extends Controller {
                 'domains' => $this
                     ->getDoctrine()
                     ->getRepository('NTR1XLayoutBundle:Domain')
-                    ->findAll(['name'=>'asc'])
+                    ->findBy([], ['name'=>'asc'])
                 ,
 
                 'pages' => $this
                     ->getDoctrine()
                     ->getRepository('NTR1XLayoutBundle:Page')
-                    ->findAll(['name'=>'asc'])
+                    ->findBy([], ['name'=>'asc'])
                 ,
 
                 'schemes' => $this
                     ->getDoctrine()
                     ->getRepository('NTR1XLayoutBundle:Schema')
-                    ->findAll(['name'=>'asc'])
+                    ->findBy([], ['name'=>'asc'])
                 ,
             ];
 
@@ -63,6 +63,8 @@ class DefaultController extends Controller {
             ];
 
         });
+
+        dump($view['model']['pages'][0]->getWidgets());
 
         return $this->render('public.html.twig', $view);
     }

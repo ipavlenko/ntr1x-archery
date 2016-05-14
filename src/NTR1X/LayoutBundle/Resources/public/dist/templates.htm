@@ -1139,6 +1139,12 @@
     </section>
 </template>
 
+<template id="shell-brand">
+    <section class="ge ge-brand">
+        <a href="#"></a>
+    </section>
+</template>
+
 <template id="shell-categories">
     <section class="ge ge-categories">
         <div v-for="category in categories">
@@ -1152,10 +1158,17 @@
     </section>
 </template>
 
-<template id="shell-brand">
-    <section class="ge ge-brand">
-        <a href="#"></a>
+<template id="shell-container">
+
+    <section class="ge ge-container">
+        <shell-page
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :items.sync="page.widgets"
+        ></shell-page>
     </section>
+
 </template>
 
 <template id="shell-decorator-canvas">
@@ -1266,19 +1279,6 @@
     </div>
 </template>
 
-<template id="shell-container">
-
-    <section class="ge ge-container">
-        <shell-page
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :items.sync="page.widgets"
-        ></shell-page>
-    </section>
-
-</template>
-
 <template id="shell-domains">
     <section class="ge ge-panel ge-domains">
         <domains :items.sync="domains" :globals.sync="globals" inline-template>
@@ -1300,6 +1300,30 @@
                 </li>
             </ul>
         </domains>
+    </section>
+</template>
+
+<template id="shell-pages">
+    <section class="ge ge-panel ge-pages">
+        <pages :items.sync="pages" :globals.sync="globals" inline-template>
+            <h5>
+                <span>Pages</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ title: {}, resource: { params: [] }, sources: [], widgets: [], metas: []})"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.page }">
+                    <a href="#" @click="trigger('selectPage', item)">
+                        <span>{{ item.name }}</span>
+                        <span class="ge ge-overlays">
+                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </pages>
     </section>
 </template>
 
@@ -1329,30 +1353,6 @@
 <template id="shell-palette">
     <section class="ge ge-palette">
         <palette-item v-for="widget in category.widgets" :widget.sync="widget"></palette-item>
-    </section>
-</template>
-
-<template id="shell-pages">
-    <section class="ge ge-panel ge-pages">
-        <pages :items.sync="pages" :globals.sync="globals" inline-template>
-            <h5>
-                <span>Pages</span>
-                <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({ title: {}, resource: { params: [] }, sources: [], widgets: [], metas: []})"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                </span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.page }">
-                    <a href="#" @click="trigger('selectPage', item)">
-                        <span>{{ item.name }}</span>
-                        <span class="ge ge-overlays">
-                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </pages>
     </section>
 </template>
 
@@ -1399,6 +1399,12 @@
     </div>
 </template>
 
+<template id="shell-target">
+    <div class="ge ge-target">
+        <span>Drop Here</span>
+    </div>
+</template>
+
 <template id="shell-widget">
     <div>
         <div
@@ -1412,12 +1418,6 @@
             :editable.sync="editable"
             :items.sync="model.widgets"
         ></div>
-    </div>
-</template>
-
-<template id="shell-target">
-    <div class="ge ge-target">
-        <span>Drop Here</span>
     </div>
 </template>
 

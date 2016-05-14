@@ -291,10 +291,14 @@ Shell = window.Shell || {};
 
                             onUpdate: function (evt) {
 
+                                console.log(evt);
+
                                 if  (evt.newIndex != evt.oldIndex) {
 
                                     var oi = find(self.items, evt.oldIndex);
                                     var ni = find(self.items, evt.newIndex);
+
+                                    console.log(oi, ni);
 
                                     self.items.splice(ni, 0, self.items.splice(oi, 1)[0]);
                                 }

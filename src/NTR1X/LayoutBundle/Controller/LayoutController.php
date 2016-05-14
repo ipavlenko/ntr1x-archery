@@ -76,19 +76,19 @@ class LayoutController extends Controller
             $view['domains'] = $this
                 ->getDoctrine()
                 ->getRepository('NTR1XLayoutBundle:Domain')
-                ->findAll(['name'=>'asc'])
+                ->findBy([], ['name'=>'asc'])
             ;
 
             $view['pages'] = $this
                 ->getDoctrine()
                 ->getRepository('NTR1XLayoutBundle:Page')
-                ->findAll(['name'=>'asc'])
+                ->findBy([], ['name'=>'asc'])
             ;
 
             $view['schemes'] = $this
                 ->getDoctrine()
                 ->getRepository('NTR1XLayoutBundle:Schema')
-                ->findAll(['name'=>'asc'])
+                ->findBy([], ['name'=>'asc'])
             ;
         });
 
@@ -139,19 +139,19 @@ class LayoutController extends Controller
             $view['domains'] = $this
                 ->getDoctrine()
                 ->getRepository('NTR1XLayoutBundle:Domain')
-                ->findAll(['name'=>'asc'])
+                ->findBy([], ['name'=>'asc'])
             ;
 
             $view['pages'] = $this
                 ->getDoctrine()
                 ->getRepository('NTR1XLayoutBundle:Page')
-                ->findAll(['name'=>'asc'])
+                ->findBy([], ['name'=>'asc'])
             ;
 
             $view['schemes'] = $this
                 ->getDoctrine()
                 ->getRepository('NTR1XLayoutBundle:Schema')
-                ->findAll(['name'=>'asc'])
+                ->findBy([], ['name'=>'asc'])
             ;
         });
 
