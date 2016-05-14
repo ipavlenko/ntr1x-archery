@@ -265,11 +265,7 @@ Shell = window.Shell || {};
                             },
 
                             onRemove: function(evt) {
-
-                                // if (self.globals && self.globals.selection && self.globals.selection.dragged) {
-
-                                console.log('remove', evt);
-
+                                
                                 var dragged = {
                                     vue: evt.from.__dragged__,
                                     item: $('.ge.ge-widget', evt.item),
@@ -291,16 +287,12 @@ Shell = window.Shell || {};
 
                             onUpdate: function (evt) {
 
-                                console.log(evt);
+                                var oi = self.items.indexOf(evt.from.__dragged__.model);
+                                var ni = find(self.items, evt.newIndex);
 
-                                if  (evt.newIndex != evt.oldIndex) {
-
-                                    var oi = find(self.items, evt.oldIndex);
-                                    var ni = find(self.items, evt.newIndex);
-
-                                    console.log(oi, ni);
-
+                                if (oi != ni) {
                                     self.items.splice(ni, 0, self.items.splice(oi, 1)[0]);
+                                    self.items = self.items.slice();
                                 }
                             },
 

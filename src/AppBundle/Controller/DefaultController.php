@@ -64,8 +64,6 @@ class DefaultController extends Controller {
 
         });
 
-        dump($view['model']['pages'][0]->getWidgets());
-
         return $this->render('public.html.twig', $view);
     }
 
