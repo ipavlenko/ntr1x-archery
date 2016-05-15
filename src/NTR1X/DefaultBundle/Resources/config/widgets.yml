@@ -61,6 +61,12 @@ BoxMixin:
             placeholder: '#FFFFFF'
             tab: appearance
         -
+            name: innerBackgroundSize
+            title: 'Inner Background Size'
+            type: 'string'
+            placeholder: 'cover'
+            tab: appearance
+        -
             name: outerBorder
             title: 'Outer Border'
             type: 'string'
@@ -71,6 +77,12 @@ BoxMixin:
             title: 'Outer Background'
             type: 'string'
             placeholder: '#FFFFFF'
+            tab: appearance
+        -
+            name: outerBackgroundSize
+            title: 'Outer Background Size'
+            type: 'string'
+            placeholder: 'cover'
             tab: appearance
 
 SizeMixin:
@@ -87,14 +99,6 @@ SizeMixin:
             type: 'string'
             placeholder: '100px'
             tab: appearance
-
-# Rich:
-#     title: 'Rich'
-#     tag: default-rich
-#     mixins: [ WidgetMixin, BoxMixin, ContentMixin ]
-#     styles: [ 'rich/rich.css' ]
-#     scripts: [ 'rich/rich.js' ]
-#     templates: [ 'rich/rich.htm' ]
 
 Stub:
     title: Stub
@@ -117,56 +121,6 @@ Placeholder:
         height: { value: 100px }
         content: {value: Placeholder }
 
-Header:
-    title: 'Header'
-    tag: default-header
-    mixins: [ WidgetMixin, BoxMixin ]
-    thumbnail: 'src/header/header.png'
-    categories: [ composite.all, composite.header ]
-
-Menu:
-    title: 'Menu'
-    tag: default-menu
-    mixins: [ WidgetMixin, BoxMixin ]
-    thumbnail: 'src/menu/menu.png'
-    categories: [ composite.all, composite.header ]
-    props:
-        -
-            name: items
-            type: multiple
-            display: '{{ params.title }}'
-            title: Menu Items
-            tab: data
-            tabs:
-                -
-                    name: data
-                    title: Data
-            props:
-                -
-                    name: title
-                    title: Title
-                    type: string
-                    tab: data
-                -
-                    name: url
-                    title: URL
-                    type: string
-                    tab: data
-
-Footer:
-    title: 'Footer'
-    tag: default-footer
-    mixins: [ WidgetMixin, BoxMixin ]
-    thumbnail: 'src/footer/footer.png'
-    categories: [ composite.all, composite.footer ]
-
-Sitemap:
-    title: 'Sitemap'
-    tag: default-sitemap
-    mixins: [ WidgetMixin, BoxMixin ]
-    thumbnail: 'src/sitemap/sitemap.png'
-    categories: [ composite.all, sitemap.footer ]
-
 Horisontal:
     title: 'Horisontal Stack'
     tag: default-stack-horisontal
@@ -181,52 +135,422 @@ Vertical:
     thumbnail: 'src/stack/vertical.png'
     categories: [ layout.all, layout.stack ]
 
-# Table:
-#     title: 'Table'
-#     mixins: [ WidgetMixin, CollectionMixin, BoxMixin ]
-#     styles: [ 'table/table.css' ]
-#     scripts: [ 'table/table.js' ]
-#     templates: [ 'table/table.htm' ]
-#     props:
-#         -
-#             name: columns
-#             type: multiple
-#             display: '{{ params.title }}'
-#             title: Columns
-#             tab: data
-#             tabs:
-#                 -
-#                     name: data
-#                     title: Data
-#                 -
-#                     name: appearance
-#                     title: Appearance
-#                 -
-#                     name: content
-#                     title: Content
-#             props:
-#                 -
-#                     name: title
-#                     title: Title
-#                     type: string
-#                     tab: content
-#                 -
-#                     name: width
-#                     title: Width
-#                     type: string
-#                     tab: appearance
-#                 -
-#                     name: type
-#                     title: Type
-#                     type: string
-#                     tab: data
-#                 -
-#                     name: url
-#                     title: URL
-#                     type: string
-#                     tab: data
-#                 -
-#                     name: value
-#                     title: Value
-#                     type: string
-#                     tab: data
+Carousel:
+    title: 'Carousel'
+    tag: default-carousel
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/carousel/carousel.png'
+    categories: [ slider.all ]
+    props:
+        -
+            name: items
+            type: multiple
+            display: '{{ params.title }}'
+            title: Carousel Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: caption, title: Caption, type: rich, tab: data }
+                - { name: background, title: Background, type: string, tab: data }
+                - { name: backgroundSize, title: Background Size, type: string, tab: data }
+                - { name: url, title: URL, type: string, tab: data }
+    params:
+        height: { value: '300px' }
+        items:
+            value:
+                -
+                    caption: { value: '<h3>First Slide</h3><p>You can change background using settings editor</p>' }
+                    background: { value: '#FF3500' }
+                    url: { value: null }
+                -
+                    caption: { value: '<h3>Second Slide</h3><p>You can change background using settings editor</p>' }
+                    background: { value: '#DC0055' }
+                    url: { value: null }
+                -
+                    caption: { value: '<h3>Third Slide</h3><p>You can change background using settings editor</p>' }
+                    background: { value: '#BF0037' }
+                    url: { value: null }
+
+Gallery:
+    title: 'Gallery'
+    tag: default-gallery
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/gallery/gallery.png'
+    categories: [ slider.all ]
+    props:
+        - { name: cols, title: Number of Columns, type: string, tab: data }
+        - { name: rows, title: Number of Rows, type: string, tab: data }
+        - { name: itemWith, title: Item Width, type: string, tab: data }
+        - { name: itemHeight, title: Item Height, type: string, tab: data }
+        - { name: borderSpacing, title: Border Spacing, type: string, tab: data }
+        - { name: borderCollapse, title: Border Collapse, type: string, tab: data }
+        -
+            name: items
+            type: multiple
+            display: '{{ params.title }}'
+            title: Gallery Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: caption, title: Caption, type: rich, tab: data }
+                - { name: background, title: Background, type: string, tab: data }
+                - { name: backgroundSize, title: Background Size, type: string, tab: data }
+                - { name: itemBackground, title: Background, type: string, tab: data }
+                - { name: itemBackgroundSize, title: Background Size, type: string, tab: data }
+                - { name: url, title: URL, type: string, tab: data }
+    params:
+        cols: { value: 3 }
+        rows: { value: 1 }
+        borderSpacing: { value: 20px 20px }
+        itemHeight: { value: 100px }
+        items:
+            value:
+                -
+                    caption: { value: '<h3>First Item</h3><p>You can change item data using settings editor</p>' }
+                    itemBackground: { value: '#FF3500' }
+                    url: { value: null }
+                -
+                    caption: { value: '<h3>Second Item</h3><p>You can change item data using settings editor</p>' }
+                    itemBackground: { value: '#DC0055' }
+                    url: { value: null }
+                -
+                    caption: { value: '<h3>Third Item</h3><p>You can change item data using settings editor</p>' }
+                    itemBackground: { value: '#BF0037' }
+                    url: { value: null }
+                -
+                    caption: { value: '<h3>Fourth Item</h3><p>You can change item data using settings editor</p>' }
+                    itemBackground: { value: '#A52939' }
+                    url: { value: null }
+                -
+                    caption: { value: '<h3>Fifth Item</h3><p>You can change item data using settings editor</p>' }
+                    itemBackground: { value: '#EE3B80' }
+                    url: { value: null }
+                -
+                    caption: { value: '<h3>Sixth Item</h3><p>You can change item data using settings editor</p>' }
+                    itemBackground: { value: '#EE6B9E' }
+                    url: { value: null }
+
+NavHorizontal:
+    title: 'Navigation Bar'
+    tag: default-nav-horisontal
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/nav/horisontal.png'
+    categories: [ navigation.all, navigation.horisontal ]
+    props:
+        - { name: active, title: Active, type: string, tab: data }
+        -
+            name: items
+            type: multiple
+            display: '{{ params.title }}'
+            title: Navigation Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: title, title: Title, type: string, tab: data }
+                - { name: url, title: URL, type: string, tab: data }
+    params:
+        active: { value: home }
+        padding: { value: 10px 10px }
+        items:
+            value:
+                -
+                    title: { value: Home }
+                    value: { value: home }
+                    url: { value: null }
+                -
+                    title: { value: Media }
+                    value: { value: media }
+                    url: { value: null }
+                -
+                    title: { value: About }
+                    value: { value: about }
+                    url: { value: null }
+
+NavVertical:
+    title: 'Navigation Stack'
+    tag: default-nav-vertical
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/nav/vertical.png'
+    categories: [ navigation.all, navigation.vertical ]
+    props:
+        - { name: active, title: Active, type: string, tab: data }
+        -
+            name: items
+            type: multiple
+            display: '{{ params.title }}'
+            title: Navigation Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: title, title: Title, type: string, tab: data }
+                - { name: url, title: URL, type: string, tab: data }
+    params:
+        active: { value: home }
+        padding: { value: 10px 10px }
+        items:
+            value:
+                -
+                    title: { value: Home }
+                    value: { value: home }
+                    url: { value: null }
+                -
+                    title: { value: Media }
+                    value: { value: media }
+                    url: { value: null }
+                -
+                    title: { value: About }
+                    value: { value: about }
+                    url: { value: null }
+
+InputText:
+    title: 'Text'
+    tag: default-input-text
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/input/text.png'
+    categories: [ form.all, form.input ]
+    props:
+        - { name: model, title: Model, type: string, tab: data }
+        - { name: type, title: Type, type: string, tab: data }
+        - { name: label, title: Label, type: string, tab: data }
+        - { name: placeholder, title: Placeholder, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        label: { value: 'Email' }
+        placeholder: { value: 'user@example.com' }
+
+InputTextarea:
+    title: 'Textarea'
+    tag: default-input-textarea
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/input/textarea.png'
+    categories: [ form.all, form.input ]
+    props:
+        - { name: model, title: Model, type: string, tab: data }
+        - { name: label, title: Label, type: string, tab: data }
+        - { name: placeholder, title: Placeholder, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        label: { value: 'Message' }
+        placeholder: { value: 'Type message here' }
+
+InputCheckbox:
+    title: 'Checkbox'
+    tag: default-input-checkbox
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/input/checkbox.png'
+    categories: [ form.all, form.input ]
+    props:
+        - { name: model, title: Model, type: string, tab: data }
+        - { name: value, title: Value, type: string, tab: data }
+        - { name: checked, title: Checked, type: string, tab: data }
+        - { name: label, title: Label, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        value: { value: true }
+        label: { value: 'I have read and agree to the terms of use' }
+
+InputRadio:
+    title: 'Radio'
+    tag: default-input-radio
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/input/radio.png'
+    categories: [ form.all, form.input ]
+    props:
+        - { name: checked, title: Checked, type: string, tab: data }
+        - { name: value, title: Value, type: string, tab: data }
+        - { name: label, title: Label, type: string, tab: data }
+        - { name: model, title: Model, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        value: { value: true }
+        label: { value: 'I have read and agree to the terms of use' }
+
+ButtonDefault:
+    title: 'Button'
+    tag: default-button
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/button/default.png'
+    categories: [ form.all, form.button ]
+    props:
+        - { name: type, title: Type, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        - { name: title, title: Title, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        type: button
+        title: { value: 'Default' }
+        stereotype: { value: 'default' }
+
+ButtonPrimary:
+    title: 'Button'
+    tag: default-button
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/button/primary.png'
+    categories: [ form.all, form.button ]
+    props:
+        - { name: type, title: Type, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        - { name: title, title: Title, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        type: button
+        title: { value: 'Primary' }
+        stereotype: { value: 'primary' }
+
+ButtonSuccess:
+    title: 'Button'
+    tag: default-button
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/button/success.png'
+    categories: [ form.all, form.button ]
+    props:
+        - { name: type, title: Type, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        - { name: title, title: Title, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        type: button
+        title: { value: 'Success' }
+        stereotype: { value: 'success' }
+
+ButtonInfo:
+    title: 'Button'
+    tag: default-button
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/button/info.png'
+    categories: [ form.all, form.button ]
+    props:
+        - { name: type, title: Type, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        - { name: title, title: Title, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        type: button
+        title: { value: 'Info' }
+        stereotype: { value: 'info' }
+
+ButtonWarning:
+    title: 'Button'
+    tag: default-button
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/button/warning.png'
+    categories: [ form.all, form.button ]
+    props:
+        - { name: type, title: Type, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        - { name: title, title: Title, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        type: button
+        title: { value: 'Warning' }
+        stereotype: { value: 'warning' }
+
+ButtonDanger:
+    title: 'Button'
+    tag: default-button
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/button/danger.png'
+    categories: [ form.all, form.button ]
+    props:
+        - { name: type, title: Type, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        - { name: title, title: Title, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        type: button
+        title: { value: 'Danger' }
+        stereotype: { value: 'danger' }
+
+ButtonLink:
+    title: 'Button'
+    tag: default-button
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/button/link.png'
+    categories: [ form.all, form.button ]
+    props:
+        - { name: type, title: Type, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        - { name: title, title: Title, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        type: button
+        title: { value: 'Link' }
+        stereotype: { value: 'link' }
+
+Rich:
+    title: 'Rich'
+    tag: default-rich
+    mixins: [ WidgetMixin, BoxMixin, ContentMixin ]
+    thumbnail: 'rich/rich.png'
+    styles: [ 'rich/rich.css' ]
+    scripts: [ 'rich/rich.js' ]
+    templates: [ 'rich/rich.htm' ]
+    categories: [ composite.all ]
+    params:
+            height: { value: '100px' }
+            content: { value: 'Rich' }
+
+Table:
+    title: 'Table'
+    tag: default-table
+    size: { width: 12, height: 5 }
+    mixins: [ WidgetMixin, CollectionMixin, BoxMixin ]
+    thumbnail: 'table/table.png'
+    styles: [ 'table/table.css' ]
+    scripts: [ 'table/table.js' ]
+    templates: [ 'table/table.htm' ]
+    categories: [ composite.all]
+    params:
+            jsonpath: { value: '{$.competitors.*}' }
+    props:
+       -
+           name: jsonpath
+           title: Json Path
+           type: string
+           tab: data
+       -
+           name: columns
+           type: multiple
+           display: '{{ params.title }}'
+           title: Columns
+           tab: data
+           tabs:
+               -
+                   name: data
+                   title: Data
+               -
+                   name: appearance
+                   title: Appearance
+               -
+                   name: content
+                   title: Content
+           props:
+               -
+                   name: title
+                   title: Title
+                   type: string
+                   tab: content
+               -
+                   name: width
+                   title: Width
+                   type: string
+                   tab: appearance
+               -
+                   name: type
+                   title: Type
+                   type: string
+                   tab: data
+               -
+                   name: url
+                   title: URL
+                   type: string
+                   tab: data
+               -
+                   name: value
+                   title: Value
+                   type: string
+                   tab: data

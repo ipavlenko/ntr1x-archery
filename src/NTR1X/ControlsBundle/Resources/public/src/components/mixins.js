@@ -2,6 +2,18 @@ Core = window.Core || {};
 
 (function(Vue, $, Core) {
 
+    function generateId() {
+
+        var ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var ID_LENGTH = 8;
+
+        var rtn = '';
+        for (var i = 0; i < ID_LENGTH; i++) {
+            rtn += ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length));
+        }
+        return rtn;
+    }
+
     Core.WidgetMixin = {
 
         props: {
@@ -11,6 +23,28 @@ Core = window.Core || {};
             bindings: Object,
             children: Array,
             editable: Boolean,
+        },
+
+        data:  function() {
+            return {
+                systemId: this.systemId,
+            }
+        },
+
+        created: function() {
+
+            this.randomId = generateId();
+
+            this.$watch('bindings.id', function(value) {
+
+                if (value) {
+                    this.systemId = value;
+                } else {
+                    this.systemId = this.randomId;
+                }
+            }, {
+                immediate: true
+            });
         },
 
         methods: {

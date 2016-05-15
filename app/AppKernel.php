@@ -27,7 +27,6 @@ class AppKernel extends Kernel
             new NTR1X\LayoutBundle\NTR1XLayoutBundle(),
             new NTR1X\ControlsBundle\NTR1XControlsBundle(),
             new NTR1X\DefaultBundle\NTR1XDefaultBundle(),
-            new NTR1X\Widgets\DefaultBundle\NTR1XWidgetsDefaultBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

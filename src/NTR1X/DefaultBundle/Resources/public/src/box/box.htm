@@ -1,0 +1,15 @@
+<template id="default-box">
+    <section class="wg wg-default-box" :id="bindings.id" :style="{
+        'border': bindings.outerBorder,
+        'background': bindings.outerBackground,
+        'background-size': bindings.outerBackgroundSize,
+    }">
+        <div class="wg wg-content" :style="{
+            'margin': bindings.margin,
+            'padding': bindings.padding,
+            'border': bindings.innerBorder,
+            'background': bindings.innerBackground,
+            'background-size': bindings.outerBackgroundSize,
+        }"><slot>Empty</slot></div>
+    </section>
+</template>
