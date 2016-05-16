@@ -7,11 +7,14 @@
     "test": "tests"
   },
   "scripts": {
+    "postinstall": "./node_modules/bower/bin/bower install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "bower": "latest"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ipavlenko/ntr1x-archery.git"
