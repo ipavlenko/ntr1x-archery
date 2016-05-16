@@ -28,8 +28,8 @@
     title: Forms
     items:
         - { name: all, title: All Items }
-        - { name: button, title: Buttons }
         - { name: input, title: Inputs }
+        - { name: button, title: Buttons }
 -
     name: text
     title: Text Blocks
