@@ -28,7 +28,7 @@
         "lock" : 2147483632,
         "portal" : 5,
         "data" : {
-          "URL" : "http://moscowacademy.com/",
+          "URL" : "http://example.com/",
           "TITLE" : "Главная"
         }
       },
@@ -41,7 +41,7 @@
         "lock" : 2147483632,
         "portal" : 5,
         "data" : {
-          "URL" : "http://moscowacademy.com/programs",
+          "URL" : "http://example.com/programs",
           "TITLE" : "Обучение"
         }
       },
@@ -54,7 +54,7 @@
         "lock" : 2147483632,
         "portal" : 5,
         "data" : {
-          "URL" : "http://moscowacademy.com/certs",
+          "URL" : "http://example.com/certs",
           "TITLE" : "Сертификаты"
         }
       },
@@ -67,7 +67,7 @@
         "lock" : 2147483632,
         "portal" : 5,
         "data" : {
-          "URL" : "http://moscowacademy.com/news",
+          "URL" : "http://example.com/news",
           "TITLE" : "Академия"
         }
       },
@@ -80,7 +80,7 @@
         "lock" : 2147483632,
         "portal" : 5,
         "data" : {
-          "URL" : "http://moscowacademy.com/contacts",
+          "URL" : "http://example.com/contacts",
           "TITLE" : "Контакты"
         }
       },
@@ -94,7 +94,7 @@
       "lock" : 2147483632,
       "portal" : 5,
       "data" : {
-        "URL" : "http://moscowacademy.com/programs",
+        "URL" : "http://example.com/programs",
         "TITLE" : "Обучение"
       }
     },
@@ -106,7 +106,7 @@
         "lock" : 2147483632,
         "portal" : 5,
         "data" : {
-          "URL" : "http://moscowacademy.com/programs#widget-programs-beginners",
+          "URL" : "http://example.com/programs#widget-programs-beginners",
           "TITLE" : "Для новичков"
         }
       },
@@ -119,7 +119,7 @@
         "lock" : 2147483632,
         "portal" : 5,
         "data" : {
-          "URL" : "http://moscowacademy.com/programs#widget-programs-av",
+          "URL" : "http://example.com/programs#widget-programs-av",
           "TITLE" : "Для игроков среднего уровня"
         }
       },
@@ -132,7 +132,7 @@
         "lock" : 2147483640,
         "portal" : 5,
         "data" : {
-          "URL" : "http://moscowacademy.com/programs#widget-programs-pro",
+          "URL" : "http://example.com/programs#widget-programs-pro",
           "TITLE" : "Для продвинутых гольфистов"
         }
       },
@@ -146,7 +146,7 @@
       "lock" : 2147483632,
       "portal" : 5,
       "data" : {
-        "URL" : "http://moscowacademy.com/certs",
+        "URL" : "http://example.com/certs",
         "TITLE" : "Сертификаты"
       }
     },
@@ -158,7 +158,7 @@
         "lock" : 2147483632,
         "portal" : 5,
         "data" : {
-          "URL" : "http://moscowacademy.com/certs",
+          "URL" : "http://example.com/certs",
           "TITLE" : "Гольф в подарок"
         }
       },
@@ -171,7 +171,7 @@
         "lock" : 2147483632,
         "portal" : 5,
         "data" : {
-          "URL" : "http://moscowacademy.com/certs",
+          "URL" : "http://example.com/certs",
           "TITLE" : "Гольф для компании"
         }
       },
@@ -184,7 +184,7 @@
         "lock" : 2147483632,
         "portal" : 5,
         "data" : {
-          "URL" : "http://moscowacademy.com/certs",
+          "URL" : "http://example.com/certs",
           "TITLE" : "Гольф-свидание"
         }
       },
@@ -198,7 +198,7 @@
       "lock" : 2147483632,
       "portal" : 5,
       "data" : {
-        "URL" : "http://moscowacademy.com/news",
+        "URL" : "http://example.com/news",
         "TITLE" : "О нас"
       }
     },
@@ -210,7 +210,7 @@
         "lock" : 2147483632,
         "portal" : 5,
         "data" : {
-          "URL" : "http://moscowacademy.com/news",
+          "URL" : "http://example.com/news",
           "TITLE" : "Московская Академия Гольфа"
         }
       },
@@ -250,7 +250,7 @@
       "lock" : 2147483632,
       "portal" : 5,
       "data" : {
-        "URL" : "http://moscowacademy.com/links",
+        "URL" : "http://example.com/links",
         "TITLE" : "Полезные ссылки"
       }
     },

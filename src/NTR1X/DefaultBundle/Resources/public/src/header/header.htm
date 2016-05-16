@@ -12,13 +12,13 @@
             background: bindings.innerBackground,
         }">
             <div class="info-block">
-                <a class="logo" href="/" title="Moscow Academy"><img :src="bindings.logo" alt="Logo"/></a>
+                <a class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
                 <div class="phone-block">
                     {{{ bindings.phone }}}
                 </div>
             </div>
-            <ul class="partners-block clearfix" v-for="item in fetchData">
-                <li><a href="{{ item.data.URL }}" target="_blank"><img :src="'https://ru.bookagolf.com/api/v1/portal/i/5/partners/i/' + item.id + '/thumbnail'" alt="{{ item.data.TITLE }}"/></a></li>
+            <ul class="partners-block clearfix">
+                <li><a href="/" target="_blank"><img :src="bindings.logo" alt=""/></a></li>
             </ul>
         </div>
     </section>

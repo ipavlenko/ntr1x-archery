@@ -2,8 +2,8 @@ Core = window.Core || {};
 
 (function($, Vue, Core) {
 
-    Vue.component('default-footer', {
-        template: '#default-footer',
+    Vue.component('default-table', {
+        template: '#default-table',
         mixins: [ Core.WidgetMixin ]
     });
 

@@ -14,6 +14,27 @@
     </section>
 </template>
 
+<template id="default-button">
+    <section class="wg wg-default-button">
+        <default-box :bindings.sync="bindings">
+            <div class="form-group">
+                <button type="{{ bindings.type }}" class="btn btn-block" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                }"
+                :style="{
+                    height: bindings.height
+                }">{{ bindings.title }}</button>
+            </div>
+        </default-box>
+    <section>
+</template>
+
 <template id="default-carousel">
     <section class="wg wg-default-carousel">
         <default-box :bindings.sync="bindings">
@@ -52,33 +73,73 @@
     <section>
 </template>
 
-<template id="default-button">
-    <section class="wg wg-default-button">
-        <default-box :bindings.sync="bindings">
-            <div class="form-group">
-                <button type="{{ bindings.type }}" class="btn btn-block" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                }"
-                :style="{
-                    height: bindings.height
-                }">{{ bindings.title }}</button>
+<template id="default-footer">
+    <section class="wg wg-default-footer" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
+            <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
+            <div class="copyright">{{ bindings.copyright }}</div>
+            <div class="contacts-block pull-right">
+                <ul class="social-list">
+                    <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
+                    <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
+                    <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
+                </ul>
+                <div class="phone-block">{{ bindings.contacts }}</div>
             </div>
-        </default-box>
-    <section>
+        </div>
+    </section>
 </template>
 
-<template id="default-footer">
-    <section class="wg wg-default-footer">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">Footer</span>
-            </div>
+<template id="default-form">
+    <section class="wg wg-default-form" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
+
+            <form action="{{ bindings.acton }}">
+
+                <div class="title" style="">{{{ bindings.title }}}</div>
+                <div class="text-top">{{{ bindings.textabove }}}</div>
+
+                <div v-for="field in bindings.fields" class="form-group">
+
+                    <input v-if="field.type != 'textarea'"
+                            class="form-control"
+                            type="{{ field.type }}"
+                            name="{{ field.name }}"
+                            placeholder="{{ field.placeholder }}"
+                            value=""
+                            data-role="input"
+                            data-scope="{{ field.scope }}"
+                    >
+
+                    <textarea v-if="field.type == 'textarea'"
+                              name="{{ field.name }}"
+                              placeholder="{{ field.placeholder }}"
+                              class="form-control"
+                    ></textarea>
+
+                </div>
+
+                <input class="form-control" type="submit" name="submit" value="Отправить" data-role="input" data-scope="0">
+
+                <div class="text-bot">{{{ bindings.textbelow }}}</div>
+
+            </form>
         </div>
     </section>
 </template>
@@ -156,40 +217,16 @@
             background: bindings.innerBackground,
         }">
             <div class="info-block">
-                <a class="logo" href="/" title="Moscow Academy"><img :src="bindings.logo" alt="Logo"/></a>
+                <a class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
                 <div class="phone-block">
                     {{{ bindings.phone }}}
                 </div>
             </div>
-            <ul class="partners-block clearfix" v-for="item in fetchData">
-                <li><a href="{{ item.data.URL }}" target="_blank"><img :src="'https://ru.bookagolf.com/api/v1/portal/i/5/partners/i/' + item.id + '/thumbnail'" alt="{{ item.data.TITLE }}"/></a></li>
+            <ul class="partners-block clearfix">
+                <li><a href="/" target="_blank"><img :src="bindings.logo" alt=""/></a></li>
             </ul>
         </div>
     </section>
-</template>
-
-<template id="default-nav-horisontal">
-    <section class="wg wg-default-nav wg-default-nav-horisontal">
-        <default-box :bindings.sync="bindings">
-            <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
-                <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
-                    <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
-                </li>
-            </ul>
-        </default-box>
-    <section>
-</template>
-
-<template id="default-nav-vertical">
-    <section class="wg wg-default-nav wg-default-nav-horisontal">
-        <default-box :bindings.sync="bindings">
-            <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
-                <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
-                    <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
-                </li>
-            </ul>
-        </default-box>
-    <section>
 </template>
 
 <template id="default-input-checkbox">
@@ -242,6 +279,30 @@
     <section>
 </template>
 
+<template id="default-nav-horisontal">
+    <section class="wg wg-default-nav wg-default-nav-horisontal">
+        <default-box :bindings.sync="bindings">
+            <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
+                <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
+                    <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
+                </li>
+            </ul>
+        </default-box>
+    <section>
+</template>
+
+<template id="default-nav-vertical">
+    <section class="wg wg-default-nav wg-default-nav-horisontal">
+        <default-box :bindings.sync="bindings">
+            <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
+                <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
+                    <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
+                </li>
+            </ul>
+        </default-box>
+    <section>
+</template>
+
 <template id="default-placeholder">
     <section>
         <default-box :bindings.sync="bindings">
@@ -258,12 +319,43 @@
     </section>
 </template>
 
+<template id="default-rich">
+    <section class="wg wg-default-rich" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
+            {{{ bindings.content }}}
+        </div>
+    </section>
+</template>
+
 <template id="default-sitemap">
-    <section class="wg wg-default-sitemap">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">Sitemap</span>
-            </div>
+    <section class="wg wg-default-sitemap" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
+            <ul>
+                <li v-for="item in data.sitemap.children">
+                    <a href="{{ item.desc.data.URL }}">{{ item.desc.data.TITLE }}</a>
+                    <ul>
+                        <li v-for="item in item.children">
+                            <a href="{{ item.desc.data.URL }}">{{ item.desc.data.TITLE }}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </section>
 </template>
@@ -350,6 +442,38 @@
                     <div>{{ bindings.subtitle }}</div>
                 </span>
             </div>
+        </div>
+    </section>
+</template>
+
+<template id="default-table">
+    <section class="wg wg-default-table"  :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
+            <table >
+                <thead>
+                <tr>
+                    <th v-for="item in bindings.columns">
+                        {{ item.title }}
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody v-for="item in data.table | jsonPath bindings.jsonpath">
+                <tr>
+                    <td v-for="param in bindings.columns">
+                        {{ item | jsonPath param.value }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </section>
 </template>

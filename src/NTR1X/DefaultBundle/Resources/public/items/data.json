@@ -52,7 +52,7 @@
     "data" : {
       "LON" : "37.5201",
       "PRICE" : "25000.0",
-      "URL" : "http://moscowacademy.com/",
+      "URL" : "http://example.com/",
       "BOOKING_COM_TITLE" : "",
       "LAT" : "55.724125",
       "ADDRESS" : "",
@@ -125,7 +125,7 @@
     "data" : {
       "LON" : "37.5201",
       "PRICE" : "25000.0",
-      "URL" : "http://moscowacademy.com/",
+      "URL" : "http://example.com/",
       "BOOKING_COM_TITLE" : "",
       "LAT" : "55.724125",
       "ADDRESS" : "",
@@ -198,7 +198,7 @@
     "data" : {
       "LON" : "37.5201",
       "PRICE" : "25000.0",
-      "URL" : "http://moscowacademy.com/",
+      "URL" : "http://example.com/",
       "BOOKING_COM_TITLE" : "",
       "LAT" : "55.724125",
       "ADDRESS" : "",
