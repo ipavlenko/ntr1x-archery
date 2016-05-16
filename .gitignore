@@ -3,7 +3,7 @@
 
 /web/assets/vendor
 /web/bundles/
-/app/config/parameters.yml
+# /app/config/parameters.yml
 /build/
 /phpunit.xml
 /var/*
