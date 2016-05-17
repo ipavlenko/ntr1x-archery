@@ -675,6 +675,65 @@
     </div>
 </template>
 
+<template id="widgets-dialog">
+	<div class="modal modal-center" role="dialog">
+		<div class="ge ge-modal modal-dialog modal-lg">
+			<form class="modal-content"
+				@submit.prevent="submit"
+				@reset.prevent="reset"
+			>
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+					<h4 class="modal-title">
+						<span v-if="original" class="label label-primary">{{ original.name }}</span>
+						<span v-if="original">&nbsp;Настройки виджета</span>
+						<span v-if="!original">Новый виджет</span>
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="dialog-widget-name">Имя</label>
+						<input class="form-control" type="text" id="dialog-widget-name" required="true" v-model="current.name" />
+					</div>
+                    <div class="form-group">
+						<label for="dialog-widget-name">Тип</label>
+						<input class="form-control" type="text" id="dialog-widget-name" required="true" v-model="current.type" />
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-default">Отменить</button>
+					<button type="submit" class="btn btn-primary">Сохранить</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</template>
+
+<template id="widgets-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width: 100%">Имя</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td><span class="label label-success">{{ item.provider.bundle }}/{{ item.name }}</span> {{ item.title }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="widgets">
+
+    <widgets-list :items.sync="items"></widgets-list>
+
+</template>
+
 <template id="shell">
     <div class="ge ge-shell">
 
@@ -735,65 +794,6 @@
         <div class="ge ge-foot">
         </div>
     </div>
-</template>
-
-<template id="widgets-dialog">
-	<div class="modal modal-center" role="dialog">
-		<div class="ge ge-modal modal-dialog modal-lg">
-			<form class="modal-content"
-				@submit.prevent="submit"
-				@reset.prevent="reset"
-			>
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-					<h4 class="modal-title">
-						<span v-if="original" class="label label-primary">{{ original.name }}</span>
-						<span v-if="original">&nbsp;Настройки виджета</span>
-						<span v-if="!original">Новый виджет</span>
-					</h4>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<label for="dialog-widget-name">Имя</label>
-						<input class="form-control" type="text" id="dialog-widget-name" required="true" v-model="current.name" />
-					</div>
-                    <div class="form-group">
-						<label for="dialog-widget-name">Тип</label>
-						<input class="form-control" type="text" id="dialog-widget-name" required="true" v-model="current.type" />
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="reset" class="btn btn-default">Отменить</button>
-					<button type="submit" class="btn btn-primary">Сохранить</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</template>
-
-<template id="widgets-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 100%">Имя</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td><span class="label label-success">{{ item.provider.bundle }}/{{ item.name }}</span> {{ item.title }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</template>
-
-<template id="widgets">
-
-    <widgets-list :items.sync="items"></widgets-list>
-
 </template>
 
 <template id="pages-sources-dialog">
@@ -1310,20 +1310,6 @@
 
 </template>
 
-<template id="shell-palette-item">
-    <div class="ge ge-palette-item">
-        <div data-widget="{{ widget.id }}">
-            <img class="when-in-palette" :src="thumbnail" />
-        </div>
-    </div>
-</template>
-
-<template id="shell-palette">
-    <section class="ge ge-palette">
-        <palette-item v-for="widget in category.widgets" :widget.sync="widget"></palette-item>
-    </section>
-</template>
-
 <template id="shell-pages">
     <section class="ge ge-panel ge-pages">
         <pages :items.sync="pages" :globals.sync="globals" inline-template>
@@ -1345,6 +1331,20 @@
                 </li>
             </ul>
         </pages>
+    </section>
+</template>
+
+<template id="shell-palette-item">
+    <div class="ge ge-palette-item">
+        <div data-widget="{{ widget.id }}">
+            <img class="when-in-palette" :src="thumbnail" />
+        </div>
+    </div>
+</template>
+
+<template id="shell-palette">
+    <section class="ge ge-palette">
+        <palette-item v-for="widget in category.widgets" :widget.sync="widget"></palette-item>
     </section>
 </template>
 
@@ -1391,12 +1391,6 @@
     </div>
 </template>
 
-<template id="shell-target">
-    <div class="ge ge-target">
-        <span>Drop Here</span>
-    </div>
-</template>
-
 <template id="shell-widget">
     <div>
         <div
@@ -1410,6 +1404,12 @@
             :editable.sync="editable"
             :items.sync="model.widgets"
         ></div>
+    </div>
+</template>
+
+<template id="shell-target">
+    <div class="ge ge-target">
+        <span>Drop Here</span>
     </div>
 </template>
 

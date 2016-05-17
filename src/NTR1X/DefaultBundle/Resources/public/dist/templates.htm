@@ -1,5 +1,5 @@
 <template id="default-box">
-    <section class="wg wg-default-box" :id="bindings.id" :style="{
+    <section :class="class" :id="bindings.id" :style="{
         'border': bindings.outerBorder,
         'background': bindings.outerBackground,
         'background-size': bindings.outerBackgroundSize,
@@ -204,29 +204,17 @@
 </template>
 
 <template id="default-header">
-    <section class="wg wg-default-header" :id="bindings.id" :style="{
-        border: bindings.outerBorder,
-        background: bindings.outerBackground,
-        'background-size': bindings.outerBackgroundSize,
-    }">
-        <div class="wg wg-content" :style="{
-            margin: bindings.margin,
-            padding: bindings.padding,
-            height: bindings.height,
-            border: bindings.innerBorder,
-            background: bindings.innerBackground,
-        }">
-            <div class="info-block">
-                <a class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
-                <div class="phone-block">
-                    {{{ bindings.phone }}}
-                </div>
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-header'">
+        <div class="info-block">
+            <a class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
+            <div class="phone-block">
+                {{{ bindings.phone }}}
             </div>
-            <ul class="partners-block clearfix">
-                <li><a href="/" target="_blank"><img :src="bindings.logo" alt=""/></a></li>
-            </ul>
         </div>
-    </section>
+        <ul class="partners-block clearfix">
+            <li><a href="/" target="_blank"><img :src="bindings.logo" alt=""/></a></li>
+        </ul>
+    </default-box>
 </template>
 
 <template id="default-input-checkbox">

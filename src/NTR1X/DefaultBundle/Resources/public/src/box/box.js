@@ -4,6 +4,7 @@
         template: '#default-box',
         props: {
             bindings: Object,
+            class: String,
         }
     });
 
