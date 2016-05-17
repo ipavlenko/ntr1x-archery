@@ -126,7 +126,7 @@ Placeholder:
 Header:
     title: 'Header'
     tag: default-header
-    mixins: [ WidgetMixin, BoxMixin ]
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin]
     thumbnail: 'src/header/header.png'
     categories: [ composite.all, composite.header ]
     params:
