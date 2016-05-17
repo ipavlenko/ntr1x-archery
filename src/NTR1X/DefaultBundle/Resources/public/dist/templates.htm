@@ -279,6 +279,37 @@
     <section>
 </template>
 
+<template id="default-items">
+    <section class="wg wg-default-items" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
+            <div v-for="item in data.items" class="items-list">
+                <div class="item clearfix">
+                    <div class="left-part pull-left">
+                        <img src="{{item | jsonPath bindings.itemImageUrl }}" />
+                    </div>
+                    <div class="right-part">
+                        <div class="title">{{item | jsonPath bindings.itemTitle }}</div>
+                        <ul class="link-list">
+                            <li><a href="{{item | jsonPath bindings.itemUrl }}">Страница клуба</a></li>
+                        </ul>
+                        <div class="text">
+                            {{{item | jsonPath bindings.itemPromo }}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
 <template id="default-nav-horisontal">
     <section class="wg wg-default-nav wg-default-nav-horisontal">
         <default-box :bindings.sync="bindings">

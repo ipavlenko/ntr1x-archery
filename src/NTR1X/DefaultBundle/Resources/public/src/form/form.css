@@ -1,7 +1,4 @@
-.wg.wg-default-form {
-
-}
-.wg.wg-default-form .wg-content{
-    border: 1px solid #ccc;
-    padding: 10px;
+.wg.wg-default-form .wg.wg-content {
+  border: 1px solid #ccc;
+  padding: 10px;
 }

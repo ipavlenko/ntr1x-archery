@@ -9,7 +9,7 @@
             border: bindings.innerBorder,
             background: bindings.innerBackground,
         }">
-            <div v-for="item in fetchData" class="items-list">
+            <div v-for="item in data.items" class="items-list">
                 <div class="item clearfix">
                     <div class="left-part pull-left">
                         <img src="{{item | jsonPath bindings.itemImageUrl }}" />

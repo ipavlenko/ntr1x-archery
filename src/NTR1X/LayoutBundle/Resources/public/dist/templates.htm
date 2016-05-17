@@ -1295,21 +1295,6 @@
     </section>
 </template>
 
-<template id="shell-page">
-
-    <div class="ge ge-page">
-        <div
-            :is="decorator"
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :data.sync="data"
-            :items.sync="page.widgets"
-        ></div>
-    </div>
-
-</template>
-
 <template id="shell-pages">
     <section class="ge ge-panel ge-pages">
         <pages :items.sync="pages" :globals.sync="globals" inline-template>
@@ -1332,6 +1317,21 @@
             </ul>
         </pages>
     </section>
+</template>
+
+<template id="shell-page">
+
+    <div class="ge ge-page">
+        <div
+            :is="decorator"
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :data.sync="data"
+            :items.sync="page.widgets"
+        ></div>
+    </div>
+
 </template>
 
 <template id="shell-palette-item">
@@ -1373,12 +1373,6 @@
     </section>
 </template>
 
-<template id="shell-stub">
-    <div class="ge ge-stub">
-        <span>Stub</span>
-    </div>
-</template>
-
 <template id="shell-stacked">
     <div class="ge ge-stacked"
         ><shell-widget v-for="item in items" v-if="item._action != 'remove'"
@@ -1389,6 +1383,12 @@
             :data.sync="item"
         ></shell-widget
     ></div>
+</template>
+
+<template id="shell-stub">
+    <div class="ge ge-stub">
+        <span>Stub</span>
+    </div>
 </template>
 
 <template id="shell-target">

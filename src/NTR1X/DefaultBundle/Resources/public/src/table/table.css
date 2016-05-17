@@ -1,12 +1,10 @@
-.wg.wg-default-table {
-    background: #688537;
+.wg.wg-default-table .wg.wg-content {
+  box-sizing: border-box;
 }
-
-.wg.wg-default-table table{
-    width: 100%;
-    color: #fff;
+.wg.wg-default-table .wg.wg-content table {
+  width: 100%;
+  color: #fff;
 }
-
-.wg.wg-default-table table td{
-    border-bottom: 1px solid black;
+.wg.wg-default-table .wg.wg-content table td {
+  border-bottom: 1px solid black;
 }

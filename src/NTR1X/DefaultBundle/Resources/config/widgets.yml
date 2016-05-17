@@ -257,6 +257,47 @@ Table:
                    type: string
                    tab: data
 
+Items:
+    title: 'Items'
+    tag: default-items
+    size: { width: 12, height: 5 }
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/items/items.png'
+    categories: [ composite.all]
+    params:
+                jsonpath: { value: '$.*' }
+                itemUrl: { value: '{$.data.URL}' }
+                itemImageUrl: { value: 'i/{$.id}/thumbnail' }
+                itemTitle: { value: '{$.data.TITLE}' }
+                itemPromo: { value: '{$.data.PROMO}' }
+    props:
+       -
+           name: jsonpath
+           title: Json Path
+           type: string
+           tab: data
+       -
+           name: itemUrl
+           title: Item URL
+           type: string
+           tab: data
+       -
+           name: itemImageUrl
+           title: Item Image URL
+           type: string
+           tab: data
+       -
+           name: itemTitle
+           title: Item Title
+           type: string
+           tab: data
+       -
+           name: itemPromo
+           title: Item Promo
+           type: string
+           tab: data
+
+
 # Navigations Widgets
 
 NavHorizontal:
