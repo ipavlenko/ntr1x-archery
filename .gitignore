@@ -22,5 +22,3 @@
 
 /web/.htaccess
 Procfile
-composer.lock
-package.json
