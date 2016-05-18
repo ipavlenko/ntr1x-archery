@@ -1,11 +1,3 @@
-.wg.wg-default-items {
-  height: 100%;
-  display: table;
-  background-color: #fff;
-}
-.wg.wg-default-items .wg.wg-content {
-  width: 100%;
-}
 .wg.wg-default-items .wg.wg-content a {
   color: #4A0;
 }
