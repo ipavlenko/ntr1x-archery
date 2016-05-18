@@ -12,8 +12,8 @@ class Widget {
     private $provider;
     private $id;
     private $name;
-    private $title;
     private $tag;
+    private $title;
     private $thumbnail;
 
     private $styles = [];
@@ -31,8 +31,8 @@ class Widget {
 
         $this->id = $this->provider->getBundle() . '/' . $this->name;
 
-        $this->title = $config['title'];
         $this->tag = $config['tag'];
+        $this->title = $config['title'];
 
         if (isset($config['thumbnail'])) {
             $this->thumbnail = new WidgetAsset($this, $config['thumbnail']);
@@ -89,14 +89,14 @@ class Widget {
         return $this->name;
     }
 
+    public function getTag() {
+        return $this->tag;
+    }
+
     public function getTitle() {
         return $this->title;
     }
 
-    public function getTag() {
-        return $this->tag;
-    }
-    
     public function getThumbnail() {
         return $this->thumbnail;
     }
