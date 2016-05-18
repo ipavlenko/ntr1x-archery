@@ -265,9 +265,10 @@ Items:
     thumbnail: 'src/items/items.png'
     categories: [ composite.all]
     params:
+                padding: { value: '38px 36px' }
                 jsonpath: { value: '$.*' }
                 itemUrl: { value: '{$.data.URL}' }
-                itemImageUrl: { value: 'i/{$.id}/thumbnail' }
+                itemImageUrl: { value: '/bundles/ntr1xdefault/src/items/i{$.id}.jpg' }
                 itemTitle: { value: '{$.data.TITLE}' }
                 itemPromo: { value: '{$.data.PROMO}' }
     props:

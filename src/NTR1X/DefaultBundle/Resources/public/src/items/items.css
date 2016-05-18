@@ -4,7 +4,6 @@
   background-color: #fff;
 }
 .wg.wg-default-items .wg.wg-content {
-  padding: 38px 36px;
   width: 100%;
 }
 .wg.wg-default-items .wg.wg-content a {
@@ -18,6 +17,9 @@
 }
 .wg.wg-default-items .wg.wg-content .items-list .item .left-part {
   margin: 0 20px 30px 0;
+}
+.wg.wg-default-items .wg.wg-content .items-list .item .left-part img {
+  width: 120px;
 }
 .wg.wg-default-items .wg.wg-content .items-list .item .right-part {
   overflow: hidden;
