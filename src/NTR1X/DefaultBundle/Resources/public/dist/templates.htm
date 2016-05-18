@@ -281,12 +281,12 @@
             <div v-for="item in data.items" class="items-list">
                 <div class="item clearfix">
                     <div class="left-part pull-left">
-                        <img src="{{item | jsonPath bindings.itemImageUrl }}" />
+                        <img :src="item | jsonPath bindings.itemImageUrl" />
                     </div>
                     <div class="right-part">
                         <div class="title">{{item | jsonPath bindings.itemTitle }}</div>
                         <ul class="link-list">
-                            <li><a href="{{item | jsonPath bindings.itemUrl }}">Ссылка</a></li>
+                            <li><a href="{{item | jsonPath bindings.itemUrl }}">Страница клуба</a></li>
                         </ul>
                         <div class="text">
                             {{{item | jsonPath bindings.itemPromo }}}
@@ -295,6 +295,22 @@
                 </div>
             </div>
         </div>
+    </section>
+</template>
+
+<template id="default-placeholder">
+    <section>
+        <default-box :bindings.sync="bindings">
+            <section class="wg wg-default-placeholder">
+                <div class="wg wg-content">
+                    <div class="wg wg-table" :style="{
+                        height: bindings.height,
+                    }">
+                        <span class="wg wg-cell">{{{ bindings.content }}}</span>
+                    </div>
+                </div>
+            </section>
+        </default-box>
     </section>
 </template>
 
@@ -320,22 +336,6 @@
             </ul>
         </default-box>
     <section>
-</template>
-
-<template id="default-placeholder">
-    <section>
-        <default-box :bindings.sync="bindings">
-            <section class="wg wg-default-placeholder">
-                <div class="wg wg-content">
-                    <div class="wg wg-table" :style="{
-                        height: bindings.height,
-                    }">
-                        <span class="wg wg-cell">{{{ bindings.content }}}</span>
-                    </div>
-                </div>
-            </section>
-        </default-box>
-    </section>
 </template>
 
 <template id="default-rich">
@@ -375,6 +375,19 @@
                     </ul>
                 </li>
             </ul>
+        </div>
+    </section>
+</template>
+
+<template id="default-stub">
+    <section class="wg wg-default-stub">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <span class="wg wg-cell">
+                    <div><small>{{ bindings.title }}</small></div>
+                    <div>{{ bindings.subtitle }}</div>
+                </span>
+            </div>
         </div>
     </section>
 </template>
@@ -452,19 +465,6 @@
     </section>
 </template>
 
-<template id="default-stub">
-    <section class="wg wg-default-stub">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">
-                    <div><small>{{ bindings.title }}</small></div>
-                    <div>{{ bindings.subtitle }}</div>
-                </span>
-            </div>
-        </div>
-    </section>
-</template>
-
 <template id="default-table">
     <section class="wg wg-default-table"  :id="bindings.id" :style="{
         border: bindings.outerBorder,
@@ -485,6 +485,7 @@
                 </tr>
                 </thead>
 
+                <!--<tbody v-for="item in data.table | jsonPath bindings.jsonpath">-->
                 <tbody v-for="item in data.table | jsonPath bindings.jsonpath">
                 <tr>
                     <td v-for="param in bindings.columns">
