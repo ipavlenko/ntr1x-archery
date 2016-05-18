@@ -1,0 +1,12 @@
+<template id="default-input-textarea">
+    <section class="wg wg-default-input wg-default-input-textarea">
+        <default-box :bindings.sync="bindings">
+            <div class="form-group">
+                <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
+                <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model" style="{
+                    height: bindings.height
+                }"></textarea>
+            </div>
+        </default-box>
+    <section>
+</template>

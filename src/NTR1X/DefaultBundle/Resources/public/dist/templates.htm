@@ -1,51 +1,380 @@
+<template id="default-box">
+    <section :class="class" :id="bindings.id" :style="{
+        'border': bindings.outerBorder,
+        'background': bindings.outerBackground,
+        'background-size': bindings.outerBackgroundSize,
+    }">
+        <div class="wg wg-content" :style="{
+            'margin': bindings.margin,
+            'padding': bindings.padding,
+            'border': bindings.innerBorder,
+            'background': bindings.innerBackground,
+            'background-size': bindings.outerBackgroundSize,
+        }"><slot>Empty</slot></div>
+    </section>
+</template>
+
+<template id="default-button">
+    <section class="wg wg-default-button">
+        <default-box :bindings.sync="bindings">
+            <div class="form-group">
+                <button type="{{ bindings.type }}" class="btn btn-block" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                }"
+                :style="{
+                    height: bindings.height
+                }">{{ bindings.title }}</button>
+            </div>
+        </default-box>
+    <section>
+</template>
+
+<template id="default-carousel">
+    <section class="wg wg-default-carousel">
+        <default-box :bindings.sync="bindings">
+            <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
+
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li v-for="item in bindings.items" data-target="#{{ systemId }}" data-slide-to="{{ $index }}" :class="{ 'active' : !$index }"></li>
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div v-for="item in bindings.items" class="item" :class="{ 'active' : !$index }" :style="{
+                        'height': bindings.height,
+                        'background': item.background,
+                        'background-size': item.backgroundSize,
+                    }">
+                        <div v-if="item.caption" class="carousel-caption">
+                            {{{ item.caption }}}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <a class="left carousel-control" href="#{{ systemId }}" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#{{ systemId }}" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+
+            </div>
+        </default-box>
+    <section>
+</template>
+
 <template id="default-footer">
-    <section class="wg wg-default-footer">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">Footer</span>
+    <section class="wg wg-default-footer" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
+            <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
+            <div class="copyright">{{ bindings.copyright }}</div>
+            <div class="contacts-block pull-right">
+                <ul class="social-list">
+                    <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
+                    <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
+                    <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
+                </ul>
+                <div class="phone-block">{{ bindings.contacts }}</div>
             </div>
         </div>
     </section>
+</template>
+
+<template id="default-form">
+    <section class="wg wg-default-form" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
+
+            <form action="{{ bindings.acton }}">
+
+                <div class="title" style="">{{{ bindings.title }}}</div>
+                <div class="text-top">{{{ bindings.textabove }}}</div>
+
+                <div v-for="field in bindings.fields" class="form-group">
+
+                    <input v-if="field.type != 'textarea'"
+                            class="form-control"
+                            type="{{ field.type }}"
+                            name="{{ field.name }}"
+                            placeholder="{{ field.placeholder }}"
+                            value=""
+                            data-role="input"
+                            data-scope="{{ field.scope }}"
+                    >
+
+                    <textarea v-if="field.type == 'textarea'"
+                              name="{{ field.name }}"
+                              placeholder="{{ field.placeholder }}"
+                              class="form-control"
+                    ></textarea>
+
+                </div>
+
+                <input class="form-control" type="submit" name="submit" value="Отправить" data-role="input" data-scope="0">
+
+                <div class="text-bot">{{{ bindings.textbelow }}}</div>
+
+            </form>
+        </div>
+    </section>
+</template>
+
+<template id="default-gallery">
+    <section>
+        <default-box :bindings.sync="bindings">
+            <div class="wg wg-default-gallery">
+                <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
+
+                    <!-- Indicators -->
+                    <ol v-if="matrix.length > 1" class="carousel-indicators">
+                        <li v-for="item in bindings.items" data-target="#{{ systemId }}" data-slide-to="{{ $index }}" :class="{ 'active' : !$index }"></li>
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div v-for="pd in matrix" class="item" :class="{ 'active' : !$index }" :style="{
+                            'height': bindings.height,
+                        }">
+                            <div class="wg-default-gallery wg-default-gallery-table" :style="{
+                                'border-spacing': bindings.borderSpacing,
+                                'border-collapse': bindings.borderCollapse,
+                            }">
+                                <div v-for="rd in pd" class="wg-default-gallery wg-default-gallery-row">
+                                    <div v-for="cd in rd" class="wg-default-gallery wg-default-gallery-cell">
+                                        <div v-if="cd" class="thumbnail wg-default-gallery wg-default-gallery-thumbnail" :style="{
+                                            'background': cd.background,
+                                            'background-size': cd.backgroundSize,
+                                        }">
+                                            <div class="wg-default-gallery wg-default-gallery-item" :style="{
+                                                'background': cd.itemBackground,
+                                                'background-size': cd.itemBackgroundSize,
+                                                'width': bindings.itemWidth,
+                                                'height': bindings.itemHeight,
+                                            }">
+                                            </div>
+                                            <div v-if="cd.caption" class="caption wg-default-gallery wg-default-gallery-caption">
+                                                {{{ cd.caption }}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <a v-if="matrix.length > 1" class="left carousel-control" href="#{{ systemId }}" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a v-if="matrix.length > 1" class="right carousel-control" href="#{{ systemId }}" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+
+                </div>
+            </div>
+        </default-box>
+    <section>
 </template>
 
 <template id="default-header">
-    <section class="wg wg-default-header">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">Header</span>
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-header'">
+        <div class="info-block">
+            <a class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
+            <div class="phone-block">
+                {{{ bindings.phone }}}
+            </div>
+        </div>
+        <ul class="partners-block clearfix">
+            <li><a href="/" target="_blank"><img :src="bindings.logo" alt=""/></a></li>
+        </ul>
+    </default-box>
+</template>
+
+<template id="default-input-checkbox">
+    <section class="wg wg-default-input wg-default-input-checkbox">
+        <default-box :bindings.sync="bindings">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="{{ bindings.value }}" v-model="bindings.model">
+                    {{ bindings.label }}
+                </label>
+            </div>
+        </default-box>
+    <section>
+</template>
+
+<template id="default-input-radio">
+    <section class="wg wg-default-input wg-default-input-radio">
+        <default-box :bindings.sync="bindings">
+            <div class="radio">
+                <label>
+                    <input type="radio" value="{{ bindings.value }}" v-model="bindings.model">
+                    {{ bindings.label }}
+                </label>
+            </div>
+        </default-box>
+    <section>
+</template>
+
+<template id="default-input-text">
+    <section class="wg wg-default-input wg-default-input-text">
+        <default-box :bindings.sync="bindings">
+            <div class="form-group">
+                <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
+                <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder}}" v-model="bindings.model" />
+            </div>
+        </default-box>
+    <section>
+</template>
+
+<template id="default-input-textarea">
+    <section class="wg wg-default-input wg-default-input-textarea">
+        <default-box :bindings.sync="bindings">
+            <div class="form-group">
+                <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
+                <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model" style="{
+                    height: bindings.height
+                }"></textarea>
+            </div>
+        </default-box>
+    <section>
+</template>
+
+<template id="default-items">
+    <section class="wg wg-default-items" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
+            <div v-for="item in data.items" class="items-list">
+                <div class="item clearfix">
+                    <div class="left-part pull-left">
+                        <img src="{{item | jsonPath bindings.itemImageUrl }}" />
+                    </div>
+                    <div class="right-part">
+                        <div class="title">{{item | jsonPath bindings.itemTitle }}</div>
+                        <ul class="link-list">
+                            <li><a href="{{item | jsonPath bindings.itemUrl }}">Страница клуба</a></li>
+                        </ul>
+                        <div class="text">
+                            {{{item | jsonPath bindings.itemPromo }}}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 </template>
 
-<template id="default-menu">
-    <section class="wg wg-default-menu">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">Menu</span>
-            </div>
-        </div>
-    </section>
+<template id="default-nav-horisontal">
+    <section class="wg wg-default-nav wg-default-nav-horisontal">
+        <default-box :bindings.sync="bindings">
+            <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
+                <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
+                    <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
+                </li>
+            </ul>
+        </default-box>
+    <section>
+</template>
+
+<template id="default-nav-vertical">
+    <section class="wg wg-default-nav wg-default-nav-horisontal">
+        <default-box :bindings.sync="bindings">
+            <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
+                <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
+                    <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
+                </li>
+            </ul>
+        </default-box>
+    <section>
 </template>
 
 <template id="default-placeholder">
-    <section class="wg wg-default-placeholder">
-        <div class="wg wg-content">
-            <div class="wg wg-table" style="
-                height: {{ bindings.height }}
-            ">
-                <span class="wg wg-cell">{{{ bindings.content }}}</span>
-            </div>
+    <section>
+        <default-box :bindings.sync="bindings">
+            <section class="wg wg-default-placeholder">
+                <div class="wg wg-content">
+                    <div class="wg wg-table" :style="{
+                        height: bindings.height,
+                    }">
+                        <span class="wg wg-cell">{{{ bindings.content }}}</span>
+                    </div>
+                </div>
+            </section>
+        </default-box>
+    </section>
+</template>
+
+<template id="default-rich">
+    <section class="wg wg-default-rich" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
+            {{{ bindings.content }}}
         </div>
     </section>
 </template>
 
 <template id="default-sitemap">
-    <section class="wg wg-default-sitemap">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">Sitemap</span>
-            </div>
+    <section class="wg wg-default-sitemap" :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
+            <ul>
+                <li v-for="item in data.sitemap.children">
+                    <a href="{{ item.desc.data.URL }}">{{ item.desc.data.TITLE }}</a>
+                    <ul>
+                        <li v-for="item in item.children">
+                            <a href="{{ item.desc.data.URL }}">{{ item.desc.data.TITLE }}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </section>
 </template>
@@ -132,6 +461,38 @@
                     <div>{{ bindings.subtitle }}</div>
                 </span>
             </div>
+        </div>
+    </section>
+</template>
+
+<template id="default-table">
+    <section class="wg wg-default-table"  :id="bindings.id" :style="{
+        border: bindings.outerBorder,
+        background: bindings.outerBackground,
+    }">
+        <div class="wg wg-content" :style="{
+            margin: bindings.margin,
+            padding: bindings.padding,
+            border: bindings.innerBorder,
+            background: bindings.innerBackground,
+        }">
+            <table >
+                <thead>
+                <tr>
+                    <th v-for="item in bindings.columns">
+                        {{ item.title }}
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody v-for="item in data.table | jsonPath bindings.jsonpath">
+                <tr>
+                    <td v-for="param in bindings.columns">
+                        {{ item | jsonPath param.value }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </section>
 </template>

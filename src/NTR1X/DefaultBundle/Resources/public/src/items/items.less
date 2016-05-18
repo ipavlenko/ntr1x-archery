@@ -1,0 +1,79 @@
+// "out": "items.css"
+
+.wg.wg-default-items {
+  height: 100%;
+  display: table;
+  background-color: #fff;
+
+  .wg.wg-content {
+    width: 100%;
+
+    a {
+      color: #4A0;
+
+      &:hover {
+        color: #3a9100;
+      }
+
+    }
+
+    .items-list {
+      color: #333;
+
+      .item {
+
+        .left-part {
+          margin: 0 20px 30px 0;
+
+          img {
+            width: 120px;
+          }
+
+        }
+
+        .right-part {
+          overflow: hidden;
+          margin-bottom: 20px;
+
+          .title {
+            line-height: 20px;
+            font-size: 24px;
+            margin-bottom: 5px;
+          }
+
+          .link-list {
+            padding: 0;
+            margin: 0;
+
+            li {
+              display: inline-block;
+              vertical-align: top;
+
+              &:before {
+                content: " | ";
+                display: inline-block;
+                margin: 0 11px 0 7px;
+              }
+
+              &:first-child {
+
+                &:before {
+                  content: "";
+                  margin: 0;
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}

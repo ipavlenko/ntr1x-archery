@@ -1,9 +1,13 @@
 <template id="default-header">
-    <section class="wg wg-default-header">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">Header</span>
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-header'">
+        <div class="info-block">
+            <a class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
+            <div class="phone-block">
+                {{{ bindings.phone }}}
             </div>
         </div>
-    </section>
+        <ul class="partners-block clearfix">
+            <li><a href="/" target="_blank"><img :src="bindings.logo" alt=""/></a></li>
+        </ul>
+    </default-box>
 </template>

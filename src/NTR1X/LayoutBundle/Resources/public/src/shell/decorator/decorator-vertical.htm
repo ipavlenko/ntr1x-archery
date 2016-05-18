@@ -1,5 +1,5 @@
 <template id="shell-decorator-vertical">
-    <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
+    <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected, 'ignore-elements': editable  }">
         <div class="ge ge-content">
             <div
                 :is="widget.tag"

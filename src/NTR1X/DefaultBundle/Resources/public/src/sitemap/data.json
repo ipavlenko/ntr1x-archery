@@ -1,0 +1,298 @@
+{
+  "desc" : {
+    "id" : 4,
+    "name" : "links",
+    "lock" : 2147483632,
+    "portal" : 5,
+    "data" : {
+      "TITLE" : "Useful links"
+    }
+  },
+  "children" : [ {
+    "desc" : {
+      "id" : 10,
+      "parent" : 4,
+      "name" : "directories",
+      "lock" : 2147483632,
+      "portal" : 5,
+      "data" : {
+        "URL" : "",
+        "TITLE" : "Разделы"
+      }
+    },
+    "children" : [ {
+      "desc" : {
+        "id" : 12,
+        "parent" : 10,
+        "name" : "academy",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "http://example.com/",
+          "TITLE" : "Главная"
+        }
+      },
+      "children" : [ ]
+    }, {
+      "desc" : {
+        "id" : 13,
+        "parent" : 10,
+        "name" : "education",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "http://example.com/programs",
+          "TITLE" : "Обучение"
+        }
+      },
+      "children" : [ ]
+    }, {
+      "desc" : {
+        "id" : 14,
+        "parent" : 10,
+        "name" : "certs",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "http://example.com/certs",
+          "TITLE" : "Сертификаты"
+        }
+      },
+      "children" : [ ]
+    }, {
+      "desc" : {
+        "id" : 16,
+        "parent" : 10,
+        "name" : "news",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "http://example.com/news",
+          "TITLE" : "Академия"
+        }
+      },
+      "children" : [ ]
+    }, {
+      "desc" : {
+        "id" : 17,
+        "parent" : 10,
+        "name" : "contacts",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "http://example.com/contacts",
+          "TITLE" : "Контакты"
+        }
+      },
+      "children" : [ ]
+    } ]
+  }, {
+    "desc" : {
+      "id" : 18,
+      "parent" : 4,
+      "name" : "education",
+      "lock" : 2147483632,
+      "portal" : 5,
+      "data" : {
+        "URL" : "http://example.com/programs",
+        "TITLE" : "Обучение"
+      }
+    },
+    "children" : [ {
+      "desc" : {
+        "id" : 22,
+        "parent" : 18,
+        "name" : "program1",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "http://example.com/programs#widget-programs-beginners",
+          "TITLE" : "Для новичков"
+        }
+      },
+      "children" : [ ]
+    }, {
+      "desc" : {
+        "id" : 23,
+        "parent" : 18,
+        "name" : "program2",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "http://example.com/programs#widget-programs-av",
+          "TITLE" : "Для игроков среднего уровня"
+        }
+      },
+      "children" : [ ]
+    }, {
+      "desc" : {
+        "id" : 24,
+        "parent" : 18,
+        "name" : "program3",
+        "lock" : 2147483640,
+        "portal" : 5,
+        "data" : {
+          "URL" : "http://example.com/programs#widget-programs-pro",
+          "TITLE" : "Для продвинутых гольфистов"
+        }
+      },
+      "children" : [ ]
+    } ]
+  }, {
+    "desc" : {
+      "id" : 19,
+      "parent" : 4,
+      "name" : "certificates",
+      "lock" : 2147483632,
+      "portal" : 5,
+      "data" : {
+        "URL" : "http://example.com/certs",
+        "TITLE" : "Сертификаты"
+      }
+    },
+    "children" : [ {
+      "desc" : {
+        "id" : 25,
+        "parent" : 19,
+        "name" : "cert1",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "http://example.com/certs",
+          "TITLE" : "Гольф в подарок"
+        }
+      },
+      "children" : [ ]
+    }, {
+      "desc" : {
+        "id" : 26,
+        "parent" : 19,
+        "name" : "cert2",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "http://example.com/certs",
+          "TITLE" : "Гольф для компании"
+        }
+      },
+      "children" : [ ]
+    }, {
+      "desc" : {
+        "id" : 27,
+        "parent" : 19,
+        "name" : "cert3",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "http://example.com/certs",
+          "TITLE" : "Гольф-свидание"
+        }
+      },
+      "children" : [ ]
+    } ]
+  }, {
+    "desc" : {
+      "id" : 20,
+      "parent" : 4,
+      "name" : "about",
+      "lock" : 2147483632,
+      "portal" : 5,
+      "data" : {
+        "URL" : "http://example.com/news",
+        "TITLE" : "О нас"
+      }
+    },
+    "children" : [ {
+      "desc" : {
+        "id" : 28,
+        "parent" : 20,
+        "name" : "mga",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "http://example.com/news",
+          "TITLE" : "Московская Академия Гольфа"
+        }
+      },
+      "children" : [ ]
+    }, {
+      "desc" : {
+        "id" : 29,
+        "parent" : 20,
+        "name" : "bookagolf",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "https://bookagolf.com",
+          "TITLE" : "Bookagolf"
+        }
+      },
+      "children" : [ ]
+    }, {
+      "desc" : {
+        "id" : 30,
+        "parent" : 20,
+        "name" : "primesa",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "http://primesa.pro",
+          "TITLE" : "Прайм Смарт Альянс"
+        }
+      },
+      "children" : [ ]
+    } ]
+  }, {
+    "desc" : {
+      "id" : 21,
+      "parent" : 4,
+      "name" : "links",
+      "lock" : 2147483632,
+      "portal" : 5,
+      "data" : {
+        "URL" : "http://example.com/links",
+        "TITLE" : "Полезные ссылки"
+      }
+    },
+    "children" : [ {
+      "desc" : {
+        "id" : 31,
+        "parent" : 21,
+        "name" : "facebook",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "https://www.facebook.com/bookagolf",
+          "TITLE" : "Facebook"
+        }
+      },
+      "children" : [ ]
+    }, {
+      "desc" : {
+        "id" : 32,
+        "parent" : 21,
+        "name" : "twitter",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "https://twitter.com/bookAgolf",
+          "TITLE" : "Twitter"
+        }
+      },
+      "children" : [ ]
+    }, {
+      "desc" : {
+        "id" : 33,
+        "parent" : 21,
+        "name" : "google",
+        "lock" : 2147483632,
+        "portal" : 5,
+        "data" : {
+          "URL" : "https://plus.google.com/u/0/communities/102202642996727382512",
+          "TITLE" : "Google Plus"
+        }
+      },
+      "children" : [ ]
+    } ]
+  } ]
+}

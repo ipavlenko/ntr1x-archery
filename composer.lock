@@ -2416,7 +2416,7 @@
     "packages-dev": [
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",

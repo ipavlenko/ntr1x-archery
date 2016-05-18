@@ -5,7 +5,7 @@
         $('[data-vue]').each(function(index, element) {
 
             new Vue({
-                el: element,
+                el: $('[data-vue-body]', element).get(0),
                 data: $(element).data(),
             });
         })

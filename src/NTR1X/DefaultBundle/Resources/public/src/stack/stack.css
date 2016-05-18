@@ -39,8 +39,26 @@
   display: block;
   margin: 1px 1px;
 }
+.wg.wg-default-stack.wg-default-stack-horisontal > .wg.wg-content > .wg.wg-table > .wg.wg-row > .sortable-ghost {
+  display: table-cell;
+  width: auto;
+  background: yellow;
+}
+.wg.wg-default-stack.wg-default-stack-horisontal > .wg.wg-content > .wg.wg-table > .wg.wg-row > .sortable-ghost > img {
+  opacity: 0;
+}
 .wg.wg-default-stack.wg-default-stack-horisontal > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell.wg-cell-placeholder {
   height: 50px;
+}
+.wg.wg-default-stack.wg-default-stack-canvas > .wg.wg-content > .wg.wg-table > .sortable-ghost,
+.wg.wg-default-stack.wg-default-stack-vertical > .wg.wg-content > .wg.wg-table > .sortable-ghost {
+  display: table-row;
+  width: auto;
+  background: yellow;
+}
+.wg.wg-default-stack.wg-default-stack-canvas > .wg.wg-content > .wg.wg-table > .sortable-ghost > img,
+.wg.wg-default-stack.wg-default-stack-vertical > .wg.wg-content > .wg.wg-table > .sortable-ghost > img {
+  opacity: 0;
 }
 .wg.wg-default-stack.wg-default-stack-canvas > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell.wg-cell-placeholder,
 .wg.wg-default-stack.wg-default-stack-vertical > .wg.wg-content > .wg.wg-table > .wg.wg-row > .wg.wg-cell.wg-cell-placeholder {

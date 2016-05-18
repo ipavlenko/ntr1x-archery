@@ -43,12 +43,20 @@ class Widget
     private $parent;
 
     /**
+	 * @var int
+	 *
+	 * @ORM\Column(name="`index`", type="integer")
+	 */
+    private $index;
+
+    /**
      * @ORM\Column(name="params", type="json_array", nullable=true)
      */
     private $params;
 
     /**
      * @ORM\OneToMany(targetEntity="Widget", mappedBy="parent", orphanRemoval=true, fetch="EAGER", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"index" = "ASC"})
      */
     private $widgets;
 
@@ -59,6 +67,7 @@ class Widget
     private $resource;
 
 	public function __construct() {
+        $this->widgets = new ArrayCollection();
 	}
 
     /**
@@ -309,6 +318,30 @@ class Widget
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * Set index
+     *
+     * @param integer $index
+     *
+     * @return Widget
+     */
+    public function setIndex($index)
+    {
+        $this->index = $index;
+
+        return $this;
+    }
+
+    /**
+     * Get index
+     *
+     * @return integer
+     */
+    public function getIndex()
+    {
+        return $this->index;
     }
 
     /**

@@ -27,16 +27,6 @@ Vue.filter('jsonPath', function (context, str) {
     }
 });
 
-Vue.filter('style', function (context, str) {
-    if (context === undefined || context === null || context.length === 0) {
-        return '';
-    }
-    if (str === undefined || str.length === 0) {
-        return context;
-    }
-    return str + ':' + context;
-});
-
 Vue.filter('assign', function (target, source1, source2, source3) {
 
 	return Object.assign(target, source1, source2, source3);

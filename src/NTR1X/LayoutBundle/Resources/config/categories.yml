@@ -4,10 +4,19 @@
     items:
         - { name: all, title: All Items }
         - { name: header, title: Headers }
-        - { name: service, title: Services }
-        - { name: price, title: Pricing Tables }
-        - { name: promo,  title: Promo sections }
         - { name: footer, title: Footers }
+-
+    name: navigation
+    title: Navigation
+    items:
+        - { name: all, title: All Items }
+        - { name: vertical, title: Vertical }
+        - { name: horisontal, title: Horisontal }
+-
+    name: slider
+    title: Slider
+    items:
+        - { name: all, title: All Items }
 -
     name: layout
     title: Layouts
@@ -19,12 +28,10 @@
     title: Forms
     items:
         - { name: all, title: All Items }
-        - { name: button, title: Buttons }
         - { name: input, title: Inputs }
+        - { name: button, title: Buttons }
 -
     name: text
     title: Text Blocks
     items:
         - { name: all, title: All Items }
-        - { name: header, title: Headers }
-        - { name: block, title: Blocks }
