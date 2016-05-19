@@ -3,7 +3,6 @@
 
 /web/assets/vendor
 /web/bundles/
-/app/config/parameters.yml
 /build/
 /phpunit.xml
 /var/*
@@ -20,5 +19,6 @@
 /vendor/
 /node_modules/
 
+/app/config/parameters.yml
 /web/.htaccess
 Procfile

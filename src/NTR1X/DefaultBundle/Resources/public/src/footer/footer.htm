@@ -1,14 +1,6 @@
 <template id="default-footer">
-    <section class="wg wg-default-footer" :id="bindings.id" :style="{
-        border: bindings.outerBorder,
-        background: bindings.outerBackground,
-    }">
-        <div class="wg wg-content" :style="{
-            margin: bindings.margin,
-            padding: bindings.padding,
-            border: bindings.innerBorder,
-            background: bindings.innerBackground,
-        }">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-footer'">
+
             <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
             <div class="copyright">{{ bindings.copyright }}</div>
             <div class="contacts-block pull-right">
@@ -19,6 +11,5 @@
                 </ul>
                 <div class="phone-block">{{ bindings.contacts }}</div>
             </div>
-        </div>
-    </section>
+    </default-box>
 </template>

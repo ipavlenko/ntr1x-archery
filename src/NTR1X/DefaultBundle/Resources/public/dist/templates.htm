@@ -1,5 +1,6 @@
 <template id="default-box">
     <section :class="class" :id="bindings.id" :style="{
+        'height': bindings.height,
         'border': bindings.outerBorder,
         'background': bindings.outerBackground,
         'background-size': bindings.outerBackgroundSize,
@@ -33,6 +34,22 @@
             </div>
         </default-box>
     <section>
+</template>
+
+<template id="default-footer">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-footer'">
+
+            <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
+            <div class="copyright">{{ bindings.copyright }}</div>
+            <div class="contacts-block pull-right">
+                <ul class="social-list">
+                    <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
+                    <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
+                    <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
+                </ul>
+                <div class="phone-block">{{ bindings.contacts }}</div>
+            </div>
+    </default-box>
 </template>
 
 <template id="default-carousel">
@@ -71,31 +88,6 @@
             </div>
         </default-box>
     <section>
-</template>
-
-<template id="default-footer">
-    <section class="wg wg-default-footer" :id="bindings.id" :style="{
-        border: bindings.outerBorder,
-        background: bindings.outerBackground,
-    }">
-        <div class="wg wg-content" :style="{
-            margin: bindings.margin,
-            padding: bindings.padding,
-            border: bindings.innerBorder,
-            background: bindings.innerBackground,
-        }">
-            <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
-            <div class="copyright">{{ bindings.copyright }}</div>
-            <div class="contacts-block pull-right">
-                <ul class="social-list">
-                    <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
-                    <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
-                    <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
-                </ul>
-                <div class="phone-block">{{ bindings.contacts }}</div>
-            </div>
-        </div>
-    </section>
 </template>
 
 <template id="default-form">
@@ -206,12 +198,12 @@
 <template id="default-header">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-header'">
         <div class="info-block">
-            <a class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
+            <a v-if="bindings.logo" class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
             <div class="phone-block">
                 {{{ bindings.phone }}}
             </div>
         </div>
-        <ul class="partners-block clearfix">
+        <ul v-if="bindings.logo" class="partners-block clearfix">
             <li><a href="/" target="_blank"><img :src="bindings.logo" alt=""/></a></li>
         </ul>
     </default-box>
@@ -298,22 +290,6 @@
     </section>
 </template>
 
-<template id="default-placeholder">
-    <section>
-        <default-box :bindings.sync="bindings">
-            <section class="wg wg-default-placeholder">
-                <div class="wg wg-content">
-                    <div class="wg wg-table" :style="{
-                        height: bindings.height,
-                    }">
-                        <span class="wg wg-cell">{{{ bindings.content }}}</span>
-                    </div>
-                </div>
-            </section>
-        </default-box>
-    </section>
-</template>
-
 <template id="default-nav-horisontal">
     <section class="wg wg-default-nav wg-default-nav-horisontal">
         <default-box :bindings.sync="bindings">
@@ -336,6 +312,22 @@
             </ul>
         </default-box>
     <section>
+</template>
+
+<template id="default-placeholder">
+    <section>
+        <default-box :bindings.sync="bindings">
+            <section class="wg wg-default-placeholder">
+                <div class="wg wg-content">
+                    <div class="wg wg-table" :style="{
+                        height: bindings.height,
+                    }">
+                        <span class="wg wg-cell">{{{ bindings.content }}}</span>
+                    </div>
+                </div>
+            </section>
+        </default-box>
+    </section>
 </template>
 
 <template id="default-rich">
@@ -476,7 +468,7 @@
             border: bindings.innerBorder,
             background: bindings.innerBackground,
         }">
-            <table >
+            <table class="table">
                 <thead>
                 <tr>
                     <th v-for="item in bindings.columns">
@@ -486,7 +478,7 @@
                 </thead>
 
                 <!--<tbody v-for="item in data.table | jsonPath bindings.jsonpath">-->
-                <tbody v-for="item in data.table | jsonPath bindings.jsonpath">
+                <tbody v-for="item in fetchData | jsonPath bindings.jsonpath">
                 <tr>
                     <td v-for="param in bindings.columns">
                         {{ item | jsonPath param.value }}

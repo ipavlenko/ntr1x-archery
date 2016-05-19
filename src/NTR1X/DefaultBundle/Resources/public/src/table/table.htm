@@ -9,7 +9,7 @@
             border: bindings.innerBorder,
             background: bindings.innerBackground,
         }">
-            <table >
+            <table class="table">
                 <thead>
                 <tr>
                     <th v-for="item in bindings.columns">
@@ -19,7 +19,7 @@
                 </thead>
 
                 <!--<tbody v-for="item in data.table | jsonPath bindings.jsonpath">-->
-                <tbody v-for="item in data.table | jsonPath bindings.jsonpath">
+                <tbody v-for="item in fetchData | jsonPath bindings.jsonpath">
                 <tr>
                     <td v-for="param in bindings.columns">
                         {{ item | jsonPath param.value }}

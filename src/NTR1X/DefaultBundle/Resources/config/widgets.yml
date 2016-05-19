@@ -121,7 +121,6 @@ Placeholder:
     categories: [ composite.all, composite.header ]
     params:
         height: { value: 100px }
-        content: {value: Placeholder }
 
 Header:
     title: 'Header'
@@ -149,11 +148,12 @@ Header:
 Footer:
     title: 'Footer'
     tag: default-footer
-    size: { width: 12, height: 1 }
-    mixins: [ WidgetMixin, BoxMixin ]
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/footer/footer.png'
     categories: [ composite.all, composite.footer ]
     params:
+            height: { value: 55px }
+            padding: { value: 13px 23px }
             logo: { value: '/bundles/ntr1xdefault/src/footer/logo.png' }
             copyright: { value: 'Все права защищены' }
             contacts: { value: '+7 (800) 000-00-00' }
@@ -206,9 +206,15 @@ Table:
     thumbnail: 'src/table/table.png'
     categories: [ composite.all]
     params:
+#            source: { value: '{$.competitors.*}' }
             jsonpath: { value: '{$.competitors.*}' }
-            columns: { value: [{ title: {value:'Игрок'}, value: {value:"{$.person.data.NAME.value} {$.person.data.SURNAME.value}"}}] }
+            columns: { value: [ { title: {value:'Игрок'}, value: {value:"{$.person.data.NAME.value} {$.person.data.SURNAME.value}"}}, { title: {value:'r1'}, value: {value:"{$.jsAdditionalFields.r1}"}}, { title: {value:'r2'}, value: {value:"{$.jsAdditionalFields.r2}"}}, { title: {value:'r3'}, value: {value:"{$.jsAdditionalFields.r3}"}}, { title: {value:'r4'}, value: {value:"{$.jsAdditionalFields.r4}"}}, { title: {value:'points'}, value: {value:"{$.points}"}} ]}
     props:
+       -
+           name: source
+           title: Source
+           type: string
+           tab: data
        -
            name: jsonpath
            title: Json Path

@@ -1,12 +1,12 @@
 <template id="default-header">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-header'">
         <div class="info-block">
-            <a class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
+            <a v-if="bindings.logo" class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
             <div class="phone-block">
                 {{{ bindings.phone }}}
             </div>
         </div>
-        <ul class="partners-block clearfix">
+        <ul v-if="bindings.logo" class="partners-block clearfix">
             <li><a href="/" target="_blank"><img :src="bindings.logo" alt=""/></a></li>
         </ul>
     </default-box>
