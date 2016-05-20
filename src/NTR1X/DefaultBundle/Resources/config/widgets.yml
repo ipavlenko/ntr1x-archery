@@ -206,9 +206,28 @@ Table:
     thumbnail: 'src/table/table.png'
     categories: [ composite.all]
     params:
-#            source: { value: '{$.competitors.*}' }
-            jsonpath: { value: '{$.competitors.*}' }
-            columns: { value: [ { title: {value:'Игрок'}, value: {value:"{$.person.data.NAME.value} {$.person.data.SURNAME.value}"}}, { title: {value:'r1'}, value: {value:"{$.jsAdditionalFields.r1}"}}, { title: {value:'r2'}, value: {value:"{$.jsAdditionalFields.r2}"}}, { title: {value:'r3'}, value: {value:"{$.jsAdditionalFields.r3}"}}, { title: {value:'r4'}, value: {value:"{$.jsAdditionalFields.r4}"}}, { title: {value:'points'}, value: {value:"{$.points}"}} ]}
+#        source: { value: '{{ data.table }}' }
+        jsonpath: { value: '{$.competitors.*}' }
+        columns:
+            value:
+                -
+                    title: { value: Игрок }
+                    value: { value: "{$.person.data.NAME.value} {$.person.data.SURNAME.value}" }
+                -
+                    title: { value: r1 }
+                    value: { value: "{$.jsAdditionalFields.r1}" }
+                -
+                    title: { value: r2 }
+                    value: { value: "{$.jsAdditionalFields.r2}" }
+                -
+                    title: { value: r3 }
+                    value: { value: "{$.jsAdditionalFields.r3}" }
+                -
+                    title: { value: r4 }
+                    value: { value: "{$.jsAdditionalFields.r4}" }
+                -
+                    title: { value: points }
+                    value: { value: "{$.points}" }
     props:
        -
            name: source
@@ -327,22 +346,19 @@ NavHorizontal:
                 - { name: title, title: Title, type: string, tab: data }
                 - { name: url, title: URL, type: string, tab: data }
     params:
-        active: { value: home }
+        active: { value: /home }
         padding: { value: 10px 10px }
         items:
             value:
                 -
                     title: { value: Home }
-                    value: { value: home }
-                    url: { value: null }
+                    url: { value: /home }
                 -
                     title: { value: Media }
-                    value: { value: media }
-                    url: { value: null }
+                    url: { value: /media }
                 -
                     title: { value: About }
-                    value: { value: about }
-                    url: { value: null }
+                    url: { value: /about }
 
 NavVertical:
     title: 'Navigation Stack'
@@ -364,22 +380,19 @@ NavVertical:
                 - { name: title, title: Title, type: string, tab: data }
                 - { name: url, title: URL, type: string, tab: data }
     params:
-        active: { value: home }
+        active: { value: /home }
         padding: { value: 10px 10px }
         items:
             value:
                 -
                     title: { value: Home }
-                    value: { value: home }
-                    url: { value: null }
+                    url: { value: /home }
                 -
                     title: { value: Media }
-                    value: { value: media }
-                    url: { value: null }
+                    url: { value: /media }
                 -
                     title: { value: About }
-                    value: { value: about }
-                    url: { value: null }
+                    url: { value: /about }
 
 Sitemap:
     title: 'Sitemap'

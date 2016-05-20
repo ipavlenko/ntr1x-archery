@@ -290,30 +290,6 @@
     </section>
 </template>
 
-<template id="default-nav-horisontal">
-    <section class="wg wg-default-nav wg-default-nav-horisontal">
-        <default-box :bindings.sync="bindings">
-            <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
-                <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
-                    <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
-                </li>
-            </ul>
-        </default-box>
-    <section>
-</template>
-
-<template id="default-nav-vertical">
-    <section class="wg wg-default-nav wg-default-nav-horisontal">
-        <default-box :bindings.sync="bindings">
-            <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
-                <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
-                    <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
-                </li>
-            </ul>
-        </default-box>
-    <section>
-</template>
-
 <template id="default-placeholder">
     <section>
         <default-box :bindings.sync="bindings">
@@ -328,6 +304,30 @@
             </section>
         </default-box>
     </section>
+</template>
+
+<template id="default-nav-horisontal">
+    <section class="wg wg-default-nav wg-default-nav-horisontal">
+        <default-box :bindings.sync="bindings">
+            <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
+                <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.url == bindings.active }">
+                    <a href="#" href="{{ item.url }}" @click="setActive(item.url)">{{{ item.title }}}</a>
+                </li>
+            </ul>
+        </default-box>
+    <section>
+</template>
+
+<template id="default-nav-vertical">
+    <section class="wg wg-default-nav wg-default-nav-horisontal">
+        <default-box :bindings.sync="bindings">
+            <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
+                <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.url == bindings.active }">
+                    <a href="#" href="{{ item.url }}" @click="setActive(item.url)">{{{ item.title }}}</a>
+                </li>
+            </ul>
+        </default-box>
+    <section>
 </template>
 
 <template id="default-rich">

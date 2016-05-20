@@ -21,15 +21,15 @@
 
             this.decorator = 'shell-decorator-canvas';
             this.data = {};
-            this.pageSettings = {};
+
 
             this.$watch('page.resource', (resource) => {
+                this.$set('pageSettings.width', '960px'); // default
                 if (resource) {
                     for (param in resource.params) {
                         this.$set('pageSettings.' + resource.params[param].name, resource.params[param].value);
                     }
                 }
-
             }, {
                 immediate: true,
                 deep: true,
