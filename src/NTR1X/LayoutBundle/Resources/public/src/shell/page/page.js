@@ -21,12 +21,20 @@
 
             this.decorator = 'shell-decorator-canvas';
             this.data = {};
-
             this.pageSettings = {};
-            for (param in this.page.resource.params) {
-                this.pageSettings[this.page.resource.params[param].name] = this.page.resource.params[param].value
-            }
-            
+
+            this.$watch('page.resource', (resource) => {
+                if (resource) {
+                    for (param in resource.params) {
+                        this.$set('pageSettings.' + resource.params[param].name, resource.params[param].value);
+                    }
+                }
+
+            }, {
+                immediate: true,
+                deep: true,
+            });
+
             this.$watch('page.sources', (sources) => {
 
                 if (sources) {

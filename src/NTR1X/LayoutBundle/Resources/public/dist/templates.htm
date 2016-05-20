@@ -1148,12 +1148,6 @@
     </section>
 </template>
 
-<template id="shell-brand">
-    <section class="ge ge-brand">
-        <a href="#"></a>
-    </section>
-</template>
-
 <template id="shell-categories">
     <section class="ge ge-categories">
         <div v-for="category in categories">
@@ -1164,6 +1158,12 @@
                 <li v-for="item in category.categories" :class="{ 'active': item == globals.selection.category }"><a href="#" @click="trigger('selectCategory', item)">{{ item.title }}</a></li>
             </ul>
         </div>
+    </section>
+</template>
+
+<template id="shell-brand">
+    <section class="ge ge-brand">
+        <a href="#"></a>
     </section>
 </template>
 
@@ -1306,23 +1306,6 @@
     </section>
 </template>
 
-<template id="shell-page">
-
-    <div class="ge ge-page" :style="{
-        'width': pageSettings.width,
-    }">
-        <div
-            :is="decorator"
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :data.sync="data"
-            :items.sync="page.widgets"
-        ></div>
-    </div>
-
-</template>
-
 <template id="shell-pages">
     <section class="ge ge-panel ge-pages">
         <pages :items.sync="pages" :globals.sync="globals" inline-template>
@@ -1345,6 +1328,23 @@
             </ul>
         </pages>
     </section>
+</template>
+
+<template id="shell-page">
+
+    <div class="ge ge-page" :style="{
+        'width': pageSettings.width,
+    }">
+        <div
+            :is="decorator"
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :data.sync="data"
+            :items.sync="page.widgets"
+        ></div>
+    </div>
+
 </template>
 
 <template id="shell-palette-item">
