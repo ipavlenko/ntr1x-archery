@@ -36,22 +36,6 @@
     <section>
 </template>
 
-<template id="default-footer">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-footer'">
-
-            <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
-            <div class="copyright">{{ bindings.copyright }}</div>
-            <div class="contacts-block pull-right">
-                <ul class="social-list">
-                    <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
-                    <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
-                    <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
-                </ul>
-                <div class="phone-block">{{ bindings.contacts }}</div>
-            </div>
-    </default-box>
-</template>
-
 <template id="default-carousel">
     <section class="wg wg-default-carousel">
         <default-box :bindings.sync="bindings">
@@ -88,6 +72,22 @@
             </div>
         </default-box>
     <section>
+</template>
+
+<template id="default-footer">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-footer'">
+
+            <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
+            <div class="copyright">{{ bindings.copyright }}</div>
+            <div class="contacts-block pull-right">
+                <ul class="social-list">
+                    <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
+                    <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
+                    <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
+                </ul>
+                <div class="phone-block">{{ bindings.contacts }}</div>
+            </div>
+    </default-box>
 </template>
 
 <template id="default-form">
@@ -371,19 +371,6 @@
     </section>
 </template>
 
-<template id="default-stub">
-    <section class="wg wg-default-stub">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">
-                    <div><small>{{ bindings.title }}</small></div>
-                    <div>{{ bindings.subtitle }}</div>
-                </span>
-            </div>
-        </div>
-    </section>
-</template>
-
 <template id="default-stack-canvas">
     <section class="wg wg-default-stack wg-default-stack-canvas">
         <div class="wg wg-content">
@@ -452,6 +439,19 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="default-stub">
+    <section class="wg wg-default-stub">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <span class="wg wg-cell">
+                    <div><small>{{ bindings.title }}</small></div>
+                    <div>{{ bindings.subtitle }}</div>
+                </span>
             </div>
         </div>
     </section>

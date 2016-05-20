@@ -14,6 +14,7 @@
             return {
                 decorator: this.decorator,
                 data: this.data,
+                pageSettings: {},
             };
         },
         ready: function() {
@@ -21,6 +22,11 @@
             this.decorator = 'shell-decorator-canvas';
             this.data = {};
 
+            this.pageSettings = {};
+            for (param in this.page.resource.params) {
+                this.pageSettings[this.page.resource.params[param].name] = this.page.resource.params[param].value
+            }
+            
             this.$watch('page.sources', (sources) => {
 
                 if (sources) {

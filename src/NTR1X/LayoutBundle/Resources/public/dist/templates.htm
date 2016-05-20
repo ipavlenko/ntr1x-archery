@@ -1129,6 +1129,17 @@
             </button>
         </div>
         <div class="pull-right">
+
+            <button type="button" class="btn btn-default" @click="zoom('in')">
+                <span class="glyphicon glyphicon-zoom-in"></span>
+                <span>Zoom in</span>
+            </button>
+            <button type="button" class="btn btn-default" @click="zoom('out')">
+                <span class="glyphicon glyphicon-zoom-out"></span>
+                <span>Zoom out</span>
+            </button>
+
+
             <!--
             <button type="button" class="btn btn-default">Page Settings</button>
             <button type="button" class="btn btn-default">Add Source</button>
@@ -1297,7 +1308,9 @@
 
 <template id="shell-page">
 
-    <div class="ge ge-page">
+    <div class="ge ge-page" :style="{
+        'width': pageSettings.width,
+    }">
         <div
             :is="decorator"
             :globals.sync="globals"
