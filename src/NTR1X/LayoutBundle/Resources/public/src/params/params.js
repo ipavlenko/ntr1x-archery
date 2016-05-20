@@ -1,18 +1,18 @@
 (function(Vue, $, Core) {
 
     var ModalEditor =
-    Vue.component('bindings-dialog', {
-        template: '#bindings-dialog',
+    Vue.component('params-dialog', {
+        template: '#params-dialog',
         mixins: [Core.ModalEditorMixin],
         methods: {
             setStrategy: function(strategy) {
-                this.$set('current.strategy', strategy);
+                this.$set('current.param.strategy', strategy);
             }
         }
     });
 
     var Editor =
-    Vue.component('bindings', {
+    Vue.component('params', {
 
         mixins: [Core.ActionMixin(ModalEditor)],
     });

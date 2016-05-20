@@ -33,7 +33,8 @@ Shell.Widgets = window.Shell.Widgets || {};
                 var prop = this.context.widget.props[i];
                 var param = this.current.params[prop.name] = this.current.params[prop.name] || {
                     value: null,
-                    binding: null
+                    binding: null,
+                    strategy: null,
                 };
 
                 param._action = param._action == 'update'
@@ -100,10 +101,12 @@ Shell.Widgets = window.Shell.Widgets || {};
                             _action: 'create',
                             value: null,
                             binding: null,
+                            strategy: null,
                         }
                         : {
                             value: [],
                             binding: null,
+                            strategy: null,
                         }
                     ;
                 }

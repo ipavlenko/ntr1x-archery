@@ -83,7 +83,13 @@ Shell = window.Shell || {};
                 var value = {};
                 for(var key in params) {
                     if (params[key]['binding']) {
-                        value[key] = self.$interpolate(params[key]['binding']);
+                        if (params[key]['strategy'] == 'eval') {
+                            value[key] = self.$eval(params[key]['binding']);
+                        } else {
+                            value[key] = self.$interpolate(params[key]['binding']);
+                        }
+                        console.log('binding', params[key]['binding']);
+                        console.log('value', value[key]);
                     } else if ($.isArray(params[key]['value'])) {
                         value[key] = [];
                         for(var i = 0; i < params[key]['value'].length; i++) {

@@ -1,3 +1,19 @@
+<template id="default-box">
+    <section class="wg wg-default-box" :id="bindings.id" :style="{
+        'border': bindings.outerBorder,
+        'background': bindings.outerBackground,
+        'background-size': bindings.outerBackgroundSize,
+    }">
+        <div class="wg wg-content" :style="{
+            'margin': bindings.margin,
+            'padding': bindings.padding,
+            'border': bindings.innerBorder,
+            'background': bindings.innerBackground,
+            'background-size': bindings.outerBackgroundSize,
+        }"><slot>Empty</slot></div>
+    </section>
+</template>
+
 <template id="default-button">
     <section class="wg wg-default-button">
         <default-box :bindings.sync="bindings">
@@ -17,22 +33,6 @@
             </div>
         </default-box>
     <section>
-</template>
-
-<template id="default-box">
-    <section class="wg wg-default-box" :id="bindings.id" :style="{
-        'border': bindings.outerBorder,
-        'background': bindings.outerBackground,
-        'background-size': bindings.outerBackgroundSize,
-    }">
-        <div class="wg wg-content" :style="{
-            'margin': bindings.margin,
-            'padding': bindings.padding,
-            'border': bindings.innerBorder,
-            'background': bindings.innerBackground,
-            'background-size': bindings.outerBackgroundSize,
-        }"><slot>Empty</slot></div>
-    </section>
 </template>
 
 <template id="default-carousel">
@@ -71,6 +71,16 @@
             </div>
         </default-box>
     <section>
+</template>
+
+<template id="default-footer">
+    <section class="wg wg-default-footer">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <span class="wg wg-cell">Footer</span>
+            </div>
+        </div>
+    </section>
 </template>
 
 <template id="default-gallery">
@@ -130,16 +140,6 @@
             </div>
         </default-box>
     <section>
-</template>
-
-<template id="default-footer">
-    <section class="wg wg-default-footer">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">Footer</span>
-            </div>
-        </div>
-    </section>
 </template>
 
 <template id="default-header">
@@ -242,16 +242,6 @@
     <section>
 </template>
 
-<template id="default-sitemap">
-    <section class="wg wg-default-sitemap">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">Sitemap</span>
-            </div>
-        </div>
-    </section>
-</template>
-
 <template id="default-placeholder">
     <section>
         <default-box :bindings.sync="bindings">
@@ -336,6 +326,16 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="default-sitemap">
+    <section class="wg wg-default-sitemap">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <span class="wg wg-cell">Sitemap</span>
             </div>
         </div>
     </section>

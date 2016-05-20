@@ -1,4 +1,4 @@
-<template id="bindings-dialog">
+<template id="params-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
             <form class="modal-content"
@@ -19,16 +19,22 @@
                         <div class="input-group">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span v-if="current.strategy == 'eval'">Eval</span>
-                                    <span v-if="current.strategy != 'eval'">Interpolate</span>
+                                    <span v-if="current.param.strategy == 'eval'">Eval</span>
+                                    <span v-if="current.param.strategy != 'eval'">Interpolate</span>
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li :class="{ 'active': current.strategy == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
-                                    <li :class="{ 'active': current.strategy != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
+                                    <li :class="{ 'active': current.param.strategy == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
+                                    <li :class="{ 'active': current.param.strategy != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
                                 </ul>
                             </div>
-                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding" />
+                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.param.binding" />
+                        </div>
+                    </div>
+                    <div v-if="current.prop.type == 'multiple'">
+                        <div class="form-group" v-for="p in current.prop.props">
+                            <label>{{ p.title }}</label>
+                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.param.params[p.name]" />
                         </div>
                     </div>
                 </div>
