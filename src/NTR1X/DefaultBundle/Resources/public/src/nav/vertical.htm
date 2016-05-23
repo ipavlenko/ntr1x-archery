@@ -1,11 +1,9 @@
 <template id="default-nav-vertical">
-    <section class="wg wg-default-nav wg-default-nav-horisontal">
-        <default-box :bindings.sync="bindings">
-            <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
-                <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.url == bindings.active }">
-                    <a href="#" href="{{ item.url }}" @click="setActive(item.url)">{{{ item.title }}}</a>
-                </li>
-            </ul>
-        </default-box>
-    <section>
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-vertical'">
+        <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-vertical wg-default-nav-vertical-nav">
+            <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.url == bindings.active }">
+                <a href="#" href="{{ item.url }}" @click="setActive(item.url)">{{{ item.title }}}</a>
+            </li>
+        </ul>
+    </default-box>
 </template>

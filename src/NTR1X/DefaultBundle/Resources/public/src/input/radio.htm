@@ -1,12 +1,10 @@
 <template id="default-input-radio">
-    <section class="wg wg-default-input wg-default-input-radio">
-        <default-box :bindings.sync="bindings">
-            <div class="radio">
-                <label>
-                    <input type="radio" value="{{ bindings.value }}" v-model="bindings.model">
-                    {{ bindings.label }}
-                </label>
-            </div>
-        </default-box>
-    <section>
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-radio'">
+        <div class="radio">
+            <label>
+                <input type="radio" value="{{ bindings.value }}" v-model="bindings.model">
+                {{ bindings.label }}
+            </label>
+        </div>
+    </default-box>
 </template>

@@ -1,24 +1,14 @@
 <template id="default-sitemap">
-    <section class="wg wg-default-sitemap" :id="bindings.id" :style="{
-        border: bindings.outerBorder,
-        background: bindings.outerBackground,
-    }">
-        <div class="wg wg-content" :style="{
-            margin: bindings.margin,
-            padding: bindings.padding,
-            border: bindings.innerBorder,
-            background: bindings.innerBackground,
-        }">
-            <ul>
-                <li v-for="item in data.sitemap.children">
-                    <a href="{{ item.desc.data.URL }}">{{ item.desc.data.TITLE }}</a>
-                    <ul>
-                        <li v-for="item in item.children">
-                            <a href="{{ item.desc.data.URL }}">{{ item.desc.data.TITLE }}</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </section>
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-sitemap'">
+        <ul>
+            <li v-for="item in data.sitemap.children">
+                <a href="{{ item.desc.data.URL }}">{{ item.desc.data.TITLE }}</a>
+                <ul>
+                    <li v-for="item in item.children">
+                        <a href="{{ item.desc.data.URL }}">{{ item.desc.data.TITLE }}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </default-box>
 </template>

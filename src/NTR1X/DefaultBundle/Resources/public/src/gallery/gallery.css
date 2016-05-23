@@ -1,13 +1,13 @@
-.wg.wg-default-gallery > .carousel > .carousel-inner > .item > .wg-default-gallery.wg-default-gallery-table {
+.wg.wg-default-gallery .carousel .carousel-inner .item .wg-default-gallery.wg-default-gallery-table {
   display: table;
   width: 100%;
 }
-.wg.wg-default-gallery > .carousel > .carousel-inner > .item > .wg-default-gallery.wg-default-gallery-table > .wg-default-gallery.wg-default-gallery-row {
+.wg.wg-default-gallery .carousel .carousel-inner .item .wg-default-gallery.wg-default-gallery-table .wg-default-gallery.wg-default-gallery-row {
   display: table-row;
 }
-.wg.wg-default-gallery > .carousel > .carousel-inner > .item > .wg-default-gallery.wg-default-gallery-table > .wg-default-gallery.wg-default-gallery-row > .wg-default-gallery.wg-default-gallery-cell {
+.wg.wg-default-gallery .carousel .carousel-inner .item .wg-default-gallery.wg-default-gallery-table .wg-default-gallery.wg-default-gallery-row .wg-default-gallery.wg-default-gallery-cell {
   display: table-cell;
 }
-.wg.wg-default-gallery > .carousel > .carousel-inner > .item > .wg-default-gallery.wg-default-gallery-table > .wg-default-gallery.wg-default-gallery-row > .wg-default-gallery.wg-default-gallery-cell .wg-default-gallery.wg-default-gallery-thumbnail {
+.wg.wg-default-gallery .carousel .carousel-inner .item .wg-default-gallery.wg-default-gallery-table .wg-default-gallery.wg-default-gallery-row .wg-default-gallery.wg-default-gallery-cell .wg-default-gallery.wg-default-gallery-thumbnail {
   margin-bottom: 0px;
 }
