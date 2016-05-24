@@ -49,13 +49,13 @@ class Page
     private $metas;
 
     /**
-     * @ORM\OneToMany(targetEntity="Widget", mappedBy="page")
+     * @ORM\OneToMany(targetEntity="Widget", mappedBy="page", orphanRemoval=true, cascade={"persist", "remove"})
      * @ORM\OrderBy({"index" = "ASC"})
      */
     private $widgets;
 
     /**
-     * @ORM\OneToMany(targetEntity="Source", mappedBy="page", orphanRemoval=true, fetch="EAGER", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Source", mappedBy="page", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $sources;
 

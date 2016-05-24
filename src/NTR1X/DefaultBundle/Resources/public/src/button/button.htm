@@ -1,20 +1,18 @@
 <template id="default-button">
-    <section class="wg wg-default-button">
-        <default-box :bindings.sync="bindings">
-            <div class="form-group">
-                <button type="{{ bindings.type }}" class="btn btn-block" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                }"
-                :style="{
-                    height: bindings.height
-                }">{{ bindings.title }}</button>
-            </div>
-        </default-box>
-    <section>
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-button'">
+        <div class="form-group">
+            <button type="{{ bindings.type }}" class="btn btn-block" :class="{
+                'btn-default': bindings.stereotype == 'default',
+                'btn-primary': bindings.stereotype == 'primary',
+                'btn-success': bindings.stereotype == 'success',
+                'btn-info': bindings.stereotype == 'info',
+                'btn-warning': bindings.stereotype == 'warning',
+                'btn-danger': bindings.stereotype == 'danger',
+                'btn-link': bindings.stereotype == 'link',
+            }"
+            :style="{
+                height: bindings.height
+            }">{{ bindings.title }}</button>
+        </div>
+    </default-box>
 </template>

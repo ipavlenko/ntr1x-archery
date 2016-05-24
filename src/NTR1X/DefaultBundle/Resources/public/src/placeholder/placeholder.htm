@@ -1,15 +1,9 @@
 <template id="default-placeholder">
-    <section>
-        <default-box :bindings.sync="bindings">
-            <section class="wg wg-default-placeholder">
-                <div class="wg wg-content">
-                    <div class="wg wg-table" :style="{
-                        height: bindings.height,
-                    }">
-                        <span class="wg wg-cell">{{{ bindings.content }}}</span>
-                    </div>
-                </div>
-            </section>
+        <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
+            <div class="wg wg-table" :style="{
+                height: bindings.height,
+            }">
+                <span class="wg wg-cell">{{{ bindings.content }}}</span>
+            </div>
         </default-box>
-    </section>
 </template>

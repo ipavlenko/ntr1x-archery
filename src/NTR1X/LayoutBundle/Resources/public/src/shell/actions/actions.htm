@@ -11,6 +11,17 @@
             </button>
         </div>
         <div class="pull-right">
+
+            <button type="button" class="btn btn-default" @click="zoom('in')">
+                <span class="glyphicon glyphicon-zoom-in"></span>
+                <span>Zoom in</span>
+            </button>
+            <button type="button" class="btn btn-default" @click="zoom('out')">
+                <span class="glyphicon glyphicon-zoom-out"></span>
+                <span>Zoom out</span>
+            </button>
+
+
             <!--
             <button type="button" class="btn btn-default">Page Settings</button>
             <button type="button" class="btn btn-default">Add Source</button>

@@ -1,0 +1,20 @@
+<template id="default-items">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-items'">
+        <div v-for="item in data.items" class="items-list">
+            <div class="item clearfix">
+                <div class="left-part pull-left">
+                    <img :src="item | jsonPath bindings.itemImageUrl" />
+                </div>
+                <div class="right-part">
+                    <div class="title">{{item | jsonPath bindings.itemTitle }}</div>
+                    <ul class="link-list">
+                        <li><a href="{{item | jsonPath bindings.itemUrl }}">Подробнее</a></li>
+                    </ul>
+                    <div class="text">
+                        {{{item | jsonPath bindings.itemPromo }}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </default-box>
+</template>

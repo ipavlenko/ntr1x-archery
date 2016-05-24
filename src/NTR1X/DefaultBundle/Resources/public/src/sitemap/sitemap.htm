@@ -1,9 +1,14 @@
 <template id="default-sitemap">
-    <section class="wg wg-default-sitemap">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">Sitemap</span>
-            </div>
-        </div>
-    </section>
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-sitemap'">
+        <ul>
+            <li v-for="item in fetchData.children">
+                <a href="{{ item.desc.data.URL }}">{{ item.desc.data.TITLE }}</a>
+                <ul>
+                    <li v-for="item in item.children">
+                        <a href="{{ item.desc.data.URL }}">{{ item.desc.data.TITLE }}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </default-box>
 </template>

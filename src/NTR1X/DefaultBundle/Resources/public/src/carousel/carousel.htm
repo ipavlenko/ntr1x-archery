@@ -1,6 +1,5 @@
 <template id="default-carousel">
-    <section class="wg wg-default-carousel">
-        <default-box :bindings.sync="bindings">
+        <default-box :bindings.sync="bindings" :class="'wg wg-default-carousel'">
             <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
 
                 <!-- Indicators -->
@@ -33,5 +32,4 @@
 
             </div>
         </default-box>
-    <section>
 </template>

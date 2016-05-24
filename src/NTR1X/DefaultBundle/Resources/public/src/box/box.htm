@@ -1,5 +1,7 @@
 <template id="default-box">
-    <section class="wg wg-default-box" :id="bindings.id" :style="{
+    <section :class="class" :id="bindings.id" :style="{
+        'height': bindings.height,
+        'width': bindings.width,
         'border': bindings.outerBorder,
         'background': bindings.outerBackground,
         'background-size': bindings.outerBackgroundSize,

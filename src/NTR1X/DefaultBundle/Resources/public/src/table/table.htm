@@ -1,0 +1,22 @@
+<template id="default-table">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-table'">
+        <table class="table">
+            <thead>
+            <tr>
+                <th v-for="item in bindings.columns">
+                    {{ item.title }}
+                </th>
+            </tr>
+            </thead>
+
+            <!--<tbody v-for="item in data.table | jsonPath bindings.jsonpath">-->
+            <tbody v-for="item in fetchData | jsonPath bindings.jsonpath">
+            <tr>
+                <td v-for="param in bindings.columns">
+                    {{ item | jsonPath param.value }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </default-box>
+</template>

@@ -1,0 +1,45 @@
+<template id="default-media-horisontal">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-media-horisontal'">
+<!-- переделать на flex -->
+        <style>
+            .media-container {
+                background: #ccc;
+            }
+            .media {
+                width: 270px;
+                background: #fff;
+                display: inline-block;
+                border: 1px solid red;
+                margin: 0 0 0 10px;
+            }
+                .media-heading {
+                    font-size: 14px;
+                }
+                .media-body {
+                    vertical-align: middle;
+                    width: auto;
+                }
+                    .media-body p {
+                        font-size: 12px;
+                    }
+        </style>
+
+        <div class="media-container">
+            <div class="media" v-for="item in bindings.items">
+
+                <div class="media-left">
+                    <a :href="item.url">
+                        <img class="media-object" :src="item.image">
+                    </a>
+                </div>
+
+                <div class="media-body">
+                    <h4 class="media-heading">{{ item.title }}</h4>
+                    <p>{{ item.description }}</p>
+                </div>
+
+            </div>
+        </div>
+
+    </default-box>
+</template>

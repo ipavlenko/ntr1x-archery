@@ -55,7 +55,7 @@ class Widget
     private $params;
 
     /**
-     * @ORM\OneToMany(targetEntity="Widget", mappedBy="parent", orphanRemoval=true, fetch="EAGER", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Widget", mappedBy="parent", orphanRemoval=true, cascade={"persist", "remove"})
      * @ORM\OrderBy({"index" = "ASC"})
      */
     private $widgets;
