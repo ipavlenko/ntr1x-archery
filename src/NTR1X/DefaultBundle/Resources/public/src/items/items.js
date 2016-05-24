@@ -7,4 +7,9 @@ Core = window.Core || {};
         mixins: [ Core.WidgetMixin ]
     });
 
+    Vue.component('default-media-horisontal', {
+        template: '#default-media-horisontal',
+        mixins: [ Core.WidgetMixin ]
+    });
+
 })(jQuery, Vue, Core);

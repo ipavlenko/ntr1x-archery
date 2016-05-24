@@ -234,7 +234,7 @@
                 <div class="right-part">
                     <div class="title">{{item | jsonPath bindings.itemTitle }}</div>
                     <ul class="link-list">
-                        <li><a href="{{item | jsonPath bindings.itemUrl }}">Страница клуба</a></li>
+                        <li><a href="{{item | jsonPath bindings.itemUrl }}">Подробнее</a></li>
                     </ul>
                     <div class="text">
                         {{{item | jsonPath bindings.itemPromo }}}
@@ -245,21 +245,57 @@
     </default-box>
 </template>
 
-<template id="default-placeholder">
-        <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
-            <div class="wg wg-table" :style="{
-                height: bindings.height,
-            }">
-                <span class="wg wg-cell">{{{ bindings.content }}}</span>
+<template id="default-media-horisontal">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-media-horisontal'">
+<!-- переделать на flex -->
+        <style>
+            .media-container {
+                background: #ccc;
+            }
+            .media {
+                width: 270px;
+                background: #fff;
+                display: inline-block;
+                border: 1px solid red;
+                margin: 0 0 0 10px;
+            }
+                .media-heading {
+                    font-size: 14px;
+                }
+                .media-body {
+                    vertical-align: middle;
+                    width: auto;
+                }
+                    .media-body p {
+                        font-size: 12px;
+                    }
+        </style>
+
+        <div class="media-container">
+            <div class="media" v-for="item in bindings.items">
+
+                <div class="media-left">
+                    <a :href="item.url">
+                        <img class="media-object" :src="item.image">
+                    </a>
+                </div>
+
+                <div class="media-body">
+                    <h4 class="media-heading">{{ item.title }}</h4>
+                    <p>{{ item.description }}</p>
+                </div>
+
             </div>
-        </default-box>
+        </div>
+
+    </default-box>
 </template>
 
 <template id="default-nav-horisontal">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-horisontal'">
         <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
             <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.url == bindings.active }">
-                <a href="#" href="{{ item.url }}" @click="setActive(item.url)">{{{ item.title }}}</a>
+                <a href="{{ item.url }}" @click="setActive(item.url)">{{{ item.title }}}</a>
             </li>
         </ul>
     </default-box>
@@ -275,6 +311,16 @@
     </default-box>
 </template>
 
+<template id="default-placeholder">
+        <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
+            <div class="wg wg-table" :style="{
+                height: bindings.height,
+            }">
+                <span class="wg wg-cell">{{{ bindings.content }}}</span>
+            </div>
+        </default-box>
+</template>
+
 <template id="default-rich">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-rich'">
         {{{ bindings.content }}}
@@ -284,7 +330,7 @@
 <template id="default-sitemap">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-sitemap'">
         <ul>
-            <li v-for="item in data.sitemap.children">
+            <li v-for="item in fetchData.children">
                 <a href="{{ item.desc.data.URL }}">{{ item.desc.data.TITLE }}</a>
                 <ul>
                     <li v-for="item in item.children">

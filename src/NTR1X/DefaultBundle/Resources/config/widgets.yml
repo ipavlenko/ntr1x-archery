@@ -323,6 +323,44 @@ Items:
            type: string
            tab: data
 
+Media:
+    title: 'Media'
+    tag: default-media-horisontal
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/items/media-horisontal.png'
+    categories: [ composite.all]
+    props:
+        -
+            name: items
+            type: multiple
+            display: '{{ params.title }}'
+            title: Navigation Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: url, title: URL, type: string, tab: data }
+                - { name: image, title: Image, type: string, tab: data }
+                - { name: title, title: Title, type: string, tab: data }
+                - { name: description, title: Description, type: string, tab: data }
+    params:
+        items:
+            value:
+                -
+                    url: { value: '/media-one' }
+                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
+                    title: { value: Title 1 }
+                    description: { value: Description 1 }
+                -
+                    url: { value: '/media-two' }
+                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
+                    title: { value: Title 2 }
+                    description: { value: Description 2 }
+                -
+                    url: { value: '/media-three' }
+                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
+                    title: { value: Title 3 }
+                    description: { value: Description 3 }
 
 # Navigations Widgets
 
