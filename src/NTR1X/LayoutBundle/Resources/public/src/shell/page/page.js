@@ -22,7 +22,6 @@
             this.decorator = 'shell-decorator-canvas';
             this.data = {};
 
-
             this.$watch('page.resource', (resource) => {
                 this.$set('pageSettings.width', '960px'); // default
                 if (resource) {
@@ -44,13 +43,24 @@
                         deferred.push(this.doRequest(sources[i]));
                     }
 
-                    $.when.apply(this, deferred).done(function() {
-                        var data = {};
-                        for (var i = 0; i < arguments.length; i++) {
-                            data[sources[i].name] = arguments[i][0];
-                        }
-                        this.$set('data', data);
-                    }.bind(this));
+                    if (deferred.length > 1) {
+
+                        $.when.apply(this, deferred).done(function() {
+                            var data = {};
+                            for (var i = 0; i < arguments.length; i++) {
+                                data[sources[i].name] = arguments[i][0];
+                            }
+                            this.$set('data', data);
+                        }.bind(this));
+
+                    } else if (deferred.length == 1) {
+
+                        deferred[0].done(function(d) {
+                            var data = {};
+                            data[sources[0].name] = d;
+                            this.$set('data', data);
+                        }.bind(this));
+                    }
                 }
             }, {
                 immediate: true,
@@ -65,9 +75,9 @@
                     if (param.in == 'query' && param.specified) {
 
                         var value = param.binding
-                            ? this.$interpolate(param.binding) // TODO Interpolate in page context
-                            : param.value
-                        ;
+                                ? this.$interpolate(param.binding) // TODO Interpolate in page context
+                                : param.value
+                            ;
 
                         query[param.name] = value;
                     }
