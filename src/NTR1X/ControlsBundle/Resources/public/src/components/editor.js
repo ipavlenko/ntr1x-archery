@@ -33,7 +33,8 @@ Core = window.Core || {};
 
             props: {
                 model: Object,
-                globals: Object
+                globals: Object,
+                context: Object,
             },
 
             methods: {
@@ -45,7 +46,7 @@ Core = window.Core || {};
                         data: {
                             globals: this.globals,
                             owner: this,
-                            context: context,
+                            context: context || this.context,
                             original: this.model,
                             current: JSON.parse(JSON.stringify(this.model))
                         },

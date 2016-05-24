@@ -15,12 +15,21 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="bindings-dialog-value">Значение</label>
-                        <input class="form-control" type="text" id="bindings-dialog-value" v-model="current.value" />
-                    </div>
-                    <div class="form-group">
                         <label for="bindings-dialog-binding">Биндинг</label>
-                        <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding" />
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span v-if="current.strategy == 'eval'">Eval</span>
+                                    <span v-if="current.strategy != 'eval'">Interpolate</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li :class="{ 'active': current.strategy == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
+                                    <li :class="{ 'active': current.strategy != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
+                                </ul>
+                            </div>
+                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding" />
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

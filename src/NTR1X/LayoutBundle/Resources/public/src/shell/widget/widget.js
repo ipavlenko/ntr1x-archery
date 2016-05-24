@@ -29,7 +29,7 @@ Shell.Widgets = window.Shell.Widgets || {};
                 fallback: 'shell-decorator-widget'
             };
         },
-        ready: function() {
+        compiled: function() {
             this.widget = this.$root.$refs.shell.getWidget(this.model.type);
             this.decorator = this.decorators.alternatives[this.widget.tag] || this.decorators.fallback;
         },

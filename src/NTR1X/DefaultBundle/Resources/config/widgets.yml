@@ -250,6 +250,7 @@ NavHorizontal:
                 - { name: data, title: Data }
             props:
                 - { name: title, title: Title, type: string, tab: data }
+                - { name: value, title: Value, type: string, tab: data }
                 - { name: url, title: URL, type: string, tab: data }
     params:
         active: { value: home }
@@ -287,6 +288,7 @@ NavVertical:
                 - { name: data, title: Data }
             props:
                 - { name: title, title: Title, type: string, tab: data }
+                - { name: value, title: Value, type: string, tab: data }
                 - { name: url, title: URL, type: string, tab: data }
     params:
         active: { value: home }
