@@ -24,16 +24,23 @@ Shell.Widgets = window.Shell.Widgets || {};
     Vue.component('pages-widgets-dialog', {
         template: '#pages-widgets-dialog',
         mixins: [Core.ModalEditorMixin, Core.TabsMixin('data')],
-        ready: function() {
+        compiled: function() {
 
             var items = [];
 
             for (var i = 0; i < this.context.widget.props.length; i++) {
 
                 var prop = this.context.widget.props[i];
+                
+                // TODO Move to service layer
                 var param = this.current.params[prop.name] = this.current.params[prop.name] || {
-                    value: null,
-                    binding: null
+                    _action: 'create',
+                    value: (prop.type == 'multiple' ? [] : null),
+                    binding: {
+                        strategy: null,
+                        expression: null,
+                        params: (prop.type == 'multiple' ? null : undefined),
+                    },
                 };
 
                 param._action = param._action == 'update'
@@ -95,17 +102,16 @@ Shell.Widgets = window.Shell.Widgets || {};
                 for (var i = 0; i < widget.props.length; i++) {
 
                     var prop = widget.props[i];
-                    params[prop.name] = prop.type != 'multiple'
-                        ? {
-                            _action: 'create',
-                            value: null,
-                            binding: null,
-                        }
-                        : {
-                            value: [],
-                            binding: null,
-                        }
-                    ;
+                    // TODO Move to service layer
+                    params[prop.name] = {
+                        _action: 'create',
+                        value: (prop.type == 'multiple' ? [] : null),
+                        binding: {
+                            strategy: null,
+                            expression: null,
+                            params: (prop.type == 'multiple' ? null : undefined),
+                        },
+                    };
                 }
 
                 data.params = params;

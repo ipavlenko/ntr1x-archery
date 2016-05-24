@@ -1,4 +1,4 @@
-<template id="pages-widgets-params-list">
+<template id="params-list">
     <div>
         <div v-for="item in items" v-if="item.prop.tab == tab">
             <params-string v-if="item.prop.type == 'string'" :id="'pages-widgets-dialog-props-' + $index"

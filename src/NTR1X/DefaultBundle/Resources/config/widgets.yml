@@ -111,8 +111,6 @@ Stub:
             name: subtitle
             type: 'string'
 
-# Composites Widgets
-
 Placeholder:
     title: 'Placeholder'
     tag: default-placeholder
@@ -121,325 +119,21 @@ Placeholder:
     categories: [ composite.all, composite.header ]
     params:
         height: { value: 100px }
+        content: {value: Placeholder }
 
-Header:
-    title: 'Header'
-    tag: default-header
-    mixins: [ WidgetMixin, BoxMixin, SizeMixin]
-    thumbnail: 'src/header/header.png'
-    categories: [ composite.all, composite.header ]
-    params:
-            phone: { value: '8 800 000 00 00' }
-            outerBackground: { value: 'url(/bundles/ntr1xdefault/src/header/cover.jpg) center right no-repeat' }
-            outerBackgroundSize: { value: 'cover' }
-            logo: { value: '/bundles/ntr1xdefault/src/header/logo.png' }
-    props:
-        -
-            name: phone
-            title: 'Phone'
-            type: 'rich'
-            tab: content
-        -
-            name: logo
-            title: 'Logo'
-            type: 'string'
-            tab: appearance
-
-Footer:
-    title: 'Footer'
-    tag: default-footer
-    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
-    thumbnail: 'src/footer/footer.png'
-    categories: [ composite.all, composite.footer ]
-    params:
-            height: { value: 55px }
-            padding: { value: 13px 23px }
-            logo: { value: '/bundles/ntr1xdefault/src/footer/logo.png' }
-            copyright: { value: 'Все права защищены' }
-            contacts: { value: '+7 (800) 000-00-00' }
-            facebook: { value: 'https://www.facebook.com/' }
-            twitter: { value: 'https://twitter.com/' }
-            google: { value: 'https://plus.google.com/' }
-    props:
-        -
-            name: logo
-            title: 'Logo Image'
-            type: 'string'
-            placeholder: ''
-            tab: data
-        -
-            name: copyright
-            title: 'Copyright'
-            type: 'string'
-            placeholder: ''
-            tab: data
-        -
-            name: contacts
-            title: 'Contacts'
-            type: 'string'
-            placeholder: ''
-            tab: data
-        -
-            name: facebook
-            title: 'Facebook'
-            type: 'string'
-            placeholder: ''
-            tab: data
-        -
-            name: twitter
-            title: 'Twitter'
-            type: 'string'
-            placeholder: ''
-            tab: data
-        -
-            name: google
-            title: 'Google'
-            type: 'string'
-            placeholder: ''
-            tab: data
-
-Table:
-    title: 'Table'
-    tag: default-table
-    size: { width: 12, height: 5 }
-    mixins: [ WidgetMixin, CollectionMixin, BoxMixin ]
-    thumbnail: 'src/table/table.png'
-    categories: [ composite.all]
-    params:
-#        source: { value: '{{ data.table }}' }
-        jsonpath: { value: '{$.competitors.*}' }
-        columns:
-            value:
-                -
-                    title: { value: Игрок }
-                    value: { value: "{$.person.data.NAME.value} {$.person.data.SURNAME.value}" }
-                -
-                    title: { value: r1 }
-                    value: { value: "{$.jsAdditionalFields.r1}" }
-                -
-                    title: { value: r2 }
-                    value: { value: "{$.jsAdditionalFields.r2}" }
-                -
-                    title: { value: r3 }
-                    value: { value: "{$.jsAdditionalFields.r3}" }
-                -
-                    title: { value: r4 }
-                    value: { value: "{$.jsAdditionalFields.r4}" }
-                -
-                    title: { value: points }
-                    value: { value: "{$.points}" }
-    props:
-       -
-           name: source
-           title: Source
-           type: string
-           tab: data
-       -
-           name: jsonpath
-           title: Json Path
-           type: string
-           tab: data
-       -
-           name: columns
-           type: multiple
-           display: '{{ params.title }}'
-           title: Columns
-           tab: data
-           tabs:
-               -
-                   name: data
-                   title: Data
-               -
-                   name: appearance
-                   title: Appearance
-               -
-                   name: content
-                   title: Content
-           props:
-               -
-                   name: title
-                   title: Title
-                   type: string
-                   tab: content
-               -
-                   name: width
-                   title: Width
-                   type: string
-                   tab: appearance
-               -
-                   name: type
-                   title: Type
-                   type: string
-                   tab: data
-               -
-                   name: url
-                   title: URL
-                   type: string
-                   tab: data
-               -
-                   name: value
-                   title: Value
-                   type: string
-                   tab: data
-
-Items:
-    title: 'Items'
-    tag: default-items
-    size: { width: 12, height: 5 }
+Horisontal:
+    title: 'Horisontal Stack'
+    tag: default-stack-horisontal
     mixins: [ WidgetMixin, BoxMixin ]
-    thumbnail: 'src/items/items.png'
-    categories: [ composite.all]
-    params:
-                padding: { value: '38px 36px' }
-                jsonpath: { value: '$.*' }
-                itemUrl: { value: '{$.data.URL}' }
-                itemImageUrl: { value: '/bundles/ntr1xdefault/src/items/i{$.id}.jpg' }
-                itemTitle: { value: '{$.data.TITLE}' }
-                itemPromo: { value: '{$.data.PROMO}' }
-    props:
-       -
-           name: jsonpath
-           title: Json Path
-           type: string
-           tab: data
-       -
-           name: itemUrl
-           title: Item URL
-           type: string
-           tab: data
-       -
-           name: itemImageUrl
-           title: Item Image URL
-           type: string
-           tab: data
-       -
-           name: itemTitle
-           title: Item Title
-           type: string
-           tab: data
-       -
-           name: itemPromo
-           title: Item Promo
-           type: string
-           tab: data
+    thumbnail: 'src/stack/horisontal.png'
+    categories: [ layout.all, layout.stack ]
 
-Media:
-    title: 'Media'
-    tag: default-media-horisontal
+Vertical:
+    title: 'Vertical Stack'
+    tag: default-stack-vertical
     mixins: [ WidgetMixin, BoxMixin ]
-    thumbnail: 'src/items/media-horisontal.png'
-    categories: [ composite.all]
-    props:
-        -
-            name: items
-            type: multiple
-            display: '{{ params.title }}'
-            title: Navigation Items
-            tab: data
-            tabs:
-                - { name: data, title: Data }
-            props:
-                - { name: url, title: URL, type: string, tab: data }
-                - { name: image, title: Image, type: string, tab: data }
-                - { name: title, title: Title, type: string, tab: data }
-                - { name: description, title: Description, type: string, tab: data }
-    params:
-        items:
-            value:
-                -
-                    url: { value: '/media-one' }
-                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
-                    title: { value: Title 1 }
-                    description: { value: Description 1 }
-                -
-                    url: { value: '/media-two' }
-                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
-                    title: { value: Title 2 }
-                    description: { value: Description 2 }
-                -
-                    url: { value: '/media-three' }
-                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
-                    title: { value: Title 3 }
-                    description: { value: Description 3 }
-
-# Navigations Widgets
-
-NavHorizontal:
-    title: 'Navigation Bar'
-    tag: default-nav-horisontal
-    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
-    thumbnail: 'src/nav/horisontal.png'
-    categories: [ navigation.all, navigation.horisontal ]
-    props:
-        - { name: active, title: Active, type: string, tab: data }
-        -
-            name: items
-            type: multiple
-            display: '{{ params.title }}'
-            title: Navigation Items
-            tab: data
-            tabs:
-                - { name: data, title: Data }
-            props:
-                - { name: title, title: Title, type: string, tab: data }
-                - { name: url, title: URL, type: string, tab: data }
-    params:
-        active: { value: /home }
-        padding: { value: 10px 10px }
-        items:
-            value:
-                -
-                    title: { value: Home }
-                    url: { value: /home }
-                -
-                    title: { value: Media }
-                    url: { value: /media }
-                -
-                    title: { value: About }
-                    url: { value: /about }
-
-NavVertical:
-    title: 'Navigation Stack'
-    tag: default-nav-vertical
-    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
-    thumbnail: 'src/nav/vertical.png'
-    categories: [ navigation.all, navigation.vertical ]
-    props:
-        - { name: active, title: Active, type: string, tab: data }
-        -
-            name: items
-            type: multiple
-            display: '{{ params.title }}'
-            title: Navigation Items
-            tab: data
-            tabs:
-                - { name: data, title: Data }
-            props:
-                - { name: title, title: Title, type: string, tab: data }
-                - { name: url, title: URL, type: string, tab: data }
-    params:
-        active: { value: /home }
-        padding: { value: 10px 10px }
-        items:
-            value:
-                -
-                    title: { value: Home }
-                    url: { value: /home }
-                -
-                    title: { value: Media }
-                    url: { value: /media }
-                -
-                    title: { value: About }
-                    url: { value: /about }
-
-Sitemap:
-    title: 'Sitemap'
-    tag: default-sitemap
-    mixins: [ WidgetMixin, BoxMixin ]
-    thumbnail: 'src/sitemap/sitemap.png'
-    categories: [ navigation.all]
-
-# Sliders Widgets
+    thumbnail: 'src/stack/vertical.png'
+    categories: [ layout.all, layout.stack ]
 
 Carousel:
     title: 'Carousel'
@@ -538,23 +232,81 @@ Gallery:
                     itemBackground: { value: '#EE6B9E' }
                     url: { value: null }
 
-# Layouts Widgets
+NavHorizontal:
+    title: 'Navigation Bar'
+    tag: default-nav-horisontal
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/nav/horisontal.png'
+    categories: [ navigation.all, navigation.horisontal ]
+    props:
+        - { name: active, title: Active, type: string, tab: data }
+        -
+            name: items
+            type: multiple
+            display: '{{ params.title }}'
+            title: Navigation Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: title, title: Title, type: string, tab: data }
+                - { name: value, title: Value, type: string, tab: data }
+                - { name: url, title: URL, type: string, tab: data }
+    params:
+        active: { value: home }
+        padding: { value: 10px 10px }
+        items:
+            value:
+                -
+                    title: { value: Home }
+                    value: { value: home }
+                    url: { value: null }
+                -
+                    title: { value: Media }
+                    value: { value: media }
+                    url: { value: null }
+                -
+                    title: { value: About }
+                    value: { value: about }
+                    url: { value: null }
 
-Horisontal:
-    title: 'Horisontal Stack'
-    tag: default-stack-horisontal
-    mixins: [ WidgetMixin, BoxMixin ]
-    thumbnail: 'src/stack/horisontal.png'
-    categories: [ layout.all, layout.stack ]
-
-Vertical:
-    title: 'Vertical Stack'
-    tag: default-stack-vertical
-    mixins: [ WidgetMixin, BoxMixin ]
-    thumbnail: 'src/stack/vertical.png'
-    categories: [ layout.all, layout.stack ]
-
-# Forms Widgets
+NavVertical:
+    title: 'Navigation Stack'
+    tag: default-nav-vertical
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
+    thumbnail: 'src/nav/vertical.png'
+    categories: [ navigation.all, navigation.vertical ]
+    props:
+        - { name: active, title: Active, type: string, tab: data }
+        -
+            name: items
+            type: multiple
+            display: '{{ params.title }}'
+            title: Navigation Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: title, title: Title, type: string, tab: data }
+                - { name: value, title: Value, type: string, tab: data }
+                - { name: url, title: URL, type: string, tab: data }
+    params:
+        active: { value: home }
+        padding: { value: 10px 10px }
+        items:
+            value:
+                -
+                    title: { value: Home }
+                    value: { value: home }
+                    url: { value: null }
+                -
+                    title: { value: Media }
+                    value: { value: media }
+                    url: { value: null }
+                -
+                    title: { value: About }
+                    value: { value: about }
+                    url: { value: null }
 
 InputText:
     title: 'Text'
@@ -731,79 +483,72 @@ ButtonLink:
         title: { value: 'Link' }
         stereotype: { value: 'link' }
 
-Form:
-    title: 'Form'
-    tag: default-form
-    mixins: [ WidgetMixin, BoxMixin ]
-    thumbnail: 'src/form/form.png'
-    categories: [ form.all ]
+Rich:
+    title: 'Rich'
+    tag: default-rich
+    mixins: [ WidgetMixin, BoxMixin, ContentMixin ]
+    thumbnail: 'rich/rich.png'
+    styles: [ 'rich/rich.css' ]
+    scripts: [ 'rich/rich.js' ]
+    templates: [ 'rich/rich.htm' ]
+    categories: [ composite.all ]
     params:
-        fields: { value: [{ name: {value:'name'}, scope: {value:'FORM'}, type: {value:'type'}, title: {value:'Ваше имя'}, placeholder: {value:'Ваше имя'}}] }
+            height: { value: '100px' }
+            content: { value: 'Rich' }
+
+Table:
+    title: 'Table'
+    tag: default-table
+    size: { width: 12, height: 5 }
+    mixins: [ WidgetMixin, CollectionMixin, BoxMixin ]
+    thumbnail: 'table/table.png'
+    styles: [ 'table/table.css' ]
+    scripts: [ 'table/table.js' ]
+    templates: [ 'table/table.htm' ]
+    categories: [ composite.all]
+    params:
+            jsonpath: { value: '{$.competitors.*}' }
     props:
        -
-           name: success
-           title: Success Page
+           name: jsonpath
+           title: Json Path
            type: string
            tab: data
        -
-           name: failure
-           title: Failure Page
-           type: string
-           tab: data
-       -
-           name: acton
-           title: Acton
-           type: string
-           tab: data
-       -
-           name: title
-           title: Optional Title
-           type: rich
-           tab: content
-       -
-           name: textabove
-           title: Text Above
-           type: rich
-           tab: content
-       -
-           name: textbelow
-           title: Text Below
-           type: rich
-           tab: content
-       -
-           name: fields
+           name: columns
            type: multiple
            display: '{{ params.title }}'
-           title: Fields
+           title: Columns
            tab: data
            tabs:
                -
                    name: data
                    title: Data
+               -
+                   name: appearance
+                   title: Appearance
+               -
+                   name: content
+                   title: Content
            props:
                -
-                   name: name
-                   title: Name
+                   name: title
+                   title: Title
                    type: string
-                   tab: data
+                   tab: content
                -
-                   name: scope
-                   title: Scope
+                   name: width
+                   title: Width
                    type: string
-                   tab: data
+                   tab: appearance
                -
                    name: type
                    title: Type
                    type: string
                    tab: data
                -
-                   name: title
-                   title: Title
-                   type: string
-                   tab: data
-               -
-                   name: placeholder
-                   title: Placeholder
+                   name: url
+                   title: URL
                    type: string
                    tab: data
                -
@@ -811,25 +556,3 @@ Form:
                    title: Value
                    type: string
                    tab: data
-
-# Text Blocks Widgets
-Rich:
-    title: 'Rich'
-    tag: default-rich
-    mixins: [ WidgetMixin, BoxMixin, ContentMixin ]
-    thumbnail: 'src/rich/rich.png'
-    categories: [ text.all ]
-    params:
-            margin: { value: '30px' }
-            content: {value: 'Rich' }
-
-
-
-
-
-
-
-
-
-
-
