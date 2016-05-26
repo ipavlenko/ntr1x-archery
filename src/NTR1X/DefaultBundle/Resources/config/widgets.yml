@@ -201,12 +201,10 @@ Footer:
 Table:
     title: 'Table'
     tag: default-table
-    size: { width: 12, height: 5 }
     mixins: [ WidgetMixin, CollectionMixin, BoxMixin ]
     thumbnail: 'src/table/table.png'
     categories: [ composite.all]
     params:
-#        source: { value: '{{ data.table }}' }
         jsonpath: { value: '{$.competitors.*}' }
         columns:
             value:
@@ -289,39 +287,40 @@ Items:
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/items/items.png'
     categories: [ composite.all]
-    params:
-                padding: { value: '38px 36px' }
-                jsonpath: { value: '$.*' }
-                itemUrl: { value: '{$.data.URL}' }
-                itemImageUrl: { value: '/bundles/ntr1xdefault/src/items/i{$.id}.jpg' }
-                itemTitle: { value: '{$.data.TITLE}' }
-                itemPromo: { value: '{$.data.PROMO}' }
     props:
-       -
-           name: jsonpath
-           title: Json Path
-           type: string
-           tab: data
-       -
-           name: itemUrl
-           title: Item URL
-           type: string
-           tab: data
-       -
-           name: itemImageUrl
-           title: Item Image URL
-           type: string
-           tab: data
-       -
-           name: itemTitle
-           title: Item Title
-           type: string
-           tab: data
-       -
-           name: itemPromo
-           title: Item Promo
-           type: string
-           tab: data
+        -
+            name: items
+            type: multiple
+            display: '{{ params.title }}'
+            title: Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: url, title: URL, type: string, tab: data }
+                - { name: image, title: Image, type: string, tab: data }
+                - { name: title, title: Title, type: string, tab: data }
+                - { name: promo, title: Promo, type: string, tab: data }
+    params:
+        items:
+            value:
+                -
+                    url: { value: '/media-one' }
+                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
+                    title: { value: Title 1 }
+                    promo: { value: promo 1 }
+                -
+                    url: { value: '/media-two' }
+                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
+                    title: { value: Title 2 }
+                    promo: { value: promo 2 }
+                -
+                    url: { value: '/media-three' }
+                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
+                    title: { value: Title 3 }
+                    promo: { value: promo 3 }
+
+
 
 Media:
     title: 'Media'
@@ -440,12 +439,43 @@ NavVertical:
                     value: { value: about }
                     url: { value: null }
 
-Sitemap:
+
+
+Sitemap: # TODO нужна вложенность
     title: 'Sitemap'
     tag: default-sitemap
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/sitemap/sitemap.png'
     categories: [ navigation.all]
+    props:
+        -
+            name: items
+            type: multiple
+            display: '{{ params.title }}'
+            title: Navigation Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: title, title: Title, type: string, tab: data }
+                - { name: value, title: Value, type: string, tab: data }
+                - { name: url, title: URL, type: string, tab: data }
+    params:
+        items:
+            value:
+                -
+                    title: { value: Home }
+                    value: { value: home }
+                    url: { value: null }
+                -
+                    title: { value: Media }
+                    value: { value: media }
+                    url: { value: null }
+                -
+                    title: { value: About }
+                    value: { value: about }
+                    url: { value: null }
+
 
 # Sliders Widgets
 
