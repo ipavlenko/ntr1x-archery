@@ -1,4 +1,4 @@
-<template id="pages-widgets-params-multiple-list">
+<template id="params-multiple-list">
     <section>
         <table class="table table-condensed">
             <thead>
@@ -7,9 +7,9 @@
                     <th>
                         <div class="pull-right">
                             <a class="btn btn-xs btn-primary" @click="create({}, { prop: prop })">Add</a>
-                            <params :model.sync="{ param: param, prop: prop }" inline-template>
+                            <params-bindings :model.sync="param" :context="{ prop: prop }" inline-template>
                                 <a class="btn btn-xs btn-default" @click="open()">Bindings</a>
-                            </params>
+                            </params-bindings>
                         </div>
                     </th>
                 </tr>

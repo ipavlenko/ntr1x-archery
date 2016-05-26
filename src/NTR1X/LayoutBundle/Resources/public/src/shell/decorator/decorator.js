@@ -76,42 +76,112 @@ Shell = window.Shell || {};
 
         created: function() {
 
-            var self = this;
+            function evaluate(self, b, v) {
 
-            function recur(params) {
+                if (b.expression) {
 
-                var value = {};
-                for(var key in params) {
-                    if (params[key]['binding']) {
-                        if (params[key]['strategy'] == 'eval') {
-                            value[key] = self.$eval(params[key]['binding']);
+                    try {
+                        if (b.strategy == 'eval') {
+                            var test = self.$eval(b.expression);
+                            return test;
                         } else {
-                            value[key] = self.$interpolate(params[key]['binding']);
+                            return self.$interpolate(b.expression);
                         }
-                        console.log('binding', params[key]['binding']);
-                        console.log('value', value[key]);
-                    } else if ($.isArray(params[key]['value'])) {
-                        value[key] = [];
-                        for(var i = 0; i < params[key]['value'].length; i++) {
-                            value[key][i] = recur(params[key]['value'][i]);
-                        }
-                    } else {
-                        value[key] = params[key]['value'];
+                    } catch (e) {
+                        console.log('Cannot evaluate expression', b.expression);
+                        return v;
                     }
                 }
 
+                return v;
+            }
+
+            function recur(self, props, params) {
+
+                var items = [];
+                for (var i = 0; i < props.length; i++) {
+                    var prop = props[i];
+                    var param = params && params[prop.name];
+                    items.push({
+                        prop: prop,
+                        param: param || {},
+                    });
+                }
+
+                var value = {};
+                for (var i = 0; i < items.length; i++) {
+
+                    var item = items[i];
+
+                    var n = item.prop.name;
+                    var b = item.param.binding;
+                    var v = item.param.value;
+
+                    if (item.prop.type == 'object') {
+                        // TODO Implement
+                    } else if (item.prop.type == 'multiple') {
+
+                        if (b && b.expression) {
+
+                            var array = [];
+                            var result = evaluate(self, b, v);
+
+                            if ($.isArray(result)) {
+
+                                for (var j = 0; j < result.length; j++) {
+
+                                    var vm = new Vue({
+                                        data: Object.assign(JSON.parse(JSON.stringify(self.$data)), {
+                                            item: {
+                                                index: j,
+                                                value: result[j],
+                                            }
+                                        })
+                                    });
+
+                                    array.push(recur(vm, item.prop.props, b.params));
+                                }
+                            }
+
+                            value[n] = array;
+
+                        } else {
+
+                            var array = [];
+
+                            var index = 0;
+                            for(var j = 0; j < v.length; j++) {
+                                var vi = v[j];
+                                if (vi._action != 'remove') {
+                                    array[index++] = recur(self, item.prop.props, vi);
+                                }
+                            }
+
+                            value[n] = array;
+                        }
+
+                    } else {
+
+                        value[n] = (b && b.expression)
+                            ? evaluate(self, b, v)
+                            : v
+                        ;
+                    }
+                }
+
+                // console.log(value);
                 return value;
             }
 
             this.$watch('data', (data) => {
-                this.bindings = recur(this.model.params);
+                this.$set('bindings', recur(this, this.widget.props, this.model.params));
             }, {
                 deep: true,
                 immediate: true,
             });
 
             this.$watch('model', (model) => {
-                this.bindings = recur(model.params);
+                this.$set('bindings', recur(this, this.widget.props, model.params));
             }, {
                 deep: true,
                 immediate: true,
@@ -221,26 +291,28 @@ Shell = window.Shell || {};
 
                                     if (!palette.length) {
 
-                                       $(evt.item).remove();
+                                        $(evt.item).remove();
 
-                                       var ni = find(self.items, evt.newIndex);
+                                        var ni = find(self.items, evt.newIndex);
 
-                                       var widget = self.$root.$refs.shell.getWidget(w);
+                                        var widget = self.$root.$refs.shell.getWidget(w);
 
-                                       self.items.splice(ni, 0, {
-                                           type: widget.id,
-                                           resource: {
-                                               params: [],
-                                               _action: 'create'
-                                           },
-                                           params: widget.params
-                                               ? JSON.parse(JSON.stringify(widget.params))
-                                               : {}
-                                           ,
-                                           widgets: [],
-                                           _action: 'create',
-                                       });
-                                   }
+                                        // TODO Initialize params in service layer
+
+                                        self.items.splice(ni, 0, {
+                                            type: widget.id,
+                                            resource: {
+                                                params: [],
+                                                _action: 'create'
+                                            },
+                                            params: widget.params
+                                                ? JSON.parse(JSON.stringify(widget.params))
+                                                : {}
+                                            ,
+                                            widgets: [],
+                                            _action: 'create',
+                                        });
+                                    }
 
                                 } else {
 

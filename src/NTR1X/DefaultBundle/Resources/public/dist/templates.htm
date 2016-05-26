@@ -168,30 +168,6 @@
     </section>
 </template>
 
-<template id="default-nav-horisontal">
-    <section class="wg wg-default-nav wg-default-nav-horisontal">
-        <default-box :bindings.sync="bindings">
-            <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
-                <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
-                    <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
-                </li>
-            </ul>
-        </default-box>
-    <section>
-</template>
-
-<template id="default-nav-vertical">
-    <section class="wg wg-default-nav wg-default-nav-horisontal">
-        <default-box :bindings.sync="bindings">
-            <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
-                <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
-                    <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
-                </li>
-            </ul>
-        </default-box>
-    <section>
-</template>
-
 <template id="default-input-checkbox">
     <section class="wg wg-default-input wg-default-input-checkbox">
         <default-box :bindings.sync="bindings">
@@ -242,6 +218,30 @@
     <section>
 </template>
 
+<template id="default-nav-horisontal">
+    <section class="wg wg-default-nav wg-default-nav-horisontal">
+        <default-box :bindings.sync="bindings">
+            <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
+                <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
+                    <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
+                </li>
+            </ul>
+        </default-box>
+    <section>
+</template>
+
+<template id="default-nav-vertical">
+    <section class="wg wg-default-nav wg-default-nav-horisontal">
+        <default-box :bindings.sync="bindings">
+            <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
+                <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
+                    <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
+                </li>
+            </ul>
+        </default-box>
+    <section>
+</template>
+
 <template id="default-placeholder">
     <section>
         <default-box :bindings.sync="bindings">
@@ -255,6 +255,29 @@
                 </div>
             </section>
         </default-box>
+    </section>
+</template>
+
+<template id="default-sitemap">
+    <section class="wg wg-default-sitemap">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <span class="wg wg-cell">Sitemap</span>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="default-stub">
+    <section class="wg wg-default-stub">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <span class="wg wg-cell">
+                    <div><small>{{ bindings.title }}</small></div>
+                    <div>{{ bindings.subtitle }}</div>
+                </span>
+            </div>
+        </div>
     </section>
 </template>
 
@@ -326,29 +349,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-</template>
-
-<template id="default-sitemap">
-    <section class="wg wg-default-sitemap">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">Sitemap</span>
-            </div>
-        </div>
-    </section>
-</template>
-
-<template id="default-stub">
-    <section class="wg wg-default-stub">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">
-                    <div><small>{{ bindings.title }}</small></div>
-                    <div>{{ bindings.subtitle }}</div>
-                </span>
             </div>
         </div>
     </section>

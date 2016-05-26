@@ -16,7 +16,7 @@
                 data: this.data,
             };
         },
-        ready: function() {
+        compiled: function() {
 
             this.decorator = 'shell-decorator-canvas';
             this.data = {};
@@ -25,44 +25,47 @@
 
                 if (sources) {
 
+                    var deferred = [];
                     for (var i = 0; i < sources.length; i++) {
-
-                        var s = sources[i];
-
-                        var query = {};
-                        for (var i = 0; i < s.params.length; i++) {
-                            var param = s.params[i];
-                            if (param.in == 'query' && param.specified) {
-
-                                var value = param.binding
-                                    ? this.$interpolate(param.binding) // TODO Interpolate in page context
-                                    : param.value
-                                ;
-
-                                query[param.name] = value;
-                            }
-                        }
-
-                        $.ajax({
-                            method: s.method,
-                            url: s.url,
-                            dataType: "json",
-                            data: query,
-                        })
-                        .done((d) => {
-
-                            this.$set('data.' + s.name, d);
-
-                            // Object.assign(this.data, ext);
-                            // console.log(this.data);
-                        });
+                        deferred.push(this.doRequest(sources[i]));
                     }
-                }
 
+                    $.when.apply(this, deferred).done(function() {
+                        var data = {};
+                        for (var i = 0; i < arguments.length; i++) {
+                            data[sources[i].name] = arguments[i][0];
+                        }
+                        this.$set('data', data);
+                    }.bind(this));
+                }
             }, {
                 immediate: true,
                 deep: true,
             });
+        },
+        methods: {
+            doRequest: function(s) {
+                var query = {};
+                for (var i = 0; i < s.params.length; i++) {
+                    var param = s.params[i];
+                    if (param.in == 'query' && param.specified) {
+
+                        var value = param.binding
+                            ? this.$interpolate(param.binding) // TODO Interpolate in page context
+                            : param.value
+                        ;
+
+                        query[param.name] = value;
+                    }
+                }
+
+                return $.ajax({
+                    method: s.method,
+                    url: s.url,
+                    dataType: "json",
+                    data: query,
+                });
+            }
         },
     });
 
