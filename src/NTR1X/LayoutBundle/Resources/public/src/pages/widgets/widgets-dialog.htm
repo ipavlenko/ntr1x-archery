@@ -29,7 +29,8 @@
                                 <div class="tab-pane" :class="{ 'active': isActive('theme') }">
                                     <div class="form-group">
                                         <label>Theme</label>
-                                        <select class="form-control"></select>
+                                        <input type="text" name="theme">
+                                        <!--<select class="form-control"></select>-->
                                     </div>
                                 </div>
                                 <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
