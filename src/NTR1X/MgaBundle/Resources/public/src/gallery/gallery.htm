@@ -1,28 +1,13 @@
 <template id="mga-gallery">
-    <section class="wg wg-default-gallery" :id="bindings.id" :style="{
-        border: bindings.outerBorder,
-        background: bindings.outerBackground,
-    }">
-        <div class="wg wg-content" :style="{
-            margin: bindings.margin,
-            padding: bindings.padding,
-            border: bindings.innerBorder,
-            background: bindings.innerBackground,
-        }">
-
-            <ul class="grade-list clearfix">
-                <li v-for="item in bindings.items" class="grade-element" :style="{margin: bindings.itemMargin}">
-
-                    <a href="{{item.url }}">
-                        <img  src="{{item.image }}" />
-                        <span class="title">{{item.title }}</span>
-                    </a>
-                    <span class="description">{{item.description }}</span>
-
-                </li>
-            </ul>
-
-
-        </div>
-    </section>
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-gallery'">
+        <ul class="grade-list clearfix">
+            <li v-for="item in bindings.items" class="grade-element" :style="{margin: bindings.itemMargin}">
+                <a :href="item.url">
+                    <img  :src="item.image" />
+                    <span class="title">{{item.title }}</span>
+                </a>
+                <span class="description">{{item.description }}</span>
+            </li>
+        </ul>
+    </default-box>
 </template>

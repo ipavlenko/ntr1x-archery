@@ -7,6 +7,4 @@ Core = window.Core || {};
         mixins: [ Core.WidgetMixin ]
     });
 
-
-
 })(jQuery, Vue, Core);
