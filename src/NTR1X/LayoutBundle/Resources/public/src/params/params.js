@@ -103,8 +103,8 @@
                 }
             }
 
-            this.current.binding = binding;
-            this.items = items;
+            this.$set('current.binding', binding);
+            this.$set('items', items);
         },
         methods: {
             setStrategy: function(strategy) {

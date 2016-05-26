@@ -14,27 +14,6 @@
     </section>
 </template>
 
-<template id="default-button">
-    <section class="wg wg-default-button">
-        <default-box :bindings.sync="bindings">
-            <div class="form-group">
-                <button type="{{ bindings.type }}" class="btn btn-block" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                }"
-                :style="{
-                    height: bindings.height
-                }">{{ bindings.title }}</button>
-            </div>
-        </default-box>
-    <section>
-</template>
-
 <template id="default-carousel">
     <section class="wg wg-default-carousel">
         <default-box :bindings.sync="bindings">
@@ -73,14 +52,25 @@
     <section>
 </template>
 
-<template id="default-footer">
-    <section class="wg wg-default-footer">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">Footer</span>
+<template id="default-button">
+    <section class="wg wg-default-button">
+        <default-box :bindings.sync="bindings">
+            <div class="form-group">
+                <button type="{{ bindings.type }}" class="btn btn-block" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                }"
+                :style="{
+                    height: bindings.height
+                }">{{ bindings.title }}</button>
             </div>
-        </div>
-    </section>
+        </default-box>
+    <section>
 </template>
 
 <template id="default-gallery">
@@ -140,6 +130,16 @@
             </div>
         </default-box>
     <section>
+</template>
+
+<template id="default-footer">
+    <section class="wg wg-default-footer">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <span class="wg wg-cell">Footer</span>
+            </div>
+        </div>
+    </section>
 </template>
 
 <template id="default-header">
@@ -268,19 +268,6 @@
     </section>
 </template>
 
-<template id="default-stub">
-    <section class="wg wg-default-stub">
-        <div class="wg wg-content">
-            <div class="wg wg-table">
-                <span class="wg wg-cell">
-                    <div><small>{{ bindings.title }}</small></div>
-                    <div>{{ bindings.subtitle }}</div>
-                </span>
-            </div>
-        </div>
-    </section>
-</template>
-
 <template id="default-stack-canvas">
     <section class="wg wg-default-stack wg-default-stack-canvas">
         <div class="wg wg-content">
@@ -293,8 +280,8 @@
                                 :settings.sync="settings"
                                 :stack.sync="page"
                                 :page.sync="page"
-                                :model.sync="child"
                                 :data.sync="data"
+                                :model.sync="child"
                                 :editable.sync="editable"
                                 :items.sync="child.widgets"
                             ></shell-widget>
@@ -318,6 +305,7 @@
                                 :settings.sync="settings"
                                 :stack.sync="page"
                                 :page.sync="page"
+                                :data.sync="data"
                                 :model.sync="child"
                                 :editable.sync="editable"
                                 :items.sync="child.widgets"
@@ -342,6 +330,7 @@
                                 :settings.sync="settings"
                                 :stack.sync="page"
                                 :page.sync="page"
+                                :data.sync="data"
                                 :model.sync="child"
                                 :editable.sync="editable"
                                 :items.sync="child.widgets"
@@ -349,6 +338,19 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="default-stub">
+    <section class="wg wg-default-stub">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <span class="wg wg-cell">
+                    <div><small>{{ bindings.title }}</small></div>
+                    <div>{{ bindings.subtitle }}</div>
+                </span>
             </div>
         </div>
     </section>
