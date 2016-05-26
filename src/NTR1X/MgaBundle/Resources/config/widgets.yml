@@ -1,0 +1,108 @@
+WidgetMixin:
+    tabs:
+        -
+            name: data
+            title: Data
+        -
+            name: appearance
+            title: Appearance
+        -
+            name: content
+            title: Content
+    props:
+        -
+            name: id
+            title: 'ID'
+            type: 'string'
+            placeholder: 'Unique ID'
+            tab: 'data'
+
+BoxMixin:
+    props:
+        -
+            name: margin
+            title: 'Margin'
+            type: 'string'
+            placeholder: '0px 0px'
+            tab: appearance
+        -
+            name: padding
+            title: 'Padding'
+            type: 'string'
+            placeholder: '0px 0px'
+            tab: appearance
+        -
+            name: innerBorder
+            title: 'Inner Border'
+            type: 'string'
+            placeholder: 'solid 1px #000000'
+            tab: appearance
+        -
+            name: innerBackground
+            title: 'Inner Background'
+            type: 'string'
+            placeholder: '#FFFFFF'
+            tab: appearance
+        -
+            name: innerBackgroundSize
+            title: 'Inner Background Size'
+            type: 'string'
+            placeholder: 'cover'
+            tab: appearance
+        -
+            name: outerBorder
+            title: 'Outer Border'
+            type: 'string'
+            placeholder: 'solid 1px #000000'
+            tab: appearance
+        -
+            name: outerBackground
+            title: 'Outer Background'
+            type: 'string'
+            placeholder: '#FFFFFF'
+            tab: appearance
+        -
+            name: outerBackgroundSize
+            title: 'Outer Background Size'
+            type: 'string'
+            placeholder: 'cover'
+            tab: appearance
+
+MgaGallery:
+    title: 'Gallery'
+    tag: mga-gallery
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/gallery/gallery.png'
+    categories: [ composite.all]
+    props:
+        -
+            name: items
+            type: multiple
+            display: '{{ params.title }}'
+            title: Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: title, title: Title, type: string, tab: data }
+                - { name: url, title: URL, type: string, tab: data }
+                - { name: image, title: Image, type: string, tab: data }
+                - { name: description, title: Description, type: string, tab: data }
+    params:
+        items:
+            value:
+                -
+                    title: { value: 'First' }
+                    url: { value: null }
+                    image: { value: null }
+                    description: { value: null }
+                -
+                    title: { value: 'Second' }
+                    url: { value: null }
+                    image: { value: null }
+                    description: { value: null }
+                -
+                    title: { value: 'Third' }
+                    url: { value: null }
+                    image: { value: null }
+                    description: { value: null }

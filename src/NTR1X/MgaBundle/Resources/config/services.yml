@@ -1,0 +1,13 @@
+services:
+
+    ntr1_x_mga.widget.provider:
+        class: NTR1X\LayoutBundle\Widget\WidgetProvider
+        arguments: ["@kernel", "NTR1XMgaBundle", "ntr1xmga", "widgets.yml"]
+        tags:
+            - { name: widget.provider }
+
+    ntr1_x_mga.component.provider:
+        class: NTR1X\LayoutBundle\Component\ComponentProvider
+        arguments: ["@kernel", "NTR1XMgaBundle", "ntr1xmga", "components.yml"]
+        tags:
+            - { name: component.provider }

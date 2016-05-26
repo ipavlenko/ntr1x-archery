@@ -1,0 +1,7 @@
+all:
+    scripts:
+        - 'dist/scripts.js'
+    styles:
+        - 'dist/styles.css'
+    templates:
+        - 'dist/templates.htm'
