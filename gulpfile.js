@@ -62,7 +62,13 @@ gulp.task('scripts-default', function() {
         // .pipe(browserify())
         .pipe(concat('scripts.js'))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('src/NTR1X/DefaultBundle/Resources/public/dist/'))
+        .pipe(gulp.dest('src/NTR1X/DefaultBundle/Resources/public/dist/'));
+    gulp.src(['src/NTR1X/MgaBundle/Resources/public/src/**/*.js'])
+        .pipe(sourcemaps.init())
+        // .pipe(browserify())
+        .pipe(concat('scripts.js'))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('src/NTR1X/MgaBundle/Resources/public/dist/'));
 })
 
 gulp.task('styles-default', function() {
@@ -72,6 +78,12 @@ gulp.task('styles-default', function() {
         .pipe(concat('styles.css'))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('src/NTR1X/DefaultBundle/Resources/public/dist/'));
+    gulp.src(['src/NTR1X/MgaBundle/Resources/public/src/**/*.css'])
+        .pipe(sourcemaps.init())
+        .pipe(cleancss())
+        .pipe(concat('styles.css'))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('src/NTR1X/MgaBundle/Resources/public/dist/'));
 })
 
 gulp.task('templates-default', function() {
@@ -80,6 +92,11 @@ gulp.task('templates-default', function() {
         .pipe(concat('templates.htm'))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('src/NTR1X/DefaultBundle/Resources/public/dist/'));
+    gulp.src(['src/NTR1X/MgaBundle/Resources/public/src/**/*.htm'])
+        .pipe(sourcemaps.init())
+        .pipe(concat('templates.htm'))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('src/NTR1X/MgaBundle/Resources/public/dist/'));
 })
 
 gulp.task('default', function() {
@@ -108,4 +125,7 @@ gulp.task('watch', function() {
     gulp.watch('src/NTR1X/DefaultBundle/Resources/public/src/**/*.js', [ 'scripts-default' ])
     gulp.watch('src/NTR1X/DefaultBundle/Resources/public/src/**/*.css', [ 'styles-default' ])
     gulp.watch('src/NTR1X/DefaultBundle/Resources/public/src/**/*.htm', [ 'templates-default' ])
+    gulp.watch('src/NTR1X/MgaBundle/Resources/public/src/**/*.js', [ 'scripts-default' ])
+    gulp.watch('src/NTR1X/MgaBundle/Resources/public/src/**/*.css', [ 'styles-default' ])
+    gulp.watch('src/NTR1X/MgaBundle/Resources/public/src/**/*.htm', [ 'templates-default' ])
 })

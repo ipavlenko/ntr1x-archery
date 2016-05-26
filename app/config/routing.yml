@@ -3,6 +3,11 @@ ntr1_x_default:
     type:     annotation
     prefix:   /
 
+ntr1_x_mga:
+    resource: "@NTR1XMgaBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 ntr1_x_controls:
     resource: "@NTR1XControlsBundle/Controller/"
     type:     annotation
