@@ -1,8 +1,8 @@
 (function(Vue, $, Core) {
 
     var ParamString =
-    Vue.component('pages-widgets-params-string', {
-        template: '#pages-widgets-params-string',
+    Vue.component('params-string', {
+        template: '#params-string',
         props: {
             id: String,
             item: Object,
@@ -11,8 +11,8 @@
     });
 
     var ParamRich =
-    Vue.component('pages-widgets-params-rich', {
-        template: '#pages-widgets-params-rich',
+    Vue.component('params-rich', {
+        template: '#params-rich',
         props: {
             id: String,
             item: Object,
@@ -21,8 +21,8 @@
     });
 
     var ParamSource =
-    Vue.component('pages-widgets-params-source', {
-        template: '#pages-widgets-params-source',
+    Vue.component('params-source', {
+        template: '#params-source',
         props: {
             id: String,
             item: Object,
@@ -31,8 +31,8 @@
     });
 
     var ParamMultiple =
-    Vue.component('pages-widgets-params-multiple', {
-        template: '#pages-widgets-params-multiple',
+    Vue.component('params-multiple', {
+        template: '#params-multiple',
         props: {
             id: String,
             item: Object,
@@ -43,14 +43,11 @@
                 items: this.item.items
             }
         },
-        // ready: function() {
-        //     this.items = [];
-        // }
     });
 
     var Params =
-    Vue.component('pages-widgets-params', {
-        template: '#pages-widgets-params',
+    Vue.component('params', {
+        template: '#params',
         props: {
             owner: Object,
             tab: String,
@@ -61,8 +58,8 @@
 
 
     var ParamMultipleListViewer =
-    Vue.component('pages-widgets-params-multiple-list', {
-        template: '#pages-widgets-params-multiple-list',
+    Vue.component('params-multiple-list', {
+        template: '#params-multiple-list',
         mixins: [Core.ListViewerMixin],
         props: {
             prop: Object,
@@ -70,16 +67,70 @@
         },
     });
 
+    var ParamBindingsModalEditor =
+    Vue.component('params-bindings-dialog', {
+        template: '#params-bindings-dialog',
+        mixins: [ Core.ModalEditorMixin, Core.TabsMixin('binding') ],
+        data: function() {
+            return {
+                items: this.items,
+            };
+        },
+        compiled: function() {
+
+            var items = [];
+
+            var binding = this.current.binding || {};
+            binding.params = binding.params || {};
+
+            if (this.context.prop.props) {
+                for (var i = 0; i < this.context.prop.props.length; i++) {
+
+                    var prop = this.context.prop.props[i];
+                    var param = binding.params[prop.name] = binding.params[prop.name] || {};
+
+                    param._action = param._action == 'update'
+                        ? 'update'
+                        : 'create'
+                    ;
+
+                    var item = {
+                        prop: prop,
+                        param: param,
+                    };
+
+                    items.push(item);
+                }
+            }
+
+            this.current.binding = binding;
+            this.items = items;
+        },
+        methods: {
+            setStrategy: function(strategy) {
+                this.$set('current.binding.strategy', strategy);
+            },
+            getStrategy: function(strategy) {
+                return this.$get('current.binding.strategy');
+            },
+        },
+    });
+
+    var Editor =
+    Vue.component('params-bindings', {
+        mixins: [Core.ActionMixin(ParamBindingsModalEditor)],
+    });
+
     var ParamMultipleModalEditor =
-    Vue.component('pages-widgets-params-multiple-dialog', {
-        template: '#pages-widgets-params-multiple-dialog',
+    Vue.component('params-multiple-dialog', {
+        template: '#params-multiple-dialog',
         mixins: [Core.ModalEditorMixin, Core.TabsMixin('data')],
         data: function() {
             return {
                 items: this.items,
             };
         },
-        ready: function() {
+        compiled: function() {
 
             var items = [];
 
@@ -106,23 +157,20 @@
     });
 
     var ParamMultipleEditor =
-    Vue.component('pages-widgets-params-multiple-editor', {
+    Vue.component('params-multiple-editor', {
         mixins: [Core.EditorMixin(ParamMultipleListViewer, ParamMultipleModalEditor)],
-        template: '#pages-widgets-params-multiple-editor',
+        template: '#params-multiple-editor',
         props: {
             prop: Object,
             param: Object,
             items: Array,
         },
-        ready: function() {
-            // console.log(this);
-        }
     });
 
 
     var ParamsList =
-    Vue.component('pages-widgets-params-list', {
-        template: '#pages-widgets-params-list',
+    Vue.component('params-list', {
+        template: '#params-list',
         components: {
             'params-string': ParamString,
             'params-rich': ParamRich,
