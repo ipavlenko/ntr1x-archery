@@ -59,6 +59,11 @@ class Page
      */
     private $sources;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Storage", mappedBy="page", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $storages;
+
     public function __construct() {
         $this->widgets = new ArrayCollection();
         $this->sources = new ArrayCollection();

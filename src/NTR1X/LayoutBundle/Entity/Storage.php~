@@ -1,0 +1,43 @@
+<?php
+
+namespace NTR1X\LayoutBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Storage
+ *
+ * @ORM\Table(name="storage_items")
+ * @ORM\Entity
+ */
+class Storage
+{
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	private $id;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="name", type="string", length=511)
+	 */
+	private $name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Page", inversedBy="sources")
+     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=false)
+     */
+    private $page;
+
+    /**
+     * @ORM\Column(name="variables", type="json_array", nullable=true)
+     */
+    private $variables;
+}

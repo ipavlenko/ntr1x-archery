@@ -2,14 +2,14 @@
     <section class="ge ge-panel ge-storages">
         <storages :items.sync="storages" :globals.sync="globals" inline-template>
             <h5>
-                <span>Storage</span>
+                <span>Storages</span>
                 <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({})"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                    <span class="ge ge-overlay" @click="create({ variables: [] })"><span class="glyphicon glyphicon-plus-sign"></span></span>
                 </span>
             </h5>
             <ul class="nav nav-pills nav-stacked">
                 <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.storage }">
-                    <a href="#" @click="trigger('selectSource', item)">
+                    <a href="#" @click="trigger('selectStorage', item)">
                         <span>{{ item.name }}</span>
                         <span class="ge ge-overlays">
                             <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
