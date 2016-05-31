@@ -74,7 +74,17 @@ MgaGallery:
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/gallery/gallery.png'
     categories: [ composite.all]
+    tabs:
+        -
+            name: theme
+            title: Theme
     props:
+        -
+            name: theme
+            title: 'Theme'
+            type: 'string'
+            placeholder: 'Theme ID'
+            tab: theme
         -
             name: items
             type: multiple
