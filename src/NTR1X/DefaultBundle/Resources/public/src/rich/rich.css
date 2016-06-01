@@ -4,18 +4,24 @@
   overflow: hidden;
   box-sizing: border-box;
 }
-.wg.wg-default-rich .wg-content {
+.wg.wg-default-rich-flex {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.wg.wg-default-rich-flex .wg-content {
   display: flex;
 }
-.wg.wg-default-rich .wg-content .column {
+.wg.wg-default-rich-flex .wg-content .column {
   flex: 1;
 }
-.wg.wg-default-rich .wg-content .column-one {
+.wg.wg-default-rich-flex .wg-content .column-one {
   order: 1;
 }
-.wg.wg-default-rich .wg-content .column-two {
+.wg.wg-default-rich-flex .wg-content .column-two {
   order: 2;
 }
-.wg.wg-default-rich .wg-content .column-three {
+.wg.wg-default-rich-flex .wg-content .column-three {
   order: 3;
 }
