@@ -860,3 +860,81 @@ Rich:
     params:
             margin: { value: '30px' }
             content: {value: 'Rich' }
+
+H1:
+    title: 'H1'
+    tag: default-h1-h6
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
+    thumbnail: 'src/h1-h6/h1.png'
+    categories: [ text.all ]
+    props:
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        content: { value: 'Lorem ipsum dolor sit amet' }
+        stereotype: { value: 'h1' }
+
+H2:
+    title: 'H2'
+    tag: default-h1-h6
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
+    thumbnail: 'src/h1-h6/h2.png'
+    categories: [ text.all ]
+    props:
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        content: { value: 'Lorem ipsum dolor sit amet' }
+        stereotype: { value: 'h2' }
+
+H3:
+    title: 'H3'
+    tag: default-h1-h6
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
+    thumbnail: 'src/h1-h6/h3.png'
+    categories: [ text.all ]
+    props:
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        content: { value: 'Lorem ipsum dolor sit amet' }
+        stereotype: { value: 'h3' }
+
+H4:
+    title: 'H4'
+    tag: default-h1-h6
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
+    thumbnail: 'src/h1-h6/h4.png'
+    categories: [ text.all ]
+    props:
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        content: { value: 'Lorem ipsum dolor sit amet' }
+        stereotype: { value: 'h4' }
+
+H5:
+    title: 'H5'
+    tag: default-h1-h6
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
+    thumbnail: 'src/h1-h6/h5.png'
+    categories: [ text.all ]
+    props:
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        content: { value: 'Lorem ipsum dolor sit amet' }
+        stereotype: { value: 'h5' }
+
+H6:
+    title: 'H6'
+    tag: default-h1-h6
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
+    thumbnail: 'src/h1-h6/h6.png'
+    categories: [ text.all ]
+    props:
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        content: { value: 'Lorem ipsum dolor sit amet' }
+        stereotype: { value: 'h6' }
