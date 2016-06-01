@@ -76,7 +76,7 @@
                 items: this.items,
             };
         },
-        compiled: function() {
+        created: function() {
 
             var items = [];
 
@@ -130,7 +130,7 @@
                 items: this.items,
             };
         },
-        compiled: function() {
+        created: function() {
 
             var items = [];
 

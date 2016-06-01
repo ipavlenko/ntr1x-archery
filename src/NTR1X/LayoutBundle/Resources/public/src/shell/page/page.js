@@ -1,5 +1,3 @@
-
-
 (function($, Vue, Core, undefined) {
 
     Vue.component('shell-page', {
@@ -14,13 +12,17 @@
             return {
                 decorator: this.decorator,
                 data: this.data,
+                storage: this.storage,
                 pageSettings: {},
             };
         },
-        compiled: function() {
+        created: function() {
+
+            var runtime = Vue.service('runtime');
 
             this.decorator = 'shell-decorator-canvas';
             this.data = {};
+            this.storage = {};
 
             this.$watch('page.resource', (resource) => {
                 this.$set('pageSettings.width', '960px'); // default
@@ -28,6 +30,31 @@
                     for (param in resource.params) {
                         this.$set('pageSettings.' + resource.params[param].name, resource.params[param].value);
                     }
+                }
+            }, {
+                immediate: true,
+                deep: true,
+            });
+
+            this.$watch('page.storages', (storages) => {
+
+                if (storages) {
+
+                    var storage = {};
+
+                    for (var i = 0; i < storages.length; i++) {
+
+                        var st = storages[i];
+                        storage[st.name] = {};
+
+                        for (var j = 0; j < st.variables.length; j++) {
+
+                            var variable = st.variables[j];
+                            storage[st.name][variable.name] = runtime.evaluate(this, variable.binding, variable.value) || null;
+                        }
+                    }
+
+                    this.$set('storage', storage);
                 }
             }, {
                 immediate: true,
@@ -62,7 +89,7 @@
                         }.bind(this));
                     }
                 }
-                
+
             }, {
                 immediate: true,
                 deep: true,

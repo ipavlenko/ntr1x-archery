@@ -1,22 +1,3 @@
-<template id="default-button">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-button'">
-        <div class="form-group">
-            <button type="{{ bindings.type }}" class="btn btn-block" :class="{
-                'btn-default': bindings.stereotype == 'default',
-                'btn-primary': bindings.stereotype == 'primary',
-                'btn-success': bindings.stereotype == 'success',
-                'btn-info': bindings.stereotype == 'info',
-                'btn-warning': bindings.stereotype == 'warning',
-                'btn-danger': bindings.stereotype == 'danger',
-                'btn-link': bindings.stereotype == 'link',
-            }"
-            :style="{
-                height: bindings.height
-            }">{{ bindings.title }}</button>
-        </div>
-    </default-box>
-</template>
-
 <template id="default-box">
     <section :class="class" :id="bindings.id" :style="{
         'height': bindings.height,
@@ -33,21 +14,6 @@
             'background-size': bindings.outerBackgroundSize,
         }"><slot>Empty</slot></div>
     </section>
-</template>
-
-<template id="default-footer">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-footer'">
-        <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
-        <div class="copyright">{{ bindings.copyright }}</div>
-        <div class="contacts-block pull-right">
-            <ul class="social-list">
-                <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
-                <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
-                <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
-            </ul>
-            <div class="phone-block">{{ bindings.contacts }}</div>
-        </div>
-    </default-box>
 </template>
 
 <template id="default-carousel">
@@ -86,6 +52,40 @@
         </default-box>
 </template>
 
+<template id="default-button">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-button'">
+        <div class="form-group">
+            <button type="{{ bindings.type }}" class="btn btn-block" :class="{
+                'btn-default': bindings.stereotype == 'default',
+                'btn-primary': bindings.stereotype == 'primary',
+                'btn-success': bindings.stereotype == 'success',
+                'btn-info': bindings.stereotype == 'info',
+                'btn-warning': bindings.stereotype == 'warning',
+                'btn-danger': bindings.stereotype == 'danger',
+                'btn-link': bindings.stereotype == 'link',
+            }"
+            :style="{
+                height: bindings.height
+            }">{{ bindings.title }}</button>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-footer">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-footer'">
+        <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
+        <div class="copyright">{{ bindings.copyright }}</div>
+        <div class="contacts-block pull-right">
+            <ul class="social-list">
+                <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
+                <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
+                <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
+            </ul>
+            <div class="phone-block">{{ bindings.contacts }}</div>
+        </div>
+    </default-box>
+</template>
+
 <template id="default-form">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-form'">
         <form action="{{ bindings.acton }}">
@@ -110,20 +110,6 @@
             <input class="form-control" type="submit" name="submit" value="Отправить" data-role="input" data-scope="0">
             <div class="text-bot">{{{ bindings.textbelow }}}</div>
         </form>
-    </default-box>
-</template>
-
-<template id="default-header">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-header'">
-        <div class="info-block">
-            <a v-if="bindings.logo" class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
-            <div class="phone-block">
-                {{{ bindings.phone }}}
-            </div>
-        </div>
-        <ul v-if="bindings.logo" class="partners-block clearfix">
-            <li><a href="/" target="_blank"><img :src="bindings.logo" alt=""/></a></li>
-        </ul>
     </default-box>
 </template>
 
@@ -182,6 +168,20 @@
     </default-box>
 </template>
 
+<template id="default-header">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-header'">
+        <div class="info-block">
+            <a v-if="bindings.logo" class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
+            <div class="phone-block">
+                {{{ bindings.phone }}}
+            </div>
+        </div>
+        <ul v-if="bindings.logo" class="partners-block clearfix">
+            <li><a href="/" target="_blank"><img :src="bindings.logo" alt=""/></a></li>
+        </ul>
+    </default-box>
+</template>
+
 <template id="default-input-checkbox">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-checkbox'">
         <div class="checkbox">
@@ -206,6 +206,7 @@
 
 <template id="default-input-text">
     <default-box :bindings.sync="bindings" class="'wg wg-default-input wg-default-input-text'">
+        <pre>{{ storage | json }}</pre>
         <div class="form-group">
             <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
             <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder}}" v-model="bindings.model" />
@@ -221,6 +222,26 @@
                 height: bindings.height
             }"></textarea>
         </div>
+    </default-box>
+</template>
+
+<template id="default-nav-horisontal">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-horisontal'">
+        <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
+            <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
+                <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
+            </li>
+        </ul>
+    </default-box>
+</template>
+
+<template id="default-nav-vertical">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-vertical'">
+        <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-vertical wg-default-nav-vertical-nav">
+            <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
+                <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
+            </li>
+        </ul>
     </default-box>
 </template>
 
@@ -291,32 +312,6 @@
     </default-box>
 </template>
 
-<template id="default-nav-horisontal">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-horisontal'">
-        <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
-            <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
-                <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
-            </li>
-        </ul>
-    </default-box>
-</template>
-
-<template id="default-nav-vertical">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-vertical'">
-        <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-vertical wg-default-nav-vertical-nav">
-            <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
-                <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
-            </li>
-        </ul>
-    </default-box>
-</template>
-
-<template id="default-rich">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-rich'">
-        {{{ bindings.content }}}
-    </default-box>
-</template>
-
 <template id="default-placeholder">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
             <div class="wg wg-table" :style="{
@@ -325,6 +320,12 @@
                 <span class="wg wg-cell">{{{ bindings.content }}}</span>
             </div>
         </default-box>
+</template>
+
+<template id="default-rich">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-rich'">
+        {{{ bindings.content }}}
+    </default-box>
 </template>
 
 <template id="default-sitemap">
@@ -342,17 +343,6 @@
     </default-box>
 </template>
 
-<template id="default-stub">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-stub'">
-        <div class="wg wg-table">
-            <span class="wg wg-cell">
-                <div><small>{{ bindings.title }}</small></div>
-                <div>{{ bindings.subtitle }}</div>
-            </span>
-        </div>
-    </default-box>
-</template>
-
 <template id="default-stack-canvas">
     <section class="wg wg-default-stack wg-default-stack-canvas">
         <div class="wg wg-content">
@@ -366,6 +356,7 @@
                                 :stack.sync="page"
                                 :page.sync="page"
                                 :data.sync="data"
+                                :storage.sync="storage"
                                 :model.sync="child"
                                 :editable.sync="editable"
                                 :items.sync="child.widgets"
@@ -391,6 +382,7 @@
                                 :stack.sync="page"
                                 :page.sync="page"
                                 :data.sync="data"
+                                :storage.sync="storage"
                                 :model.sync="child"
                                 :editable.sync="editable"
                                 :items.sync="child.widgets"
@@ -416,6 +408,7 @@
                                 :stack.sync="page"
                                 :page.sync="page"
                                 :data.sync="data"
+                                :storage.sync="storage"
                                 :model.sync="child"
                                 :editable.sync="editable"
                                 :items.sync="child.widgets"
@@ -426,6 +419,17 @@
             </div>
         </div>
     </section>
+</template>
+
+<template id="default-stub">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-stub'">
+        <div class="wg wg-table">
+            <span class="wg wg-cell">
+                <div><small>{{ bindings.title }}</small></div>
+                <div>{{ bindings.subtitle }}</div>
+            </span>
+        </div>
+    </default-box>
 </template>
 
 <template id="default-table">
