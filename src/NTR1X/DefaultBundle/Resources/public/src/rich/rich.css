@@ -4,3 +4,18 @@
   overflow: hidden;
   box-sizing: border-box;
 }
+.wg.wg-default-rich .wg-content {
+  display: flex;
+}
+.wg.wg-default-rich .wg-content .column {
+  flex: 1;
+}
+.wg.wg-default-rich .wg-content .column-one {
+  order: 1;
+}
+.wg.wg-default-rich .wg-content .column-two {
+  order: 2;
+}
+.wg.wg-default-rich .wg-content .column-three {
+  order: 3;
+}

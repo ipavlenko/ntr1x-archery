@@ -857,9 +857,45 @@ Rich:
     mixins: [ WidgetMixin, BoxMixin, ContentMixin ]
     thumbnail: 'src/rich/rich.png'
     categories: [ text.all ]
+    props:
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
     params:
             margin: { value: '30px' }
-            content: {value: 'Rich' }
+            content: {value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
+
+Rich2:
+    title: 'Rich2'
+    tag: default-rich
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/rich/rich2.png'
+    categories: [ text.all ]
+    props:
+        - { name: content1, title: Content1, type: rich, tab: content }
+        - { name: content2, title: Content2, type: rich, tab: content }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+            margin: { value: '30px' }
+            content1: {value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
+            content2: {value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
+            stereotype: { value: '2columns' }
+
+Rich3:
+    title: 'Rich3'
+    tag: default-rich
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/rich/rich3.png'
+    categories: [ text.all ]
+    props:
+        - { name: content1, title: Content1, type: rich, tab: content }
+        - { name: content2, title: Content2, type: rich, tab: content }
+        - { name: content3, title: Content3, type: rich, tab: content }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+            margin: { value: '30px' }
+            content1: {value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
+            content2: {value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
+            content3: {value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
+            stereotype: { value: '3columns' }
 
 H1:
     title: 'H1'
