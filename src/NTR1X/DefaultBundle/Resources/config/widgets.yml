@@ -657,6 +657,36 @@ InputRadio:
         value: { value: true }
         label: { value: 'I have read and agree to the terms of use' }
 
+Select:
+    title: 'Select'
+    tag: default-select
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/select/select.png'
+    categories: [ form.all, form.input ]
+    props:
+        -
+            name: items
+            type: multiple
+            title: Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: value, title: Value, type: string, tab: data }
+                - { name: title, title: Title, type: string, tab: data }
+    params:
+        items:
+            value:
+                -
+                    value: { value: 'one' }
+                    title: { value: 'One' }
+                -
+                    value: { value: 'two' }
+                    title: { value: 'Two' }
+                -
+                    value: { value: 'three' }
+                    title: { value: 'Three' }
+
 ButtonDefault:
     title: 'Button'
     tag: default-button

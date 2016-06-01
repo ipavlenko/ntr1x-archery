@@ -1,0 +1,10 @@
+<template id="default-select">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-select'">
+        <div class="form-group">
+            <label for="sel1">Select list:</label>
+            <select class="form-control" id="sel1">
+                <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
+            </select>
+        </div>
+    </default-box>
+</template>
