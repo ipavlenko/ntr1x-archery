@@ -721,6 +721,29 @@ Select:
                     value: { value: 'three' }
                     title: { value: 'Three' }
 
+Datepicker: # https://eonasdan.github.io/bootstrap-datetimepicker/
+    title: 'Datepicker'
+    tag: default-datepicker
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/datepicker/datepicker.png'
+    categories: [ form.all, form.input ]
+    props:
+        - { name: label, title: Label, type: string, tab: data }
+        - { name: format, title: Format, type: string, tab: data }
+    params:
+        format: {value: 'DD/MM/YYYY'}
+
+Dateinterval:
+    title: 'Dateinterval'
+    tag: default-dateinterval
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/datepicker/dateinterval.png'
+    categories: [ form.all, form.input ]
+    props:
+        - { name: format, title: Format, type: string, tab: data }
+    params:
+        format: {value: 'DD/MM/YYYY'}
+
 Combobox:
     title: 'Select'
     tag: default-combobox

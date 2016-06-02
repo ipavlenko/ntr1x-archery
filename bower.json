@@ -16,8 +16,9 @@
   ],
   "dependencies": {
     "bootstrap": "^3.3.6",
-    "bootstrap-datepicker": "^1.6.0",
-    "bootstrap-combobox": "^1.1.7",
+    "eonasdan-bootstrap-datetimepicker": "latest",
+    "moment": "latest",
+    "bootstrap-combobox": "latest",
     "ckeditor": "#full/4.5.7",
     "bootstrap-tagsinput": "^0.8.0",
     "vue": "^1.0.21",
