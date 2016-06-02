@@ -71,6 +71,20 @@
         </default-box>
 </template>
 
+<template id="default-combobox">
+        <default-box :bindings.sync="bindings" :class="'wg wg-default-combobox'">
+
+            <div class="form-group">
+                <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
+                <select id="{{ systemId }}-input" class="combobox input-large form-control">
+                    <option value="" selected="selected">Type here</option>
+                    <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
+                </select>
+            </div>
+
+        </default-box>
+</template>
+
 <template id="default-footer">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-footer'">
         <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
@@ -366,8 +380,8 @@
 <template id="default-select">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-select'">
         <div class="form-group">
-            <label for="sel1">Select list:</label>
-            <select class="form-control" id="sel1">
+            <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
+            <select class="form-control" id="{{ systemId }}-input">
                 <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
             </select>
         </div>

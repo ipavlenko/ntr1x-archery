@@ -721,6 +721,36 @@ Select:
                     value: { value: 'three' }
                     title: { value: 'Three' }
 
+Combobox:
+    title: 'Select'
+    tag: default-combobox
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/combobox/combobox.png'
+    categories: [ form.all, form.input ]
+    props:
+        -
+            name: items
+            type: multiple
+            title: Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: value, title: Value, type: string, tab: data }
+                - { name: title, title: Title, type: string, tab: data }
+    params:
+        items:
+            value:
+                -
+                    value: { value: 'one' }
+                    title: { value: 'One' }
+                -
+                    value: { value: 'two' }
+                    title: { value: 'Two' }
+                -
+                    value: { value: 'three' }
+                    title: { value: 'Three' }
+
 ButtonDefault:
     title: 'Button'
     tag: default-button
@@ -913,6 +943,7 @@ Form:
                    title: Value
                    type: string
                    tab: data
+
 # Text Blocks Widgets
 Rich:
     title: 'Rich'

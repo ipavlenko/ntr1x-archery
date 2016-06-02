@@ -1,8 +1,8 @@
 <template id="default-select">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-select'">
         <div class="form-group">
-            <label for="sel1">Select list:</label>
-            <select class="form-control" id="sel1">
+            <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
+            <select class="form-control" id="{{ systemId }}-input">
                 <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
             </select>
         </div>
