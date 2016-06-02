@@ -80,7 +80,9 @@
 
             var items = [];
 
-            var binding = this.current.binding || {};
+            var binding = this.current.binding;
+            if (!binding.strategy) binding.strategy = 'interpolate';
+
             binding.params = binding.params || {};
 
             if (this.context.prop.props) {

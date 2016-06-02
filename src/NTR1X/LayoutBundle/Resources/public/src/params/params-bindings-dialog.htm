@@ -33,12 +33,14 @@
                                             <div class="input-group-btn">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                                     <span v-if="getStrategy() == 'eval'">Eval </span>
-                                                    <span v-if="getStrategy() != 'eval'">Interpolate </span>
+                                                    <span v-if="getStrategy() == 'interpolate'">Interpolate </span>
+                                                    <span v-if="getStrategy() == 'wire'">Wire </span>
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li :class="{ 'active': getStrategy() == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
-                                                    <li :class="{ 'active': getStrategy() != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
+                                                    <li :class="{ 'active': getStrategy() == 'interpolate' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
+                                                    <li v-if="context.prop.variable" :class="{ 'active': getStrategy() == 'wire' }"><a href="#" @click="setStrategy('wire')">Wire</a></li>
                                                 </ul>
                                             </div>
                                             <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding.expression" />

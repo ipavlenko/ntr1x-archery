@@ -10,8 +10,12 @@ Shell = window.Shell || {};
 
                 try {
                     if (b.strategy == 'eval') {
-                        var test = self.$eval(b.expression);
-                        return test;
+                        var value = self.$eval(b.expression);
+                        return value;
+                    } else if (b.strategy == 'wire') {
+                        var value = self.$get(b.expression);
+                        // console.log('value', value, b);
+                        return value;
                     } else {
                         return self.$interpolate(b.expression);
                     }
@@ -42,6 +46,7 @@ Shell = window.Shell || {};
                 var item = items[i];
 
                 var n = item.prop.name;
+                var r = item.prop.variable;
                 var b = item.param.binding;
                 var v = item.param.value;
 
@@ -51,27 +56,34 @@ Shell = window.Shell || {};
 
                     if (b && b.expression) {
 
+                        var vv = null;
+
                         var array = [];
                         var result = runtime.evaluate(self, b, v);
 
-                        if ($.isArray(result)) {
+                        if (r) {
+                            vv = result;
+                        } else {
 
-                            for (var j = 0; j < result.length; j++) {
+                            if ($.isArray(result)) {
 
-                                var vm = new Vue({
-                                    data: Object.assign(JSON.parse(JSON.stringify(self.$data)), {
-                                        item: {
-                                            index: j,
-                                            value: result[j],
-                                        }
-                                    })
-                                });
+                                for (var j = 0; j < result.length; j++) {
 
-                                array.push(this.evaluateParams(vm, item.prop.props, b.params));
+                                    var vm = new Vue({
+                                        data: Object.assign(JSON.parse(JSON.stringify(self.$data)), {
+                                            item: {
+                                                index: j,
+                                                value: result[j],
+                                            }
+                                        })
+                                    });
+
+                                    array.push(this.evaluateParams(vm, item.prop.props, b.params));
+                                }
+
+                                vv = array;
                             }
                         }
-
-                        value[n] = array;
 
                     } else {
 
@@ -85,15 +97,15 @@ Shell = window.Shell || {};
                             }
                         }
 
-                        value[n] = array;
+                        vv = r ? { value: array } : array;
                     }
+
+                    value[n] = vv;
 
                 } else {
 
-                    value[n] = (b && b.expression)
-                        ? runtime.evaluate(self, b, v)
-                        : v
-                    ;
+                    var vv = runtime.evaluate(self, b, v);
+                    value[n] = vv;
                 }
             }
 
@@ -177,14 +189,24 @@ Shell = window.Shell || {};
         created: function() {
 
             this.$watch('data', (data) => {
-                this.$set('bindings', runtime.evaluateParams(this, this.widget.props, this.model.params));
+                var bindings = runtime.evaluateParams(this, this.widget.props, this.model.params);
+                this.$set('bindings', bindings);
+            }, {
+                deep: true,
+                immediate: true,
+            });
+
+            this.$watch('storage', (storage) => {
+                var bindings = runtime.evaluateParams(this, this.widget.props, this.model.params);
+                this.$set('bindings', bindings);
             }, {
                 deep: true,
                 immediate: true,
             });
 
             this.$watch('model', (model) => {
-                this.$set('bindings', runtime.evaluateParams(this, this.widget.props, model.params));
+                var bindings = runtime.evaluateParams(this, this.widget.props, model.params)
+                this.$set('bindings', bindings);
             }, {
                 deep: true,
                 immediate: true,

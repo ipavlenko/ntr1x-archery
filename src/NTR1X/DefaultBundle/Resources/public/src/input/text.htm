@@ -1,9 +1,8 @@
 <template id="default-input-text">
     <default-box :bindings.sync="bindings" class="'wg wg-default-input wg-default-input-text'">
-        <pre>{{ storage | json }}</pre>
         <div class="form-group">
             <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
-            <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder}}" v-model="bindings.model" />
+            <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder }}" v-model="bindings.model.value" />
         </div>
     </default-box>
 </template>

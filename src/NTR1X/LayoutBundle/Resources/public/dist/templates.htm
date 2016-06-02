@@ -465,246 +465,6 @@
 
 </template>
 
-<template id="params-bindings-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Edit Param</span>
-                        <span v-if="!original">New Param</span>
-                        <span>&gt;</span>
-                        <span v-for="tab in context.prop.tabs" v-if="isActive(tab.name)">{{ tab.title }}</span>
-                        <span v-if="isActive('binding')">Binding</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li :class="{ 'active': isActive('binding') }"><a href="#" @click="activate('binding')">Binding</a></li>
-                                <li v-for="tab in context.prop.tabs" :class="{ 'active': isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div class="tab-pane" :class="{ 'active': isActive('binding') }">
-                                    <div class="form-group">
-                                        <label for="bindings-dialog-binding">Биндинг</label>
-                                        <div class="input-group">
-                                            <div class="input-group-btn">
-                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                                    <span v-if="getStrategy() == 'eval'">Eval </span>
-                                                    <span v-if="getStrategy() != 'eval'">Interpolate </span>
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li :class="{ 'active': getStrategy() == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
-                                                    <li :class="{ 'active': getStrategy() != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
-                                                </ul>
-                                            </div>
-                                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding.expression" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div v-for="tab in context.prop.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.prop" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
-<template id="params-list">
-    <div>
-        <div v-for="item in items" v-if="item.prop.tab == tab">
-            <params-string v-if="item.prop.type == 'string'" :id="'pages-widgets-dialog-props-' + $index"
-                :item.sync="item"
-                :globals.sync="globals"
-            ></params-string>
-            <params-rich v-if="item.prop.type == 'rich'" :id="'pages-widgets-dialog-props-' + $index"
-                :item.sync="item"
-                :globals.sync="globals"
-            ></params-rich>
-            <params-source v-if="item.prop.type == 'source'" :id="'pages-widgets-dialog-props-' + $index"
-                :item.sync="item"
-                :globals.sync="globals"
-            ></params-source>
-            <params-multiple v-if="item.prop.type == 'multiple'" :id="'pages-widgets-dialog-props-' + $index"
-                :item.sync="item"
-                :globals.sync="globals"
-            ></params-multiple>
-        </div>
-    </div>
-</template>
-
-<template id="params-multiple-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Редактирование параметра</span>
-                        <span v-if="!original">Новый параметр</span>
-                        <span>&gt;</span>
-                        <span v-for="tab in context.prop.tabs" v-if="isActive(tab.name)">{{ tab.title }}</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li v-for="tab in context.prop.tabs" :class="{ 'active': isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div v-for="tab in context.prop.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.prop" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
-<template id="params-multiple-editor">
-    <div>
-        <params-multiple-list
-            :items.sync="items"
-            :prop.sync="prop"
-            :param.sync="param"
-            :globals.sync="globals"
-        ></params-multiple-list>
-    </div>
-</template>
-
-<template id="params-multiple-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th style="width: 80%" colspan="2">{{ prop.title }}</th>
-                    <th>
-                        <div class="pull-right">
-                            <a class="btn btn-xs btn-primary" @click="create({}, { prop: prop })">Add</a>
-                            <params-bindings :model.sync="param" :context="{ prop: prop }" inline-template>
-                                <a class="btn btn-xs btn-default" @click="open()">Bindings</a>
-                            </params-bindings>
-                        </div>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td></td>
-                    <td>
-                        <div class="pull-right">
-                            <a class="btn btn-xs btn-default" @click="update(item, { prop: prop })">Edit</a>
-                            <a class="btn btn-xs btn-danger" @click="remove(item, { prop: prop })">Remove</a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</template>
-
-<template id="params-multiple">
-    <params-multiple-editor
-        :prop.sync="item.prop"
-        :param.sync="item.param"
-        :items.sync="item.param.value"
-        :globals.sync="globals"
-    ></params-multiple-editor>
-</template>
-
-<template id="params-rich">
-    <div class="form-group">
-        <label for="{{ id }}">{{ item.prop.title }}</label>
-        <div class="input-group">
-            <textarea class="form-control" id="{{ id }}" v-rich="item.param.value"></textarea>
-            <div class="input-group-btn">
-                <params-bindings :model.sync="item.param" :context="{ prop: item.prop }" inline-template>
-                    <button type="button" class="btn btn-default" @click="open()">...</button>
-                </params-bindings>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template id="params-source">
-    <div class="form-group">
-        <label for="{{ id }}">{{ item.prop.title }}</label>
-        <div class="input-group">
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span><span class="label label-success">{{ param._source }}</span> {{ param._source.name }}</span>
-                    &nbsp;
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li v-for="s in globals.sources">
-                        <a href="#" @click.prevent="selectSource(s)">
-                            <span><span class="label label-success">{{ s.name }}</span> {{ s.url }}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <span class="form-control">{{ item.param.value }}</span>
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-default">...</button>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template id="params-string">
-    <div class="form-group">
-        <label for="{{ id }}">{{ item.prop.title }}</label>
-        <div class="input-group">
-            <input class="form-control" type="text" id="{{ id }}" v-model="item.param.value" />
-            <div class="input-group-btn">
-                <params-bindings :model.sync="item.param" :context="{ prop: item.prop }" inline-template>
-                    <button type="button" class="btn btn-default" @click="open()">...</button>
-                </params-bindings>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template id="params">
-    <div>
-        <params-list :items.sync="items" :globals.sync="globals" :owner.sync="owner" :tab="tab"></params-list>
-    </div>
-</template>
-
 <template id="schemes-dialog">
 	<div class="ge ge-modal modal modal-center" role="dialog">
 		<div class="modal-dialog modal-lg">
@@ -924,72 +684,6 @@
     </div>
 </template>
 
-<template id="shell">
-    <div class="ge ge-shell">
-
-        <div class="ge ge-head">
-            <div class="ge ge-nav">
-                <shell-brand
-                    :model.sync="model"
-                    :globals.sync="globals"
-                ></shell-brand>
-            </div>
-            <div class="ge ge-subnav">
-            </div>
-            <div class="ge ge-structure">
-            </div>
-            <div class="ge ge-editor">
-                <shell-actions
-                    :model.sync="model"
-                    :globals.sync="globals"
-                ></shell-actions>
-            </div>
-        </div>
-        <div class="ge ge-body">
-            <div class="ge ge-nav" v-scrollable>
-                <shell-categories
-                    :categories.sync="settings.categories"
-                    :globals.sync="globals"
-                ></shell-categories>
-            </div>
-            <div class="ge ge-subnav" v-scrollable>
-                <shell-palette
-                    :category.sync="selection.category"
-                    :globals.sync="globals"
-                ></shell-palette>
-            </div>
-            <div class="ge ge-editor" v-scrollable>
-                <shell-container
-                    :globals.sync="globals"
-                    :settings.sync="settings"
-                    :page.sync="selection.page"
-                    :category.sync="selection.category"
-                ></shell-container>
-            </div>
-            <div class="ge ge-structure" v-scrollable>
-                <shell-domains
-                    :domains.sync="model.domains"
-                    :globals.sync="globals"
-                ></shell-domains>
-                <shell-pages
-                    :pages.sync="model.pages"
-                    :globals.sync="globals"
-                ></shell-pages>
-                <shell-sources
-                    :sources.sync="selection.page.sources"
-                    :globals.sync="globals"
-                ></shell-sources>
-                <shell-storages
-                    :storages.sync="selection.page.storages"
-                    :globals.sync="globals"
-                ></shell-storages>
-            </div>
-        </div>
-        <div class="ge ge-foot">
-        </div>
-    </div>
-</template>
-
 <template id="storages-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
@@ -1193,6 +887,418 @@
 <template id="widgets">
 
     <widgets-list :items.sync="items"></widgets-list>
+
+</template>
+
+<template id="params-bindings-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Edit Param</span>
+                        <span v-if="!original">New Param</span>
+                        <span>&gt;</span>
+                        <span v-for="tab in context.prop.tabs" v-if="isActive(tab.name)">{{ tab.title }}</span>
+                        <span v-if="isActive('binding')">Binding</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li :class="{ 'active': isActive('binding') }"><a href="#" @click="activate('binding')">Binding</a></li>
+                                <li v-for="tab in context.prop.tabs" :class="{ 'active': isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div class="tab-pane" :class="{ 'active': isActive('binding') }">
+                                    <div class="form-group">
+                                        <label for="bindings-dialog-binding">Биндинг</label>
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                    <span v-if="getStrategy() == 'eval'">Eval </span>
+                                                    <span v-if="getStrategy() == 'interpolate'">Interpolate </span>
+                                                    <span v-if="getStrategy() == 'wire'">Wire </span>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li :class="{ 'active': getStrategy() == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
+                                                    <li :class="{ 'active': getStrategy() == 'interpolate' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
+                                                    <li v-if="context.prop.variable" :class="{ 'active': getStrategy() == 'wire' }"><a href="#" @click="setStrategy('wire')">Wire</a></li>
+                                                </ul>
+                                            </div>
+                                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding.expression" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-for="tab in context.prop.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.prop" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="params-list">
+    <div>
+        <div v-for="item in items" v-if="item.prop.tab == tab">
+            <params-string v-if="item.prop.type == 'string'" :id="'pages-widgets-dialog-props-' + $index"
+                :item.sync="item"
+                :globals.sync="globals"
+            ></params-string>
+            <params-rich v-if="item.prop.type == 'rich'" :id="'pages-widgets-dialog-props-' + $index"
+                :item.sync="item"
+                :globals.sync="globals"
+            ></params-rich>
+            <params-source v-if="item.prop.type == 'source'" :id="'pages-widgets-dialog-props-' + $index"
+                :item.sync="item"
+                :globals.sync="globals"
+            ></params-source>
+            <params-multiple v-if="item.prop.type == 'multiple'" :id="'pages-widgets-dialog-props-' + $index"
+                :item.sync="item"
+                :globals.sync="globals"
+            ></params-multiple>
+        </div>
+    </div>
+</template>
+
+<template id="params-multiple-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Редактирование параметра</span>
+                        <span v-if="!original">Новый параметр</span>
+                        <span>&gt;</span>
+                        <span v-for="tab in context.prop.tabs" v-if="isActive(tab.name)">{{ tab.title }}</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li v-for="tab in context.prop.tabs" :class="{ 'active': isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div v-for="tab in context.prop.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.prop" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="params-multiple-editor">
+    <div>
+        <params-multiple-list
+            :items.sync="items"
+            :prop.sync="prop"
+            :param.sync="param"
+            :globals.sync="globals"
+        ></params-multiple-list>
+    </div>
+</template>
+
+<template id="params-multiple-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th style="width: 80%" colspan="2">{{ prop.title }}</th>
+                    <th>
+                        <div class="pull-right">
+                            <a class="btn btn-xs btn-primary" @click="create({}, { prop: prop })">Add</a>
+                            <params-bindings :model.sync="param" :context="{ prop: prop }" inline-template>
+                                <a class="btn btn-xs btn-default" @click="open()">Bindings</a>
+                            </params-bindings>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td></td>
+                    <td>
+                        <div class="pull-right">
+                            <a class="btn btn-xs btn-default" @click="update(item, { prop: prop })">Edit</a>
+                            <a class="btn btn-xs btn-danger" @click="remove(item, { prop: prop })">Remove</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="params-multiple">
+    <params-multiple-editor
+        :prop.sync="item.prop"
+        :param.sync="item.param"
+        :items.sync="item.param.value"
+        :globals.sync="globals"
+    ></params-multiple-editor>
+</template>
+
+<template id="params-rich">
+    <div class="form-group">
+        <label for="{{ id }}">{{ item.prop.title }}</label>
+        <div class="input-group">
+            <textarea class="form-control" id="{{ id }}" v-rich="item.param.value"></textarea>
+            <div class="input-group-btn">
+                <params-bindings :model.sync="item.param" :context="{ prop: item.prop }" inline-template>
+                    <button type="button" class="btn btn-default" @click="open()">...</button>
+                </params-bindings>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="params-source">
+    <div class="form-group">
+        <label for="{{ id }}">{{ item.prop.title }}</label>
+        <div class="input-group">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span><span class="label label-success">{{ param._source }}</span> {{ param._source.name }}</span>
+                    &nbsp;
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li v-for="s in globals.sources">
+                        <a href="#" @click.prevent="selectSource(s)">
+                            <span><span class="label label-success">{{ s.name }}</span> {{ s.url }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <span class="form-control">{{ item.param.value }}</span>
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default">...</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="params-string">
+    <div class="form-group">
+        <label for="{{ id }}">{{ item.prop.title }}</label>
+        <div class="input-group">
+            <input class="form-control" type="text" id="{{ id }}" v-model="item.param.value" />
+            <div class="input-group-btn">
+                <params-bindings :model.sync="item.param" :context="{ prop: item.prop }" inline-template>
+                    <button type="button" class="btn btn-default" @click="open()">...</button>
+                </params-bindings>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="params">
+    <div>
+        <params-list :items.sync="items" :globals.sync="globals" :owner.sync="owner" :tab="tab"></params-list>
+    </div>
+</template>
+
+<template id="shell">
+    <div class="ge ge-shell">
+
+        <div class="ge ge-head">
+            <div class="ge ge-nav">
+                <shell-brand
+                    :model.sync="model"
+                    :globals.sync="globals"
+                ></shell-brand>
+            </div>
+            <div class="ge ge-subnav">
+            </div>
+            <div class="ge ge-structure">
+            </div>
+            <div class="ge ge-editor">
+                <shell-actions
+                    :model.sync="model"
+                    :globals.sync="globals"
+                ></shell-actions>
+            </div>
+        </div>
+        <div class="ge ge-body">
+            <div class="ge ge-nav" v-scrollable>
+                <shell-categories
+                    :categories.sync="settings.categories"
+                    :globals.sync="globals"
+                ></shell-categories>
+            </div>
+            <div class="ge ge-subnav" v-scrollable>
+                <shell-palette
+                    :category.sync="selection.category"
+                    :globals.sync="globals"
+                ></shell-palette>
+            </div>
+            <div class="ge ge-editor" v-scrollable>
+                <shell-container
+                    :globals.sync="globals"
+                    :settings.sync="settings"
+                    :page.sync="selection.page"
+                    :category.sync="selection.category"
+                ></shell-container>
+            </div>
+            <div class="ge ge-structure" v-scrollable>
+                <shell-domains
+                    :domains.sync="model.domains"
+                    :globals.sync="globals"
+                ></shell-domains>
+                <shell-pages
+                    :pages.sync="model.pages"
+                    :globals.sync="globals"
+                ></shell-pages>
+                <shell-sources
+                    :sources.sync="selection.page.sources"
+                    :globals.sync="globals"
+                ></shell-sources>
+                <shell-storages
+                    :storages.sync="selection.page.storages"
+                    :globals.sync="globals"
+                ></shell-storages>
+            </div>
+        </div>
+        <div class="ge ge-foot">
+        </div>
+    </div>
+</template>
+
+<template id="pages-widgets-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                  @submit.prevent="submit"
+                  @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Редактирование виджета</span>
+                        <span v-if="!original">Новый виджет</span>
+                        <span>&gt;</span>
+                        <span v-for="tab in context.widget.tabs" v-if="isActive(tab.name)">{{ tab.title }}</span>
+                        <span v-if="isActive('theme')">Theme</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li v-for="tab in context.widget.tabs" v-if="hasProps(tab.name)" :class="{ 'active': isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                                <li :class="{ 'active': isActive('theme') }"><a href="#" @click="activate('theme')">Theme</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div class="tab-pane" :class="{ 'active': isActive('theme') }">
+                                    <div class="form-group">
+                                        <label>Theme</label>
+                                        <select class="form-control"></select>
+                                    </div>
+                                </div>
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+<template id="pages-widgets-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width: 20%">Имя</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        <span class="label label-success">{{ item.name }}</span>
+                        &nbsp;
+                        <span>{{ item.type }}</span>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-default" @click="update(item, { widget: getWidget(item) })">Редактировать</a>
+                        <a class="btn btn-xs btn-danger" @click="remove(item, { widget: getWidget(item) })">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="pages-widgets">
+
+    <section>
+
+        <div class="input-group">
+            <div class="pull-left">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span>Добавить</span>
+                    &nbsp;
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li v-for="w in globals.widgets">
+                        <a href="#" @click.prevent="create(proto(w), { widget: w })">
+                            <span><span class="label label-success">{{ w.id }}</span> {{ w.title }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <pages-widgets-list :items.sync="items" :globals.sync="globals"></pages-widgets-list>
+
+    <section>
 
 </template>
 
@@ -1416,110 +1522,6 @@
 <template id="pages-sources">
 
     <pages-sources-list :items.sync="items"></pages-sources-list>
-
-</template>
-
-<template id="pages-widgets-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                  @submit.prevent="submit"
-                  @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Редактирование виджета</span>
-                        <span v-if="!original">Новый виджет</span>
-                        <span>&gt;</span>
-                        <span v-for="tab in context.widget.tabs" v-if="isActive(tab.name)">{{ tab.title }}</span>
-                        <span v-if="isActive('theme')">Theme</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li v-for="tab in context.widget.tabs" v-if="hasProps(tab.name)" :class="{ 'active': isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                                <li :class="{ 'active': isActive('theme') }"><a href="#" @click="activate('theme')">Theme</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div class="tab-pane" :class="{ 'active': isActive('theme') }">
-                                    <div class="form-group">
-                                        <label>Theme</label>
-                                        <select class="form-control"></select>
-                                    </div>
-                                </div>
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-<template id="pages-widgets-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 20%">Имя</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td>
-                        <span class="label label-success">{{ item.name }}</span>
-                        &nbsp;
-                        <span>{{ item.type }}</span>
-                    </td>
-                    <td>
-                        <a class="btn btn-xs btn-default" @click="update(item, { widget: getWidget(item) })">Редактировать</a>
-                        <a class="btn btn-xs btn-danger" @click="remove(item, { widget: getWidget(item) })">Удалить</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</template>
-
-<template id="pages-widgets">
-
-    <section>
-
-        <div class="input-group">
-            <div class="pull-left">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span>Добавить</span>
-                    &nbsp;
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li v-for="w in globals.widgets">
-                        <a href="#" @click.prevent="create(proto(w), { widget: w })">
-                            <span><span class="label label-success">{{ w.id }}</span> {{ w.title }}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <pages-widgets-list :items.sync="items" :globals.sync="globals"></pages-widgets-list>
-
-    <section>
 
 </template>
 
@@ -1840,6 +1842,12 @@
     </div>
 </template>
 
+<template id="shell-target">
+    <div class="ge ge-target">
+        <span>Drop Here</span>
+    </div>
+</template>
+
 <template id="shell-widget">
     <div>
         <div
@@ -1854,11 +1862,5 @@
             :editable.sync="editable"
             :items.sync="model.widgets"
         ></div>
-    </div>
-</template>
-
-<template id="shell-target">
-    <div class="ge ge-target">
-        <span>Drop Here</span>
     </div>
 </template>

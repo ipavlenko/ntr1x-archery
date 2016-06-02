@@ -50,7 +50,9 @@
                         for (var j = 0; j < st.variables.length; j++) {
 
                             var variable = st.variables[j];
-                            storage[st.name][variable.name] = runtime.evaluate(this, variable.binding, variable.value) || null;
+                            storage[st.name][variable.name] = {
+                                value: runtime.evaluate(this, variable.binding, variable.value) || null
+                            };
                         }
                     }
 

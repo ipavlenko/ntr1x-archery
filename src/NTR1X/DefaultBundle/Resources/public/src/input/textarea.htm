@@ -2,7 +2,7 @@
     <default-box :bindings.sync="bindings" :class="wg wg-default-input wg-default-input-textarea">
         <div class="form-group">
             <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
-            <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model" style="{
+            <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model.value" style="{
                 height: bindings.height
             }"></textarea>
         </div>

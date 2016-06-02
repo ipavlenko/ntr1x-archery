@@ -16,6 +16,25 @@
     </section>
 </template>
 
+<template id="default-button">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-button'">
+        <div class="form-group">
+            <button type="{{ bindings.type }}" class="btn btn-block" :class="{
+                'btn-default': bindings.stereotype == 'default',
+                'btn-primary': bindings.stereotype == 'primary',
+                'btn-success': bindings.stereotype == 'success',
+                'btn-info': bindings.stereotype == 'info',
+                'btn-warning': bindings.stereotype == 'warning',
+                'btn-danger': bindings.stereotype == 'danger',
+                'btn-link': bindings.stereotype == 'link',
+            }"
+            :style="{
+                height: bindings.height
+            }">{{ bindings.title }}</button>
+        </div>
+    </default-box>
+</template>
+
 <template id="default-carousel">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-carousel'">
             <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
@@ -50,25 +69,6 @@
 
             </div>
         </default-box>
-</template>
-
-<template id="default-button">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-button'">
-        <div class="form-group">
-            <button type="{{ bindings.type }}" class="btn btn-block" :class="{
-                'btn-default': bindings.stereotype == 'default',
-                'btn-primary': bindings.stereotype == 'primary',
-                'btn-success': bindings.stereotype == 'success',
-                'btn-info': bindings.stereotype == 'info',
-                'btn-warning': bindings.stereotype == 'warning',
-                'btn-danger': bindings.stereotype == 'danger',
-                'btn-link': bindings.stereotype == 'link',
-            }"
-            :style="{
-                height: bindings.height
-            }">{{ bindings.title }}</button>
-        </div>
-    </default-box>
 </template>
 
 <template id="default-footer">
@@ -186,7 +186,7 @@
     <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-checkbox'">
         <div class="checkbox">
             <label>
-                <input type="checkbox" value="{{ bindings.value }}" v-model="bindings.model">
+                <input type="checkbox" value="{{ bindings.value }}" v-model="bindings.model.value">
                 {{ bindings.label }}
             </label>
         </div>
@@ -197,7 +197,7 @@
     <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-radio'">
         <div class="radio">
             <label>
-                <input type="radio" value="{{ bindings.value }}" v-model="bindings.model">
+                <input type="radio" value="{{ bindings.value }}" v-model="bindings.model.value">
                 {{ bindings.label }}
             </label>
         </div>
@@ -206,10 +206,9 @@
 
 <template id="default-input-text">
     <default-box :bindings.sync="bindings" class="'wg wg-default-input wg-default-input-text'">
-        <pre>{{ storage | json }}</pre>
         <div class="form-group">
             <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
-            <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder}}" v-model="bindings.model" />
+            <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder }}" v-model="bindings.model.value" />
         </div>
     </default-box>
 </template>
@@ -218,7 +217,7 @@
     <default-box :bindings.sync="bindings" :class="wg wg-default-input wg-default-input-textarea">
         <div class="form-group">
             <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
-            <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model" style="{
+            <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model.value" style="{
                 height: bindings.height
             }"></textarea>
         </div>
@@ -322,12 +321,6 @@
         </default-box>
 </template>
 
-<template id="default-rich">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-rich'">
-        {{{ bindings.content }}}
-    </default-box>
-</template>
-
 <template id="default-sitemap">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-sitemap'">
         <ul>
@@ -340,6 +333,12 @@
                 </ul>
             </li>
         </ul>
+    </default-box>
+</template>
+
+<template id="default-rich">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-rich'">
+        {{{ bindings.content }}}
     </default-box>
 </template>
 
