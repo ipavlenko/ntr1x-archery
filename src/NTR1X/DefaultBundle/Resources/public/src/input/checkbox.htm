@@ -1,10 +1,17 @@
 <template id="default-input-checkbox">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-checkbox'">
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" value="{{ bindings.value }}" v-model="bindings.model">
-                {{ bindings.label }}
+
+        <div class="form-group" v-if="!bindings.stereotype">
+            <label class="radio-inline" v-for="item in bindings.items">
+                <input type="checkbox" :name="bindings.name" :value="item.value" > {{ item.title }}
             </label>
         </div>
+
+        <div class="btn-group" data-toggle="buttons" v-if="bindings.stereotype == 'buttons'">
+            <label class="btn btn-default" v-for="item in bindings.items">
+                <input type="checkbox" :name="bindings.name" :value="item.value" > {{ item.title }}
+            </label>
+        </div>
+
     </default-box>
 </template>
