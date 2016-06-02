@@ -744,6 +744,23 @@ Dateinterval:
     params:
         format: {value: 'DD/MM/YYYY'}
 
+Inputrange:
+    title: 'Inputrange'
+    tag: default-inputrange
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/inputrange/inputrange.png'
+    categories: [ form.all, form.input ]
+    props:
+        - { name: min, title: Min, type: string, tab: data }
+        - { name: max, title: Max, type: string, tab: data }
+        - { name: step, title: Step, type: string, tab: data }
+        - { name: initial, title: Initial, type: string, tab: data }
+    params:
+        min: {value: '10'}
+        max: {value: '1000'}
+        step: {value: '5'}
+        initial: {value: '[250,450]'}
+
 Combobox:
     title: 'Select'
     tag: default-combobox

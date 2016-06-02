@@ -21,6 +21,7 @@
     "bootstrap-combobox": "latest",
     "ckeditor": "#full/4.5.7",
     "bootstrap-tagsinput": "^0.8.0",
+    "seiyria-bootstrap-slider": "latest",
     "vue": "^1.0.21",
     "select2": "^4.0.2",
     "select2-bootstrap-theme": "^0.1.0-beta.4",

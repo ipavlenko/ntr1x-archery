@@ -71,35 +71,6 @@
         </default-box>
 </template>
 
-<template id="default-combobox">
-        <default-box :bindings.sync="bindings" :class="'wg wg-default-combobox'">
-
-            <div class="form-group">
-                <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
-                <select id="{{ systemId }}-input" class="combobox input-large form-control">
-                    <option value="" selected="selected">Type here</option>
-                    <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
-                </select>
-            </div>
-
-        </default-box>
-</template>
-
-<template id="default-footer">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-footer'">
-        <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
-        <div class="copyright">{{ bindings.copyright }}</div>
-        <div class="contacts-block pull-right">
-            <ul class="social-list">
-                <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
-                <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
-                <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
-            </ul>
-            <div class="phone-block">{{ bindings.contacts }}</div>
-        </div>
-    </default-box>
-</template>
-
 <template id="default-dateinterval">
     <default-box :bindings.sync="bindings" class="'wg wg-default-datepicker'">
 
@@ -133,6 +104,35 @@
         <div class="form-group">
             <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
             <input type="text" id="{{ systemId }}-input" class="datepicker form-control">
+        </div>
+    </default-box>
+</template>
+
+<template id="default-combobox">
+        <default-box :bindings.sync="bindings" :class="'wg wg-default-combobox'">
+
+            <div class="form-group">
+                <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
+                <select id="{{ systemId }}-input" class="combobox input-large form-control">
+                    <option value="" selected="selected">Type here</option>
+                    <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
+                </select>
+            </div>
+
+        </default-box>
+</template>
+
+<template id="default-footer">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-footer'">
+        <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
+        <div class="copyright">{{ bindings.copyright }}</div>
+        <div class="contacts-block pull-right">
+            <ul class="social-list">
+                <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
+                <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
+                <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
+            </ul>
+            <div class="phone-block">{{ bindings.contacts }}</div>
         </div>
     </default-box>
 </template>
@@ -244,6 +244,70 @@
     </default-box>
 </template>
 
+<template id="default-inputrange">
+        <default-box :bindings.sync="bindings" :class="'wg wg-default-inputrange'">
+            <b>{{ bindings.min }}</b>
+            <input id="{{ systemId }}" type="text" data-slider-min="{{ bindings.min }}" data-slider-max="{{ bindings.max }}" data-slider-step="{{ bindings.step }}" data-slider-value="{{ bindings.initial }}"/>
+            <b>{{ bindings.max }}</b>
+        </default-box>
+</template>
+
+<template id="default-input-checkbox">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-checkbox'">
+
+        <div class="form-group" v-if="!bindings.stereotype">
+            <label class="radio-inline" v-for="item in bindings.items">
+                <input type="checkbox" :name="bindings.name" :value="item.value" > {{ item.title }}
+            </label>
+        </div>
+
+        <div class="btn-group" data-toggle="buttons" v-if="bindings.stereotype == 'buttons'">
+            <label class="btn btn-default" v-for="item in bindings.items">
+                <input type="checkbox" :name="bindings.name" :value="item.value" > {{ item.title }}
+            </label>
+        </div>
+
+    </default-box>
+</template>
+
+<template id="default-input-radio">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-radio'">
+
+        <div class="form-group" v-if="!bindings.stereotype">
+            <label class="radio-inline" v-for="item in bindings.items">
+                <input type="radio" :name="bindings.name" :value="item.value" > {{ item.title }}
+            </label>
+        </div>
+
+        <div class="btn-group" data-toggle="buttons" v-if="bindings.stereotype == 'buttons'">
+            <label class="btn btn-default" v-for="item in bindings.items">
+                <input type="radio" :name="bindings.name" :value="item.value" > {{ item.title }}
+            </label>
+        </div>
+
+    </default-box>
+</template>
+
+<template id="default-input-text">
+    <default-box :bindings.sync="bindings" class="'wg wg-default-input wg-default-input-text'">
+        <div class="form-group">
+            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
+            <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder}}" v-model="bindings.model" />
+        </div>
+    </default-box>
+</template>
+
+<template id="default-input-textarea">
+    <default-box :bindings.sync="bindings" :class="wg wg-default-input wg-default-input-textarea">
+        <div class="form-group">
+            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
+            <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model" style="{
+                height: bindings.height
+            }"></textarea>
+        </div>
+    </default-box>
+</template>
+
 <template id="default-items">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-items'">
         <div v-for="item in bindings.items" class="items-list">
@@ -308,62 +372,6 @@
             </div>
         </div>
 
-    </default-box>
-</template>
-
-<template id="default-input-checkbox">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-checkbox'">
-
-        <div class="form-group" v-if="!bindings.stereotype">
-            <label class="radio-inline" v-for="item in bindings.items">
-                <input type="checkbox" :name="bindings.name" :value="item.value" > {{ item.title }}
-            </label>
-        </div>
-
-        <div class="btn-group" data-toggle="buttons" v-if="bindings.stereotype == 'buttons'">
-            <label class="btn btn-default" v-for="item in bindings.items">
-                <input type="checkbox" :name="bindings.name" :value="item.value" > {{ item.title }}
-            </label>
-        </div>
-
-    </default-box>
-</template>
-
-<template id="default-input-radio">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-radio'">
-
-        <div class="form-group" v-if="!bindings.stereotype">
-            <label class="radio-inline" v-for="item in bindings.items">
-                <input type="radio" :name="bindings.name" :value="item.value" > {{ item.title }}
-            </label>
-        </div>
-
-        <div class="btn-group" data-toggle="buttons" v-if="bindings.stereotype == 'buttons'">
-            <label class="btn btn-default" v-for="item in bindings.items">
-                <input type="radio" :name="bindings.name" :value="item.value" > {{ item.title }}
-            </label>
-        </div>
-
-    </default-box>
-</template>
-
-<template id="default-input-text">
-    <default-box :bindings.sync="bindings" class="'wg wg-default-input wg-default-input-text'">
-        <div class="form-group">
-            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
-            <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder}}" v-model="bindings.model" />
-        </div>
-    </default-box>
-</template>
-
-<template id="default-input-textarea">
-    <default-box :bindings.sync="bindings" :class="wg wg-default-input wg-default-input-textarea">
-        <div class="form-group">
-            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
-            <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model" style="{
-                height: bindings.height
-            }"></textarea>
-        </div>
     </default-box>
 </template>
 
