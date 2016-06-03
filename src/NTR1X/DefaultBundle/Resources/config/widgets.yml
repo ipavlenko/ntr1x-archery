@@ -205,7 +205,6 @@ Table:
     thumbnail: 'src/table/table.png'
     categories: [ composite.all]
     params:
-        jsonpath: { value: '{$.competitors.*}' }
         columns:
             value:
                 -
@@ -228,15 +227,15 @@ Table:
                     value: { value: "{$.points}" }
     props:
        -
-           name: source
-           title: Source
+           name: source #data.table.competitors
+           title: Source #/bundles/ntr1xdefault/src/table/data.json AS table
            type: string
            tab: data
-       -
-           name: jsonpath
-           title: Json Path
-           type: string
-           tab: data
+#       -
+#           name: jsonpath
+#           title: Json Path
+#           type: string
+#           tab: data
        -
            name: columns
            type: multiple
@@ -322,44 +321,44 @@ Items:
 
 
 
-Media:
-    title: 'Media'
-    tag: default-media-horisontal
-    mixins: [ WidgetMixin, BoxMixin ]
-    thumbnail: 'src/items/media-horisontal.png'
-    categories: [ composite.all]
-    props:
-        -
-            name: items
-            type: multiple
-            display: '{{ params.title }}'
-            title: Navigation Items
-            tab: data
-            tabs:
-                - { name: data, title: Data }
-            props:
-                - { name: url, title: URL, type: string, tab: data }
-                - { name: image, title: Image, type: string, tab: data }
-                - { name: title, title: Title, type: string, tab: data }
-                - { name: description, title: Description, type: string, tab: data }
-    params:
-        items:
-            value:
-                -
-                    url: { value: '/media-one' }
-                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
-                    title: { value: Title 1 }
-                    description: { value: Description 1 }
-                -
-                    url: { value: '/media-two' }
-                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
-                    title: { value: Title 2 }
-                    description: { value: Description 2 }
-                -
-                    url: { value: '/media-three' }
-                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
-                    title: { value: Title 3 }
-                    description: { value: Description 3 }
+#Media:
+#    title: 'Media'
+#    tag: default-media-horisontal
+#    mixins: [ WidgetMixin, BoxMixin ]
+#    thumbnail: 'src/items/media-horisontal.png'
+#    categories: [ composite.all]
+#    props:
+#        -
+#            name: items
+#            type: multiple
+#            display: '{{ params.title }}'
+#            title: Navigation Items
+#            tab: data
+#            tabs:
+#                - { name: data, title: Data }
+#            props:
+#                - { name: url, title: URL, type: string, tab: data }
+#                - { name: image, title: Image, type: string, tab: data }
+#                - { name: title, title: Title, type: string, tab: data }
+#                - { name: description, title: Description, type: string, tab: data }
+#    params:
+#        items:
+#            value:
+#                -
+#                    url: { value: '/media-one' }
+#                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
+#                    title: { value: Title 1 }
+#                    description: { value: Description 1 }
+#                -
+#                    url: { value: '/media-two' }
+#                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
+#                    title: { value: Title 2 }
+#                    description: { value: Description 2 }
+#                -
+#                    url: { value: '/media-three' }
+#                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
+#                    title: { value: Title 3 }
+#                    description: { value: Description 3 }
 
 # Navigations Widgets
 
@@ -371,6 +370,7 @@ NavHorizontal:
     categories: [ navigation.all, navigation.horisontal ]
     props:
         - { name: active, title: Active, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
         -
             name: items
             type: multiple
@@ -409,6 +409,7 @@ NavVertical:
     categories: [ navigation.all, navigation.vertical ]
     props:
         - { name: active, title: Active, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
         -
             name: items
             type: multiple
@@ -644,20 +645,21 @@ InputCheckbox:
                 - { name: data, title: Data }
             props:
                 - { name: value, title: Value, type: string, tab: data }
-                - { name: title, title: Title, type: string, tab: data }
+                - { name: label, title: Label, type: string, tab: data }
     params:
+        margin: { value: '15px' }
         name: {value: group1}
         items:
             value:
                 -
                     value: { value: 'one' }
-                    title: { value: 'One' }
+                    label: { value: 'One' }
                 -
                     value: { value: 'two' }
-                    title: { value: 'Two' }
+                    label: { value: 'Two' }
                 -
                     value: { value: 'three' }
-                    title: { value: 'Three' }
+                    label: { value: 'Three' }
 
 InputRadio:
     title: 'Radio'
@@ -678,20 +680,21 @@ InputRadio:
                 - { name: data, title: Data }
             props:
                 - { name: value, title: Value, type: string, tab: data }
-                - { name: title, title: Title, type: string, tab: data }
+                - { name: label, title: Label, type: string, tab: data }
     params:
+        margin: { value: '15px' }
         name: {value: group1}
         items:
             value:
                 -
                     value: { value: 'one' }
-                    title: { value: 'One' }
+                    label: { value: 'One' }
                 -
                     value: { value: 'two' }
-                    title: { value: 'Two' }
+                    label: { value: 'Two' }
                 -
                     value: { value: 'three' }
-                    title: { value: 'Three' }
+                    label: { value: 'Three' }
 
 Select:
     title: 'Select'
@@ -700,6 +703,8 @@ Select:
     thumbnail: 'src/select/select.png'
     categories: [ form.all, form.input ]
     props:
+        - { name: label, title: Label, type: string, tab: data }
+        - { name: name, title: Name, type: string, tab: data }
         -
             name: items
             type: multiple
@@ -711,6 +716,8 @@ Select:
                 - { name: value, title: Value, type: string, tab: data }
                 - { name: title, title: Title, type: string, tab: data }
     params:
+        margin: { value: '15px' }
+        label: { value: 'Choose item' }
         items:
             value:
                 -
@@ -733,7 +740,8 @@ Datepicker: # https://eonasdan.github.io/bootstrap-datetimepicker/
         - { name: label, title: Label, type: string, tab: data }
         - { name: format, title: Format, type: string, tab: data }
     params:
-        format: {value: 'DD/MM/YYYY'}
+        margin: { value: '15px' }
+        format: {value: 'DD/MM/YYYY'} # DD MM YYYY HH MM
 
 Dateinterval:
     title: 'Dateinterval'
@@ -744,6 +752,7 @@ Dateinterval:
     props:
         - { name: format, title: Format, type: string, tab: data }
     params:
+        margin: { value: '15px' }
         format: {value: 'DD/MM/YYYY'}
 
 Inputrange:
@@ -758,6 +767,7 @@ Inputrange:
         - { name: step, title: Step, type: string, tab: data }
         - { name: initial, title: Initial, type: string, tab: data }
     params:
+        margin: { value: '15px' }
         min: {value: '10'}
         max: {value: '1000'}
         step: {value: '5'}
@@ -781,6 +791,7 @@ Combobox:
                 - { name: value, title: Value, type: string, tab: data }
                 - { name: title, title: Title, type: string, tab: data }
     params:
+        margin: { value: '15px' }
         items:
             value:
                 -
@@ -804,7 +815,7 @@ ButtonDefault:
         - { name: stereotype, title: Stereotype, type: string, tab: data }
         - { name: title, title: Title, type: string, tab: data }
     params:
-        margin: { value: '15px 15px' }
+        margin: { value: '15px' }
         type: button
         title: { value: 'Default' }
         stereotype: { value: 'default' }

@@ -87,29 +87,24 @@
 
 <template id="default-dateinterval">
     <default-box :bindings.sync="bindings" class="'wg wg-default-datepicker'">
-
-        <div class='col-md-6'>
             <div class="form-group">
+                <strong>Start date</strong>
                 <div class='input-group date' id='{{ systemId }}-start'>
                     <input type='text' class="form-control" />
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
                 </div>
             </div>
-        </div>
-
-        <div class='col-md-6'>
             <div class="form-group">
+                <strong>End date</strong>
                 <div class='input-group date' id='{{ systemId }}-end'>
                     <input type='text' class="form-control" />
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
                 </div>
             </div>
-        </div>
-
     </default-box>
 </template>
 
@@ -248,9 +243,11 @@
     <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-checkbox'">
 
         <div class="form-group" v-if="!bindings.stereotype">
-            <label class="radio-inline" v-for="item in bindings.items">
-                <input type="checkbox" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
-            </label>
+            <div class="checkbox" v-for="item in bindings.items">
+                <label>
+                    <input type="checkbox" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
+                </label>
+            </div>
         </div>
 
         <div class="btn-group" data-toggle="buttons" v-if="bindings.stereotype == 'buttons'">
@@ -266,14 +263,16 @@
     <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-radio'">
 
         <div class="form-group" v-if="!bindings.stereotype">
-            <label class="radio-inline" v-for="item in bindings.items">
-                <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.title }}
-            </label>
+            <div class="radio" v-for="item in bindings.items">
+                <label>
+                    <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
+                </label>
+            </div>
         </div>
 
         <div class="btn-group" data-toggle="buttons" v-if="bindings.stereotype == 'buttons'">
             <label class="btn btn-default" v-for="item in bindings.items">
-                <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.title }}
+                <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
             </label>
         </div>
 
@@ -299,10 +298,33 @@
 </template>
 <template id="default-inputrange">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-inputrange'">
-            <b>{{ bindings.min }}</b>
-            <input id="{{ systemId }}" type="text" data-slider-min="{{ bindings.min }}" data-slider-max="{{ bindings.max }}" data-slider-step="{{ bindings.step }}" data-slider-value="{{ bindings.initial }}"/>
-            <b>{{ bindings.max }}</b>
+            <div class="form-group">
+                <span>Min: {{ bindings.min }}</span>
+                <input id="{{ systemId }}" type="text" data-slider-min="{{ bindings.min }}" data-slider-max="{{ bindings.max }}" data-slider-step="{{ bindings.step }}" data-slider-value="{{ bindings.initial }}"/>
+                <span>Max: {{ bindings.max }}</span>
+            </div>
+
         </default-box>
+</template>
+
+<template id="default-nav-horisontal">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-horisontal', bindings.stereotype">
+        <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
+            <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
+                <a :href="item.url" @click="setActive(item.value)">{{{ item.title }}}</a>
+            </li>
+        </ul>
+    </default-box>
+</template>
+
+<template id="default-nav-vertical">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-vertical', bindings.stereotype">
+        <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-vertical wg-default-nav-vertical-nav">
+            <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
+                <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
+            </li>
+        </ul>
+    </default-box>
 </template>
 
 <template id="default-items">
@@ -337,7 +359,7 @@
                 width: 270px;
                 background: #fff;
                 display: inline-block;
-                border: 1px solid red;
+                border: 0px solid red;
                 margin: 0 0 0 10px;
             }
                 .media-heading {
@@ -372,26 +394,6 @@
     </default-box>
 </template>
 
-<template id="default-nav-horisontal">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-horisontal'">
-        <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
-            <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
-                <a :href="item.url" @click="setActive(item.value)">{{{ item.title }}}</a>
-            </li>
-        </ul>
-    </default-box>
-</template>
-
-<template id="default-nav-vertical">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-vertical'">
-        <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-vertical wg-default-nav-vertical-nav">
-            <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
-                <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
-            </li>
-        </ul>
-    </default-box>
-</template>
-
 <template id="default-placeholder">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
             <div class="wg wg-table" :style="{
@@ -423,7 +425,7 @@
     <default-box :bindings.sync="bindings" :class="'wg wg-default-select'">
         <div class="form-group">
             <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
-            <select class="form-control" id="{{ systemId }}-input">
+            <select class="form-control" :name="bindings.name" id="{{ systemId }}-input">
                 <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
             </select>
         </div>
@@ -546,7 +548,7 @@
             </thead>
 
             <!--<tbody v-for="item in data.table | jsonPath bindings.jsonpath">-->
-            <tbody v-for="item in bindings.columns">
+            <tbody v-for="item in bindings.source">
             <tr>
                 <td v-for="param in bindings.columns">
                     {{ item | jsonPath param.value }}
