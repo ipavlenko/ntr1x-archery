@@ -76,11 +76,13 @@
                 items: this.items,
             };
         },
-        compiled: function() {
+        created: function() {
 
             var items = [];
 
-            var binding = this.current.binding || {};
+            var binding = this.current.binding;
+            if (!binding.strategy) binding.strategy = 'interpolate';
+
             binding.params = binding.params || {};
 
             if (this.context.prop.props) {
@@ -130,7 +132,7 @@
                 items: this.items,
             };
         },
-        compiled: function() {
+        created: function() {
 
             var items = [];
 

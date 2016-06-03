@@ -19,6 +19,7 @@ Core = window.Core || {};
         props: {
             page: Object,
             data: Object,
+            storage: Object,
             stack: Object,
             bindings: Object,
             children: Array,
@@ -63,6 +64,7 @@ Core = window.Core || {};
             settings: Object,
             page: Object,
             data: Object,
+            storage: Object,
             editable: Boolean,
             children: Array,
         },

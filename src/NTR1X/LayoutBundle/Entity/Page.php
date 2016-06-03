@@ -59,6 +59,11 @@ class Page
      */
     private $sources;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Storage", mappedBy="page", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $storages;
+
     public function __construct() {
         $this->widgets = new ArrayCollection();
         $this->sources = new ArrayCollection();
@@ -236,5 +241,39 @@ class Page
     public function getWidgets()
     {
         return $this->widgets;
+    }
+
+    /**
+     * Add storage
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Storage $storage
+     *
+     * @return Page
+     */
+    public function addStorage(\NTR1X\LayoutBundle\Entity\Storage $storage)
+    {
+        $this->storages[] = $storage;
+
+        return $this;
+    }
+
+    /**
+     * Remove storage
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Storage $storage
+     */
+    public function removeStorage(\NTR1X\LayoutBundle\Entity\Storage $storage)
+    {
+        $this->storages->removeElement($storage);
+    }
+
+    /**
+     * Get storages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStorages()
+    {
+        return $this->storages;
     }
 }
