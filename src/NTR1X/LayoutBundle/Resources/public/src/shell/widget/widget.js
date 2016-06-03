@@ -14,6 +14,7 @@ Shell.Widgets = window.Shell.Widgets || {};
             stack: Object,
             model: Object,
             data: Object,
+            storage: Object,
             editable: Boolean,
         },
         init: function() {
@@ -29,7 +30,7 @@ Shell.Widgets = window.Shell.Widgets || {};
                 fallback: 'shell-decorator-widget'
             };
         },
-        compiled: function() {
+        created: function() {
             this.widget = this.$root.$refs.shell.getWidget(this.model.type);
             this.decorator = this.decorators.alternatives[this.widget.tag] || this.decorators.fallback;
         },

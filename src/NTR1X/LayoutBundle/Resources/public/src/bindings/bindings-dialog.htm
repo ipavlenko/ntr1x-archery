@@ -9,32 +9,32 @@
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                     <h4 class="modal-title">
                         <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Редактирование параметра</span>
-                        <span v-if="!original">Новый параметр</span>
+                        <span v-if="original">&nbsp;Edit Param</span>
+                        <span v-if="!original">New Param</span>
                     </h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="bindings-dialog-binding">Биндинг</label>
+                        <label for="bindings-dialog-binding">Binding</label>
                         <div class="input-group">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span v-if="current.strategy == 'eval'">Eval</span>
-                                    <span v-if="current.strategy != 'eval'">Interpolate</span>
+                                    <span v-if="getStrategy() == 'eval'">Eval </span>
+                                    <span v-if="getStrategy() != 'eval'">Interpolate </span>
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li :class="{ 'active': current.strategy == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
-                                    <li :class="{ 'active': current.strategy != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
+                                    <li :class="{ 'active': getStrategy() == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
+                                    <li :class="{ 'active': getStrategy() != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
                                 </ul>
                             </div>
-                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding" />
+                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding.expression" />
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="reset" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>

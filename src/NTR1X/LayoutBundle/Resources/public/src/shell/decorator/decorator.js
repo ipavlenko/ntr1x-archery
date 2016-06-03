@@ -2,6 +2,118 @@ Shell = window.Shell || {};
 
 (function($, Vue, Core, Shell, undefined) {
 
+    var runtime = Vue.service('runtime', {
+
+        evaluate: function(self, b, v) {
+
+            if (b && b.expression) {
+
+                try {
+                    if (b.strategy == 'eval') {
+                        var value = self.$eval(b.expression);
+                        return value;
+                    } else if (b.strategy == 'wire') {
+                        var value = self.$get(b.expression);
+                        // console.log('value', value, b);
+                        return value;
+                    } else {
+                        return self.$interpolate(b.expression);
+                    }
+                } catch (e) {
+                    console.log('Cannot evaluate expression', b.expression);
+                    return v;
+                }
+            }
+
+            return v;
+        },
+
+        evaluateParams: function(self, props, params) {
+
+            var items = [];
+            for (var i = 0; i < props.length; i++) {
+                var prop = props[i];
+                var param = params && params[prop.name];
+                items.push({
+                    prop: prop,
+                    param: param || {},
+                });
+            }
+
+            var value = {};
+            for (var i = 0; i < items.length; i++) {
+
+                var item = items[i];
+
+                var n = item.prop.name;
+                var r = item.prop.variable;
+                var b = item.param.binding;
+                var v = item.param.value;
+
+                if (item.prop.type == 'object') {
+                    // TODO Implement
+                } else if (item.prop.type == 'multiple') {
+
+                    if (b && b.expression) {
+
+                        var vv = null;
+
+                        var array = [];
+                        var result = runtime.evaluate(self, b, v);
+
+                        if (r) {
+                            vv = result;
+                        } else {
+
+                            if ($.isArray(result)) {
+
+                                for (var j = 0; j < result.length; j++) {
+
+                                    var vm = new Vue({
+                                        data: Object.assign(JSON.parse(JSON.stringify(self.$data)), {
+                                            item: {
+                                                index: j,
+                                                value: result[j],
+                                            }
+                                        })
+                                    });
+
+                                    array.push(this.evaluateParams(vm, item.prop.props, b.params));
+                                }
+
+                                vv = array;
+                            }
+                        }
+
+                    } else {
+
+                        var array = [];
+
+                        var index = 0;
+                        for(var j = 0; j < v.length; j++) {
+                            var vi = v[j];
+                            if (vi._action != 'remove') {
+                                array[index++] = this.evaluateParams(self, item.prop.props, vi);
+                            }
+                        }
+
+                        vv = r ? { value: array } : array;
+                    }
+
+                    value[n] = vv;
+
+                } else {
+
+                    var vv = runtime.evaluate(self, b, v);
+                    value[n] = vv;
+                }
+            }
+
+            // console.log(value);
+            return value;
+        }
+    });
+
     function stub(title, subtitle) {
         return {
             type: 'NTR1XDefaultBundle/Stub',
@@ -76,112 +188,25 @@ Shell = window.Shell || {};
 
         created: function() {
 
-            function evaluate(self, b, v) {
-
-                if (b.expression) {
-
-                    try {
-                        if (b.strategy == 'eval') {
-                            var test = self.$eval(b.expression);
-                            return test;
-                        } else {
-                            return self.$interpolate(b.expression);
-                        }
-                    } catch (e) {
-                        console.log('Cannot evaluate expression', b.expression);
-                        return v;
-                    }
-                }
-
-                return v;
-            }
-
-            function recur(self, props, params) {
-
-                var items = [];
-                for (var i = 0; i < props.length; i++) {
-                    var prop = props[i];
-                    var param = params && params[prop.name];
-                    items.push({
-                        prop: prop,
-                        param: param || {},
-                    });
-                }
-
-                var value = {};
-                for (var i = 0; i < items.length; i++) {
-
-                    var item = items[i];
-
-                    var n = item.prop.name;
-                    var b = item.param.binding;
-                    var v = item.param.value;
-
-                    if (item.prop.type == 'object') {
-                        // TODO Implement
-                    } else if (item.prop.type == 'multiple') {
-
-                        if (b && b.expression) {
-
-                            var array = [];
-                            var result = evaluate(self, b, v);
-
-                            if ($.isArray(result)) {
-
-                                for (var j = 0; j < result.length; j++) {
-
-                                    var vm = new Vue({
-                                        data: Object.assign(JSON.parse(JSON.stringify(self.$data)), {
-                                            item: {
-                                                index: j,
-                                                value: result[j],
-                                            }
-                                        })
-                                    });
-
-                                    array.push(recur(vm, item.prop.props, b.params));
-                                }
-                            }
-
-                            value[n] = array;
-
-                        } else {
-
-                            var array = [];
-
-                            var index = 0;
-                            for(var j = 0; j < v.length; j++) {
-                                var vi = v[j];
-                                if (vi._action != 'remove') {
-                                    array[index++] = recur(self, item.prop.props, vi);
-                                }
-                            }
-
-                            value[n] = array;
-                        }
-
-                    } else {
-
-                        value[n] = (b && b.expression)
-                            ? evaluate(self, b, v)
-                            : v
-                        ;
-                    }
-                }
-
-                // console.log(value);
-                return value;
-            }
-
             this.$watch('data', (data) => {
-                this.$set('bindings', recur(this, this.widget.props, this.model.params));
+                var bindings = runtime.evaluateParams(this, this.widget.props, this.model.params);
+                this.$set('bindings', bindings);
+            }, {
+                deep: true,
+                immediate: true,
+            });
+
+            this.$watch('storage', (storage) => {
+                var bindings = runtime.evaluateParams(this, this.widget.props, this.model.params);
+                this.$set('bindings', bindings);
             }, {
                 deep: true,
                 immediate: true,
             });
 
             this.$watch('model', (model) => {
-                this.$set('bindings', recur(this, this.widget.props, model.params));
+                var bindings = runtime.evaluateParams(this, this.widget.props, model.params)
+                this.$set('bindings', bindings);
             }, {
                 deep: true,
                 immediate: true,
@@ -413,6 +438,7 @@ Shell = window.Shell || {};
             stack: Object,
             page: Object,
             data: Object,
+            storage: Object,
             model: Object,
             widget: Object,
             editable: Boolean,
@@ -429,6 +455,7 @@ Shell = window.Shell || {};
             stack: Object,
             page: Object,
             data: Object,
+            storage: Object,
             model: Object,
             widget: Object,
             editable: Boolean,
@@ -445,6 +472,7 @@ Shell = window.Shell || {};
             stack: Object,
             page: Object,
             data: Object,
+            storage: Object,
             model: Object,
             widget: Object,
             editable: Boolean,
@@ -464,6 +492,7 @@ Shell = window.Shell || {};
             stack: Object,
             page: Object,
             data: Object,
+            storage: Object,
             model: Object,
             widget: Object,
             editable: Boolean,
@@ -483,6 +512,7 @@ Shell = window.Shell || {};
             stack: Object,
             page: Object,
             data: Object,
+            storage: Object,
             editable: Boolean,
             items: Array,
         },

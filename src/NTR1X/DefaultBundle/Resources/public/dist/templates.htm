@@ -35,21 +35,6 @@
     </default-box>
 </template>
 
-<template id="default-footer">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-footer'">
-        <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
-        <div class="copyright">{{ bindings.copyright }}</div>
-        <div class="contacts-block pull-right">
-            <ul class="social-list">
-                <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
-                <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
-                <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
-            </ul>
-            <div class="phone-block">{{ bindings.contacts }}</div>
-        </div>
-    </default-box>
-</template>
-
 <template id="default-carousel">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-carousel'">
             <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
@@ -84,6 +69,21 @@
 
             </div>
         </default-box>
+</template>
+
+<template id="default-footer">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-footer'">
+        <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
+        <div class="copyright">{{ bindings.copyright }}</div>
+        <div class="contacts-block pull-right">
+            <ul class="social-list">
+                <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
+                <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
+                <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
+            </ul>
+            <div class="phone-block">{{ bindings.contacts }}</div>
+        </div>
+    </default-box>
 </template>
 
 <template id="default-form">
@@ -182,6 +182,68 @@
     </default-box>
 </template>
 
+<template id="default-input-checkbox">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-checkbox'">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="{{ bindings.value }}" v-model="bindings.model.value">
+                {{ bindings.label }}
+            </label>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-input-radio">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-radio'">
+        <div class="radio">
+            <label>
+                <input type="radio" value="{{ bindings.value }}" v-model="bindings.model.value">
+                {{ bindings.label }}
+            </label>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-input-text">
+    <default-box :bindings.sync="bindings" class="'wg wg-default-input wg-default-input-text'">
+        <div class="form-group">
+            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
+            <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder }}" v-model="bindings.model.value" />
+        </div>
+    </default-box>
+</template>
+
+<template id="default-input-textarea">
+    <default-box :bindings.sync="bindings" :class="wg wg-default-input wg-default-input-textarea">
+        <div class="form-group">
+            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
+            <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model.value" style="{
+                height: bindings.height
+            }"></textarea>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-nav-horisontal">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-horisontal'">
+        <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
+            <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
+                <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
+            </li>
+        </ul>
+    </default-box>
+</template>
+
+<template id="default-nav-vertical">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-vertical'">
+        <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-vertical wg-default-nav-vertical-nav">
+            <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
+                <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
+            </li>
+        </ul>
+    </default-box>
+</template>
+
 <template id="default-items">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-items'">
         <div v-for="item in data.items" class="items-list">
@@ -249,68 +311,6 @@
     </default-box>
 </template>
 
-<template id="default-input-checkbox">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-checkbox'">
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" value="{{ bindings.value }}" v-model="bindings.model">
-                {{ bindings.label }}
-            </label>
-        </div>
-    </default-box>
-</template>
-
-<template id="default-input-radio">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-radio'">
-        <div class="radio">
-            <label>
-                <input type="radio" value="{{ bindings.value }}" v-model="bindings.model">
-                {{ bindings.label }}
-            </label>
-        </div>
-    </default-box>
-</template>
-
-<template id="default-input-text">
-    <default-box :bindings.sync="bindings" class="'wg wg-default-input wg-default-input-text'">
-        <div class="form-group">
-            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
-            <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder}}" v-model="bindings.model" />
-        </div>
-    </default-box>
-</template>
-
-<template id="default-input-textarea">
-    <default-box :bindings.sync="bindings" :class="wg wg-default-input wg-default-input-textarea">
-        <div class="form-group">
-            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
-            <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model" style="{
-                height: bindings.height
-            }"></textarea>
-        </div>
-    </default-box>
-</template>
-
-<template id="default-nav-horisontal">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-horisontal'">
-        <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
-            <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
-                <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
-            </li>
-        </ul>
-    </default-box>
-</template>
-
-<template id="default-nav-vertical">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-vertical'">
-        <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-vertical wg-default-nav-vertical-nav">
-            <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
-                <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
-            </li>
-        </ul>
-    </default-box>
-</template>
-
 <template id="default-placeholder">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
             <div class="wg wg-table" :style="{
@@ -319,12 +319,6 @@
                 <span class="wg wg-cell">{{{ bindings.content }}}</span>
             </div>
         </default-box>
-</template>
-
-<template id="default-rich">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-rich'">
-        {{{ bindings.content }}}
-    </default-box>
 </template>
 
 <template id="default-sitemap">
@@ -342,6 +336,12 @@
     </default-box>
 </template>
 
+<template id="default-rich">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-rich'">
+        {{{ bindings.content }}}
+    </default-box>
+</template>
+
 <template id="default-stack-canvas">
     <section class="wg wg-default-stack wg-default-stack-canvas">
         <div class="wg wg-content">
@@ -355,6 +355,7 @@
                                 :stack.sync="page"
                                 :page.sync="page"
                                 :data.sync="data"
+                                :storage.sync="storage"
                                 :model.sync="child"
                                 :editable.sync="editable"
                                 :items.sync="child.widgets"
@@ -380,6 +381,7 @@
                                 :stack.sync="page"
                                 :page.sync="page"
                                 :data.sync="data"
+                                :storage.sync="storage"
                                 :model.sync="child"
                                 :editable.sync="editable"
                                 :items.sync="child.widgets"
@@ -405,6 +407,7 @@
                                 :stack.sync="page"
                                 :page.sync="page"
                                 :data.sync="data"
+                                :storage.sync="storage"
                                 :model.sync="child"
                                 :editable.sync="editable"
                                 :items.sync="child.widgets"

@@ -4,6 +4,7 @@ namespace NTR1X\LayoutBundle\Repository;
 
 use NTR1X\LayoutBundle\Entity\Page;
 use NTR1X\LayoutBundle\Entity\Source;
+use NTR1X\LayoutBundle\Entity\Storage;
 use NTR1X\LayoutBundle\Entity\Widget;
 use NTR1X\LayoutBundle\Entity\Resource;
 
@@ -107,6 +108,11 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
             $this->handlePageSource($em, $page, $source);
         }
 
+        foreach ($data['storages'] as $storage) {
+
+            $this->handlePageStorage($em, $page, $storage);
+        }
+
         $nextedContext = [
             'index' => 0,
             'page' => $page,
@@ -182,6 +188,68 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
     }
 
     private function handlePageSourceTree($em, $page, $source, $data) {
+    }
+
+    private function handlePageStorage($em, $page, $data) {
+
+        if (isset($data['_action'])) {
+
+            switch ($data['_action']) {
+                case 'remove':
+                    $this->handlePageStorageRemove($em, $page, $data);
+                    break;
+                case 'update':
+                    $storage = $this->handlePageStorageUpdate($em, $page, $data);
+                    $this->handlePageStorageTree($em, $page, $storage, $data);
+                    break;
+                case 'create':
+                    $storage = $this->handlePageStorageCreate($em, $page, $data);
+                    $this->handlePageStorageTree($em, $page, $storage, $data);
+                    break;
+            }
+
+        } else {
+            $storage = $em->getRepository('NTR1XLayoutBundle:Storage')->findOneById($data['id']);
+            $this->handlePageStorageTree($em, $page, $storage, $data);
+        }
+    }
+
+    private function handlePageStorageCreate($em, $page, $data) {
+
+        $storage = (new Storage())
+            ->setName($data['name'])
+            ->setPage($page)
+            ->setVariables($this->clearParams($data['variables']))
+        ;
+
+        $em->persist($storage);
+        $em->flush();
+
+        return $storage;
+    }
+
+    private function handlePageStorageUpdate($em, $page, $data) {
+
+        $storage = $em->getRepository('NTR1XLayoutBundle:Storage')->findOneById($data['id'])
+            ->setName($data['name'])
+            ->setVariables($this->clearParams($data['variables']))
+        ;
+
+        $em->persist($storage);
+        $em->flush();
+
+        return $storage;
+    }
+
+    private function handlePageStorageRemove($em, $page, $data) {
+
+        $storage = $em->getRepository('NTR1XLayoutBundle:Storage')->findOneById($data['id']);
+
+        $em->remove($storage);
+        $em->flush();
+    }
+
+    private function handlePageStorageTree($em, $page, $storage, $data) {
     }
 
     private function handlePageWidget($em, &$context, $data) {

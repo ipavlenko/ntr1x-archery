@@ -571,7 +571,7 @@ InputText:
     thumbnail: 'src/input/text.png'
     categories: [ form.all, form.input ]
     props:
-        - { name: model, title: Model, type: string, tab: data }
+        - { name: model, title: Model, type: string, tab: data, variable: true }
         - { name: type, title: Type, type: string, tab: data }
         - { name: label, title: Label, type: string, tab: data }
         - { name: placeholder, title: Placeholder, type: string, tab: data }
@@ -587,7 +587,7 @@ InputTextarea:
     thumbnail: 'src/input/textarea.png'
     categories: [ form.all, form.input ]
     props:
-        - { name: model, title: Model, type: string, tab: data }
+        - { name: model, title: Model, type: string, tab: data, variable: true }
         - { name: label, title: Label, type: string, tab: data }
         - { name: placeholder, title: Placeholder, type: string, tab: data }
     params:
@@ -602,7 +602,7 @@ InputCheckbox:
     thumbnail: 'src/input/checkbox.png'
     categories: [ form.all, form.input ]
     props:
-        - { name: model, title: Model, type: string, tab: data }
+        - { name: model, title: Model, type: string, tab: data, variable: true }
         - { name: value, title: Value, type: string, tab: data }
         - { name: checked, title: Checked, type: string, tab: data }
         - { name: label, title: Label, type: string, tab: data }
@@ -618,10 +618,10 @@ InputRadio:
     thumbnail: 'src/input/radio.png'
     categories: [ form.all, form.input ]
     props:
+        - { name: model, title: Model, type: string, tab: data, variable: true }
         - { name: checked, title: Checked, type: string, tab: data }
         - { name: value, title: Value, type: string, tab: data }
         - { name: label, title: Label, type: string, tab: data }
-        - { name: model, title: Model, type: string, tab: data }
     params:
         margin: { value: '15px 15px' }
         value: { value: true }

@@ -14,7 +14,7 @@
                         <span>&gt;</span>
                         <span v-if="isActive('main')">Основное</span>
                         <span v-if="isActive('sources')">Источники</span>
-                        <span v-if="isActive('widgets')">Виджеты</span>
+                        <span v-if="isActive('storages')">Данные</span>
                         <span v-if="isActive('settings')">Настроки</span>
                         <span v-if="isActive('metas')">Мета</span>
                     </h4>
@@ -25,7 +25,7 @@
                             <ul class="nav nav-pills nav-stacked">
                                 <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
                                 <li :class="{ 'active': isActive('sources') }"><a href="#" @click="activate('sources')">Источники</a></li>
-                                <li :class="{ 'active': isActive('widgets') }"><a href="#" @click="activate('widgets')">Виджеты</a></li>
+                                <li :class="{ 'active': isActive('storages') }"><a href="#" @click="activate('storages')">Данные</a></li>
                                 <li :class="{ 'active': isActive('settings') }"><a href="#" @click="activate('settings')">Настройки</a></li>
                                 <li :class="{ 'active': isActive('metas') }"><a href="#" @click="activate('metas')">Мета</a></li>
                             </ul>
@@ -45,8 +45,8 @@
                                 <div class="tab-pane" :class="{ 'active': isActive('sources') }">
                                     <pages-sources :items.sync="current.sources"></pages-sources>
                                 </div>
-                                <div class="tab-pane" :class="{ 'active': isActive('widgets') }">
-                                    <pages-widgets :items.sync="current.widgets" :globals.sync="globals"></pages-widgets>
+                                <div class="tab-pane" :class="{ 'active': isActive('storages') }">
+                                    <storages :items.sync="current.storages"></storages>
                                 </div>
                                 <div class="tab-pane" :class="{ 'active': isActive('settings') }">
                                     <pages-settings :items.sync="current.resource.params"></pages-settings>

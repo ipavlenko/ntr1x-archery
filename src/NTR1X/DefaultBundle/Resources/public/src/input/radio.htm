@@ -2,7 +2,7 @@
     <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-radio'">
         <div class="radio">
             <label>
-                <input type="radio" value="{{ bindings.value }}" v-model="bindings.model">
+                <input type="radio" value="{{ bindings.value }}" v-model="bindings.model.value">
                 {{ bindings.label }}
             </label>
         </div>

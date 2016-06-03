@@ -24,14 +24,14 @@ Shell.Widgets = window.Shell.Widgets || {};
     Vue.component('pages-widgets-dialog', {
         template: '#pages-widgets-dialog',
         mixins: [Core.ModalEditorMixin, Core.TabsMixin('data')],
-        compiled: function() {
+        created: function() {
 
             var items = [];
 
             for (var i = 0; i < this.context.widget.props.length; i++) {
 
                 var prop = this.context.widget.props[i];
-                
+
                 // TODO Move to service layer
                 var param = this.current.params[prop.name] = this.current.params[prop.name] || {
                     _action: 'create',
