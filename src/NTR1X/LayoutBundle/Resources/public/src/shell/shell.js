@@ -1,5 +1,6 @@
-(function(Vue, $) {
+(function($, Vue, Shell, undefined) {
 
+    Shell.Shell =
     Vue.component('shell', {
         template: '#shell',
         props: {
@@ -14,6 +15,22 @@
             };
         },
         created: function() {
+
+            var self = this;
+            Vue.service('shell', {
+
+                getWidget: function(id) {
+
+                    for (var i = 0; i < self.settings.widgets.length; i++) {
+                        var w = self.settings.widgets[i];
+                        if (w.id == id) {
+                            return w;
+                        }
+                    }
+
+                    return null;
+                },
+            });
 
             this.globals = {
                 selection: this.selection,
@@ -138,4 +155,4 @@
         }
     });
 
-})(Vue, jQuery, undefined);
+})(jQuery, Vue, Shell, undefined);

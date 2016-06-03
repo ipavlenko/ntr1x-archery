@@ -46,10 +46,9 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body
-        data-vue
+        data-vue-public
         data-model="{{ model | serialize('json') }}"
         data-settings="{{ settings | serialize('json') }}"
-
         data-selection="{{ {
             category: null,
             domain: null,
@@ -62,10 +61,11 @@
 
             {% verbatim %}
 
-            <shell-router
-                :globals.sync="globals"
+            <router-view
+                :model.sync="model"
                 :settings.sync="settings"
-            ></shell-router>
+                :selection.sync="selection"
+            ></router-view>
 
             {% endverbatim %}
 

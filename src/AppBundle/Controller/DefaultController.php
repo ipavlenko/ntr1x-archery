@@ -12,7 +12,7 @@ use NTR1X\FormBundle\Form\FormField;
 class DefaultController extends Controller {
 
     /**
-     * @Route("/", name = "home")
+     * @Route("/{any}", name = "home", requirements = { "any"=".*" })
      */
     public function defaultAction(Request $request) {
 
@@ -67,59 +67,59 @@ class DefaultController extends Controller {
         return $this->render('public.html.twig', $view);
     }
 
-    /**
-     * @Route("/admin", name = "admin")
-     */
-    public function adminAction(Request $request) {
-
-        // TODO $domain = ... Взять его нужно по имени домена, с которого открыт ресурс
-
-        $em = $this->getDoctrine()->getManager();
-
-        $view = [
-            'settings' => []
-        ];
-
-        $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$view) {
-
-            $host = $request->getHost();
-
-            $view['model'] = [
-
-                'domains' => $this
-                    ->getDoctrine()
-                    ->getRepository('NTR1XLayoutBundle:Domain')
-                    ->findBy([], ['name'=>'asc'])
-                ,
-
-                'pages' => $this
-                    ->getDoctrine()
-                    ->getRepository('NTR1XLayoutBundle:Page')
-                    ->findBy([], ['name'=>'asc'])
-                ,
-
-                'schemes' => $this
-                    ->getDoctrine()
-                    ->getRepository('NTR1XLayoutBundle:Schema')
-                    ->findBy([], ['name'=>'asc'])
-                ,
-            ];
-
-            $view['settings'] = [
-
-                'widgets' => $this
-                    ->get('ntr1_x_layout.widget.manager')
-                    ->getWidgets()
-                ,
-
-                'categories' => $this
-                    ->get('ntr1_x_layout.category.manager')
-                    ->getCategories()
-                ,
-            ];
-
-        });
-
-        return $this->render('public.html.twig', $view);
-    }
+    // /**
+    //  * @Route("/admin", name = "admin")
+    //  */
+    // public function adminAction(Request $request) {
+    //
+    //     // TODO $domain = ... Взять его нужно по имени домена, с которого открыт ресурс
+    //
+    //     $em = $this->getDoctrine()->getManager();
+    //
+    //     $view = [
+    //         'settings' => []
+    //     ];
+    //
+    //     $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$view) {
+    //
+    //         $host = $request->getHost();
+    //
+    //         $view['model'] = [
+    //
+    //             'domains' => $this
+    //                 ->getDoctrine()
+    //                 ->getRepository('NTR1XLayoutBundle:Domain')
+    //                 ->findBy([], ['name'=>'asc'])
+    //             ,
+    //
+    //             'pages' => $this
+    //                 ->getDoctrine()
+    //                 ->getRepository('NTR1XLayoutBundle:Page')
+    //                 ->findBy([], ['name'=>'asc'])
+    //             ,
+    //
+    //             'schemes' => $this
+    //                 ->getDoctrine()
+    //                 ->getRepository('NTR1XLayoutBundle:Schema')
+    //                 ->findBy([], ['name'=>'asc'])
+    //             ,
+    //         ];
+    //
+    //         $view['settings'] = [
+    //
+    //             'widgets' => $this
+    //                 ->get('ntr1_x_layout.widget.manager')
+    //                 ->getWidgets()
+    //             ,
+    //
+    //             'categories' => $this
+    //                 ->get('ntr1_x_layout.category.manager')
+    //                 ->getCategories()
+    //             ,
+    //         ];
+    //
+    //     });
+    //
+    //     return $this->render('private.html.twig', $view);
+    // }
 }

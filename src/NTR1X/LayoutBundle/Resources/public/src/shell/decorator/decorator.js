@@ -292,6 +292,8 @@ Shell = window.Shell || {};
 
             created: function() {
 
+                var shell = Vue.service('shell');
+
                 var self = this;
                 this.$watch('selected', function(selected) {
 
@@ -320,7 +322,7 @@ Shell = window.Shell || {};
 
                                         var ni = find(self.items, evt.newIndex);
 
-                                        var widget = self.$root.$refs.shell.getWidget(w);
+                                        var widget = shell.getWidget(w);
 
                                         // TODO Initialize params in service layer
 

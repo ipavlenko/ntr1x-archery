@@ -31,7 +31,10 @@ Shell.Widgets = window.Shell.Widgets || {};
             };
         },
         created: function() {
-            this.widget = this.$root.$refs.shell.getWidget(this.model.type);
+
+            var shell = Vue.service('shell');
+
+            this.widget = shell.getWidget(this.model.type);
             this.decorator = this.decorators.alternatives[this.widget.tag] || this.decorators.fallback;
         },
         data: function() {

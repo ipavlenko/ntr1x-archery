@@ -872,72 +872,6 @@
 
 </template>
 
-<template id="shell">
-    <div class="ge ge-shell">
-
-        <div class="ge ge-head">
-            <div class="ge ge-nav">
-                <shell-brand
-                    :model.sync="model"
-                    :globals.sync="globals"
-                ></shell-brand>
-            </div>
-            <div class="ge ge-subnav">
-            </div>
-            <div class="ge ge-structure">
-            </div>
-            <div class="ge ge-editor">
-                <shell-actions
-                    :model.sync="model"
-                    :globals.sync="globals"
-                ></shell-actions>
-            </div>
-        </div>
-        <div class="ge ge-body">
-            <div class="ge ge-nav" v-scrollable>
-                <shell-categories
-                    :categories.sync="settings.categories"
-                    :globals.sync="globals"
-                ></shell-categories>
-            </div>
-            <div class="ge ge-subnav" v-scrollable>
-                <shell-palette
-                    :category.sync="selection.category"
-                    :globals.sync="globals"
-                ></shell-palette>
-            </div>
-            <div class="ge ge-editor" v-scrollable>
-                <shell-container
-                    :globals.sync="globals"
-                    :settings.sync="settings"
-                    :page.sync="selection.page"
-                    :category.sync="selection.category"
-                ></shell-container>
-            </div>
-            <div class="ge ge-structure" v-scrollable>
-                <shell-domains
-                    :domains.sync="model.domains"
-                    :globals.sync="globals"
-                ></shell-domains>
-                <shell-pages
-                    :pages.sync="model.pages"
-                    :globals.sync="globals"
-                ></shell-pages>
-                <shell-sources
-                    :sources.sync="selection.page.sources"
-                    :globals.sync="globals"
-                ></shell-sources>
-                <shell-storages
-                    :storages.sync="selection.page.storages"
-                    :globals.sync="globals"
-                ></shell-storages>
-            </div>
-        </div>
-        <div class="ge ge-foot">
-        </div>
-    </div>
-</template>
-
 <template id="settings-dialog">
     <div class="ge ge-modal modal modal-center">
         <div class="modal-dialog modal-lg">
@@ -1137,6 +1071,72 @@
 
     <storages-list :items.sync="items"></storages-list>
 
+</template>
+
+<template id="shell">
+    <div class="ge ge-shell">
+
+        <div class="ge ge-head">
+            <div class="ge ge-nav">
+                <shell-brand
+                    :model.sync="model"
+                    :globals.sync="globals"
+                ></shell-brand>
+            </div>
+            <div class="ge ge-subnav">
+            </div>
+            <div class="ge ge-structure">
+            </div>
+            <div class="ge ge-editor">
+                <shell-actions
+                    :model.sync="model"
+                    :globals.sync="globals"
+                ></shell-actions>
+            </div>
+        </div>
+        <div class="ge ge-body">
+            <div class="ge ge-nav" v-scrollable>
+                <shell-categories
+                    :categories.sync="settings.categories"
+                    :globals.sync="globals"
+                ></shell-categories>
+            </div>
+            <div class="ge ge-subnav" v-scrollable>
+                <shell-palette
+                    :category.sync="selection.category"
+                    :globals.sync="globals"
+                ></shell-palette>
+            </div>
+            <div class="ge ge-editor" v-scrollable>
+                <shell-container
+                    :globals.sync="globals"
+                    :settings.sync="settings"
+                    :page.sync="selection.page"
+                    :category.sync="selection.category"
+                ></shell-container>
+            </div>
+            <div class="ge ge-structure" v-scrollable>
+                <shell-domains
+                    :domains.sync="model.domains"
+                    :globals.sync="globals"
+                ></shell-domains>
+                <shell-pages
+                    :pages.sync="model.pages"
+                    :globals.sync="globals"
+                ></shell-pages>
+                <shell-sources
+                    :sources.sync="selection.page.sources"
+                    :globals.sync="globals"
+                ></shell-sources>
+                <shell-storages
+                    :storages.sync="selection.page.storages"
+                    :globals.sync="globals"
+                ></shell-storages>
+            </div>
+        </div>
+        <div class="ge ge-foot">
+        </div>
+    </div>
 </template>
 
 <template id="widgets-dialog">
@@ -1568,6 +1568,19 @@
     </section>
 </template>
 
+<template id="shell-container">
+
+    <section class="ge ge-container">
+        <shell-page
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :items.sync="page.widgets"
+        ></shell-page>
+    </section>
+
+</template>
+
 <template id="shell-decorator-canvas">
     <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
         <div class="ge ge-content">
@@ -1675,37 +1688,6 @@
     </div>
 </template>
 
-<template id="shell-container">
-
-    <section class="ge ge-container">
-        <shell-page
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :items.sync="page.widgets"
-        ></shell-page>
-    </section>
-
-</template>
-
-<template id="shell-page">
-
-    <div class="ge ge-page" :style="{
-        'width': pageSettings.width,
-    }">
-        <div
-            :is="decorator"
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :data.sync="data"
-            :storage.sync="storage"
-            :items.sync="page.widgets"
-        ></div>
-    </div>
-
-</template>
-
 <template id="shell-domains">
     <section class="ge ge-panel ge-domains">
         <domains :items.sync="domains" :globals.sync="globals" inline-template>
@@ -1728,6 +1710,24 @@
             </ul>
         </domains>
     </section>
+</template>
+
+<template id="shell-page">
+
+    <div class="ge ge-page" :style="{
+        'width': pageSettings.width,
+    }">
+        <div
+            :is="decorator"
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :data.sync="data"
+            :storage.sync="storage"
+            :items.sync="page.widgets"
+        ></div>
+    </div>
+
 </template>
 
 <template id="shell-pages">
@@ -1768,6 +1768,26 @@
     </section>
 </template>
 
+<template id="shell-router">
+
+    <section class="ge ge-router">
+        <router-view></router-view>
+    </section>
+
+</template>
+
+<template id="shell-stacked">
+    <div class="ge ge-stacked"
+        ><shell-widget v-for="item in items" v-if="item._action != 'remove'"
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :stack.sync="page"
+            :page.sync="page"
+            :data.sync="item"
+        ></shell-widget
+    ></div>
+</template>
+
 <template id="shell-sources">
     <section class="ge ge-panel ge-sources">
         <pages-sources :items.sync="sources" :globals.sync="globals" inline-template>
@@ -1790,18 +1810,6 @@
             </ul>
         </pages-sources>
     </section>
-</template>
-
-<template id="shell-stacked">
-    <div class="ge ge-stacked"
-        ><shell-widget v-for="item in items" v-if="item._action != 'remove'"
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :stack.sync="page"
-            :page.sync="page"
-            :data.sync="item"
-        ></shell-widget
-    ></div>
 </template>
 
 <template id="shell-storages">
