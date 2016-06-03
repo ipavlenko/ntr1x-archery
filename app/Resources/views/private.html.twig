@@ -2,18 +2,16 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Archery{% endblock %}</title>
+        <title>{% block title %}NTR1X{% endblock %}</title>
 
-        <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic,100,100italic,900,900italic&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic" rel="stylesheet" /> -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic,100,100italic,900,900italic&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic" rel="stylesheet" />
 
         {% block stylesheets %}
-        
+
             <link href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" />
             <link href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap-theme.min.css') }}" rel="stylesheet" />
             <link href="{{ asset('assets/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
             <link href="{{ asset('assets/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}" rel="stylesheet" />
-
-            <link href="{{ asset('assets/css/private.css') }}" rel="stylesheet" />
 
             {% for style in layout.styles %}
                 <link href="{{ asset(style.assetPath) }}" rel="stylesheet" />
@@ -23,17 +21,13 @@
 
         {% block javascripts %}
 
-            <script src="{{ asset('assets/vendor/lodash/dist/lodash.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/jquery/dist/jquery.min.js') }}"></script>
-            <script src="{{ asset('assets/vendor/vue/dist/vue.min.js') }}"></script>
-            <script src="{{ asset('assets/vendor/vue-router/dist/vue-router.min.js') }}"></script>
+            <script src="{{ asset('assets/vendor/Sortable/Sortable.js') }}"></script>
+            <script src="{{ asset('assets/vendor/vue/dist/vue.js') }}"></script>
             <script src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-
             <script src="{{ asset('assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}"></script>
-
-
             <script src="{{ asset('assets/vendor/jsonpath-plus/lib/jsonpath.js') }}"></script>
 
             {% for script in layout.scripts %}
@@ -44,49 +38,42 @@
 
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-    <body>
+    <body
+        data-vue
+        data-model="{{ model | serialize('json') }}"
+        data-settings="{{ settings | serialize('json') }}"
+        data-selection="{{ {
+            category: null,
+            domain: null,
+            page: null,
+            source: null,
+            storage: null,
+        } | serialize('json', layout.jms.withNulls) }}"
+    >
+        <div data-vue-body>
 
-        {% block header %}
+            {% verbatim %}
 
-            <nav class="navbar navbar-inverse navbar-fixed-top">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="/admin">Админка</a>
-                    </div>
-                    <div class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav">
-                            <li class="{{ app.request.attributes.get('_route') starts with 'admin-media-' ? 'active' : '' }}"><a href="{{ path('admin-media-items') }}">Медиа</a></li>
-                            <li class="{{ app.request.attributes.get('_route') starts with 'admin-offer-' ? 'active' : '' }}"><a href="{{ path('admin-offer-items') }}">Баннеры</a></li>
-                            <li class="{{ app.request.attributes.get('_route') starts with 'admin-layout-' ? 'active' : '' }}"><a href="{{ path('admin-layout-pages') }}">Структура</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+            <shell
+                v-ref:shell
+                :model.sync="model"
+                :settings.sync="settings"
+                :selection.sync="selection"
+            ></shell>
 
-        {% endblock %}
+            {% endverbatim %}
 
-        {% block body %}
+            {% block templates %}
 
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-4 col-sm-3 col-md-2">
-                        {% block left %}{% endblock %}
-                    </div>
-                    <div class="col-xs-8 col-sm-9 col-md-10">
-                        {% block editor %}{% endblock %}
-                    </div>
-                </div>
-            </div>
+                {% for template in layout.templates %}
+                    {{ render(controller('NTR1XLayoutBundle:Layout:asset', {
+                        asset: template,
+                    })) }}
+                {% endfor %}
 
-        {% endblock %}
+            {% endblock %}
 
-        {% block templates %}
-            {% for template in layout.templates %}
-                {{ render(controller('NTR1XLayoutBundle:Layout:asset', {
-                    asset: template,
-                })) }}
-            {% endfor %}
-        {% endblock %}
+        </div>
 
     </body>
 </html>
