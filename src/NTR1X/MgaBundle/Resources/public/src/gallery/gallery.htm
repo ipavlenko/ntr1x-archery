@@ -1,0 +1,28 @@
+<template id="mga-gallery">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-gallery wg-default-gallery-theme1'" v-if="!bindings.theme">
+        <ul class="grade-list clearfix">
+            <li v-for="item in bindings.items" class="grade-element" :style="{margin: bindings.itemMargin}">
+                <a :href="item.url">
+                    <img  :src="item.image" />
+                    <span class="title">{{item.title }}</span>
+                </a>
+                <span class="description">{{{ item.description }}}</span>
+            </li>
+        </ul>
+    </default-box>
+
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-gallery wg-default-gallery-theme3'" v-if="bindings.theme == 'theme3'">
+        <ul class="grade-list clearfix">
+
+            <li v-for="item in bindings.items" class="grade-element" :style="{margin: bindings.itemMargin}">
+                <a :href="item.url">
+                    <img  :src="item.image" />
+                    <span class="title">{{item.title }}</span>
+                </a>
+                <span class="description">{{{ item.description }}}</span>
+            </li>
+
+        </ul>
+    </default-box>
+
+</template>

@@ -242,4 +242,38 @@ class Page
     {
         return $this->widgets;
     }
+
+    /**
+     * Add storage
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Storage $storage
+     *
+     * @return Page
+     */
+    public function addStorage(\NTR1X\LayoutBundle\Entity\Storage $storage)
+    {
+        $this->storages[] = $storage;
+
+        return $this;
+    }
+
+    /**
+     * Remove storage
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Storage $storage
+     */
+    public function removeStorage(\NTR1X\LayoutBundle\Entity\Storage $storage)
+    {
+        $this->storages->removeElement($storage);
+    }
+
+    /**
+     * Get storages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStorages()
+    {
+        return $this->storages;
+    }
 }
