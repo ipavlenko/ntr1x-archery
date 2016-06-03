@@ -2,7 +2,7 @@
     <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-horisontal'">
         <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
             <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
-                <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
+                <a :href="item.url" @click="setActive(item.value)">{{{ item.title }}}</a>
             </li>
         </ul>
     </default-box>

@@ -13,7 +13,6 @@
                         <span v-if="!original">Новый виджет</span>
                         <span>&gt;</span>
                         <span v-for="tab in context.widget.tabs" v-if="isActive(tab.name)">{{ tab.title }}</span>
-                        <span v-if="isActive('theme')">Theme</span>
                     </h4>
                 </div>
                 <div class="modal-body" style="height: 500px;">
@@ -21,17 +20,10 @@
                         <div class="col-xs-3">
                             <ul class="nav nav-pills nav-stacked">
                                 <li v-for="tab in context.widget.tabs" v-if="hasProps(tab.name)" :class="{ 'active': isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                                <li :class="{ 'active': isActive('theme') }"><a href="#" @click="activate('theme')">Theme</a></li>
                             </ul>
                         </div>
                         <div class="col-xs-9">
                             <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div class="tab-pane" :class="{ 'active': isActive('theme') }">
-                                    <div class="form-group">
-                                        <label>Theme</label>
-                                        <select class="form-control"></select>
-                                    </div>
-                                </div>
                                 <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
                                     <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
                                 </div>

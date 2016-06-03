@@ -1,0 +1,8 @@
+<template id="default-datepicker">
+    <default-box :bindings.sync="bindings" class="'wg wg-default-datepicker'">
+        <div class="form-group">
+            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
+            <input type="text" id="{{ systemId }}-input" class="datepicker form-control">
+        </div>
+    </default-box>
+</template>

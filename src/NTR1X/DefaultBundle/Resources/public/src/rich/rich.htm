@@ -1,5 +1,16 @@
 <template id="default-rich">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-rich'">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-rich'" v-if="!bindings.stereotype">
         {{{ bindings.content }}}
+    </default-box>
+
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-rich-flex'" v-if="bindings.stereotype == '2columns'">
+        <div class="column column-one">{{{ bindings.content1 }}}</div>
+        <div class="column column-two">{{{ bindings.content2 }}}</div>
+    </default-box>
+
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-rich-flex'" v-if="bindings.stereotype == '3columns'">
+        <div class="column column-one">{{{ bindings.content1 }}}</div>
+        <div class="column column-two">{{{ bindings.content2 }}}</div>
+        <div class="column column-three">{{{ bindings.content3 }}}</div>
     </default-box>
 </template>

@@ -201,12 +201,10 @@ Footer:
 Table:
     title: 'Table'
     tag: default-table
-    size: { width: 12, height: 5 }
     mixins: [ WidgetMixin, CollectionMixin, BoxMixin ]
     thumbnail: 'src/table/table.png'
     categories: [ composite.all]
     params:
-#        source: { value: '{{ data.table }}' }
         jsonpath: { value: '{$.competitors.*}' }
         columns:
             value:
@@ -289,39 +287,40 @@ Items:
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/items/items.png'
     categories: [ composite.all]
-    params:
-                padding: { value: '38px 36px' }
-                jsonpath: { value: '$.*' }
-                itemUrl: { value: '{$.data.URL}' }
-                itemImageUrl: { value: '/bundles/ntr1xdefault/src/items/i{$.id}.jpg' }
-                itemTitle: { value: '{$.data.TITLE}' }
-                itemPromo: { value: '{$.data.PROMO}' }
     props:
-       -
-           name: jsonpath
-           title: Json Path
-           type: string
-           tab: data
-       -
-           name: itemUrl
-           title: Item URL
-           type: string
-           tab: data
-       -
-           name: itemImageUrl
-           title: Item Image URL
-           type: string
-           tab: data
-       -
-           name: itemTitle
-           title: Item Title
-           type: string
-           tab: data
-       -
-           name: itemPromo
-           title: Item Promo
-           type: string
-           tab: data
+        -
+            name: items
+            type: multiple
+            display: '{{ params.title }}'
+            title: Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: url, title: URL, type: string, tab: data }
+                - { name: image, title: Image, type: string, tab: data }
+                - { name: title, title: Title, type: string, tab: data }
+                - { name: promo, title: Promo, type: string, tab: data }
+    params:
+        items:
+            value:
+                -
+                    url: { value: '/media-one' }
+                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
+                    title: { value: Title 1 }
+                    promo: { value: promo 1 }
+                -
+                    url: { value: '/media-two' }
+                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
+                    title: { value: Title 2 }
+                    promo: { value: promo 2 }
+                -
+                    url: { value: '/media-three' }
+                    image: { value: '/bundles/ntr1xdefault/src/items/64.svg' }
+                    title: { value: Title 3 }
+                    promo: { value: promo 3 }
+
+
 
 Media:
     title: 'Media'
@@ -440,12 +439,43 @@ NavVertical:
                     value: { value: about }
                     url: { value: null }
 
-Sitemap:
+
+
+Sitemap: # TODO нужна вложенность
     title: 'Sitemap'
     tag: default-sitemap
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/sitemap/sitemap.png'
     categories: [ navigation.all]
+    props:
+        -
+            name: items
+            type: multiple
+            display: '{{ params.title }}'
+            title: Navigation Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: title, title: Title, type: string, tab: data }
+                - { name: value, title: Value, type: string, tab: data }
+                - { name: url, title: URL, type: string, tab: data }
+    params:
+        items:
+            value:
+                -
+                    title: { value: Home }
+                    value: { value: home }
+                    url: { value: null }
+                -
+                    title: { value: Media }
+                    value: { value: media }
+                    url: { value: null }
+                -
+                    title: { value: About }
+                    value: { value: about }
+                    url: { value: null }
+
 
 # Sliders Widgets
 
@@ -603,13 +633,31 @@ InputCheckbox:
     categories: [ form.all, form.input ]
     props:
         - { name: model, title: Model, type: string, tab: data, variable: true }
-        - { name: value, title: Value, type: string, tab: data }
-        - { name: checked, title: Checked, type: string, tab: data }
-        - { name: label, title: Label, type: string, tab: data }
+        - { name: name, title: Name, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        -
+            name: items
+            type: multiple
+            title: Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: value, title: Value, type: string, tab: data }
+                - { name: title, title: Title, type: string, tab: data }
     params:
-        margin: { value: '15px 15px' }
-        value: { value: true }
-        label: { value: 'I have read and agree to the terms of use' }
+        name: {value: group1}
+        items:
+            value:
+                -
+                    value: { value: 'one' }
+                    title: { value: 'One' }
+                -
+                    value: { value: 'two' }
+                    title: { value: 'Two' }
+                -
+                    value: { value: 'three' }
+                    title: { value: 'Three' }
 
 InputRadio:
     title: 'Radio'
@@ -619,13 +667,131 @@ InputRadio:
     categories: [ form.all, form.input ]
     props:
         - { name: model, title: Model, type: string, tab: data, variable: true }
-        - { name: checked, title: Checked, type: string, tab: data }
-        - { name: value, title: Value, type: string, tab: data }
-        - { name: label, title: Label, type: string, tab: data }
+        - { name: name, title: Name, type: string, tab: data }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+        -
+            name: items
+            type: multiple
+            title: Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: value, title: Value, type: string, tab: data }
+                - { name: title, title: Title, type: string, tab: data }
     params:
-        margin: { value: '15px 15px' }
-        value: { value: true }
-        label: { value: 'I have read and agree to the terms of use' }
+        name: {value: group1}
+        items:
+            value:
+                -
+                    value: { value: 'one' }
+                    title: { value: 'One' }
+                -
+                    value: { value: 'two' }
+                    title: { value: 'Two' }
+                -
+                    value: { value: 'three' }
+                    title: { value: 'Three' }
+
+Select:
+    title: 'Select'
+    tag: default-select
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/select/select.png'
+    categories: [ form.all, form.input ]
+    props:
+        -
+            name: items
+            type: multiple
+            title: Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: value, title: Value, type: string, tab: data }
+                - { name: title, title: Title, type: string, tab: data }
+    params:
+        items:
+            value:
+                -
+                    value: { value: 'one' }
+                    title: { value: 'One' }
+                -
+                    value: { value: 'two' }
+                    title: { value: 'Two' }
+                -
+                    value: { value: 'three' }
+                    title: { value: 'Three' }
+
+Datepicker: # https://eonasdan.github.io/bootstrap-datetimepicker/
+    title: 'Datepicker'
+    tag: default-datepicker
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/datepicker/datepicker.png'
+    categories: [ form.all, form.input ]
+    props:
+        - { name: label, title: Label, type: string, tab: data }
+        - { name: format, title: Format, type: string, tab: data }
+    params:
+        format: {value: 'DD/MM/YYYY'}
+
+Dateinterval:
+    title: 'Dateinterval'
+    tag: default-dateinterval
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/datepicker/dateinterval.png'
+    categories: [ form.all, form.input ]
+    props:
+        - { name: format, title: Format, type: string, tab: data }
+    params:
+        format: {value: 'DD/MM/YYYY'}
+
+Inputrange:
+    title: 'Inputrange'
+    tag: default-inputrange
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/inputrange/inputrange.png'
+    categories: [ form.all, form.input ]
+    props:
+        - { name: min, title: Min, type: string, tab: data }
+        - { name: max, title: Max, type: string, tab: data }
+        - { name: step, title: Step, type: string, tab: data }
+        - { name: initial, title: Initial, type: string, tab: data }
+    params:
+        min: {value: '10'}
+        max: {value: '1000'}
+        step: {value: '5'}
+        initial: {value: '[250,450]'}
+
+Combobox:
+    title: 'Select'
+    tag: default-combobox
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/combobox/combobox.png'
+    categories: [ form.all, form.input ]
+    props:
+        -
+            name: items
+            type: multiple
+            title: Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: value, title: Value, type: string, tab: data }
+                - { name: title, title: Title, type: string, tab: data }
+    params:
+        items:
+            value:
+                -
+                    value: { value: 'one' }
+                    title: { value: 'One' }
+                -
+                    value: { value: 'two' }
+                    title: { value: 'Two' }
+                -
+                    value: { value: 'three' }
+                    title: { value: 'Three' }
 
 ButtonDefault:
     title: 'Button'
@@ -827,6 +993,120 @@ Rich:
     mixins: [ WidgetMixin, BoxMixin, ContentMixin ]
     thumbnail: 'src/rich/rich.png'
     categories: [ text.all ]
+    props:
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
     params:
             margin: { value: '30px' }
-            content: {value: 'Rich' }
+            content: {value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
+
+Rich2:
+    title: 'Rich2'
+    tag: default-rich
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/rich/rich2.png'
+    categories: [ text.all ]
+    props:
+        - { name: content1, title: Content1, type: rich, tab: content }
+        - { name: content2, title: Content2, type: rich, tab: content }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+            margin: { value: '30px' }
+            content1: {value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
+            content2: {value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
+            stereotype: { value: '2columns' }
+
+Rich3:
+    title: 'Rich3'
+    tag: default-rich
+    mixins: [ WidgetMixin, BoxMixin ]
+    thumbnail: 'src/rich/rich3.png'
+    categories: [ text.all ]
+    props:
+        - { name: content1, title: Content1, type: rich, tab: content }
+        - { name: content2, title: Content2, type: rich, tab: content }
+        - { name: content3, title: Content3, type: rich, tab: content }
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+            margin: { value: '30px' }
+            content1: {value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
+            content2: {value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
+            content3: {value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
+            stereotype: { value: '3columns' }
+
+H1:
+    title: 'H1'
+    tag: default-h1-h6
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
+    thumbnail: 'src/h1-h6/h1.png'
+    categories: [ text.all ]
+    props:
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        content: { value: 'Lorem ipsum dolor sit amet' }
+        stereotype: { value: 'h1' }
+
+H2:
+    title: 'H2'
+    tag: default-h1-h6
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
+    thumbnail: 'src/h1-h6/h2.png'
+    categories: [ text.all ]
+    props:
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        content: { value: 'Lorem ipsum dolor sit amet' }
+        stereotype: { value: 'h2' }
+
+H3:
+    title: 'H3'
+    tag: default-h1-h6
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
+    thumbnail: 'src/h1-h6/h3.png'
+    categories: [ text.all ]
+    props:
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        content: { value: 'Lorem ipsum dolor sit amet' }
+        stereotype: { value: 'h3' }
+
+H4:
+    title: 'H4'
+    tag: default-h1-h6
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
+    thumbnail: 'src/h1-h6/h4.png'
+    categories: [ text.all ]
+    props:
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        content: { value: 'Lorem ipsum dolor sit amet' }
+        stereotype: { value: 'h4' }
+
+H5:
+    title: 'H5'
+    tag: default-h1-h6
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
+    thumbnail: 'src/h1-h6/h5.png'
+    categories: [ text.all ]
+    props:
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        content: { value: 'Lorem ipsum dolor sit amet' }
+        stereotype: { value: 'h5' }
+
+H6:
+    title: 'H6'
+    tag: default-h1-h6
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
+    thumbnail: 'src/h1-h6/h6.png'
+    categories: [ text.all ]
+    props:
+        - { name: stereotype, title: Stereotype, type: string, tab: data }
+    params:
+        margin: { value: '15px 15px' }
+        content: { value: 'Lorem ipsum dolor sit amet' }
+        stereotype: { value: 'h6' }

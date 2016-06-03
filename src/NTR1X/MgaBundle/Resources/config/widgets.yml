@@ -1,0 +1,48 @@
+MgaGallery:
+    title: 'Gallery'
+    tag: mga-gallery
+    mixins: [ 'NTR1XDefaultBundle/WidgetMixin', 'NTR1XDefaultBundle/BoxMixin' ]
+    thumbnail: 'src/gallery/gallery.png'
+    categories: [ composite.all]
+    tabs:
+        -
+            name: theme
+            title: Theme
+    props:
+        -
+            name: theme
+            title: 'Theme'
+            type: 'string'
+            placeholder: 'Theme ID'
+            tab: theme
+        -
+            name: items
+            type: multiple
+            display: '{{ params.title }}'
+            title: Items
+            tab: data
+            tabs:
+                - { name: data, title: Data }
+            props:
+                - { name: title, title: Title, type: string, tab: data }
+                - { name: url, title: URL, type: string, tab: data }
+                - { name: image, title: Image, type: string, tab: data }
+                - { name: description, title: Description, type: string, tab: data }
+    params:
+        items:
+            value:
+                -
+                    title: { value: 'First' }
+                    url: { value: null }
+                    image: { value: null }
+                    description: { value: null }
+                -
+                    title: { value: 'Second' }
+                    url: { value: null }
+                    image: { value: null }
+                    description: { value: null }
+                -
+                    title: { value: 'Third' }
+                    url: { value: null }
+                    image: { value: null }
+                    description: { value: null }
