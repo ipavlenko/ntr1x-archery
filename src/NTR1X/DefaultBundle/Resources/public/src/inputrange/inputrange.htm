@@ -1,7 +1,10 @@
 <template id="default-inputrange">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-inputrange'">
-            <b>{{ bindings.min }}</b>
-            <input id="{{ systemId }}" type="text" data-slider-min="{{ bindings.min }}" data-slider-max="{{ bindings.max }}" data-slider-step="{{ bindings.step }}" data-slider-value="{{ bindings.initial }}"/>
-            <b>{{ bindings.max }}</b>
+            <div class="form-group">
+                <span>Min: {{ bindings.min }}</span>
+                <input id="{{ systemId }}" type="text" data-slider-min="{{ bindings.min }}" data-slider-max="{{ bindings.max }}" data-slider-step="{{ bindings.step }}" data-slider-value="{{ bindings.initial }}"/>
+                <span>Max: {{ bindings.max }}</span>
+            </div>
+
         </default-box>
 </template>

@@ -1,10 +1,10 @@
-.wg-default-nav .nav li a {
+.wg-default-nav-green .nav li a {
   color: #fff;
   font-weight: bold;
   text-transform: uppercase;
 }
-.wg-default-nav .nav li a:hover,
-.wg-default-nav .nav li a:focus {
+.wg-default-nav-green .nav li a:hover,
+.wg-default-nav-green .nav li a:focus {
   text-decoration: none;
   background-color: transparent;
 }
