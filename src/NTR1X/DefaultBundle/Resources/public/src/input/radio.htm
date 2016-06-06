@@ -2,14 +2,16 @@
     <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-radio'">
 
         <div class="form-group" v-if="!bindings.stereotype">
-            <label class="radio-inline" v-for="item in bindings.items">
-                <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.title }}
-            </label>
+            <div class="radio" v-for="item in bindings.items">
+                <label>
+                    <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
+                </label>
+            </div>
         </div>
 
         <div class="btn-group" data-toggle="buttons" v-if="bindings.stereotype == 'buttons'">
             <label class="btn btn-default" v-for="item in bindings.items">
-                <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.title }}
+                <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
             </label>
         </div>
 

@@ -1,5 +1,5 @@
 <template id="default-nav-horisontal">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-horisontal'">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-horisontal', bindings.stereotype">
         <ul class="nav nav-pills wg-default-nav wg-default-nav-horisontal wg-default-nav-horisontal-nav">
             <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
                 {{ item.vlink }}
