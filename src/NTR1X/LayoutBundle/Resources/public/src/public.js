@@ -20,17 +20,26 @@
 
             var routes = {
                 '/admin': {
-                    component: Shell.Shell
+                    component: Shell.ShellPrivate
                 },
             };
 
-            for (var i = 0; i < data.model.pages.length; i++) {
-                var page = data.model.pages[i];
-                routes[page.name] = {
-                    component: {
-                        template: `<h3>${page.name}</h3>`
-                    },
+            function createRoute(page) {
+                return {
+                    component: Shell.ShellPublic.extend({
+                        data: function() {
+                            return {
+                                page: page,
+                            };
+                        }
+                    }),
                 };
+            }
+
+            for (var i = 0; i < data.model.pages.length; i++) {
+
+                var page = data.model.pages[i];
+                routes[page.name] = createRoute(page);
             }
 
             router.map(routes);

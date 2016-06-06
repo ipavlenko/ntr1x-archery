@@ -383,6 +383,7 @@ NavHorizontal:
                 - { name: title, title: Title, type: string, tab: data }
                 - { name: value, title: Value, type: string, tab: data }
                 - { name: url, title: URL, type: string, tab: data }
+                - { name: vlink, title: V-Link, type: string, tab: data }
     params:
         active: { value: home }
         padding: { value: 10px 10px }
@@ -392,14 +393,17 @@ NavHorizontal:
                     title: { value: Home }
                     value: { value: home }
                     url: { value: null }
+                    vlink: { value: null }
                 -
                     title: { value: Media }
                     value: { value: media }
                     url: { value: null }
+                    vlink: { value: null }
                 -
                     title: { value: About }
                     value: { value: about }
                     url: { value: null }
+                    vlink: { value: null }
 
 NavVertical:
     title: 'Navigation Stack'
@@ -421,6 +425,7 @@ NavVertical:
                 - { name: title, title: Title, type: string, tab: data }
                 - { name: value, title: Value, type: string, tab: data }
                 - { name: url, title: URL, type: string, tab: data }
+                - { name: vlink, title: V-Link, type: string, tab: data }
     params:
         active: { value: home }
         padding: { value: 10px 10px }
@@ -430,16 +435,17 @@ NavVertical:
                     title: { value: Home }
                     value: { value: home }
                     url: { value: null }
+                    vlink: { value: null }
                 -
                     title: { value: Media }
                     value: { value: media }
                     url: { value: null }
+                    vlink: { value: null }
                 -
                     title: { value: About }
                     value: { value: about }
                     url: { value: null }
-
-
+                    vlink: { value: null }
 
 Sitemap: # TODO нужна вложенность
     title: 'Sitemap'

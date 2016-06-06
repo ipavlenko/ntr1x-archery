@@ -1,0 +1,10 @@
+<template id="shell-public">
+    <div class="ge ge-shell ge-shell-public">
+        <shell-page
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :items.sync="page.widgets"
+        ></shell-page>
+    </div>
+</template>

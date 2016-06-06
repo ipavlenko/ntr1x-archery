@@ -1,15 +1,12 @@
 (function($, Vue, Shell, undefined) {
 
-    Shell.Shell =
-    Vue.component('shell', {
-        template: '#shell',
+    Shell.Shell = {
         props: {
             selection: Object,
             settings: Object,
             model: Object,
         },
         data: function() {
-
             return {
                 globals: this.globals,
             };
@@ -37,6 +34,21 @@
                 settings: this.settings,
                 model: this.model,
             };
+        },
+    };
+
+    Shell.ShellPublic =
+    Vue.component('shell-public', {
+        mixins: [ Shell.Shell ],
+        template: '#shell-public',
+    });
+
+    Shell.ShellPrivate =
+    Vue.component('shell-private', {
+        mixins: [ Shell.Shell ],
+        template: '#shell-private',
+
+        created: function() {
 
             function relevant(current, collection) {
 

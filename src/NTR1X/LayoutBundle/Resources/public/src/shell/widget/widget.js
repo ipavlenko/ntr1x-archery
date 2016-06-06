@@ -36,6 +36,7 @@ Shell.Widgets = window.Shell.Widgets || {};
 
             this.widget = shell.getWidget(this.model.type);
             this.decorator = this.decorators.alternatives[this.widget.tag] || this.decorators.fallback;
+            // this.decorator = 'shell-decorator-stub';
         },
         data: function() {
 
