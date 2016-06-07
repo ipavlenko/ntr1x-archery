@@ -80,7 +80,7 @@
 
             var items = [];
 
-            var binding = this.current.binding;
+            var binding = this.current.binding || {};
             if (!binding.strategy) binding.strategy = 'interpolate';
 
             binding.params = binding.params || {};
@@ -139,7 +139,7 @@
             for (var i = 0; i < this.context.prop.props.length; i++) {
 
                 var prop = this.context.prop.props[i];
-                var param = this.current[prop.name] = this.current[prop.name] || {};
+                var param = this.current[prop.name] = this.current[prop.name] || { value: null };
 
                 param._action = param._action == 'update'
                     ? 'update'
@@ -154,7 +154,7 @@
                 items.push(item);
             }
 
-            this.items = items;
+            this.$set('items', items);
         },
     });
 

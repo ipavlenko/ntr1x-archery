@@ -5,6 +5,7 @@
                 <tr>
                     <th style="width: 80%" colspan="2">{{ prop.title }}</th>
                     <th>
+                        <pre>{{ param | json }}</pre>
                         <div class="pull-right">
                             <a class="btn btn-xs btn-primary" @click="create({}, { prop: prop })">Add</a>
                             <params-bindings :model.sync="param" :context="{ prop: prop }" inline-template>

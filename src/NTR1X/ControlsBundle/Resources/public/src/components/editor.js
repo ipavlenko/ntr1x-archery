@@ -67,11 +67,13 @@ Core = window.Core || {};
 
                 doApply: function(model) {
 
-                    Object.assign(this.model, JSON.parse(JSON.stringify(model)), {
+                    console.log('apply', model);
+
+                    this.$set('model', Object.assign(JSON.parse(JSON.stringify(model)), {
                         _action: this.model._action
                             ? this.model._action
                             : 'update'
-                    });
+                    }));
 
                     $(window).trigger('resize');
                 }
@@ -155,19 +157,27 @@ Core = window.Core || {};
                 doCreate: function(item, context) {
 
                     this.items.push(Object.assign({}, JSON.parse(JSON.stringify(item)), { _action: 'create' }));
+
+                    this.$set('items', $.extend(true, [], this.items));
+
                     $(window).trigger('resize');
                     this.active = null;
                 },
 
                 doUpdate: function(item, context) {
 
-                    Object.assign(this.active, JSON.parse(JSON.stringify(item)), {
+                    console.log('update', item, context);
+
+                    this.$set('active', Object.assign(JSON.parse(JSON.stringify(item)), {
                         _action: this.active._action
                             ? this.active._action
                             : 'update'
-                    });
+                    }));
 
-                    this.items = $.extend(true, [], this.items);//this.items.slice();
+                    // this.items = $.extend(true, [], this.items);//this.items.slice();
+
+                    this.$set('items', $.extend(true, [], this.items));
+
                     $(window).trigger('resize');
                     this.active = null;
                 },
@@ -184,7 +194,9 @@ Core = window.Core || {};
                         }
                     }
 
-                    this.items = $.extend(true, [], this.items);
+                    // this.items = $.extend(true, [], this.items);
+                    this.$set('items', $.extend(true, [], this.items));
+
                     $(window).trigger('resize');
                     this.active = null;
                 }
