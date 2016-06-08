@@ -392,18 +392,12 @@ NavHorizontal:
                 -
                     title: { value: Home }
                     value: { value: home }
-                    url: { value: null }
-                    vlink: { value: null }
                 -
                     title: { value: Media }
                     value: { value: media }
-                    url: { value: null }
-                    vlink: { value: null }
                 -
                     title: { value: About }
                     value: { value: about }
-                    url: { value: null }
-                    vlink: { value: null }
 
 NavVertical:
     title: 'Navigation Stack'
@@ -435,18 +429,12 @@ NavVertical:
                 -
                     title: { value: Home }
                     value: { value: home }
-                    url: { value: null }
-                    vlink: { value: null }
                 -
                     title: { value: Media }
                     value: { value: media }
-                    url: { value: null }
-                    vlink: { value: null }
                 -
                     title: { value: About }
                     value: { value: about }
-                    url: { value: null }
-                    vlink: { value: null }
 
 Sitemap: # TODO нужна вложенность
     title: 'Sitemap'
@@ -473,15 +461,12 @@ Sitemap: # TODO нужна вложенность
                 -
                     title: { value: Home }
                     value: { value: home }
-                    url: { value: null }
                 -
                     title: { value: Media }
                     value: { value: media }
-                    url: { value: null }
                 -
                     title: { value: About }
                     value: { value: about }
-                    url: { value: null }
 
 
 # Sliders Widgets
@@ -513,15 +498,12 @@ Carousel:
                 -
                     caption: { value: '<h3>First Slide</h3><p>You can change background using settings editor</p>' }
                     background: { value: '#FF3500' }
-                    url: { value: null }
                 -
                     caption: { value: '<h3>Second Slide</h3><p>You can change background using settings editor</p>' }
                     background: { value: '#DC0055' }
-                    url: { value: null }
                 -
                     caption: { value: '<h3>Third Slide</h3><p>You can change background using settings editor</p>' }
                     background: { value: '#BF0037' }
-                    url: { value: null }
 
 Gallery:
     title: 'Gallery'
@@ -561,27 +543,21 @@ Gallery:
                 -
                     caption: { value: '<h3>First Item</h3><p>You can change item data using settings editor</p>' }
                     itemBackground: { value: '#FF3500' }
-                    url: { value: null }
                 -
                     caption: { value: '<h3>Second Item</h3><p>You can change item data using settings editor</p>' }
                     itemBackground: { value: '#DC0055' }
-                    url: { value: null }
                 -
                     caption: { value: '<h3>Third Item</h3><p>You can change item data using settings editor</p>' }
                     itemBackground: { value: '#BF0037' }
-                    url: { value: null }
                 -
                     caption: { value: '<h3>Fourth Item</h3><p>You can change item data using settings editor</p>' }
                     itemBackground: { value: '#A52939' }
-                    url: { value: null }
                 -
                     caption: { value: '<h3>Fifth Item</h3><p>You can change item data using settings editor</p>' }
                     itemBackground: { value: '#EE3B80' }
-                    url: { value: null }
                 -
                     caption: { value: '<h3>Sixth Item</h3><p>You can change item data using settings editor</p>' }
                     itemBackground: { value: '#EE6B9E' }
-                    url: { value: null }
 
 # Layouts Widgets
 

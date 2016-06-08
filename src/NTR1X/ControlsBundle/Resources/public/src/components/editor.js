@@ -166,20 +166,31 @@ Core = window.Core || {};
 
                 doUpdate: function(item, context) {
 
-                    console.log('update', item, context);
-
-                    this.$set('active', Object.assign(JSON.parse(JSON.stringify(item)), {
+                    Object.assign(this.active, JSON.parse(JSON.stringify(item)), {
                         _action: this.active._action
                             ? this.active._action
                             : 'update'
-                    }));
+                    });
 
                     // this.items = $.extend(true, [], this.items);//this.items.slice();
-
-                    this.$set('items', $.extend(true, [], this.items));
-
+                    this.items = this.items.slice();
                     $(window).trigger('resize');
                     this.active = null;
+
+                    // console.log('update', item, context);
+                    //
+                    // this.$set('active', Object.assign(JSON.parse(JSON.stringify(item)), {
+                    //     _action: this.active._action
+                    //         ? this.active._action
+                    //         : 'update'
+                    // }));
+                    //
+                    // // this.items = $.extend(true, [], this.items);//this.items.slice();
+                    //
+                    // this.$set('items', $.extend(true, [], this.items));
+                    //
+                    // $(window).trigger('resize');
+                    // this.active = null;
                 },
 
                 doRemove: function(item, context) {

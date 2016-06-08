@@ -136,6 +136,8 @@
 
             var items = [];
 
+            console.log('created', ParamMultipleModalEditor);
+
             for (var i = 0; i < this.context.prop.props.length; i++) {
 
                 var prop = this.context.prop.props[i];
