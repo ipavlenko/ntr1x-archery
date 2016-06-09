@@ -1,0 +1,21 @@
+.ld.ld-super {
+  background: rgba(20, 20, 34, 0.95);
+}
+.ld.ld-super ul.nav.nav-pills > li > a {
+  font-size: 0.8em;
+  color: #D8C13A;
+  border-radius: 0px;
+  padding: 5px 8px;
+}
+.ld.ld-super ul.nav.nav-pills > li > a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #E0CD61;
+}
+.ld.ld-super ul.nav.nav-pills > li > a:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #E0CD61;
+}
+.ld.ld-super ul.nav.nav-pills > li.active > a {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #E0CD61;
+}

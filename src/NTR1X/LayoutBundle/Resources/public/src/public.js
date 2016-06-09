@@ -19,7 +19,38 @@
             });
 
             var routes = {
-                '/admin': {
+                '/': {
+                    component: Landing.LandingPage,
+                },
+                '/gallery': {
+                    component: {
+                        template: '<h3>Gallery</h3>',
+                    }
+                },
+                '/storage': {
+                    component: {
+                        template: '<h3>Storage</h3>',
+                    }
+                },
+                '/benefits': {
+                    component: {
+                        template: '<h3>Benefits</h3>',
+                    }
+                },
+                '/pricing': {
+                    component: {
+                        template: '<h3>Pricing</h3>',
+                    }
+                },
+                '/contacts': {
+                    component: {
+                        template: '<h3>Pricing</h3>',
+                    }
+                },
+                '/site/:domain/:page': {
+                    component: Shell.ShellPublic,
+                },
+                '/admin/:domain/:page': {
                     component: Shell.ShellPrivate,
                     private: true,
                 },

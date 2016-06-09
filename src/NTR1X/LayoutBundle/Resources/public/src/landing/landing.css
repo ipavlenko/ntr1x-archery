@@ -1,0 +1,19 @@
+.ld.ld-page {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: #262633;
+  overflow: auto;
+}
+.ld.ld-page .ld.ld-section {
+  position: relative;
+  overflow: auto;
+}
+.ld.ld-page .ld.ld-container {
+  width: 1200px;
+  margin: 0px auto;
+  position: relative;
+  overflow: auto;
+}
