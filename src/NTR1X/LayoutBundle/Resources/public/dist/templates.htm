@@ -206,49 +206,6 @@
 
 </template>
 
-<template id="landing-page">
-    <div class="ld ld-page">
-        <div class="container-fluid">
-            <div class="row">
-                <landing-super></landing-super>
-            </div>
-            <div class="row">
-                <landing-header></landing-header>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <landing-gallery></landing-gallery>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <landing-storage></landing-storage>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <landing-benefits></landing-benefits>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <landing-pricing></landing-pricing>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <landing-contacts></landing-contacts>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <landing-footer></landing-footer>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <template id="pages-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -506,6 +463,48 @@
         <pages-list :items.sync="items" :globals.sync="globals"></pages-list>
     </div>
 
+</template>
+
+<template id="landing-page">
+    <div class="ld ld-page">
+        <div class="container-fluid">
+            <div class="row">
+                <landing-super></landing-super>
+            </div>
+            <div class="row">
+                <landing-header></landing-header>
+            </div>
+            <div class="row">
+                <landing-gallery></landing-gallery>
+            </div>
+            <div class="row">
+                <landing-video></landing-video>
+            </div>
+            <div class="row">
+                <landing-storage></landing-storage>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <landing-benefits></landing-benefits>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <landing-pricing></landing-pricing>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <landing-contacts></landing-contacts>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <landing-footer></landing-footer>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <template id="params-bindings-dialog">
@@ -1175,85 +1174,6 @@
 
 </template>
 
-<template id="landing-benefits">
-    <div class="ld ld-section ld-benefits">
-        <h3>Benefits</h3>
-    </div>
-</template>
-
-<template id="landing-contacts">
-    <div class="ld ld-section ld-contacts">
-        <h3>Contacts</h3>
-    </div>
-</template>
-
-<template id="landing-footer">
-    <div class="ld ld-section ld-footer">
-        <h3>Footer</h3>
-    </div>
-</template>
-
-<template id="landing-gallery">
-    <div class="ld ld-section ld-gallery">
-        <h3>Gallery</h3>
-    </div>
-</template>
-
-<template id="landing-header">
-    <div class="ld ld-section ld-header">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <ul class="nav nav-pills pull-right">
-                        <li role="presentation"><a href="#">Gallery</a></li>
-                        <li role="presentation"><a href="#">Storage</a></li>
-                        <li role="presentation"><a href="#">Benefits</a></li>
-                        <li role="presentation"><a href="#">Pricing</a></li>
-                        <li role="presentation"><a href="#">Contacts</a></li>
-                        <li role="presentation" class="primary"><a href="/gallery">Create Portal</a></li>
-                    </ul>
-                </div>
-                <div class="row">
-                    <div class="ld ld-offer">
-                        <h1>Open your online universe!</h1>
-                        <h2>Archery is the Cloud platform to build business friendly online services.</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template id="landing-pricing">
-    <div class="ld ld-section ld-pricing">
-        <h3>Pricing</h3>
-    </div>
-</template>
-
-<template id="landing-storage">
-    <div class="ld ld-section ld-storage">
-        <h3>Storage</h3>
-    </div>
-</template>
-
-<template id="landing-super">
-    <div class="ld ld-section ld-super">
-        <div class="ld ld-container">
-            <ul class="nav nav-pills pull-left">
-                <li role="presentation"><a href="#">NTR1X</a></li>
-                <li role="presentation"><a href="#">Archery</a></li>
-                <li role="presentation"><a href="#">Blog</a></li>
-            </ul>
-            <ul class="nav nav-pills pull-right">
-                <li role="presentation"><a href="#">FAQ</a></li>
-                <li role="presentation"><a href="#">About</a></li>
-                <li role="presentation"><a href="#">Contacts</a></li>
-                <li role="presentation"><a href="#">Documentation</a></li>
-            </ul>
-        </div>
-    </div>
-</template>
-
 <template id="pages-sources-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
@@ -1573,6 +1493,178 @@
 
 </template>
 
+<template id="landing-benefits">
+    <div class="ld ld-section ld-benefits">
+        <h3>Benefits</h3>
+    </div>
+</template>
+
+<template id="landing-contacts">
+    <div class="ld ld-section ld-contacts">
+        <h3>Contacts</h3>
+    </div>
+</template>
+
+<template id="landing-footer">
+    <div class="ld ld-section ld-footer">
+        <h3>Footer</h3>
+    </div>
+</template>
+
+<template id="landing-gallery">
+    <div class="ld ld-section ld-gallery">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-eye-open"></span> Featured Templates</h3>
+                            <a href="/gallery" class="btn btn-primary pull-right">Browse Gallery</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail">
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail">
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-header">
+    <div class="ld ld-section ld-header">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <ul class="nav nav-pills pull-right">
+                        <li role="presentation"><a href="#">Gallery</a></li>
+                        <li role="presentation"><a href="#">Storage</a></li>
+                        <li role="presentation"><a href="#">Benefits</a></li>
+                        <li role="presentation"><a href="#">Pricing</a></li>
+                        <li role="presentation"><a href="#">Contacts</a></li>
+                        <li role="presentation" class="primary"><a href="/gallery">Create Portal</a></li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="ld ld-offer">
+                        <h1>Open your online universe!</h1>
+                        <h2>Archery is the Cloud platform to build business friendly online services.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-pricing">
+    <div class="ld ld-section ld-pricing">
+        <h3>Pricing</h3>
+    </div>
+</template>
+
+<template id="landing-storage">
+    <div class="ld ld-section ld-storage">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-hdd"></span> Data Storage</h3>
+                            <a href="/storage" class="btn btn-primary pull-right">Explore Catalog</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail">
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail">
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-super">
+    <div class="ld ld-section ld-super">
+        <div class="ld ld-container">
+            <ul class="nav nav-pills pull-left">
+                <li role="presentation"><a href="#">NTR1X</a></li>
+                <li role="presentation"><a href="#">Archery</a></li>
+                <li role="presentation"><a href="#">Blog</a></li>
+            </ul>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation"><a href="#">FAQ</a></li>
+                <li role="presentation"><a href="#">About</a></li>
+                <li role="presentation"><a href="#">Contacts</a></li>
+                <li role="presentation"><a href="#">Documentation</a></li>
+            </ul>
+        </div>
+    </div>
+</template>
+
+<template id="landing-video">
+    <div class="ld ld-section ld-video">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-facetime-video"></span> Video Tutorial</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <div class="ld ld-video">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="ld ld-message">
+                            <p>
+                                Archery is made to be simple and agile.
+                                No extra skills required, you can start in several clicks.
+                            </p>
+                            <p>
+                                You can start from scratch or use any template from the gallery.
+                                With a little effort you will get a functional online service in a few minutes.
+                            </p>
+                            <p>
+                                You can publish your portal immediately and update it any time you want.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="shell-actions">
     <section class="ge ge-actions">
         <div class="pull-left">
@@ -1635,30 +1727,6 @@
         ></shell-page>
     </section>
 
-</template>
-
-<template id="shell-domains">
-    <section class="ge ge-panel ge-domains">
-        <domains :items.sync="domains" :globals.sync="globals" inline-template>
-            <h5>
-                <span>Domains</span>
-                <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({ title: {}, resource: { params: [] }})"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                </span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
-                    <a href="#" @click="trigger('selectDomain', item)">
-                        <span>{{ item.name }}</span>
-                        <span class="ge ge-overlays">
-                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </domains>
-    </section>
 </template>
 
 <template id="shell-decorator-canvas">
@@ -1768,6 +1836,30 @@
     </div>
 </template>
 
+<template id="shell-domains">
+    <section class="ge ge-panel ge-domains">
+        <domains :items.sync="domains" :globals.sync="globals" inline-template>
+            <h5>
+                <span>Domains</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ title: {}, resource: { params: [] }})"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
+                    <a href="#" @click="trigger('selectDomain', item)">
+                        <span>{{ item.name }}</span>
+                        <span class="ge ge-overlays">
+                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </domains>
+    </section>
+</template>
+
 <template id="shell-page">
 
     <div class="ge ge-page" :style="{
@@ -1821,30 +1913,6 @@
 <template id="shell-palette">
     <section class="ge ge-palette">
         <palette-item v-for="widget in category.widgets" :widget.sync="widget"></palette-item>
-    </section>
-</template>
-
-<template id="shell-sources">
-    <section class="ge ge-panel ge-sources">
-        <pages-sources :items.sync="sources" :globals.sync="globals" inline-template>
-            <h5>
-                <span>Sources</span>
-                <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({ schema: 'petstore', method: 'GET', params: [] })"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                </span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.source }">
-                    <a href="#" @click="trigger('selectSource', item)">
-                        <span>{{ item.name }}</span>
-                        <span class="ge ge-overlays">
-                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </pages-sources>
     </section>
 </template>
 
@@ -1924,6 +1992,30 @@
     </div>
 </template>
 
+<template id="shell-sources">
+    <section class="ge ge-panel ge-sources">
+        <pages-sources :items.sync="sources" :globals.sync="globals" inline-template>
+            <h5>
+                <span>Sources</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ schema: 'petstore', method: 'GET', params: [] })"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.source }">
+                    <a href="#" @click="trigger('selectSource', item)">
+                        <span>{{ item.name }}</span>
+                        <span class="ge ge-overlays">
+                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </pages-sources>
+    </section>
+</template>
+
 <template id="shell-stacked">
     <div class="ge ge-stacked"
         ><shell-widget v-for="item in items" v-if="item._action != 'remove'"
@@ -1934,12 +2026,6 @@
             :data.sync="item"
         ></shell-widget
     ></div>
-</template>
-
-<template id="shell-stub">
-    <div class="ge ge-stub">
-        <span>Stub</span>
-    </div>
 </template>
 
 <template id="shell-storages">
@@ -1964,6 +2050,12 @@
             </ul>
         </storages>
     </section>
+</template>
+
+<template id="shell-stub">
+    <div class="ge ge-stub">
+        <span>Stub</span>
+    </div>
 </template>
 
 <template id="shell-target">

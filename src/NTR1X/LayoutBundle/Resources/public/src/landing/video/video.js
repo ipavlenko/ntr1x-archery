@@ -2,9 +2,9 @@ Landing = window.Landing || {};
 
 (function(Vue, $, Landing, undefined) {
 
-    Landing.Gallery =
-    Vue.component('landing-gallery', {
-        template: '#landing-gallery',
+    Landing.Video =
+    Vue.component('landing-video', {
+        template: '#landing-video',
     });
 
 })(Vue, jQuery, Landing);

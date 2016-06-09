@@ -1,6 +1,7 @@
 // "out": "landing.css"
 
 .ld.ld-page {
+
     position: absolute;
     top: 0px;
     left: 0px;
@@ -9,15 +10,97 @@
     background-color: #262633;
     overflow: auto;
 
-    .ld.ld-section {
-        position: relative;
-        overflow: auto;
-    }
-
     .ld.ld-container {
         width: 1200px;
         margin: 0px auto;
         position: relative;
-        overflow: auto;
+        overflow: visible;
+    }
+
+    .ld.ld-section {
+
+        position: relative;
+        overflow: visible;
+
+        .ld.ld-offset-header {
+            display: table;
+            width: 100%;
+            margin: 20px 0px;
+
+            a.btn.btn-primary {
+
+                background: #D8C13A;
+                border-color: #D8C13A;
+                color: #141422;
+                margin: 10px 0px 0px 0px;
+
+                &:hover {
+                    background: #E2D16B;
+                    border-color: #E2D16B;
+                }
+            }
+
+            h3.ld.ld-decorate {
+
+                display: block;
+                position: relative;
+                overflow: visible;
+                color: #FFFFFF;
+                padding: 5px 8px;
+                line-height: 1.4em;
+                margin: 0px 0px;
+
+                &:after {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    background-color: #2ECE9D;
+                    height: 4px;
+                    width: 10000px;
+                    margin-top: -2px;
+                    top: 50%;
+                }
+            }
+
+            h3.ld.ld-decorate.ld-decorate-left {
+
+                float: left;
+                border: 2px solid #2ECE9D;
+                border-left: 4px solid #2ECE9D;
+                background: rgba(46,206,157,.15);
+
+                &:after {
+                    left: auto;
+                    right: 100%;
+                }
+            }
+
+            h3.ld.ld-decorate.ld-decorate-right {
+
+                float: right;
+                border: 2px solid #15A0BF;
+                border-right: 4px solid #15A0BF;
+                background: rgba(21,160,191,.15);
+
+                &:after {
+                    left: 100%;
+                    right: auto;
+                }
+            }
+        }
+
+        .ld.ld-message {
+            color: #D0D0D2;
+            font-size: 1.7em;
+            font-weight: 300;
+            line-height: 1.7em;
+        }
+
+        .ld.ld-video {
+            background-color: #141422;
+            border-radius: 1em;
+            padding: 1.5em;
+            height: 300px;
+        }
     }
 }
