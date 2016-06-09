@@ -20,7 +20,8 @@
 
             var routes = {
                 '/admin': {
-                    component: Shell.ShellPrivate
+                    component: Shell.ShellPrivate,
+                    private: true,
                 },
             };
 

@@ -1,5 +1,5 @@
 <template id="shell-decorator-vertical">
-    <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected, 'ignore-elements': editable  }">
+    <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected, 'ignore-elements': editable }">
         <div class="ge ge-content">
             <div
                 :is="widget.tag"
@@ -12,7 +12,7 @@
                 :editable.sync="selected"
             ></div>
         </div>
-        <div class="ge ge-overlay" v-if="editable">
+        <div class="ge ge-overlay" v-if="$route.private && editable">
             <div class="ge ge-overlay-left">
                 <a href="#" v-if="!selected" @click.stop.prevent="selectTarget()" class="label label-success">Unlock</a>
                 <a href="#" v-if="selected" @click.stop.prevent="unselectTarget()" class="label label-success">Lock</a>

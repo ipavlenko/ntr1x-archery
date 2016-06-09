@@ -65,6 +65,18 @@
             prop: Object,
             param: Object,
         },
+        methods: {
+            getLabel: function(item) {
+
+                if (this.prop.display) {
+                    var vm = new Vue({
+                        item: item,
+                    });
+                    return vm.$interpolate(this.prop.display);
+                }
+                return '<item>';
+            },
+        }
     });
 
     var ParamBindingsModalEditor =

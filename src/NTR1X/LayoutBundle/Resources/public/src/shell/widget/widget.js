@@ -27,15 +27,19 @@ Shell.Widgets = window.Shell.Widgets || {};
                     'default-stack-vertical': 'shell-decorator-vertical',
                     'default-stub': 'shell-decorator-stub',
                 },
-                fallback: 'shell-decorator-widget'
+                fallback: 'shell-decorator-widget',
             };
         },
         created: function() {
+
+            // console.log('widget');
 
             var shell = Vue.service('shell');
 
             this.widget = shell.getWidget(this.model.type);
             this.decorator = this.decorators.alternatives[this.widget.tag] || this.decorators.fallback;
+
+            // console.log(this.$route);
             // this.decorator = 'shell-decorator-stub';
         },
         data: function() {

@@ -374,7 +374,7 @@ NavHorizontal:
         -
             name: items
             type: multiple
-            display: '{{ params.title }}'
+            display: '{{ 2 + 3 }}'
             title: Navigation Items
             tab: data
             tabs:

@@ -292,56 +292,86 @@ Shell = window.Shell || {};
 
             created: function() {
 
-                var shell = Vue.service('shell');
+                if (this.$route.private) {
 
-                var self = this;
-                this.$watch('selected', function(selected) {
+                    var shell = Vue.service('shell');
 
-                    if (selected) {
+                    var self = this;
+                    this.$watch('selected', function(selected) {
 
-                        self.sortable =
-                        Sortable.create($(selector, self.$el).get(0), {
+                        if (selected) {
 
-                            group: {
-                                name: 'widgets',
-                                pull: 'clone',
-                            },
-                            animation: 150,
+                            self.sortable =
+                            Sortable.create($(selector, self.$el).get(0), {
 
-                            onAdd: function (evt) {
+                                group: {
+                                    name: 'widgets',
+                                    pull: 'clone',
+                                },
+                                animation: 150,
 
-                                var palette = $(evt.item).closest('.ge.ge-palette');
+                                onAdd: function (evt) {
 
-                                var w = $(evt.item).data('widget');
+                                    var palette = $(evt.item).closest('.ge.ge-palette');
 
-                                if (w) {
+                                    var w = $(evt.item).data('widget');
 
-                                    if (!palette.length) {
+                                    if (w) {
 
-                                        $(evt.item).remove();
+                                        if (!palette.length) {
+
+                                            $(evt.item).remove();
+
+                                            var ni = find(self.items, evt.newIndex);
+
+                                            var widget = shell.getWidget(w);
+
+                                            // TODO Initialize params in service layer
+
+                                            self.items.splice(ni, 0, {
+                                                type: widget.id,
+                                                resource: {
+                                                    params: [],
+                                                    _action: 'create'
+                                                },
+                                                params: widget.params
+                                                    ? JSON.parse(JSON.stringify(widget.params))
+                                                    : {}
+                                                ,
+                                                widgets: [],
+                                                _action: 'create',
+                                            });
+                                        }
+
+                                    } else {
+
+                                        var dragged = {
+                                            vue: evt.from.__dragged__,
+                                            item: $('.ge.ge-widget', evt.item),
+                                            clone: $('.ge.ge-widget', evt.clone),
+                                        };
+
+                                        var container = $(evt.to).closest('.ge.ge-widget').get(0).__vue__;
 
                                         var ni = find(self.items, evt.newIndex);
 
-                                        var widget = shell.getWidget(w);
+                                        var newItem = JSON.parse(JSON.stringify(dragged.vue.model));
+                                        newItem._action = 'create';
+                                        delete newItem.resource.id;
+                                        delete newItem.id;
 
-                                        // TODO Initialize params in service layer
+                                        dragged.item.remove();
 
-                                        self.items.splice(ni, 0, {
-                                            type: widget.id,
-                                            resource: {
-                                                params: [],
-                                                _action: 'create'
-                                            },
-                                            params: widget.params
-                                                ? JSON.parse(JSON.stringify(widget.params))
-                                                : {}
-                                            ,
-                                            widgets: [],
-                                            _action: 'create',
-                                        });
+                                        container.items.splice(ni, 0, newItem);
+                                        container.items = container.items.slice();
                                     }
+                                },
 
-                                } else {
+                                onStart: function (evt) {
+                                    evt.from.__dragged__ = $('.ge.ge-widget', evt.item).get(0).__vue__;
+                                },
+
+                                onRemove: function(evt) {
 
                                     var dragged = {
                                         vue: evt.from.__dragged__,
@@ -349,74 +379,47 @@ Shell = window.Shell || {};
                                         clone: $('.ge.ge-widget', evt.clone),
                                     };
 
-                                    var container = $(evt.to).closest('.ge.ge-widget').get(0).__vue__;
+                                    var stack =  dragged.vue.$parent.$parent.$parent;
 
+                                    dragged.clone.remove();
+
+                                    if (dragged.vue.model._action == 'create') {
+                                        stack.items.$remove(dragged.vue.model);
+                                    } else {
+                                        dragged.vue.model._action = 'remove';
+                                    }
+
+                                    stack.items = stack.items.slice();
+                                },
+
+                                onUpdate: function (evt) {
+
+                                    var oi = self.items.indexOf(evt.from.__dragged__.model);
                                     var ni = find(self.items, evt.newIndex);
 
-                                    var newItem = JSON.parse(JSON.stringify(dragged.vue.model));
-                                    newItem._action = 'create';
-                                    delete newItem.resource.id;
-                                    delete newItem.id;
+                                    if (oi != ni) {
+                                        self.items.splice(ni, 0, self.items.splice(oi, 1)[0]);
+                                        self.items = self.items.slice();
+                                    }
+                                },
 
-                                    dragged.item.remove();
+                                onEnd: function (evt) {
 
-                                    container.items.splice(ni, 0, newItem);
-                                    container.items = container.items.slice();
+                                    delete evt.from.__dragged__;
                                 }
-                            },
+                            });
 
-                            onStart: function (evt) {
-                                evt.from.__dragged__ = $('.ge.ge-widget', evt.item).get(0).__vue__;
-                            },
+                        } else {
 
-                            onRemove: function(evt) {
-
-                                var dragged = {
-                                    vue: evt.from.__dragged__,
-                                    item: $('.ge.ge-widget', evt.item),
-                                    clone: $('.ge.ge-widget', evt.clone),
-                                };
-
-                                var stack =  dragged.vue.$parent.$parent.$parent;
-
-                                dragged.clone.remove();
-
-                                if (dragged.vue.model._action == 'create') {
-                                    stack.items.$remove(dragged.vue.model);
-                                } else {
-                                    dragged.vue.model._action = 'remove';
-                                }
-
-                                stack.items = stack.items.slice();
-                            },
-
-                            onUpdate: function (evt) {
-
-                                var oi = self.items.indexOf(evt.from.__dragged__.model);
-                                var ni = find(self.items, evt.newIndex);
-
-                                if (oi != ni) {
-                                    self.items.splice(ni, 0, self.items.splice(oi, 1)[0]);
-                                    self.items = self.items.slice();
-                                }
-                            },
-
-                            onEnd: function (evt) {
-
-                                delete evt.from.__dragged__;
+                            if (self.sortable) {
+                                self.sortable.destroy();
+                                self.sortable = null;
                             }
-                        });
-
-                    } else {
-
-                        if (self.sortable) {
-                            self.sortable.destroy();
-                            self.sortable = null;
                         }
-                    }
-                }, {
-                    immediate: true
-                });
+                    }, {
+                        immediate: true
+                    });
+                }
             },
 
             methods: {

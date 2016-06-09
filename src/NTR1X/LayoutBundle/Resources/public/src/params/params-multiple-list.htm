@@ -17,7 +17,7 @@
             <tbody>
                 <tr v-for="item in items" v-show="item._action != 'remove'">
                     <td>{{ $index + 1 }}</td>
-                    <td></td>
+                    <td>{{ getLabel(item) }}</td>
                     <td>
                         <div class="pull-right">
                             <a class="btn btn-xs btn-default" @click="update(item, { prop: prop })">Edit</a>
