@@ -77,10 +77,10 @@
 }
 .ld.ld-page .ld.ld-section .ld.ld-message {
   color: #D0D0D2;
-  font-size: 1.7em;
+  font-size: 1.6em;
   font-weight: 300;
-  line-height: 1.7em;
-  margin-bottom: 10px;
+  line-height: 1.5em;
+  margin: 20px 0px;
 }
 .ld.ld-page .ld.ld-section .ld.ld-video {
   background-color: #141422;
