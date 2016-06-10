@@ -2,9 +2,9 @@ Landing = window.Landing || {};
 
 (function(Vue, $, Landing, undefined) {
 
-    Landing.Storage =
-    Vue.component('landing-pricing', {
-        template: '#landing-pricing',
+    Landing.Usecases =
+    Vue.component('landing-usecases', {
+        template: '#landing-usecases',
     });
 
 })(Vue, jQuery, Landing);

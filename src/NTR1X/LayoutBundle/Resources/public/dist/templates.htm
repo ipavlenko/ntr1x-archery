@@ -206,6 +206,49 @@
 
 </template>
 
+<template id="landing-page">
+    <div class="ld ld-page">
+        <div class="container-fluid">
+            <div class="row">
+                <landing-super></landing-super>
+            </div>
+            <div class="row">
+                <landing-header></landing-header>
+            </div>
+            <div class="row">
+                <landing-gallery></landing-gallery>
+            </div>
+            <div class="row">
+                <landing-video></landing-video>
+            </div>
+            <div class="row">
+                <landing-storage></landing-storage>
+            </div>
+            <div class="row">
+                <landing-usecases></landing-usecases>
+            </div>
+            <div class="row">
+                <landing-pricing></landing-pricing>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <landing-benefits></landing-benefits>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <landing-contacts></landing-contacts>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <landing-footer></landing-footer>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="pages-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -463,48 +506,6 @@
         <pages-list :items.sync="items" :globals.sync="globals"></pages-list>
     </div>
 
-</template>
-
-<template id="landing-page">
-    <div class="ld ld-page">
-        <div class="container-fluid">
-            <div class="row">
-                <landing-super></landing-super>
-            </div>
-            <div class="row">
-                <landing-header></landing-header>
-            </div>
-            <div class="row">
-                <landing-gallery></landing-gallery>
-            </div>
-            <div class="row">
-                <landing-video></landing-video>
-            </div>
-            <div class="row">
-                <landing-storage></landing-storage>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <landing-benefits></landing-benefits>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <landing-pricing></landing-pricing>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <landing-contacts></landing-contacts>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <landing-footer></landing-footer>
-                </div>
-            </div>
-        </div>
-    </div>
 </template>
 
 <template id="params-bindings-dialog">
@@ -1174,6 +1175,320 @@
 
 </template>
 
+<template id="landing-contacts">
+    <div class="ld ld-section ld-contacts">
+        <h3>Contacts</h3>
+    </div>
+</template>
+
+<template id="landing-benefits">
+    <div class="ld ld-section ld-benefits">
+        <h3>Benefits</h3>
+    </div>
+</template>
+
+<template id="landing-footer">
+    <div class="ld ld-section ld-footer">
+        <h3>Footer</h3>
+    </div>
+</template>
+
+<template id="landing-gallery">
+    <div class="ld ld-section ld-gallery">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-eye-open"></span> Featured Templates</h3>
+                            <a href="/gallery" class="btn btn-primary pull-right">Browse Gallery</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail">
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail">
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-header">
+    <div class="ld ld-section ld-header">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <ul class="nav nav-pills pull-right">
+                        <li role="presentation"><a href="#">Gallery</a></li>
+                        <li role="presentation"><a href="#">Storage</a></li>
+                        <li role="presentation"><a href="#">Benefits</a></li>
+                        <li role="presentation"><a href="#">Pricing</a></li>
+                        <li role="presentation"><a href="#">Contacts</a></li>
+                        <li role="presentation" class="primary"><a href="/gallery">Create Portal</a></li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="ld ld-offer">
+                        <h1>Open your online universe!</h1>
+                        <h2>Archery is the Cloud platform to build business friendly online services.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-pricing">
+    <div class="ld ld-section ld-pricing">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-hdd"></span> Pricing</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-pricing-offers">
+                            <div class="ld ld-pricing-offer">
+                                <h4>Starter</h4>
+                                <div class="ld ld-offer-price">$10 / month</div>
+                                <div class="ld ld-offer-discount">30% discount for 1 year subscription</div>
+                                <ul class="ld ld-offer-options">
+                                    <li>One portal</li>
+                                    <li>Unlimited number of pages</li>
+                                    <li>500 Mb Storage</li>
+                                </ul>
+                                <div class="ld ld-offer-promo">
+                                    <p>Better suited for personal, event and product pages.</p>
+                                    <a href="#" class="btn btn-primary">Create Portal</a>
+                                </div>
+                            </div>
+                            <div class="ld ld-pricing-offer">
+                                <h4>Business</h4>
+                                <div class="ld ld-offer-price">$100 / month</div>
+                                <div class="ld ld-offer-discount">30% discount for 1 year subscription</div>
+                                <ul class="ld ld-offer-options">
+                                    <li>Up to 10 portals</li>
+                                    <li>Unlimited number of pages</li>
+                                    <li>2 Gb Storage per each portal</li>
+                                </ul>
+                                <div class="ld ld-offer-promo">
+                                    <p>Better suited for small campanies and startups.</p>
+                                    <a href="#" class="btn btn-primary">Create Portal</a>
+                                </div>
+                            </div>
+                            <div class="ld ld-pricing-offer">
+                                <h4>Server</h4>
+                                <div class="ld ld-offer-price">$4000</div>
+                                <div class="ld ld-offer-discount">30% discount for each additional server licence</div>
+                                <ul class="ld ld-offer-options">
+                                    <li>Up to 100 portals</li>
+                                    <li>1 year subscription for updates</li>
+                                    <li>Deploy to your own hardrare</li>
+                                </ul>
+                                <div class="ld ld-offer-promo">
+                                    <p>Better suited for web-developers and service providers.</p>
+                                    <a href="#" class="btn btn-primary">Apply</a>
+                                </div>
+                            </div>
+                            <div class="ld ld-pricing-offer">
+                                <h4>Advanced</h4>
+                                <div class="ld ld-offer-price">Price on request</div>
+                                <div class="ld ld-offer-discount">Do not see a suitable plan? Need a special offer?</div>
+                                <ul class="ld ld-offer-options">
+                                    <li>Branding</li>
+                                    <li>Integrations</li>
+                                    <li>Custom setup</li>
+                                </ul>
+                                <div class="ld ld-offer-promo">
+                                    <p>We are welcome you as a partner. Please mail us.</p>
+                                    <a href="#" class="btn btn-primary">Apply</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-storage">
+    <div class="ld ld-section ld-storage">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-hdd"></span> Data Storage</h3>
+                            <a href="/storage" class="btn btn-primary pull-right">Explore Catalog</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-features">
+                            <div class="ld ld-feature">
+                                Goods &amp; Prices
+                            </div>
+                            <div class="ld ld-feature">
+                                Features &amp; Benefits
+                            </div>
+                            <div class="ld ld-feature">
+                                Booking &amp; Orders
+                            </div>
+                            <div class="ld ld-feature">
+                                News &amp; Events
+                            </div>
+                            <div class="ld ld-feature">
+                                Communication &amp; Collaboration
+                            </div>
+                            <div class="ld ld-feature">
+                                Users &amp; Personalities
+                            </div>
+                            <div class="ld ld-feature">
+                                Photo &amp; Video Galleries
+                            </div>
+                            <div class="ld ld-feature">
+                                Geospatial Data
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-super">
+    <div class="ld ld-section ld-super">
+        <div class="ld ld-container">
+            <ul class="nav nav-pills pull-left">
+                <li role="presentation"><a href="#">NTR1X</a></li>
+                <li role="presentation"><a href="#">Archery</a></li>
+                <li role="presentation"><a href="#">Blog</a></li>
+            </ul>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation"><a href="#">FAQ</a></li>
+                <li role="presentation"><a href="#">About</a></li>
+                <li role="presentation"><a href="#">Contacts</a></li>
+                <li role="presentation"><a href="#">Documentation</a></li>
+            </ul>
+        </div>
+    </div>
+</template>
+
+<template id="landing-video">
+    <div class="ld ld-section ld-video">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-facetime-video"></span> Video Tutorial</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <div class="ld ld-video">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="ld ld-message">
+                            <p>
+                                Archery is made to be simple and agile.
+                                No extra skills required, you can start in several clicks.
+                            </p>
+                            <p>
+                                Create project from scratch or use any template from the gallery.
+                                With a little effort you will get a functional online service in a few minutes.
+                            </p>
+                            <p>
+                                You can publish your portal immediately and update it any time you want.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-usecases">
+    <div class="ld ld-section ld-usecases">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-user"></span> Use Cases</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                        <div class="ld ld-usecase">
+                            <img class="img-circle" style="width: 140px; height: 140px;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTUzOGU3ZGFiYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1NTM4ZTdkYWJjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ1LjUiIHk9Ijc0LjUiPjE0MHgxNDA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" />
+                            <div>
+                                <h4>Need a styled well landing page</h4>
+                                <p>
+                                    Use our Gallery to find a suitable template. Then update page content.
+                                    Use our well designed widgets to make your user interface better.
+                                    Be sure you will be able to update your site data, design and structure any time you want.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="ld ld-usecase">
+                            <img class="img-circle" style="width: 140px; height: 140px;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTUzOGU3ZGFiYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1NTM4ZTdkYWJjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ1LjUiIHk9Ijc0LjUiPjE0MHgxNDA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" />
+                            <div>
+                                <h4>Need a portal with anvanced services</h4>
+                                <p>
+                                    Build a Portal with our powerful visual editor. Wire portal data with our public storage
+                                    services, we made them to solve 90% of your needs. Feel free to use your own storages for
+                                    least 10%.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="ld ld-usecase">
+                            <img class="img-circle" style="width: 140px; height: 140px;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTUzOGU3ZGFiYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1NTM4ZTdkYWJjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ1LjUiIHk9Ijc0LjUiPjE0MHgxNDA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" />
+                            <div>
+                                <h4>Need a data &amp; flow control panel</h4>
+                                <p>
+                                    Archery may connect to any REST storage worldwide. Use our storage services of wire your
+                                    own services. Use our special widgets: tables, grids, charts and input controls to build
+                                    a powerful dashboard.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="pages-sources-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
@@ -1491,178 +1806,6 @@
 
     <section>
 
-</template>
-
-<template id="landing-benefits">
-    <div class="ld ld-section ld-benefits">
-        <h3>Benefits</h3>
-    </div>
-</template>
-
-<template id="landing-contacts">
-    <div class="ld ld-section ld-contacts">
-        <h3>Contacts</h3>
-    </div>
-</template>
-
-<template id="landing-footer">
-    <div class="ld ld-section ld-footer">
-        <h3>Footer</h3>
-    </div>
-</template>
-
-<template id="landing-gallery">
-    <div class="ld ld-section ld-gallery">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-eye-open"></span> Featured Templates</h3>
-                            <a href="/gallery" class="btn btn-primary pull-right">Browse Gallery</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail">
-
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail">
-
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template id="landing-header">
-    <div class="ld ld-section ld-header">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <ul class="nav nav-pills pull-right">
-                        <li role="presentation"><a href="#">Gallery</a></li>
-                        <li role="presentation"><a href="#">Storage</a></li>
-                        <li role="presentation"><a href="#">Benefits</a></li>
-                        <li role="presentation"><a href="#">Pricing</a></li>
-                        <li role="presentation"><a href="#">Contacts</a></li>
-                        <li role="presentation" class="primary"><a href="/gallery">Create Portal</a></li>
-                    </ul>
-                </div>
-                <div class="row">
-                    <div class="ld ld-offer">
-                        <h1>Open your online universe!</h1>
-                        <h2>Archery is the Cloud platform to build business friendly online services.</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template id="landing-pricing">
-    <div class="ld ld-section ld-pricing">
-        <h3>Pricing</h3>
-    </div>
-</template>
-
-<template id="landing-storage">
-    <div class="ld ld-section ld-storage">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-hdd"></span> Data Storage</h3>
-                            <a href="/storage" class="btn btn-primary pull-right">Explore Catalog</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail">
-
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail">
-
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template id="landing-super">
-    <div class="ld ld-section ld-super">
-        <div class="ld ld-container">
-            <ul class="nav nav-pills pull-left">
-                <li role="presentation"><a href="#">NTR1X</a></li>
-                <li role="presentation"><a href="#">Archery</a></li>
-                <li role="presentation"><a href="#">Blog</a></li>
-            </ul>
-            <ul class="nav nav-pills pull-right">
-                <li role="presentation"><a href="#">FAQ</a></li>
-                <li role="presentation"><a href="#">About</a></li>
-                <li role="presentation"><a href="#">Contacts</a></li>
-                <li role="presentation"><a href="#">Documentation</a></li>
-            </ul>
-        </div>
-    </div>
-</template>
-
-<template id="landing-video">
-    <div class="ld ld-section ld-video">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-facetime-video"></span> Video Tutorial</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-6">
-                        <div class="ld ld-video">
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-6">
-                        <div class="ld ld-message">
-                            <p>
-                                Archery is made to be simple and agile.
-                                No extra skills required, you can start in several clicks.
-                            </p>
-                            <p>
-                                You can start from scratch or use any template from the gallery.
-                                With a little effort you will get a functional online service in a few minutes.
-                            </p>
-                            <p>
-                                You can publish your portal immediately and update it any time you want.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </template>
 
 <template id="shell-actions">
@@ -2028,6 +2171,12 @@
     ></div>
 </template>
 
+<template id="shell-stub">
+    <div class="ge ge-stub">
+        <span>Stub</span>
+    </div>
+</template>
+
 <template id="shell-storages">
     <section class="ge ge-panel ge-storages">
         <storages :items.sync="storages" :globals.sync="globals" inline-template>
@@ -2050,12 +2199,6 @@
             </ul>
         </storages>
     </section>
-</template>
-
-<template id="shell-stub">
-    <div class="ge ge-stub">
-        <span>Stub</span>
-    </div>
 </template>
 
 <template id="shell-target">

@@ -10,6 +10,18 @@
     background-color: #262633;
     overflow: auto;
 
+    a.btn.btn-primary {
+
+        background: #D8C13A;
+        border-color: #D8C13A;
+        color: #141422;
+
+        &:hover {
+            background: #E2D16B;
+            border-color: #E2D16B;
+        }
+    }
+
     .ld.ld-container {
         width: 1200px;
         margin: 0px auto;
@@ -20,7 +32,8 @@
     .ld.ld-section {
 
         position: relative;
-        overflow: visible;
+        overflow-x: hidden;
+        overflow-y: visible;
 
         .ld.ld-offset-header {
             display: table;
@@ -28,16 +41,7 @@
             margin: 20px 0px;
 
             a.btn.btn-primary {
-
-                background: #D8C13A;
-                border-color: #D8C13A;
-                color: #141422;
                 margin: 10px 0px 0px 0px;
-
-                &:hover {
-                    background: #E2D16B;
-                    border-color: #E2D16B;
-                }
             }
 
             h3.ld.ld-decorate {
@@ -54,7 +58,6 @@
                     content: '';
                     display: block;
                     position: absolute;
-                    background-color: #2ECE9D;
                     height: 4px;
                     width: 10000px;
                     margin-top: -2px;
@@ -72,6 +75,7 @@
                 &:after {
                     left: auto;
                     right: 100%;
+                    background-color: #2ECE9D;
                 }
             }
 
@@ -85,6 +89,7 @@
                 &:after {
                     left: 100%;
                     right: auto;
+                    background-color: #15A0BF;
                 }
             }
         }
@@ -94,6 +99,7 @@
             font-size: 1.7em;
             font-weight: 300;
             line-height: 1.7em;
+            margin-bottom: 10px;
         }
 
         .ld.ld-video {
@@ -101,6 +107,72 @@
             border-radius: 1em;
             padding: 1.5em;
             height: 300px;
+            margin-bottom: 10px;
+        }
+
+        .ld.ld-features {
+            position: relative;
+            overflow: visible;
+            margin-left: -10px;
+        }
+
+        .ld.ld-feature {
+
+            position:relative;
+            float: left;
+            overflow: visible;
+            margin: 0px 0px 10px 10px;
+            width: 580px;
+            color: #D0D0D2;
+            font-size: 1.4em;
+            font-weight: 300;
+            text-align: center;
+            background-color: #141422;
+            border-radius: 0.6em;
+            padding: 1em;
+        }
+
+        .ld.ld-pricing-offers {
+            position: relative;
+            overflow: visible;
+            margin-left: -10px;
+        }
+
+        .ld.ld-pricing-offer {
+
+            position:relative;
+            float: left;
+            overflow: visible;
+            margin: 0px 0px 10px 10px;
+            width: 285px;
+            color: #D0D0D2;
+            font-size: 1.4em;
+            font-weight: 300;
+            text-align: center;
+            background-color: #141422;
+            border-radius: 0.6em;
+            padding: 1em;
+
+            .ld.ld-offer-price {
+                font-size: 1.1em;
+                color: #E0CD61;
+            }
+
+            .ld.ld-offer-discount {
+                font-size: 0.8em;
+            }
+
+            .ld-offer-promo {
+                font-size: 0.7em;
+            }
+
+            ul.ld.ld-offer-options {
+                margin-top: 10px;
+                font-size: 0.7em;
+                li {
+                    text-align: left;
+                }
+            }
         }
     }
 }
