@@ -1,0 +1,24 @@
+.ld.ld-feedback {
+  padding: 30px 0px;
+}
+.ld.ld-feedback .ld.ld-feedback-item {
+  color: #D0D0D2;
+  display: table;
+  border-spacing: 10px;
+}
+.ld.ld-feedback .ld.ld-feedback-item img {
+  display: table-cell;
+  vertical-align: top;
+  border: 0.3em solid #FFFFFF;
+}
+.ld.ld-feedback .ld.ld-feedback-item .ld.ld-item-details {
+  display: table-cell;
+  vertical-align: top;
+}
+.ld.ld-feedback .ld.ld-feedback-item .ld.ld-item-details b {
+  display: block;
+}
+.ld.ld-feedback .ld.ld-feedback-item .ld.ld-item-details i {
+  display: block;
+  color: #999999;
+}

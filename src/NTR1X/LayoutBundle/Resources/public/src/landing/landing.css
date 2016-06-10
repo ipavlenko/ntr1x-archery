@@ -144,3 +144,8 @@
 .ld.ld-page .ld.ld-section .ld.ld-pricing-offer ul.ld.ld-offer-options li {
   text-align: left;
 }
+.ld.ld-page .ld.ld-section .ld.ld-copyright {
+  padding: 10px 0px;
+  color: #D0D0D2;
+  text-align: center;
+}

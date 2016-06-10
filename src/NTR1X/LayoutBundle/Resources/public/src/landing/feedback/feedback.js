@@ -2,9 +2,9 @@ Landing = window.Landing || {};
 
 (function(Vue, $, Landing, undefined) {
 
-    Landing.Footer =
-    Vue.component('landing-footer', {
-        template: '#landing-footer',
+    Landing.Feedback =
+    Vue.component('landing-feedback', {
+        template: '#landing-feedback',
     });
 
 })(Vue, jQuery, Landing);
