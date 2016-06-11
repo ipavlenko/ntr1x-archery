@@ -7,4 +7,9 @@ Landing = window.Landing || {};
         template: '#landing-storage',
     });
 
+    Landing.StorageFull =
+    Vue.component('landing-storage-full', {
+        template: '#landing-storage-full',
+    });
+
 })(Vue, jQuery, Landing);

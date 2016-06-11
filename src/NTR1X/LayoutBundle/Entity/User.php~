@@ -1,0 +1,53 @@
+<?php
+
+namespace NTR1X\LayoutBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * User
+ *
+ * @ORM\Table(name="user_items")
+ * @ORM\Entity(repositoryClass="NTR1X\LayoutBundle\Repository\UserRepository")
+ */
+class User
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=511)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", nullable=false)
+     */
+    private $pwdhash;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="salt", type="string", nullable=false)
+     */
+    private $salt;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Domain", mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $domain;
+
+    public function __construct() {
+    }
+}

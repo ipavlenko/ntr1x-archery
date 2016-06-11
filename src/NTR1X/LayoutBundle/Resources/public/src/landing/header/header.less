@@ -2,16 +2,26 @@
 
 .ld.ld-header {
 
-    //background: rgba(20,20,34,.95);
     background: transparent url('/bundles/ntr1xlayout/src/landing/header/header.jpg') no-repeat center center;
     background-size: cover;
     height: 400px;
-    // border-top: 1px solid #262633;
-    // border-bottom: 1px solid #262633;
     box-shadow: 0 3px 6px rgba(0,0,0,.15);
 
     .ld.ld-container {
         padding: 15px 0px;
+    }
+
+    .ld.ld-header-affix {
+
+        &.affix {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            z-index: 10000;
+            background: rgba(20,20,34,.95);
+            border: 1px solid #262633;
+        }
     }
 
     ul.nav.nav-pills {

@@ -37,10 +37,21 @@ class Domain
     private $title;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="domains")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     */
+    private $user;
+
+    /**
      * @ORM\OneToOne(targetEntity="Resource", cascade={"persist"}, fetch="EAGER")
      * @ORM\JoinColumn(name="resource_id", referencedColumnName="id", nullable=false)
      */
     private $resource;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Page", mappedBy="domain", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $pages;
 
     public function __construct() {
     }
@@ -125,5 +136,63 @@ class Domain
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \NTR1X\LayoutBundle\Entity\User $user
+     *
+     * @return Domain
+     */
+    public function setUser(\NTR1X\LayoutBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \NTR1X\LayoutBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Add page
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Page $page
+     *
+     * @return Domain
+     */
+    public function addPage(\NTR1X\LayoutBundle\Entity\Page $page)
+    {
+        $this->pages[] = $page;
+
+        return $this;
+    }
+
+    /**
+     * Remove page
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Page $page
+     */
+    public function removePage(\NTR1X\LayoutBundle\Entity\Page $page)
+    {
+        $this->pages->removeElement($page);
+    }
+
+    /**
+     * Get pages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPages()
+    {
+        return $this->pages;
     }
 }

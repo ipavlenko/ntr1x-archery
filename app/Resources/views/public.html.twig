@@ -28,6 +28,7 @@
             <script src="{{ asset('assets/vendor/Sortable/Sortable.js') }}"></script>
             <script src="{{ asset('assets/vendor/vue/dist/vue.js') }}"></script>
             <script src="{{ asset('assets/vendor/vue-router/dist/vue-router.js') }}"></script>
+            <script src="{{ asset('assets/vendor/vue-validator/dist/vue-validator.js') }}"></script>
             <script src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
             <script src="{{ asset('assets/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
@@ -47,15 +48,6 @@
     </head>
     <body
         data-vue-public
-        data-model="{{ model | serialize('json') }}"
-        data-settings="{{ settings | serialize('json') }}"
-        data-selection="{{ {
-            category: null,
-            domain: null,
-            page: null,
-            source: null,
-            storage: null,
-        } | serialize('json', layout.jms.withNulls) }}"
     >
         <div data-vue-body>
 

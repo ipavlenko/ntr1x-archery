@@ -206,37 +206,53 @@
 
 </template>
 
+<template id="landing-gallery-page">
+    <div class="ld ld-page ld-secondary-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-gallery-full></landing-gallery-full>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-signin-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-account-signin></landing-account-signin>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-signup-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-account-signup></landing-account-signup>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-storage-page">
+    <div class="ld ld-page ld-secondary-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-storage-full></landing-storage-full>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
 <template id="landing-page">
     <div class="ld ld-page">
-        <div class="container-fluid">
-            <div class="row">
-                <landing-super></landing-super>
-            </div>
-            <div class="row">
-                <landing-header></landing-header>
-            </div>
-            <div class="row">
-                <landing-gallery></landing-gallery>
-            </div>
-            <div class="row">
-                <landing-video></landing-video>
-            </div>
-            <div class="row">
-                <landing-storage></landing-storage>
-            </div>
-            <div class="row">
-                <landing-usecases></landing-usecases>
-            </div>
-            <div class="row">
-                <landing-pricing></landing-pricing>
-            </div>
-            <div class="row">
-                <landing-feedback></landing-feedback>
-            </div>
-            <div class="row">
-                <landing-footer></landing-footer>
-            </div>
-        </div>
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-gallery></landing-gallery>
+        <landing-video></landing-video>
+        <landing-storage></landing-storage>
+        <landing-usecases></landing-usecases>
+        <landing-pricing></landing-pricing>
+        <landing-feedback></landing-feedback>
+        <landing-footer></landing-footer>
     </div>
 </template>
 
@@ -960,65 +976,6 @@
     </div>
 </template>
 
-<template id="widgets-dialog">
-	<div class="modal modal-center" role="dialog">
-		<div class="ge ge-modal modal-dialog modal-lg">
-			<form class="modal-content"
-				@submit.prevent="submit"
-				@reset.prevent="reset"
-			>
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-					<h4 class="modal-title">
-						<span v-if="original" class="label label-primary">{{ original.name }}</span>
-						<span v-if="original">&nbsp;Настройки виджета</span>
-						<span v-if="!original">Новый виджет</span>
-					</h4>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<label for="dialog-widget-name">Имя</label>
-						<input class="form-control" type="text" id="dialog-widget-name" required="true" v-model="current.name" />
-					</div>
-                    <div class="form-group">
-						<label for="dialog-widget-name">Тип</label>
-						<input class="form-control" type="text" id="dialog-widget-name" required="true" v-model="current.type" />
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="reset" class="btn btn-default">Отменить</button>
-					<button type="submit" class="btn btn-primary">Сохранить</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</template>
-
-<template id="widgets-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 100%">Имя</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td><span class="label label-success">{{ item.provider.bundle }}/{{ item.name }}</span> {{ item.title }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</template>
-
-<template id="widgets">
-
-    <widgets-list :items.sync="items"></widgets-list>
-
-</template>
-
 <template id="storages-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
@@ -1166,6 +1123,132 @@
 
 </template>
 
+<template id="widgets-dialog">
+	<div class="modal modal-center" role="dialog">
+		<div class="ge ge-modal modal-dialog modal-lg">
+			<form class="modal-content"
+				@submit.prevent="submit"
+				@reset.prevent="reset"
+			>
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+					<h4 class="modal-title">
+						<span v-if="original" class="label label-primary">{{ original.name }}</span>
+						<span v-if="original">&nbsp;Настройки виджета</span>
+						<span v-if="!original">Новый виджет</span>
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="dialog-widget-name">Имя</label>
+						<input class="form-control" type="text" id="dialog-widget-name" required="true" v-model="current.name" />
+					</div>
+                    <div class="form-group">
+						<label for="dialog-widget-name">Тип</label>
+						<input class="form-control" type="text" id="dialog-widget-name" required="true" v-model="current.type" />
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-default">Отменить</button>
+					<button type="submit" class="btn btn-primary">Сохранить</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</template>
+
+<template id="widgets-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width: 100%">Имя</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td><span class="label label-success">{{ item.provider.bundle }}/{{ item.name }}</span> {{ item.title }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="widgets">
+
+    <widgets-list :items.sync="items"></widgets-list>
+
+</template>
+
+
+<template id="landing-account-signin">
+    <div class="ld ld-section ld-body ld-account ld-account-signin">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <form>
+                    <div class="form-group">
+                        <h3>Sign In</h3>
+                    </dif>
+                    <div class="form-group">
+                        <input type="email" class="form-control input-lg" id="landing-account-signin-email" placeholder="Email" />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control input-lg" id="landing-account-signin-email" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-lg">Sign In</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-account-signup">
+    <div class="ld ld-section ld-body ld-account ld-account-signup">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <validator name="validation">
+                    <form novalidate @submit.prevent="$validation.valid && doSignup()">
+                        <div class="form-group">
+                            <h3>Register</h3>
+                        </dif>
+                        <div class="form-group" :class="{
+                            'has-error': $validation.email.dirty && ($validation.email.required || $validation.email.pattern),
+                            'has-feedback': $validation.email.dirty && ($validation.email.required || $validation.email.pattern),
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="Email" v-model="form.email" v-validate:email="{
+                                required: { rule: true, message: 'Email is a required field' },
+                                pattern: { rule: validation.email, message: 'Invalid email address' },
+                            }">
+                            <span v-if="$validation.email.dirty && ($validation.email.required || $validation.email.pattern)" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="$validation.email.dirty && $validation.email.required">{{ $validation.email.required }}</div>
+                            <div v-if="$validation.email.dirty && !$validation.email.required && $validation.email.pattern">{{ $validation.email.pattern }}</div>
+                        </div>
+                        <div class="form-group" :class="{
+                            'has-error': $validation.password.dirty && ($validation.password.required || $validation.password.minlength),
+                            'has-feedback': $validation.password.dirty && ($validation.password.required || $validation.password.minlength),
+                        }">
+                            <input type="password" class="form-control input-lg" :classes="{ invalid: 'has-error' }" placeholder="Password" v-model="form.password" v-validate:password="{
+                                required: { rule: true, message: 'Password is a required field' },
+                                minlength: { rule: 8, message: 'Your password is too short' },
+                            }">
+                            <span v-if="$validation.password.dirty && ($validation.password.required || $validation.password.minlength)" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="$validation.password.dirty && $validation.password.required">{{ $validation.password.required }}</div>
+                            <div v-if="$validation.password.dirty && !$validation.password.required && $validation.password.minlength">{{ $validation.password.minlength }}</div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="$validation.valid" :disabled="">Register</button>
+                        </div>
+                    </form>
+                </validator>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="landing-benefits">
     <div class="ld ld-section ld-benefits">
         <h3>Benefits</h3>
@@ -1272,6 +1355,212 @@
     </div>
 </template>
 
+<template id="landing-gallery-full">
+    <div class="ld ld-section ld-gallery ld-gallery-full">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail ld ld-thumbnail">
+                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/1/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default btn-lg">Preview</a>
+                                        <a href="#" class="btn btn-primary btn-lg">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail ld ld-thumbnail">
+                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/2/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default btn-lg">Preview</a>
+                                        <a href="#" class="btn btn-primary btn-lg">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail ld ld-thumbnail">
+                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/3/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default btn-lg">Preview</a>
+                                        <a href="#" class="btn btn-primary btn-lg">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail ld ld-thumbnail">
+                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/1/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default">Preview</a>
+                                        <a href="#" class="btn btn-primary">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail ld ld-thumbnail">
+                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/2/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default">Preview</a>
+                                        <a href="#" class="btn btn-primary">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail ld ld-thumbnail">
+                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/3/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default">Preview</a>
+                                        <a href="#" class="btn btn-primary">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail ld ld-thumbnail">
+                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/1/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default">Preview</a>
+                                        <a href="#" class="btn btn-primary">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail ld ld-thumbnail">
+                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/2/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default">Preview</a>
+                                        <a href="#" class="btn btn-primary">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail ld ld-thumbnail">
+                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/3/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default">Preview</a>
+                                        <a href="#" class="btn btn-primary">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail ld ld-thumbnail">
+                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/1/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default">Preview</a>
+                                        <a href="#" class="btn btn-primary">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail ld ld-thumbnail">
+                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/2/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default">Preview</a>
+                                        <a href="#" class="btn btn-primary">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail ld ld-thumbnail">
+                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/3/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default">Preview</a>
+                                        <a href="#" class="btn btn-primary">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail ld ld-thumbnail">
+                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/1/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default">Preview</a>
+                                        <a href="#" class="btn btn-primary">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail ld ld-thumbnail">
+                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/2/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default">Preview</a>
+                                        <a href="#" class="btn btn-primary">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="thumbnail ld ld-thumbnail">
+                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/3/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default">Preview</a>
+                                        <a href="#" class="btn btn-primary">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="landing-gallery">
     <div class="ld ld-section ld-gallery">
         <div class="ld ld-container">
@@ -1286,18 +1575,42 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail">
+                        <div class="thumbnail ld ld-thumbnail">
                             <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/1/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default btn-lg">Preview</a>
+                                        <a href="#" class="btn btn-primary btn-lg">Create</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail">
+                        <div class="thumbnail ld ld-thumbnail">
                             <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/2/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default btn-lg">Preview</a>
+                                        <a href="#" class="btn btn-primary btn-lg">Create</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail">
+                        <div class="thumbnail ld ld-thumbnail">
                             <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/3/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-overlay">
+                                <div class="ld ld-overlay-content">
+                                    <div class="ld ld-thumbnail-buttons">
+                                        <a href="#" class="btn btn-default btn-lg">Preview</a>
+                                        <a href="#" class="btn btn-primary btn-lg">Create</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1308,69 +1621,28 @@
 
 <template id="landing-header">
     <div class="ld ld-section ld-header">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <ul class="nav nav-pills pull-right">
-                        <li role="presentation"><a href="#">Gallery</a></li>
-                        <li role="presentation"><a href="#">Storage</a></li>
-                        <li role="presentation"><a href="#">Benefits</a></li>
-                        <li role="presentation"><a href="#">Pricing</a></li>
-                        <li role="presentation"><a href="#">Contacts</a></li>
-                        <li role="presentation" class="primary"><a href="/gallery">Create Portal</a></li>
-                    </ul>
-                </div>
-                <div class="row">
-                    <div class="ld ld-offer">
-                        <h1>Open your online universe!</h1>
-                        <h2>Archery is the Cloud platform to build business friendly online services.</h2>
+        <div class="ld ld-header-affix" v-affix="{ offset: { top: 25 } }">
+            <div class="ld ld-container">
+                <div class="container-fluid">
+                    <div class="row">
+                        <ul class="nav nav-pills pull-right">
+                            <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
+                            <li role="presentation"><a v-link="{ path: '/gallery' }">Gallery</a></li>
+                            <li role="presentation"><a v-link="{ path: '/storage' }">Storage</a></li>
+                            <li role="presentation"><a v-link="{ path: '/signup' }">Register</a></li>
+                            <li role="presentation"><a v-link="{ path: '/signin' }">Sign In</a></li>
+                            <li role="presentation" class="primary"><a v-link="{ path: '/gallery' }">Create Portal</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</template>
-
-<template id="landing-storage">
-    <div class="ld ld-section ld-storage">
         <div class="ld ld-container">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-hdd"></span> Data Storage</h3>
-                            <a href="/storage" class="btn btn-primary pull-right">Explore Catalog</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-features">
-                            <div class="ld ld-feature">
-                                Goods &amp; Prices
-                            </div>
-                            <div class="ld ld-feature">
-                                Features &amp; Benefits
-                            </div>
-                            <div class="ld ld-feature">
-                                Booking &amp; Orders
-                            </div>
-                            <div class="ld ld-feature">
-                                News &amp; Events
-                            </div>
-                            <div class="ld ld-feature">
-                                Communication &amp; Collaboration
-                            </div>
-                            <div class="ld ld-feature">
-                                Users &amp; Personalities
-                            </div>
-                            <div class="ld ld-feature">
-                                Photo &amp; Video Galleries
-                            </div>
-                            <div class="ld ld-feature">
-                                Geospatial Data
-                            </div>
-                        </div>
+                    <div class="ld ld-offer">
+                        <h1>Open your online universe!</h1>
+                        <h2>Archery is the Cloud platform to build business friendly online services.</h2>
                     </div>
                 </div>
             </div>
@@ -1456,17 +1728,77 @@
     </div>
 </template>
 
+<template id="landing-storage-full">
+    <div class="ld ld-section ld-storage ld-storage-full">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div style="height: 1200px">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-storage">
+    <div class="ld ld-section ld-storage">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-hdd"></span> Data Storage</h3>
+                            <a href="/storage" class="btn btn-primary pull-right">Explore Catalog</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-features">
+                            <div class="ld ld-feature">
+                                Goods &amp; Prices
+                            </div>
+                            <div class="ld ld-feature">
+                                Features &amp; Benefits
+                            </div>
+                            <div class="ld ld-feature">
+                                Booking &amp; Orders
+                            </div>
+                            <div class="ld ld-feature">
+                                News &amp; Events
+                            </div>
+                            <div class="ld ld-feature">
+                                Communication &amp; Collaboration
+                            </div>
+                            <div class="ld ld-feature">
+                                Users &amp; Personalities
+                            </div>
+                            <div class="ld ld-feature">
+                                Photo &amp; Video Galleries
+                            </div>
+                            <div class="ld ld-feature">
+                                Geospatial Data
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="landing-super">
     <div class="ld ld-section ld-super">
         <div class="ld ld-container">
             <ul class="nav nav-pills pull-left">
                 <li role="presentation"><a href="#">NTR1X</a></li>
-                <li role="presentation"><a href="#">Archery</a></li>
+                <li role="presentation"><a v-link="{ path: '/' }">Archery</a></li>
                 <li role="presentation"><a href="#">Blog</a></li>
             </ul>
             <ul class="nav nav-pills pull-right">
                 <li role="presentation"><a href="#">FAQ</a></li>
-                <li role="presentation"><a href="#">About</a></li>
+                <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
                 <li role="presentation"><a href="#">Contacts</a></li>
                 <li role="presentation"><a href="#">Documentation</a></li>
             </ul>
@@ -1939,19 +2271,6 @@
     </section>
 </template>
 
-<template id="shell-container">
-
-    <section class="ge ge-container">
-        <shell-page
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :items.sync="page.widgets"
-        ></shell-page>
-    </section>
-
-</template>
-
 <template id="shell-decorator-canvas">
     <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
         <div class="ge ge-content">
@@ -2057,6 +2376,19 @@
             </div>
         </div>
     </div>
+</template>
+
+<template id="shell-container">
+
+    <section class="ge ge-container">
+        <shell-page
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :items.sync="page.widgets"
+        ></shell-page>
+    </section>
+
 </template>
 
 <template id="shell-domains">
@@ -2281,12 +2613,6 @@
     </div>
 </template>
 
-<template id="shell-target">
-    <div class="ge ge-target">
-        <span>Drop Here</span>
-    </div>
-</template>
-
 <template id="shell-widget">
     <div>
         <div
@@ -2301,5 +2627,11 @@
             :editable.sync="editable"
             :items.sync="model.widgets"
         ></div>
+    </div>
+</template>
+
+<template id="shell-target">
+    <div class="ge ge-target">
+        <span>Drop Here</span>
     </div>
 </template>

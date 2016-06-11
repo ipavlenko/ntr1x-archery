@@ -7,4 +7,9 @@ Landing = window.Landing || {};
         template: '#landing-gallery',
     });
 
+    Landing.GalleryFull =
+    Vue.component('landing-gallery-full', {
+        template: '#landing-gallery-full',
+    });
+
 })(Vue, jQuery, Landing);

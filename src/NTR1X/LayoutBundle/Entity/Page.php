@@ -38,6 +38,12 @@ class Page
     private $title;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Domain", inversedBy="pages")
+     * @ORM\JoinColumn(name="domain_id", referencedColumnName="id", nullable=false)
+     */
+    private $domain;
+
+    /**
      * @ORM\OneToOne(targetEntity="Resource", cascade={"persist"}, fetch="EAGER")
      * @ORM\JoinColumn(name="resource_id", referencedColumnName="id", nullable=false)
      */
@@ -275,5 +281,29 @@ class Page
     public function getStorages()
     {
         return $this->storages;
+    }
+
+    /**
+     * Set domain
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Domain $domain
+     *
+     * @return Page
+     */
+    public function setDomain(\NTR1X\LayoutBundle\Entity\Domain $domain)
+    {
+        $this->domain = $domain;
+
+        return $this;
+    }
+
+    /**
+     * Get domain
+     *
+     * @return \NTR1X\LayoutBundle\Entity\Domain
+     */
+    public function getDomain()
+    {
+        return $this->domain;
     }
 }

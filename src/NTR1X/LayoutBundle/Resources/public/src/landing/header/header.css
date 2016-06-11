@@ -7,6 +7,15 @@
 .ld.ld-header .ld.ld-container {
   padding: 15px 0px;
 }
+.ld.ld-header .ld.ld-header-affix.affix {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 10000;
+  background: rgba(20, 20, 34, 0.95);
+  border: 1px solid #262633;
+}
 .ld.ld-header ul.nav.nav-pills > li > a {
   font-size: 1.2em;
   color: #D8C13A;

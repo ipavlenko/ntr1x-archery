@@ -23,14 +23,16 @@
                     component: Landing.LandingPage,
                 },
                 '/gallery': {
-                    component: {
-                        template: '<h3>Gallery</h3>',
-                    }
+                    component: Landing.LandingGalleryPage
                 },
                 '/storage': {
-                    component: {
-                        template: '<h3>Storage</h3>',
-                    }
+                    component: Landing.LandingStoragePage
+                },
+                '/signin': {
+                    component: Landing.LandingSigninPage
+                },
+                '/signup': {
+                    component: Landing.LandingSignupPage
                 },
                 '/benefits': {
                     component: {
@@ -68,10 +70,12 @@
                 };
             }
 
-            for (var i = 0; i < data.model.pages.length; i++) {
+            if (data.model) {
+                for (var i = 0; i < data.model.pages.length; i++) {
 
-                var page = data.model.pages[i];
-                routes[page.name] = createRoute(page);
+                    var page = data.model.pages[i];
+                    routes[page.name] = createRoute(page);
+                }
             }
 
             router.map(routes);

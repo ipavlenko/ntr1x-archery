@@ -1,17 +1,23 @@
 <template id="landing-header">
     <div class="ld ld-section ld-header">
+        <div class="ld ld-header-affix" v-affix="{ offset: { top: 25 } }">
+            <div class="ld ld-container">
+                <div class="container-fluid">
+                    <div class="row">
+                        <ul class="nav nav-pills pull-right">
+                            <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
+                            <li role="presentation"><a v-link="{ path: '/gallery' }">Gallery</a></li>
+                            <li role="presentation"><a v-link="{ path: '/storage' }">Storage</a></li>
+                            <li role="presentation"><a v-link="{ path: '/signup' }">Register</a></li>
+                            <li role="presentation"><a v-link="{ path: '/signin' }">Sign In</a></li>
+                            <li role="presentation" class="primary"><a v-link="{ path: '/gallery' }">Create Portal</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="ld ld-container">
             <div class="container-fluid">
-                <div class="row">
-                    <ul class="nav nav-pills pull-right">
-                        <li role="presentation"><a href="#">Gallery</a></li>
-                        <li role="presentation"><a href="#">Storage</a></li>
-                        <li role="presentation"><a href="#">Benefits</a></li>
-                        <li role="presentation"><a href="#">Pricing</a></li>
-                        <li role="presentation"><a href="#">Contacts</a></li>
-                        <li role="presentation" class="primary"><a href="/gallery">Create Portal</a></li>
-                    </ul>
-                </div>
                 <div class="row">
                     <div class="ld ld-offer">
                         <h1>Open your online universe!</h1>

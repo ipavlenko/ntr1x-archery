@@ -2,15 +2,54 @@
 
 .ld.ld-page {
 
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
+    &.ld-secondary-page {
+        .ld.ld-header {
+            height: 70px;
+            overflow: hidden;
+            background: none;
+            box-shadow: none;
+        }
+    }
+
+    &.ld-fullscreen-page {
+
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+
+        .ld.ld-header {
+            height: 70px;
+            overflow: hidden;
+            background: none;
+            box-shadow: none;
+        }
+
+        .ld.ld-body {
+            position: absolute;
+            top: 95px;
+            bottom: 40px;
+            left: 0px;
+            right: 0px;
+        }
+
+        .ld.ld-footer {
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+        }
+    }
+
     background-color: #262633;
     overflow: auto;
 
-    a.btn.btn-primary {
+    .btn.btn-lg {
+        border-radius: 4px;
+    }
+
+    .btn.btn-primary {
 
         background: #D8C13A;
         border-color: #D8C13A;

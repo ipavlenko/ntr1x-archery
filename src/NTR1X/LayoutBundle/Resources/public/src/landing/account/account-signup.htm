@@ -1,0 +1,42 @@
+<template id="landing-account-signup">
+    <div class="ld ld-section ld-body ld-account ld-account-signup">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <validator name="validation">
+                    <form novalidate @submit.prevent="$validation.valid && doSignup()">
+                        <div class="form-group">
+                            <h3>Register</h3>
+                        </dif>
+                        <div class="form-group" :class="{
+                            'has-error': $validation.email.dirty && ($validation.email.required || $validation.email.pattern),
+                            'has-feedback': $validation.email.dirty && ($validation.email.required || $validation.email.pattern),
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="Email" v-model="form.email" v-validate:email="{
+                                required: { rule: true, message: 'Email is a required field' },
+                                pattern: { rule: validation.email, message: 'Invalid email address' },
+                            }">
+                            <span v-if="$validation.email.dirty && ($validation.email.required || $validation.email.pattern)" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="$validation.email.dirty && $validation.email.required">{{ $validation.email.required }}</div>
+                            <div v-if="$validation.email.dirty && !$validation.email.required && $validation.email.pattern">{{ $validation.email.pattern }}</div>
+                        </div>
+                        <div class="form-group" :class="{
+                            'has-error': $validation.password.dirty && ($validation.password.required || $validation.password.minlength),
+                            'has-feedback': $validation.password.dirty && ($validation.password.required || $validation.password.minlength),
+                        }">
+                            <input type="password" class="form-control input-lg" :classes="{ invalid: 'has-error' }" placeholder="Password" v-model="form.password" v-validate:password="{
+                                required: { rule: true, message: 'Password is a required field' },
+                                minlength: { rule: 8, message: 'Your password is too short' },
+                            }">
+                            <span v-if="$validation.password.dirty && ($validation.password.required || $validation.password.minlength)" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="$validation.password.dirty && $validation.password.required">{{ $validation.password.required }}</div>
+                            <div v-if="$validation.password.dirty && !$validation.password.required && $validation.password.minlength">{{ $validation.password.minlength }}</div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="$validation.valid" :disabled="">Register</button>
+                        </div>
+                    </form>
+                </validator>
+            </div>
+        </div>
+    </div>
+</template>
