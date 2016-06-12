@@ -154,7 +154,7 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/{any}", name = "home", requirements = { "any"="(|gallery|storage|signin|signup)" })
+     * @Route("/{any}", name = "home", requirements = { "any"="(.*)" })
      */
     public function defaultAction(Request $request) {
 

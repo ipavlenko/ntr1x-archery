@@ -91,28 +91,18 @@
                     component: Landing.LandingSignupPage,
                     anon: true,
                 },
-                '/benefits': {
-                    component: {
-                        template: '<h3>Benefits</h3>',
-                    }
-                },
-                '/pricing': {
-                    component: {
-                        template: '<h3>Pricing</h3>',
-                    }
-                },
-                '/contacts': {
-                    component: {
-                        template: '<h3>Pricing</h3>',
-                    }
+                '/admin': {
+                    component: Landing.LandingAdminPage,
+                    auth: true,
                 },
                 '/site/:domain/:page': {
                     component: Shell.ShellPublic,
+                    auth: true,
                 },
-                '/admin/:domain/:page': {
-                    component: Shell.ShellPrivate,
-                    private: true,
-                },
+                // '/admin/:domain/:page': {
+                //     component: Shell.ShellPrivate,
+                //     auth: true,
+                // },
             };
 
             function createRoute(page) {

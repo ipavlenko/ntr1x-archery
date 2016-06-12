@@ -1,0 +1,14 @@
+.ld.ld-admin {
+  background: transparent;
+}
+.ld.ld-admin .ld.ld-table {
+  display: table;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.ld.ld-admin .ld.ld-table .ld.ld-cell {
+  display: table-cell;
+  vertical-align: middle;
+}

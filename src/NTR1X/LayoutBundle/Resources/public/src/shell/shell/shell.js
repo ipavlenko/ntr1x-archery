@@ -1,11 +1,11 @@
 (function($, Vue, Shell, undefined) {
 
     Shell.Shell = {
-        props: {
-            selection: Object,
-            settings: Object,
-            model: Object,
-        },
+        // props: {
+        //     selection: Object,
+        //     settings: Object,
+        //     model: Object,
+        // },
         data: function() {
             return {
                 globals: this.globals,
@@ -13,13 +13,20 @@
         },
         created: function() {
 
-            var self = this;
+            // this.$http({
+            //     url: '',
+            //
+            // })
+
+            console.log(this.$route.params.domain);
+            console.log(this.$route.params.page);
+
             Vue.service('shell', {
 
-                getWidget: function(id) {
+                getWidget: (id) => {
 
-                    for (var i = 0; i < self.settings.widgets.length; i++) {
-                        var w = self.settings.widgets[i];
+                    for (var i = 0; i < this.settings.widgets.length; i++) {
+                        var w = this.settings.widgets[i];
                         if (w.id == id) {
                             return w;
                         }
@@ -45,10 +52,13 @@
 
     Shell.ShellPrivate =
     Vue.component('shell-private', {
+
         mixins: [ Shell.Shell ],
         template: '#shell-private',
 
         created: function() {
+
+            // this.$http()
 
             function relevant(current, collection) {
 

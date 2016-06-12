@@ -206,6 +206,15 @@
 
 </template>
 
+<template id="landing-admin-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-admin></landing-admin>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
 <template id="landing-gallery-page">
     <div class="ld ld-page ld-secondary-page">
         <landing-super></landing-super>
@@ -1269,9 +1278,13 @@
     </div>
 </template>
 
-<template id="landing-benefits">
-    <div class="ld ld-section ld-benefits">
-        <h3>Benefits</h3>
+<template id="landing-admin">
+    <div class="ld ld-section ld-body ld-admin">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                Admin
+            </div>
+        </div>
     </div>
 </template>
 
@@ -1281,19 +1294,9 @@
     </div>
 </template>
 
-<template id="landing-footer">
-    <div class="ld ld-section ld-footer">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-copyright">
-                            &copy; 2016 NTR, LLC. Archery Cloud Platform.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<template id="landing-benefits">
+    <div class="ld ld-section ld-benefits">
+        <h3>Benefits</h3>
     </div>
 </template>
 
@@ -1387,7 +1390,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default btn-lg">Preview</a>
-                                        <a href="#" class="btn btn-primary btn-lg">Edit</a>
+                                        <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1400,7 +1403,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default btn-lg">Preview</a>
-                                        <a href="#" class="btn btn-primary btn-lg">Edit</a>
+                                        <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1413,7 +1416,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default btn-lg">Preview</a>
-                                        <a href="#" class="btn btn-primary btn-lg">Edit</a>
+                                        <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1426,7 +1429,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Edit</a>
+                                        <a href="#" class="btn btn-primary">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1439,7 +1442,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Edit</a>
+                                        <a href="#" class="btn btn-primary">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1452,7 +1455,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Edit</a>
+                                        <a href="#" class="btn btn-primary">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1465,7 +1468,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Edit</a>
+                                        <a href="#" class="btn btn-primary">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1478,7 +1481,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Edit</a>
+                                        <a href="#" class="btn btn-primary">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1491,7 +1494,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Edit</a>
+                                        <a href="#" class="btn btn-primary">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1504,7 +1507,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Edit</a>
+                                        <a href="#" class="btn btn-primary">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1517,7 +1520,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Edit</a>
+                                        <a href="#" class="btn btn-primary">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1530,7 +1533,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Edit</a>
+                                        <a href="#" class="btn btn-primary">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1543,7 +1546,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Edit</a>
+                                        <a href="#" class="btn btn-primary">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1556,7 +1559,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Edit</a>
+                                        <a href="#" class="btn btn-primary">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1569,7 +1572,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Edit</a>
+                                        <a href="#" class="btn btn-primary">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1601,7 +1604,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default btn-lg">Preview</a>
-                                        <a href="#" class="btn btn-primary btn-lg">Create</a>
+                                        <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1614,7 +1617,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default btn-lg">Preview</a>
-                                        <a href="#" class="btn btn-primary btn-lg">Create</a>
+                                        <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -1627,10 +1630,26 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default btn-lg">Preview</a>
-                                        <a href="#" class="btn btn-primary btn-lg">Create</a>
+                                        <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-footer">
+    <div class="ld ld-section ld-footer">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-copyright">
+                            &copy; 2016 NTR, LLC. Archery Cloud Platform.
                         </div>
                     </div>
                 </div>
@@ -1652,7 +1671,7 @@
                             <li v-if="$root.principal == null" role="presentation"><a v-link="{ path: '/signup' }">Register</a></li>
                             <li v-if="$root.principal == null" role="presentation"><a v-link="{ path: '/signin' }">Sign In</a></li>
                             <li v-if="$root.principal != null" role="presentation"><a href="#" @click.prevent="signout()">Sign Out</a></li>
-                            <li role="presentation" class="primary"><a v-link="{ path: '/gallery' }">Create Portal</a></li>
+                            <li v-if="$root.principal != null" role="presentation" class="primary"><a v-link="{ path: '/admin' }">Control Panel</a></li>
                         </ul>
                     </div>
                 </div>
@@ -1827,44 +1846,6 @@
     </div>
 </template>
 
-<template id="landing-video">
-    <div class="ld ld-section ld-video">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-facetime-video"></span> Video Tutorial</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-6">
-                        <div class="ld ld-video">
-                            <iframe width="530" height="260" src="https://www.youtube.com/embed/aqRBN7qvyxs" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-6">
-                        <div class="ld ld-message">
-                            <p>
-                                Archery is made to be simple and agile.
-                                No extra skills required, you can start in several clicks.
-                            </p>
-                            <p>
-                                Create project from scratch or use any template from the gallery.
-                                With a little effort you will get a functional online service in a few minutes.
-                            </p>
-                            <p>
-                                You can publish your portal immediately and update it any time you want.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <template id="landing-usecases">
     <div class="ld ld-section ld-usecases">
         <div class="ld ld-container">
@@ -1914,6 +1895,44 @@
                                     a powerful dashboard.
                                 </p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-video">
+    <div class="ld ld-section ld-video">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-facetime-video"></span> Video Tutorial</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <div class="ld ld-video">
+                            <iframe width="530" height="260" src="https://www.youtube.com/embed/aqRBN7qvyxs" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="ld ld-message">
+                            <p>
+                                Archery is made to be simple and agile.
+                                No extra skills required, you can start in several clicks.
+                            </p>
+                            <p>
+                                Create project from scratch or use any template from the gallery.
+                                With a little effort you will get a functional online service in a few minutes.
+                            </p>
+                            <p>
+                                You can publish your portal immediately and update it any time you want.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -2305,6 +2324,30 @@
     </section>
 </template>
 
+<template id="shell-domains">
+    <section class="ge ge-panel ge-domains">
+        <domains :items.sync="domains" :globals.sync="globals" inline-template>
+            <h5>
+                <span>Domains</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ title: {}, resource: { params: [] }})"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
+                    <a href="#" @click="trigger('selectDomain', item)">
+                        <span>{{ item.name }}</span>
+                        <span class="ge ge-overlays">
+                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </domains>
+    </section>
+</template>
+
 <template id="shell-decorator-canvas">
     <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
         <div class="ge ge-content">
@@ -2412,30 +2455,6 @@
     </div>
 </template>
 
-<template id="shell-domains">
-    <section class="ge ge-panel ge-domains">
-        <domains :items.sync="domains" :globals.sync="globals" inline-template>
-            <h5>
-                <span>Domains</span>
-                <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({ title: {}, resource: { params: [] }})"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                </span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
-                    <a href="#" @click="trigger('selectDomain', item)">
-                        <span>{{ item.name }}</span>
-                        <span class="ge ge-overlays">
-                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </domains>
-    </section>
-</template>
-
 <template id="shell-page">
 
     <div class="ge ge-page" :style="{
@@ -2452,6 +2471,30 @@
         ></div>
     </div>
 
+</template>
+
+<template id="shell-pages">
+    <section class="ge ge-panel ge-pages">
+        <pages :items.sync="pages" :globals.sync="globals" inline-template>
+            <h5>
+                <span>Pages</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ title: {}, resource: { params: [] }, sources: [], storages: [], widgets: [], metas: []})"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.page }">
+                    <a href="#" @click="trigger('selectPage', item)">
+                        <span>{{ item.name }}</span>
+                        <span class="ge ge-overlays">
+                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </pages>
+    </section>
 </template>
 
 <template id="shell-private">
@@ -2528,30 +2571,6 @@
             :items.sync="page.widgets"
         ></shell-page>
     </div>
-</template>
-
-<template id="shell-pages">
-    <section class="ge ge-panel ge-pages">
-        <pages :items.sync="pages" :globals.sync="globals" inline-template>
-            <h5>
-                <span>Pages</span>
-                <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({ title: {}, resource: { params: [] }, sources: [], storages: [], widgets: [], metas: []})"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                </span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.page }">
-                    <a href="#" @click="trigger('selectPage', item)">
-                        <span>{{ item.name }}</span>
-                        <span class="ge ge-overlays">
-                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </pages>
-    </section>
 </template>
 
 <template id="shell-palette-item">
