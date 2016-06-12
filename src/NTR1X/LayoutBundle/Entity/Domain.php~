@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation as JMS;
 /**
  * Domain
  *
- * @ORM\Table(name="domain_items")
+ * @ORM\Table(name="domain_items", uniqueConstraints={ @ORM\UniqueConstraint(name="unique_idx", columns={ "user_id", "name" })})
  * @ORM\Entity(repositoryClass="NTR1X\LayoutBundle\Repository\DomainRepository")
  * @JMS\ExclusionPolicy("none")
  */
@@ -28,7 +28,7 @@ class Domain
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=511)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 

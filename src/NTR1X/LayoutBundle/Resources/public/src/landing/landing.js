@@ -32,9 +32,9 @@ Landing = window.Landing || {};
         template: '#landing-profile-page',
     });
 
-    Landing.LandingAdminPage =
-    Vue.component('landing-admin-page', {
-        template: '#landing-admin-page',
+    Landing.LandingManagePage =
+    Vue.component('landing-manage-page', {
+        template: '#landing-manage-page',
     });
 
 })(Vue, jQuery, Landing);

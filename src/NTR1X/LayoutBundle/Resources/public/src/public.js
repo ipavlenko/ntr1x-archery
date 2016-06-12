@@ -19,12 +19,12 @@
                         signup: (data) => {
 
                             return this.$http({
-                                url: '/do/signup',
+                                url: '/ws/signup',
                                 method: 'POST',
                                 data: data,
                             })
                             .then(
-                                (d) => { this.principal = d; this.$router.go('/'); },
+                                (d) => { this.principal = d.data.principal; this.$router.go('/'); },
                                 (e) => { this.principal = null; }
                             );
                         },
@@ -32,12 +32,12 @@
                         signin: (data) => {
 
                             return this.$http({
-                                url: '/do/signin',
+                                url: '/ws/signin',
                                 method: 'POST',
                                 data: data,
                             })
                             .then(
-                                (d) => { this.principal = d; this.$router.go('/'); },
+                                (d) => { console.log(d); this.principal = d.data.principal; this.$router.go('/'); },
                                 (e) => { this.principal = null; }
                             );
                         },
@@ -45,7 +45,7 @@
                         signout: () => {
 
                             return this.$http({
-                                url: '/do/signout',
+                                url: '/ws/signout',
                                 method: 'POST',
                             })
                             .then(
@@ -91,8 +91,8 @@
                     component: Landing.LandingSignupPage,
                     anon: true,
                 },
-                '/admin': {
-                    component: Landing.LandingAdminPage,
+                '/manage': {
+                    component: Landing.LandingManagePage,
                     auth: true,
                 },
                 '/site/:domain/:page': {

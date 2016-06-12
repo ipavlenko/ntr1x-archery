@@ -206,20 +206,20 @@
 
 </template>
 
-<template id="landing-admin-page">
-    <div class="ld ld-page ld-fullscreen-page">
-        <landing-super></landing-super>
-        <landing-header></landing-header>
-        <landing-admin></landing-admin>
-        <landing-footer></landing-footer>
-    </div>
-</template>
-
 <template id="landing-gallery-page">
     <div class="ld ld-page ld-secondary-page">
         <landing-super></landing-super>
         <landing-header></landing-header>
         <landing-gallery-full></landing-gallery-full>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-manage-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-manage></landing-manage>
         <landing-footer></landing-footer>
     </div>
 </template>
@@ -985,65 +985,6 @@
     </div>
 </template>
 
-<template id="widgets-dialog">
-	<div class="modal modal-center" role="dialog">
-		<div class="ge ge-modal modal-dialog modal-lg">
-			<form class="modal-content"
-				@submit.prevent="submit"
-				@reset.prevent="reset"
-			>
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-					<h4 class="modal-title">
-						<span v-if="original" class="label label-primary">{{ original.name }}</span>
-						<span v-if="original">&nbsp;Настройки виджета</span>
-						<span v-if="!original">Новый виджет</span>
-					</h4>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<label for="dialog-widget-name">Имя</label>
-						<input class="form-control" type="text" id="dialog-widget-name" required="true" v-model="current.name" />
-					</div>
-                    <div class="form-group">
-						<label for="dialog-widget-name">Тип</label>
-						<input class="form-control" type="text" id="dialog-widget-name" required="true" v-model="current.type" />
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="reset" class="btn btn-default">Отменить</button>
-					<button type="submit" class="btn btn-primary">Сохранить</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</template>
-
-<template id="widgets-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 100%">Имя</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td><span class="label label-success">{{ item.provider.bundle }}/{{ item.name }}</span> {{ item.title }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</template>
-
-<template id="widgets">
-
-    <widgets-list :items.sync="items"></widgets-list>
-
-</template>
-
 <template id="storages-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
@@ -1191,6 +1132,65 @@
 
 </template>
 
+<template id="widgets-dialog">
+	<div class="modal modal-center" role="dialog">
+		<div class="ge ge-modal modal-dialog modal-lg">
+			<form class="modal-content"
+				@submit.prevent="submit"
+				@reset.prevent="reset"
+			>
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+					<h4 class="modal-title">
+						<span v-if="original" class="label label-primary">{{ original.name }}</span>
+						<span v-if="original">&nbsp;Настройки виджета</span>
+						<span v-if="!original">Новый виджет</span>
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="dialog-widget-name">Имя</label>
+						<input class="form-control" type="text" id="dialog-widget-name" required="true" v-model="current.name" />
+					</div>
+                    <div class="form-group">
+						<label for="dialog-widget-name">Тип</label>
+						<input class="form-control" type="text" id="dialog-widget-name" required="true" v-model="current.type" />
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-default">Отменить</button>
+					<button type="submit" class="btn btn-primary">Сохранить</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</template>
+
+<template id="widgets-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width: 100%">Имя</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td><span class="label label-success">{{ item.provider.bundle }}/{{ item.name }}</span> {{ item.title }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="widgets">
+
+    <widgets-list :items.sync="items"></widgets-list>
+
+</template>
+
 
 <template id="landing-account-signin">
     <div class="ld ld-section ld-body ld-account ld-account-signin">
@@ -1278,25 +1278,15 @@
     </div>
 </template>
 
-<template id="landing-admin">
-    <div class="ld ld-section ld-body ld-admin">
-        <div class="ld ld-table">
-            <div class="ld ld-cell">
-                Admin
-            </div>
-        </div>
+<template id="landing-benefits">
+    <div class="ld ld-section ld-benefits">
+        <h3>Benefits</h3>
     </div>
 </template>
 
 <template id="landing-contacts">
     <div class="ld ld-section ld-contacts">
         <h3>Contacts</h3>
-    </div>
-</template>
-
-<template id="landing-benefits">
-    <div class="ld ld-section ld-benefits">
-        <h3>Benefits</h3>
     </div>
 </template>
 
@@ -1370,6 +1360,22 @@
                                 <div><i>Futurama, Character</i></div>
                                 <div><p>I don't have emotions and sometimes that makes me very sad.</p></div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-footer">
+    <div class="ld ld-section ld-footer">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-copyright">
+                            &copy; 2016 NTR, LLC. Archery Cloud Platform.
                         </div>
                     </div>
                 </div>
@@ -1642,22 +1648,6 @@
     </div>
 </template>
 
-<template id="landing-footer">
-    <div class="ld ld-section ld-footer">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-copyright">
-                            &copy; 2016 NTR, LLC. Archery Cloud Platform.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <template id="landing-header">
     <div class="ld ld-section ld-header">
         <div class="ld ld-header-affix" v-affix="{ offset: { top: 25 } }">
@@ -1671,7 +1661,7 @@
                             <li v-if="$root.principal == null" role="presentation"><a v-link="{ path: '/signup' }">Register</a></li>
                             <li v-if="$root.principal == null" role="presentation"><a v-link="{ path: '/signin' }">Sign In</a></li>
                             <li v-if="$root.principal != null" role="presentation"><a href="#" @click.prevent="signout()">Sign Out</a></li>
-                            <li v-if="$root.principal != null" role="presentation" class="primary"><a v-link="{ path: '/admin' }">Control Panel</a></li>
+                            <li v-if="$root.principal != null" role="presentation" class="primary"><a v-link="{ path: '/manage' }">Control Panel</a></li>
                         </ul>
                     </div>
                 </div>
@@ -1683,6 +1673,43 @@
                     <div class="ld ld-offer">
                         <h1>Open your online universe!</h1>
                         <h2>Archery is the Cloud platform to build business friendly online services.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-manage">
+    <div class="ld ld-section ld-manage">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-eye-open"></span> Portals</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <domains :items.sync="domains" :globals.sync="globals" inline-template>
+                            <table class="ld ld-domains">
+                                <tr class="ld ld-domain" v-for="item in items" v-show="item._action != 'remove'">
+                                    <td>
+                                        <div>{{ item.name }}</div>
+                                        <div>{{ item.title }}</div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-default" @click.prevent.stop="update(item)">Edit</button>
+                                        <button class="btn btn-danger" @click.prevent..stop="remove(item)">Remove</button>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div>
+                                <button class="btn btn-primary" @click="create({ title: {}, resource: { params: [] }})">Create</button>
+                            </div>
+                        </domains>
                     </div>
                 </div>
             </div>
@@ -2298,19 +2325,6 @@
     </section>
 </template>
 
-<template id="shell-container">
-
-    <section class="ge ge-container">
-        <shell-page
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :items.sync="page.widgets"
-        ></shell-page>
-    </section>
-
-</template>
-
 <template id="shell-categories">
     <section class="ge ge-categories">
         <div v-for="category in categories">
@@ -2324,28 +2338,17 @@
     </section>
 </template>
 
-<template id="shell-domains">
-    <section class="ge ge-panel ge-domains">
-        <domains :items.sync="domains" :globals.sync="globals" inline-template>
-            <h5>
-                <span>Domains</span>
-                <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({ title: {}, resource: { params: [] }})"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                </span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
-                    <a href="#" @click="trigger('selectDomain', item)">
-                        <span>{{ item.name }}</span>
-                        <span class="ge ge-overlays">
-                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </domains>
+<template id="shell-container">
+
+    <section class="ge ge-container">
+        <shell-page
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :items.sync="page.widgets"
+        ></shell-page>
     </section>
+
 </template>
 
 <template id="shell-decorator-canvas">
@@ -2455,6 +2458,30 @@
     </div>
 </template>
 
+<template id="shell-domains">
+    <section class="ge ge-panel ge-domains">
+        <domains :items.sync="domains" :globals.sync="globals" inline-template>
+            <h5>
+                <span>Domains</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ title: {}, resource: { params: [] }})"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
+                    <a href="#" @click="trigger('selectDomain', item)">
+                        <span>{{ item.name }}</span>
+                        <span class="ge ge-overlays">
+                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </domains>
+    </section>
+</template>
+
 <template id="shell-page">
 
     <div class="ge ge-page" :style="{
@@ -2494,6 +2521,20 @@
                 </li>
             </ul>
         </pages>
+    </section>
+</template>
+
+<template id="shell-palette-item">
+    <div class="ge ge-palette-item">
+        <div data-widget="{{ widget.id }}">
+            <img class="when-in-palette" :src="thumbnail" />
+        </div>
+    </div>
+</template>
+
+<template id="shell-palette">
+    <section class="ge ge-palette">
+        <palette-item v-for="widget in category.widgets" :widget.sync="widget"></palette-item>
     </section>
 </template>
 
@@ -2571,20 +2612,6 @@
             :items.sync="page.widgets"
         ></shell-page>
     </div>
-</template>
-
-<template id="shell-palette-item">
-    <div class="ge ge-palette-item">
-        <div data-widget="{{ widget.id }}">
-            <img class="when-in-palette" :src="thumbnail" />
-        </div>
-    </div>
-</template>
-
-<template id="shell-palette">
-    <section class="ge ge-palette">
-        <palette-item v-for="widget in category.widgets" :widget.sync="widget"></palette-item>
-    </section>
 </template>
 
 <template id="shell-sources">

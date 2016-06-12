@@ -41,7 +41,8 @@ class User
     private $pwdhash;
 
     /**
-     * @ORM\OneToMany(targetEntity="Domain", mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Domain", mappedBy="user", fetch="EXTRA_LAZY")
+     * @JMS\Exclude
      */
     private $domains;
 

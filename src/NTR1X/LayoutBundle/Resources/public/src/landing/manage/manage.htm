@@ -1,0 +1,36 @@
+<template id="landing-manage">
+    <div class="ld ld-section ld-manage">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-eye-open"></span> Portals</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <domains :items.sync="domains" :globals.sync="globals" inline-template>
+                            <table class="ld ld-domains">
+                                <tr class="ld ld-domain" v-for="item in items" v-show="item._action != 'remove'">
+                                    <td>
+                                        <div>{{ item.name }}</div>
+                                        <div>{{ item.title }}</div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-default" @click.prevent.stop="update(item)">Edit</button>
+                                        <button class="btn btn-danger" @click.prevent..stop="remove(item)">Remove</button>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div>
+                                <button class="btn btn-primary" @click="create({ title: {}, resource: { params: [] }})">Create</button>
+                            </div>
+                        </domains>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

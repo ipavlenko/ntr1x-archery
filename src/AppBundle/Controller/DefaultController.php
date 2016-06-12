@@ -17,9 +17,68 @@ use NTR1X\LayoutBundle\Security\UserPrincipal;
 class DefaultController extends Controller {
 
     /**
-     * @Route("/do/signout", name = "signout")
+     * @Route("/ws/domains", name = "domains")
      */
-    public function doSignoutAction(Request $request) {
+    public function wsDomainsAction(Request $request) {
+
+        $principal = $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')
+            ? $this->get('security.token_storage')->getToken()->getUser()
+            : null
+        ;
+
+        $response = new Response();
+
+        $view = [];
+
+        if (!empty($principal)) {
+
+            $view['principal'] = $principal;
+
+            try {
+
+                $em = $this->getDoctrine()->getManager();
+
+                $em->getConnection()->transactional(function($conn) use (&$em, &$principal, &$view) {
+
+                    $user = $this
+                        ->getDoctrine()
+                        ->getRepository('NTR1XLayoutBundle:User')
+                        ->findById($principal->getId())
+                    ;
+
+                    $view['domains'] = $this
+                        ->getDoctrine()
+                        ->getRepository('NTR1XLayoutBundle:Domain')
+                        ->findBy([ 'user' => $user ], ['name'=>'asc'])
+                    ;
+                });
+
+                $response->setStatusCode(Response::HTTP_OK);
+
+            } catch (\Exception $e) {
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+                $view['error'] = [
+                    'message' => 'Server error',
+                ];
+            }
+
+        } else {
+            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+        }
+
+        $serializer = $this->container->get('jms_serializer');
+
+        $response->setStatusCode(Response::HTTP_OK);
+        $response->setContent($serializer->serialize([], 'json'));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    /**
+     * @Route("/ws/signout", name = "signout")
+     */
+    public function wsSignoutAction(Request $request) {
 
         $this->get('security.token_storage')->setToken(null);
         $this->get('session')->remove('_security_main');
@@ -35,9 +94,9 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/do/signin", name = "signin")
+     * @Route("/ws/signin", name = "signin")
      */
-    public function doSigninAction(Request $request) {
+    public function wsSigninAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
 
@@ -73,7 +132,7 @@ class DefaultController extends Controller {
             });
 
             if (!empty($principal)) {
-                $view['user'] = $principal;
+                $view['principal'] = $principal;
                 $token = new UsernamePasswordToken($principal, null, 'main', [ 'ROLE_USER' ]);
                 $response->setStatusCode(Response::HTTP_OK);
             } else {
@@ -102,9 +161,9 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/do/signup", name = "signup")
+     * @Route("/ws/signup", name = "signup")
      */
-    public function doSignupAction(Request $request) {
+    public function wsSignupAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
 
@@ -128,7 +187,7 @@ class DefaultController extends Controller {
                 $em->persist($user);
                 $em->flush();
 
-                $view['user'] = $this
+                $view['principal'] = $this
                     ->getDoctrine()
                     ->getRepository('NTR1XLayoutBundle:User')
                     ->find($user->getId())
