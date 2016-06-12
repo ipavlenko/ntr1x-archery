@@ -1,3 +1,21 @@
+<template id="default-box">
+    <section :class="class" :id="bindings.id" :style="{
+        'height': bindings.height,
+        'width': bindings.width,
+        'border': bindings.outerBorder,
+        'background': bindings.outerBackground,
+        'background-size': bindings.outerBackgroundSize,
+    }">
+        <div class="wg wg-content" :style="{
+            'margin': bindings.margin,
+            'padding': bindings.padding,
+            'border': bindings.innerBorder,
+            'background': bindings.innerBackground,
+            'background-size': bindings.outerBackgroundSize,
+        }"><slot>Empty</slot></div>
+    </section>
+</template>
+
 <template id="default-button">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-button'">
         <div class="form-group">
@@ -15,24 +33,6 @@
             }">{{ bindings.title }}</button>
         </div>
     </default-box>
-</template>
-
-<template id="default-box">
-    <section :class="class" :id="bindings.id" :style="{
-        'height': bindings.height,
-        'width': bindings.width,
-        'border': bindings.outerBorder,
-        'background': bindings.outerBackground,
-        'background-size': bindings.outerBackgroundSize,
-    }">
-        <div class="wg wg-content" :style="{
-            'margin': bindings.margin,
-            'padding': bindings.padding,
-            'border': bindings.innerBorder,
-            'background': bindings.innerBackground,
-            'background-size': bindings.outerBackgroundSize,
-        }"><slot>Empty</slot></div>
-    </section>
 </template>
 
 <template id="default-carousel">
@@ -117,6 +117,21 @@
     </default-box>
 </template>
 
+<template id="default-footer">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-footer'">
+        <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
+        <div class="copyright">{{ bindings.copyright }}</div>
+        <div class="contacts-block pull-right">
+            <ul class="social-list">
+                <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
+                <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
+                <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
+            </ul>
+            <div class="phone-block">{{ bindings.contacts }}</div>
+        </div>
+    </default-box>
+</template>
+
 <template id="default-form">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-form'">
         <form action="{{ bindings.acton }}">
@@ -141,21 +156,6 @@
             <input class="form-control" type="submit" name="submit" value="Отправить" data-role="input" data-scope="0">
             <div class="text-bot">{{{ bindings.textbelow }}}</div>
         </form>
-    </default-box>
-</template>
-
-<template id="default-footer">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-footer'">
-        <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
-        <div class="copyright">{{ bindings.copyright }}</div>
-        <div class="contacts-block pull-right">
-            <ul class="social-list">
-                <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
-                <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
-                <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
-            </ul>
-            <div class="phone-block">{{ bindings.contacts }}</div>
-        </div>
     </default-box>
 </template>
 
@@ -225,20 +225,6 @@
     </default-box>
 </template>
 
-<template id="default-header">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-header'">
-        <div class="info-block">
-            <a v-if="bindings.logo" class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
-            <div class="phone-block">
-                {{{ bindings.phone }}}
-            </div>
-        </div>
-        <ul v-if="bindings.logo" class="partners-block clearfix">
-            <li><a href="/" target="_blank"><img :src="bindings.logo" alt=""/></a></li>
-        </ul>
-    </default-box>
-</template>
-
 <template id="default-input-checkbox">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-input wg-default-input-checkbox'">
 
@@ -296,6 +282,20 @@
         </div>
     </default-box>
 </template>
+<template id="default-header">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-header'">
+        <div class="info-block">
+            <a v-if="bindings.logo" class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
+            <div class="phone-block">
+                {{{ bindings.phone }}}
+            </div>
+        </div>
+        <ul v-if="bindings.logo" class="partners-block clearfix">
+            <li><a href="/" target="_blank"><img :src="bindings.logo" alt=""/></a></li>
+        </ul>
+    </default-box>
+</template>
+
 <template id="default-inputrange">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-inputrange'">
             <div class="form-group">
@@ -434,21 +434,6 @@
     </default-box>
 </template>
 
-<template id="default-sitemap">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-sitemap'">
-        <ul>
-            <li v-for="item in bindings.items">
-                <a href="{{ item.url }}">{{ item.title }}</a>
-                <ul>
-                    <li v-for="item in item.children">
-                        <a href="{{ item.url }}">{{ item.title }}</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </default-box>
-</template>
-
 <template id="default-stack-canvas">
     <section class="wg wg-default-stack wg-default-stack-canvas">
         <div class="wg wg-content">
@@ -525,6 +510,21 @@
             </div>
         </div>
     </section>
+</template>
+
+<template id="default-sitemap">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-sitemap'">
+        <ul>
+            <li v-for="item in bindings.items">
+                <a href="{{ item.url }}">{{ item.title }}</a>
+                <ul>
+                    <li v-for="item in item.children">
+                        <a href="{{ item.url }}">{{ item.title }}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </default-box>
 </template>
 
 <template id="default-stub">

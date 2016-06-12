@@ -5,11 +5,14 @@ namespace NTR1X\LayoutBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
+use JMS\Serializer\Annotation as JMS;
+
 /**
  * User
  *
  * @ORM\Table(name="user_items")
  * @ORM\Entity(repositoryClass="NTR1X\LayoutBundle\Repository\UserRepository")
+ * @JMS\ExclusionPolicy("none")
  */
 class User
 {
@@ -25,28 +28,23 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=511)
+     * @ORM\Column(name="email", type="string", length=255, nullable=false, unique=true)
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", nullable=false)
+     * @ORM\Column(name="pwdhash", type="string", length=255, nullable=false)
+     * @JMS\Exclude
      */
     private $pwdhash;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="salt", type="string", nullable=false)
+     * @ORM\OneToMany(targetEntity="Domain", mappedBy="user", fetch="EXTRA_LAZY")
+     * @JMS\Exclude
      */
-    private $salt;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Domain", mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    private $domain;
+    private $domains;
 
     public function __construct() {
     }
@@ -110,30 +108,6 @@ class User
     }
 
     /**
-     * Set salt
-     *
-     * @param string $salt
-     *
-     * @return User
-     */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-
-        return $this;
-    }
-
-    /**
-     * Get salt
-     *
-     * @return string
-     */
-    public function getSalt()
-    {
-        return $this->salt;
-    }
-
-    /**
      * Add domain
      *
      * @param \NTR1X\LayoutBundle\Entity\Domain $domain
@@ -142,7 +116,7 @@ class User
      */
     public function addDomain(\NTR1X\LayoutBundle\Entity\Domain $domain)
     {
-        $this->domain[] = $domain;
+        $this->domains[] = $domain;
 
         return $this;
     }
@@ -154,16 +128,16 @@ class User
      */
     public function removeDomain(\NTR1X\LayoutBundle\Entity\Domain $domain)
     {
-        $this->domain->removeElement($domain);
+        $this->domains->removeElement($domain);
     }
 
     /**
-     * Get domain
+     * Get domains
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getDomain()
+    public function getDomains()
     {
-        return $this->domain;
+        return $this->domains;
     }
 }

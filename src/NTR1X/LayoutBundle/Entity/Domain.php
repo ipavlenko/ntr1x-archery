@@ -5,11 +5,14 @@ namespace NTR1X\LayoutBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
+use JMS\Serializer\Annotation as JMS;
+
 /**
  * Domain
  *
  * @ORM\Table(name="domain_items")
  * @ORM\Entity(repositoryClass="NTR1X\LayoutBundle\Repository\DomainRepository")
+ * @JMS\ExclusionPolicy("none")
  */
 class Domain
 {
@@ -39,6 +42,7 @@ class Domain
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="domains")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     * @JMS\Exclude
      */
     private $user;
 

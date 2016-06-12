@@ -12,10 +12,65 @@
                 data: function() {
                     return data;
                 },
+                created: function() {
+
+                    Vue.service('security', {
+
+                        signup: (data) => {
+
+                            return this.$http({
+                                url: '/do/signup',
+                                method: 'POST',
+                                data: data,
+                            })
+                            .then(
+                                (d) => { this.principal = d; this.$router.go('/'); },
+                                (e) => { this.principal = null; }
+                            );
+                        },
+
+                        signin: (data) => {
+
+                            return this.$http({
+                                url: '/do/signin',
+                                method: 'POST',
+                                data: data,
+                            })
+                            .then(
+                                (d) => { this.principal = d; this.$router.go('/'); },
+                                (e) => { this.principal = null; }
+                            );
+                        },
+
+                        signout: () => {
+
+                            return this.$http({
+                                url: '/do/signout',
+                                method: 'POST',
+                            })
+                            .then(
+                                (d) => { this.principal = null; this.$router.go('/') },
+                                (e) => { }
+                            );
+                        },
+
+                    });
+                },
             });
 
             var router = new VueRouter({
                 history: true,
+            });
+
+            router.beforeEach(function(transition) {
+
+                if (transition.to.auth && !router.app.principal) {
+                    transition.abort();
+                } else if (transition.to.anon && router.app.principal) {
+                    transition.abort();
+                } else {
+                    transition.next();
+                }
             });
 
             var routes = {
@@ -23,16 +78,18 @@
                     component: Landing.LandingPage,
                 },
                 '/gallery': {
-                    component: Landing.LandingGalleryPage
+                    component: Landing.LandingGalleryPage,
                 },
                 '/storage': {
-                    component: Landing.LandingStoragePage
+                    component: Landing.LandingStoragePage,
                 },
                 '/signin': {
-                    component: Landing.LandingSigninPage
+                    component: Landing.LandingSigninPage,
+                    anon: true,
                 },
                 '/signup': {
-                    component: Landing.LandingSignupPage
+                    component: Landing.LandingSignupPage,
+                    anon: true,
                 },
                 '/benefits': {
                     component: {

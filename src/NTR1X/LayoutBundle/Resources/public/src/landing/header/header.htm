@@ -8,8 +8,9 @@
                             <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
                             <li role="presentation"><a v-link="{ path: '/gallery' }">Gallery</a></li>
                             <li role="presentation"><a v-link="{ path: '/storage' }">Storage</a></li>
-                            <li role="presentation"><a v-link="{ path: '/signup' }">Register</a></li>
-                            <li role="presentation"><a v-link="{ path: '/signin' }">Sign In</a></li>
+                            <li v-if="$root.principal == null" role="presentation"><a v-link="{ path: '/signup' }">Register</a></li>
+                            <li v-if="$root.principal == null" role="presentation"><a v-link="{ path: '/signin' }">Sign In</a></li>
+                            <li v-if="$root.principal != null" role="presentation"><a href="#" @click.prevent="signout()">Sign Out</a></li>
                             <li role="presentation" class="primary"><a v-link="{ path: '/gallery' }">Create Portal</a></li>
                         </ul>
                     </div>

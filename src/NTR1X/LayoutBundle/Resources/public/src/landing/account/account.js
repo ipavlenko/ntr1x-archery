@@ -22,17 +22,11 @@ Landing = window.Landing || {};
             });
         },
         methods: {
-            doSignin: function() {
-                $.ajax({
-                    method: 'POST',
-                    url: '/do/signin',
-                    data: {
-                        email: this.form.email,
-                        password: this.form.password,
-                    },
-                })
-                .done((d) => {
-                    this.$dispatch('updateUser', { user: d });
+            signin: function() {
+                
+                Vue.service('security').signin({
+                    email: this.form.email,
+                    password: this.form.password,
                 });
             }
         },
@@ -54,21 +48,11 @@ Landing = window.Landing || {};
             });
         },
         methods: {
-            doSignup: function() {
-                console.log('doSignup', {
+            signup: function() {
+
+                Vue.service('security').signup({
                     email: this.form.email,
                     password: this.form.password,
-                });
-                $.ajax({
-                    method: 'POST',
-                    url: '/do/signup',
-                    data: {
-                        email: this.form.email,
-                        password: this.form.password,
-                    },
-                })
-                .done((d) => {
-                    this.$dispatch('updateUser', { user: d });
                 });
             }
         },
