@@ -8,13 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
 /**
- * Domain
+ * Portal
  *
- * @ORM\Table(name="domain_items", uniqueConstraints={ @ORM\UniqueConstraint(name="unique_idx", columns={ "user_id", "name" })})
- * @ORM\Entity(repositoryClass="NTR1X\LayoutBundle\Repository\DomainRepository")
+ * @ORM\Table(name="portal_items", uniqueConstraints={ @ORM\UniqueConstraint(name="unique_idx", columns={ "user_id", "name" })})
+ * @ORM\Entity(repositoryClass="NTR1X\LayoutBundle\Repository\PortalRepository")
  * @JMS\ExclusionPolicy("none")
  */
-class Domain
+class Portal
 {
     /**
      * @var int
@@ -28,19 +28,12 @@ class Domain
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="title", type="json_array", nullable=false)
      */
     private $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="domains")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="portals")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * @JMS\Exclude
      */
@@ -53,7 +46,7 @@ class Domain
     private $resource;
 
     /**
-     * @ORM\OneToMany(targetEntity="Page", mappedBy="domain", orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Page", mappedBy="portal", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $pages;
 
@@ -75,7 +68,7 @@ class Domain
      *
      * @param string $name
      *
-     * @return Domain
+     * @return Portal
      */
     public function setName($name)
     {
@@ -99,7 +92,7 @@ class Domain
      *
      * @param \NTR1X\LayoutBundle\Entity\Resource $resource
      *
-     * @return Domain
+     * @return Portal
      */
     public function setResource(\NTR1X\LayoutBundle\Entity\Resource $resource)
     {
@@ -123,7 +116,7 @@ class Domain
      *
      * @param array $title
      *
-     * @return Domain
+     * @return Portal
      */
     public function setTitle($title)
     {
@@ -147,7 +140,7 @@ class Domain
      *
      * @param \NTR1X\LayoutBundle\Entity\User $user
      *
-     * @return Domain
+     * @return Portal
      */
     public function setUser(\NTR1X\LayoutBundle\Entity\User $user)
     {
@@ -171,7 +164,7 @@ class Domain
      *
      * @param \NTR1X\LayoutBundle\Entity\Page $page
      *
-     * @return Domain
+     * @return Portal
      */
     public function addPage(\NTR1X\LayoutBundle\Entity\Page $page)
     {

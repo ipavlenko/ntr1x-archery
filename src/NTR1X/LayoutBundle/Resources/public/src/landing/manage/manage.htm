@@ -3,31 +3,36 @@
         <div class="ld ld-container">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-xs-6">
                         <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-eye-open"></span> Portals</h3>
+                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-globe"></span> Portals</h3>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <domains :items.sync="domains" :globals.sync="globals" inline-template>
-                            <table class="ld ld-domains">
-                                <tr class="ld ld-domain" v-for="item in items" v-show="item._action != 'remove'">
-                                    <td>
-                                        <div>{{ item.name }}</div>
-                                        <div>{{ item.title }}</div>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-default" @click.prevent.stop="update(item)">Edit</button>
-                                        <button class="btn btn-danger" @click.prevent..stop="remove(item)">Remove</button>
-                                    </td>
-                                </tr>
-                            </table>
-                            <div>
-                                <button class="btn btn-primary" @click="create({ title: {}, resource: { params: [] }})">Create</button>
+                        <div class="ld ld-portals">
+                            <div class="ld ld-portal" v-for="portal in portals">
+                                <div class="ld ld-portal-data">
+                                    <div class="ld ld-data-title">{{ portal.title }}</div>
+                                    <div class="ld ld-data-ref"><a :href="url + '/view/' + portal.name">{{ url }}/view/{{ portal.name }}</a></div>
+                                </div>
+                                <div class="ld ld-portal-buttons">
+                                    <button class="btn btn-primary">Edit</button>
+                                    <div class="btn-group">
+                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Publish</a></li>
+                                            <li><a href="#">Clone</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#">Remove</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                        </domains>
+                            <div class="ld ld-portal">
+                                <div class="ld ld-portal-buttons">
+                                    <a v-link="{ path: '/gallery' }" class="btn btn-primary">Browse Gallery</a>
+                                    <a v-link="{ path: '/manage-create' }" class="btn btn-default">Create Blank</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

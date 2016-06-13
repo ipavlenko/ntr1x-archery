@@ -1,0 +1,28 @@
+<template id="landing-manage-create">
+    <div class="ld ld-section ld-body ld-manage ld-manage-create">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <validator name="validation">
+                    <form novalidate @submit.prevent="$validation.valid && create()">
+                        <div class="form-group">
+                            <h3>Create Portal</h3>
+                        </dif>
+                        <div class="form-group" :class="{
+                            'has-error': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
+                            'has-feedback': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="Title" v-model="form.title" v-validate:title="{
+                                required: { rule: true, message: 'Title is a required field' },
+                            }">
+                            <span v-if="$validation.title.dirty && $validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="$validation.title.dirty && $validation.title.required">{{ $validation.title.required }}</div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="$validation.valid" :disabled="">Create</button>
+                        </div>
+                    </form>
+                </validator>
+            </div>
+        </div>
+    </div>
+</template>

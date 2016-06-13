@@ -38,10 +38,10 @@ class Page
     private $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Domain", inversedBy="pages")
-     * @ORM\JoinColumn(name="domain_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Portal", inversedBy="pages")
+     * @ORM\JoinColumn(name="portal_id", referencedColumnName="id", nullable=false)
      */
-    private $domain;
+    private $portal;
 
     /**
      * @ORM\OneToOne(targetEntity="Resource", cascade={"persist"}, fetch="EAGER")
@@ -110,64 +110,6 @@ class Page
     }
 
     /**
-     * Set resource
-     *
-     * @param \NTR1X\LayoutBundle\Entity\Resource $resource
-     *
-     * @return Page
-     */
-    public function setResource(\NTR1X\LayoutBundle\Entity\Resource $resource)
-    {
-        $this->resource = $resource;
-
-        return $this;
-    }
-
-    /**
-     * Get resource
-     *
-     * @return \NTR1X\LayoutBundle\Entity\Resource
-     */
-    public function getResource()
-    {
-        return $this->resource;
-    }
-
-    /**
-     * Add source
-     *
-     * @param \NTR1X\LayoutBundle\Entity\Source $source
-     *
-     * @return Page
-     */
-    public function addSource(\NTR1X\LayoutBundle\Entity\Source $source)
-    {
-        $this->sources[] = $source;
-
-        return $this;
-    }
-
-    /**
-     * Remove source
-     *
-     * @param \NTR1X\LayoutBundle\Entity\Source $source
-     */
-    public function removeSource(\NTR1X\LayoutBundle\Entity\Source $source)
-    {
-        $this->sources->removeElement($source);
-    }
-
-    /**
-     * Get sources
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSources()
-    {
-        return $this->sources;
-    }
-
-    /**
      * Set title
      *
      * @param array $title
@@ -216,6 +158,54 @@ class Page
     }
 
     /**
+     * Set portal
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Portal $portal
+     *
+     * @return Page
+     */
+    public function setPortal(\NTR1X\LayoutBundle\Entity\Portal $portal)
+    {
+        $this->portal = $portal;
+
+        return $this;
+    }
+
+    /**
+     * Get portal
+     *
+     * @return \NTR1X\LayoutBundle\Entity\Portal
+     */
+    public function getPortal()
+    {
+        return $this->portal;
+    }
+
+    /**
+     * Set resource
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Resource $resource
+     *
+     * @return Page
+     */
+    public function setResource(\NTR1X\LayoutBundle\Entity\Resource $resource)
+    {
+        $this->resource = $resource;
+
+        return $this;
+    }
+
+    /**
+     * Get resource
+     *
+     * @return \NTR1X\LayoutBundle\Entity\Resource
+     */
+    public function getResource()
+    {
+        return $this->resource;
+    }
+
+    /**
      * Add widget
      *
      * @param \NTR1X\LayoutBundle\Entity\Widget $widget
@@ -250,6 +240,40 @@ class Page
     }
 
     /**
+     * Add source
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Source $source
+     *
+     * @return Page
+     */
+    public function addSource(\NTR1X\LayoutBundle\Entity\Source $source)
+    {
+        $this->sources[] = $source;
+
+        return $this;
+    }
+
+    /**
+     * Remove source
+     *
+     * @param \NTR1X\LayoutBundle\Entity\Source $source
+     */
+    public function removeSource(\NTR1X\LayoutBundle\Entity\Source $source)
+    {
+        $this->sources->removeElement($source);
+    }
+
+    /**
+     * Get sources
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSources()
+    {
+        return $this->sources;
+    }
+
+    /**
      * Add storage
      *
      * @param \NTR1X\LayoutBundle\Entity\Storage $storage
@@ -281,29 +305,5 @@ class Page
     public function getStorages()
     {
         return $this->storages;
-    }
-
-    /**
-     * Set domain
-     *
-     * @param \NTR1X\LayoutBundle\Entity\Domain $domain
-     *
-     * @return Page
-     */
-    public function setDomain(\NTR1X\LayoutBundle\Entity\Domain $domain)
-    {
-        $this->domain = $domain;
-
-        return $this;
-    }
-
-    /**
-     * Get domain
-     *
-     * @return \NTR1X\LayoutBundle\Entity\Domain
-     */
-    public function getDomain()
-    {
-        return $this->domain;
     }
 }

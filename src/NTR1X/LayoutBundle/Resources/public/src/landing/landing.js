@@ -37,4 +37,9 @@ Landing = window.Landing || {};
         template: '#landing-manage-page',
     });
 
+    Landing.LandingManageCreatePage =
+    Vue.component('landing-manage-create-page', {
+        template: '#landing-manage-create-page',
+    });
+
 })(Vue, jQuery, Landing);

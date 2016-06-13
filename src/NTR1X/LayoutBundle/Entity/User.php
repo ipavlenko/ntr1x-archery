@@ -41,10 +41,10 @@ class User
     private $pwdhash;
 
     /**
-     * @ORM\OneToMany(targetEntity="Domain", mappedBy="user", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="Portal", mappedBy="user", fetch="EXTRA_LAZY")
      * @JMS\Exclude
      */
-    private $domains;
+    private $portals;
 
     public function __construct() {
     }
@@ -108,36 +108,36 @@ class User
     }
 
     /**
-     * Add domain
+     * Add portal
      *
-     * @param \NTR1X\LayoutBundle\Entity\Domain $domain
+     * @param \NTR1X\LayoutBundle\Entity\Portal $portal
      *
      * @return User
      */
-    public function addDomain(\NTR1X\LayoutBundle\Entity\Domain $domain)
+    public function addPortal(\NTR1X\LayoutBundle\Entity\Portal $portal)
     {
-        $this->domains[] = $domain;
+        $this->portals[] = $portal;
 
         return $this;
     }
 
     /**
-     * Remove domain
+     * Remove portal
      *
-     * @param \NTR1X\LayoutBundle\Entity\Domain $domain
+     * @param \NTR1X\LayoutBundle\Entity\Portal $portal
      */
-    public function removeDomain(\NTR1X\LayoutBundle\Entity\Domain $domain)
+    public function removePortal(\NTR1X\LayoutBundle\Entity\Portal $portal)
     {
-        $this->domains->removeElement($domain);
+        $this->portals->removeElement($portal);
     }
 
     /**
-     * Get domains
+     * Get portals
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getDomains()
+    public function getPortals()
     {
-        return $this->domains;
+        return $this->portals;
     }
 }

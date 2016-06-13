@@ -1,6 +1,7 @@
 .ld.ld-page {
   background-color: #262633;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .ld.ld-page.ld-secondary-page .ld.ld-header {
   height: 70px;
@@ -54,8 +55,11 @@
 }
 .ld.ld-page .ld.ld-section {
   position: relative;
-  overflow-x: hidden;
-  overflow-y: visible;
+  display: block;
+  width: 100%;
+}
+.ld.ld-page .ld.ld-section.ld-super {
+  display: table;
 }
 .ld.ld-page .ld.ld-section .ld.ld-offset-header {
   display: table;

@@ -95,6 +95,10 @@
                     component: Landing.LandingManagePage,
                     auth: true,
                 },
+                '/manage-create': {
+                    component: Landing.LandingManageCreatePage,
+                    auth: true,
+                },
                 '/site/:domain/:page': {
                     component: Shell.ShellPublic,
                     auth: true,

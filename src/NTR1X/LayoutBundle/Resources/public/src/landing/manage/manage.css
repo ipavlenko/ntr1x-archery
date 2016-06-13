@@ -12,3 +12,35 @@
   display: table-cell;
   vertical-align: middle;
 }
+.ld.ld-manage form {
+  display: inline-block;
+  text-align: left;
+  width: 400px;
+  color: #FFFFFF;
+  margin-bottom: 200px;
+}
+.ld.ld-manage .ld.ld-portals .ld.ld-portal {
+  display: table;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 1em;
+  background-color: #141422;
+  border-radius: 0.6em;
+}
+.ld.ld-manage .ld.ld-portals .ld.ld-portal .ld.ld-portal-data {
+  display: table-cell;
+  vertical-align: top;
+  width: 380px;
+}
+.ld.ld-manage .ld.ld-portals .ld.ld-portal .ld.ld-portal-data .ld.ld-data-title {
+  font-size: 1.2em;
+  color: #D0D0D2;
+}
+.ld.ld-manage .ld.ld-portals .ld.ld-portal .ld.ld-portal-data .ld.ld-data-ref {
+  font-size: 0.9em;
+  color: #D0D0D2;
+}
+.ld.ld-manage .ld.ld-portals .ld.ld-portal .ld.ld-portal-buttons {
+  display: table-cell;
+  vertical-align: middle;
+}
