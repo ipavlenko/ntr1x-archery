@@ -11,7 +11,7 @@
                             <div class="ld ld-portal" v-for="portal in portals">
                                 <div class="ld ld-portal-data">
                                     <div class="ld ld-data-title">{{ portal.title }}</div>
-                                    <div class="ld ld-data-ref"><a :href="url + '/view/' + portal.name">{{ url }}/view/{{ portal.name }}</a></div>
+                                    <div class="ld ld-data-ref"><a :href="url + '/view/' + portal.id">{{ url }}/view/{{ portal.id }}</a></div>
                                 </div>
                                 <div class="ld ld-portal-buttons">
                                     <button class="btn btn-primary">Edit</button>
@@ -21,7 +21,7 @@
                                             <li><a href="#">Publish</a></li>
                                             <li><a href="#">Clone</a></li>
                                             <li role="separator" class="divider"></li>
-                                            <li><a href="#">Remove</a></li>
+                                            <li><a href="#" @click.prevent="remove({ id: portal.id })">Remove</a></li>
                                         </ul>
                                     </div>
                                 </div>

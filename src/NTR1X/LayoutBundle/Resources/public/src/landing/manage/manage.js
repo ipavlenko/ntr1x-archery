@@ -14,23 +14,10 @@ Landing = window.Landing || {};
         },
         created: function() {
 
-            this.$set('portals', [
-                { id: 1, name: 'jaSWas123asd123', title: 'Московская академия гольфа' },
-                { id: 2, name: 'Uewsq34as3as34a', title: 'Российский рейтинг гольфистов' },
-            ]);
-
-            // this.$set('portals', []);
-            //
-            // this.$http({
-            //     url: '/ws/portals',
-            //     method: 'GET',
-            // }).then(
-            //     (d) => {
-            //         this.$set('portals', d.data.portals);
-            //     },
-            //     (e) => {
-            //     }
-            // );
+            Vue.service('portals').load().then(
+                (d) => { this.$set('portals', d.data.portals); },
+                (e) => { this.$set('portals', []); }
+            );
         },
     });
 
@@ -47,6 +34,17 @@ Landing = window.Landing || {};
                 title: null,
             });
         },
+        methods: {
+            create: function() {
+                Vue.service('portals').create({
+                    title: this.form.title,
+                })
+                .then(
+                    (d) => { this.$router.go('/manage')},
+                    (e) => { }
+                );
+            }
+        }
     });
 
 })(Vue, jQuery, Landing);

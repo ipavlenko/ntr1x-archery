@@ -206,6 +206,74 @@
 
 </template>
 
+<template id="landing-gallery-page">
+    <div class="ld ld-page ld-secondary-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-gallery-full></landing-gallery-full>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-manage-create-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-manage-create></landing-manage-create>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-manage-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-manage></landing-manage>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-signin-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-account-signin></landing-account-signin>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-signup-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-account-signup></landing-account-signup>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-storage-page">
+    <div class="ld ld-page ld-secondary-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-storage-full></landing-storage-full>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-page">
+    <div class="ld ld-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-gallery></landing-gallery>
+        <landing-video></landing-video>
+        <landing-storage></landing-storage>
+        <landing-usecases></landing-usecases>
+        <landing-pricing></landing-pricing>
+        <landing-feedback></landing-feedback>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
 <template id="pages-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -463,74 +531,6 @@
         <pages-list :items.sync="items" :globals.sync="globals"></pages-list>
     </div>
 
-</template>
-
-<template id="landing-gallery-page">
-    <div class="ld ld-page ld-secondary-page">
-        <landing-super></landing-super>
-        <landing-header></landing-header>
-        <landing-gallery-full></landing-gallery-full>
-        <landing-footer></landing-footer>
-    </div>
-</template>
-
-<template id="landing-manage-create-page">
-    <div class="ld ld-page ld-fullscreen-page">
-        <landing-super></landing-super>
-        <landing-header></landing-header>
-        <landing-manage-create></landing-manage-create>
-        <landing-footer></landing-footer>
-    </div>
-</template>
-
-<template id="landing-manage-page">
-    <div class="ld ld-page ld-fullscreen-page">
-        <landing-super></landing-super>
-        <landing-header></landing-header>
-        <landing-manage></landing-manage>
-        <landing-footer></landing-footer>
-    </div>
-</template>
-
-<template id="landing-signin-page">
-    <div class="ld ld-page ld-fullscreen-page">
-        <landing-super></landing-super>
-        <landing-header></landing-header>
-        <landing-account-signin></landing-account-signin>
-        <landing-footer></landing-footer>
-    </div>
-</template>
-
-<template id="landing-signup-page">
-    <div class="ld ld-page ld-fullscreen-page">
-        <landing-super></landing-super>
-        <landing-header></landing-header>
-        <landing-account-signup></landing-account-signup>
-        <landing-footer></landing-footer>
-    </div>
-</template>
-
-<template id="landing-storage-page">
-    <div class="ld ld-page ld-secondary-page">
-        <landing-super></landing-super>
-        <landing-header></landing-header>
-        <landing-storage-full></landing-storage-full>
-        <landing-footer></landing-footer>
-    </div>
-</template>
-
-<template id="landing-page">
-    <div class="ld ld-page">
-        <landing-super></landing-super>
-        <landing-header></landing-header>
-        <landing-gallery></landing-gallery>
-        <landing-video></landing-video>
-        <landing-storage></landing-storage>
-        <landing-usecases></landing-usecases>
-        <landing-pricing></landing-pricing>
-        <landing-feedback></landing-feedback>
-        <landing-footer></landing-footer>
-    </div>
 </template>
 
 <template id="params-bindings-dialog">
@@ -1200,331 +1200,6 @@
 
 </template>
 
-<template id="pages-sources-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Редактирование источника</span>
-                        <span v-if="!original">Новый источник</span>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="pages-sources-dialog-name">Имя</label>
-                        <input class="form-control" type="text" id="pages-sources-dialog-name" required="true" v-model="current.name" />
-                    </div>
-                    <div class="form-group">
-                        <label for="pages-sources-dialog-url">URL</label>
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" id="pages-sources-dialog-method" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span class="label" :class="{
-                                        'label-primary': current.method == 'GET',
-                                        'label-success': current.method == 'POST',
-                                        'label-warning': current.method == 'PUT',
-                                        'label-danger': current.method == 'DELETE',
-                                    }">{{ current.method }}</span>
-                                    &nbsp;
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#" @click="current.method = 'GET'"><span class="label label-primary">GET</span></a></li>
-                                    <li><a href="#" @click="current.method = 'POST'"><span class="label label-success">POST</span></a></li>
-                                    <li><a href="#" @click="current.method = 'PUT'"><span class="label label-warning">PUT</span></a></li>
-                                    <li><a href="#" @click="current.method = 'DELETE'"><span class="label label-danger">DELETE</span></a></li>
-                                </ul>
-                            </div>
-                            <input class="form-control" type="text" id="pages-sources-dialog-url" v-model="current.url" />
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default">...</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="pages-sources-dialog-params">Параметры</label>
-                        <div>
-                            <pages-sources-params :items.sync="current.params">
-                            </pages-sources-params>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success pull-left" @click="check()">Проверить</button>
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
-<template id="pages-sources-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 20%">Имя</th>
-                    <th><a class="btn btn-xs btn-primary" @click="create({ schema: 'petstore', method: 'GET', params: [] })">Добавить</a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td>
-                        <span class="label label-success">{{ item.name }}</span>
-                        &nbsp;
-                        <span>{{ item.url }}</span>
-                    </td>
-                    <td>
-                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
-                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</template>
-
-<template id="pages-sources-params-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label" :class="{
-                            'label-default': original.in == 'path',
-                            'label-success': original.in == 'query',
-                            'label-primary': original.in == 'formData',
-                        }">{{ original.in }}</span>
-                        <span v-if="original">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;&gt;&nbsp;Редактирование параметра</span>
-                        <span v-if="!original">Новый параметр</span>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="dialog-pages-sources-params-name">Имя</label>
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" id="dialog-pages-sources-params-in" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span class="label" :class="{
-                                        'label-default': current.in == 'path',
-                                        'label-success': current.in == 'query',
-                                        'label-primary': current.in == 'formData',
-                                    }">{{ current.in }}</span>
-                                    &nbsp;
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#" @click="current.in = 'path'"><span class="label label-default">path</span></a></li>
-                                    <li><a href="#" @click="current.in = 'query'"><span class="label label-success">query</span></a></li>
-                                    <li><a href="#" @click="current.in = 'formData'"><span class="label label-primary">formData</span></a></li>
-                                </ul>
-                            </div>
-                            <input class="form-control" type="text" id="dialog-pages-sources-params-name" required="true" v-model="current.name" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="dialog-pages-sources-params-value">Значение</label>
-                        <div class="input-group">
-                            <input class="form-control" type="text" id="dialog-pages-sources-params-value" v-model="current.value" />
-                            <div class="input-group-btn">
-                                <bindings :model.sync="current" inline-template>
-                                    <button type="button" class="btn btn-default" @click="open">...</button>
-                                </bindings>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            <input type="checkbox" v-model="current.specified" :disabled="current.required" />
-                            Отправлять с запросом
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            <input type="checkbox" v-model="current.required" :disabled="!current.specified" />
-                            Обязательный параметр
-                        </label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
-<template id="pages-sources-params-list">
-    <section>
-        <table class="table table-condensed">
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td>
-                        <div style="white-space: nowrap">
-                            <span class="label" :class="{
-                                'label-default': item.in == 'path',
-                                'label-success': item.in == 'query',
-                                'label-primary': item.in == 'formData',
-                            }">{{ item.in }}</span>
-                            <span>&nbsp;{{item.name }}</span>
-                        </div>
-                    </td>
-                    <td style="width: 60%">
-                        <div class="input-group input-group-sm">
-                            <label class="input-group-addon">
-                                <input type="checkbox" id="pages-sources-dialog-specified" v-model="item.specified" :disabled="item.required" />
-                            </label>
-                            <input class="form-control" type="text" id="pages-sources-dialog-value" v-model="item.value" :disabled="!item.specified" />
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default" @click="update(item)">...</button>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <a class="btn btn-xs btn-danger pull-right" @click="remove(item)">Удалить</a>
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th><a class="btn btn-xs btn-primary pull-right" @click="create({ in: 'query', specified: true, required: false })">Добавить</a></th>
-            </tfoot>
-        </table>
-    </section>
-</template>
-
-<template id="pages-sources-params">
-
-    <pages-sources-params-list :items.sync="items"></pages-sources-params-list>
-
-</template>
-
-<template id="pages-sources">
-
-    <pages-sources-list :items.sync="items"></pages-sources-list>
-
-</template>
-
-<template id="pages-widgets-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                  @submit.prevent="submit"
-                  @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Редактирование виджета</span>
-                        <span v-if="!original">Новый виджет</span>
-                        <span>&gt;</span>
-                        <span v-for="tab in context.widget.tabs" v-if="isActive(tab.name)">{{ tab.title }}</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li v-for="tab in context.widget.tabs" v-if="hasProps(tab.name)" :class="{ 'active': isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-<template id="pages-widgets-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 20%">Имя</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td>
-                        <span class="label label-success">{{ item.name }}</span>
-                        &nbsp;
-                        <span>{{ item.type }}</span>
-                    </td>
-                    <td>
-                        <a class="btn btn-xs btn-default" @click="update(item, { widget: getWidget(item) })">Редактировать</a>
-                        <a class="btn btn-xs btn-danger" @click="remove(item, { widget: getWidget(item) })">Удалить</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</template>
-
-<template id="pages-widgets">
-
-    <section>
-
-        <div class="input-group">
-            <div class="pull-left">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span>Добавить</span>
-                    &nbsp;
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li v-for="w in globals.widgets">
-                        <a href="#" @click.prevent="create(proto(w), { widget: w })">
-                            <span><span class="label label-success">{{ w.id }}</span> {{ w.title }}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <pages-widgets-list :items.sync="items" :globals.sync="globals"></pages-widgets-list>
-
-    <section>
-
-</template>
-
-<template id="landing-contacts">
-    <div class="ld ld-section ld-contacts">
-        <h3>Contacts</h3>
-    </div>
-</template>
-
 
 <template id="landing-account-signin">
     <div class="ld ld-section ld-body ld-account ld-account-signin">
@@ -1693,6 +1368,12 @@
                 </div>
             </div>
         </div>
+    </div>
+</template>
+
+<template id="landing-contacts">
+    <div class="ld ld-section ld-contacts">
+        <h3>Contacts</h3>
     </div>
 </template>
 
@@ -2050,7 +1731,7 @@
                             <div class="ld ld-portal" v-for="portal in portals">
                                 <div class="ld ld-portal-data">
                                     <div class="ld ld-data-title">{{ portal.title }}</div>
-                                    <div class="ld ld-data-ref"><a :href="url + '/view/' + portal.name">{{ url }}/view/{{ portal.name }}</a></div>
+                                    <div class="ld ld-data-ref"><a :href="url + '/view/' + portal.id">{{ url }}/view/{{ portal.id }}</a></div>
                                 </div>
                                 <div class="ld ld-portal-buttons">
                                     <button class="btn btn-primary">Edit</button>
@@ -2060,7 +1741,7 @@
                                             <li><a href="#">Publish</a></li>
                                             <li><a href="#">Clone</a></li>
                                             <li role="separator" class="divider"></li>
-                                            <li><a href="#">Remove</a></li>
+                                            <li><a href="#" @click.prevent="remove({ id: portal.id })">Remove</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -2330,6 +2011,325 @@
     </div>
 </template>
 
+<template id="pages-sources-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Редактирование источника</span>
+                        <span v-if="!original">Новый источник</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="pages-sources-dialog-name">Имя</label>
+                        <input class="form-control" type="text" id="pages-sources-dialog-name" required="true" v-model="current.name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="pages-sources-dialog-url">URL</label>
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" id="pages-sources-dialog-method" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span class="label" :class="{
+                                        'label-primary': current.method == 'GET',
+                                        'label-success': current.method == 'POST',
+                                        'label-warning': current.method == 'PUT',
+                                        'label-danger': current.method == 'DELETE',
+                                    }">{{ current.method }}</span>
+                                    &nbsp;
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#" @click="current.method = 'GET'"><span class="label label-primary">GET</span></a></li>
+                                    <li><a href="#" @click="current.method = 'POST'"><span class="label label-success">POST</span></a></li>
+                                    <li><a href="#" @click="current.method = 'PUT'"><span class="label label-warning">PUT</span></a></li>
+                                    <li><a href="#" @click="current.method = 'DELETE'"><span class="label label-danger">DELETE</span></a></li>
+                                </ul>
+                            </div>
+                            <input class="form-control" type="text" id="pages-sources-dialog-url" v-model="current.url" />
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default">...</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pages-sources-dialog-params">Параметры</label>
+                        <div>
+                            <pages-sources-params :items.sync="current.params">
+                            </pages-sources-params>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success pull-left" @click="check()">Проверить</button>
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="pages-sources-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width: 20%">Имя</th>
+                    <th><a class="btn btn-xs btn-primary" @click="create({ schema: 'petstore', method: 'GET', params: [] })">Добавить</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        <span class="label label-success">{{ item.name }}</span>
+                        &nbsp;
+                        <span>{{ item.url }}</span>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
+                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="pages-sources-params-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label" :class="{
+                            'label-default': original.in == 'path',
+                            'label-success': original.in == 'query',
+                            'label-primary': original.in == 'formData',
+                        }">{{ original.in }}</span>
+                        <span v-if="original">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;&gt;&nbsp;Редактирование параметра</span>
+                        <span v-if="!original">Новый параметр</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="dialog-pages-sources-params-name">Имя</label>
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" id="dialog-pages-sources-params-in" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span class="label" :class="{
+                                        'label-default': current.in == 'path',
+                                        'label-success': current.in == 'query',
+                                        'label-primary': current.in == 'formData',
+                                    }">{{ current.in }}</span>
+                                    &nbsp;
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#" @click="current.in = 'path'"><span class="label label-default">path</span></a></li>
+                                    <li><a href="#" @click="current.in = 'query'"><span class="label label-success">query</span></a></li>
+                                    <li><a href="#" @click="current.in = 'formData'"><span class="label label-primary">formData</span></a></li>
+                                </ul>
+                            </div>
+                            <input class="form-control" type="text" id="dialog-pages-sources-params-name" required="true" v-model="current.name" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dialog-pages-sources-params-value">Значение</label>
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="dialog-pages-sources-params-value" v-model="current.value" />
+                            <div class="input-group-btn">
+                                <bindings :model.sync="current" inline-template>
+                                    <button type="button" class="btn btn-default" @click="open">...</button>
+                                </bindings>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" v-model="current.specified" :disabled="current.required" />
+                            Отправлять с запросом
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" v-model="current.required" :disabled="!current.specified" />
+                            Обязательный параметр
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="pages-sources-params-list">
+    <section>
+        <table class="table table-condensed">
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        <div style="white-space: nowrap">
+                            <span class="label" :class="{
+                                'label-default': item.in == 'path',
+                                'label-success': item.in == 'query',
+                                'label-primary': item.in == 'formData',
+                            }">{{ item.in }}</span>
+                            <span>&nbsp;{{item.name }}</span>
+                        </div>
+                    </td>
+                    <td style="width: 60%">
+                        <div class="input-group input-group-sm">
+                            <label class="input-group-addon">
+                                <input type="checkbox" id="pages-sources-dialog-specified" v-model="item.specified" :disabled="item.required" />
+                            </label>
+                            <input class="form-control" type="text" id="pages-sources-dialog-value" v-model="item.value" :disabled="!item.specified" />
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default" @click="update(item)">...</button>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-danger pull-right" @click="remove(item)">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th><a class="btn btn-xs btn-primary pull-right" @click="create({ in: 'query', specified: true, required: false })">Добавить</a></th>
+            </tfoot>
+        </table>
+    </section>
+</template>
+
+<template id="pages-sources-params">
+
+    <pages-sources-params-list :items.sync="items"></pages-sources-params-list>
+
+</template>
+
+<template id="pages-sources">
+
+    <pages-sources-list :items.sync="items"></pages-sources-list>
+
+</template>
+
+<template id="pages-widgets-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                  @submit.prevent="submit"
+                  @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Редактирование виджета</span>
+                        <span v-if="!original">Новый виджет</span>
+                        <span>&gt;</span>
+                        <span v-for="tab in context.widget.tabs" v-if="isActive(tab.name)">{{ tab.title }}</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li v-for="tab in context.widget.tabs" v-if="hasProps(tab.name)" :class="{ 'active': isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+<template id="pages-widgets-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width: 20%">Имя</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        <span class="label label-success">{{ item.name }}</span>
+                        &nbsp;
+                        <span>{{ item.type }}</span>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-default" @click="update(item, { widget: getWidget(item) })">Редактировать</a>
+                        <a class="btn btn-xs btn-danger" @click="remove(item, { widget: getWidget(item) })">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="pages-widgets">
+
+    <section>
+
+        <div class="input-group">
+            <div class="pull-left">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span>Добавить</span>
+                    &nbsp;
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li v-for="w in globals.widgets">
+                        <a href="#" @click.prevent="create(proto(w), { widget: w })">
+                            <span><span class="label label-success">{{ w.id }}</span> {{ w.title }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <pages-widgets-list :items.sync="items" :globals.sync="globals"></pages-widgets-list>
+
+    <section>
+
+</template>
+
 <template id="shell-actions">
     <section class="ge ge-actions">
         <div class="pull-left">
@@ -2392,30 +2392,6 @@
         ></shell-page>
     </section>
 
-</template>
-
-<template id="shell-domains">
-    <section class="ge ge-panel ge-domains">
-        <domains :items.sync="domains" :globals.sync="globals" inline-template>
-            <h5>
-                <span>Domains</span>
-                <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({ title: {}, resource: { params: [] }})"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                </span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
-                    <a href="#" @click="trigger('selectDomain', item)">
-                        <span>{{ item.name }}</span>
-                        <span class="ge ge-overlays">
-                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </domains>
-    </section>
 </template>
 
 <template id="shell-decorator-canvas">
@@ -2523,6 +2499,30 @@
             </div>
         </div>
     </div>
+</template>
+
+<template id="shell-domains">
+    <section class="ge ge-panel ge-domains">
+        <domains :items.sync="domains" :globals.sync="globals" inline-template>
+            <h5>
+                <span>Domains</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ title: {}, resource: { params: [] }})"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
+                    <a href="#" @click="trigger('selectDomain', item)">
+                        <span>{{ item.name }}</span>
+                        <span class="ge ge-overlays">
+                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </domains>
+    </section>
 </template>
 
 <template id="shell-page">
@@ -2693,6 +2693,12 @@
     ></div>
 </template>
 
+<template id="shell-stub">
+    <div class="ge ge-stub">
+        <span>Stub</span>
+    </div>
+</template>
+
 <template id="shell-storages">
     <section class="ge ge-panel ge-storages">
         <storages :items.sync="storages" :globals.sync="globals" inline-template>
@@ -2717,9 +2723,9 @@
     </section>
 </template>
 
-<template id="shell-stub">
-    <div class="ge ge-stub">
-        <span>Stub</span>
+<template id="shell-target">
+    <div class="ge ge-target">
+        <span>Drop Here</span>
     </div>
 </template>
 
@@ -2737,11 +2743,5 @@
             :editable.sync="editable"
             :items.sync="model.widgets"
         ></div>
-    </div>
-</template>
-
-<template id="shell-target">
-    <div class="ge ge-target">
-        <span>Drop Here</span>
     </div>
 </template>

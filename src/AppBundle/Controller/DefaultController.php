@@ -12,14 +12,16 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use NTR1X\FormBundle\Form\FormBuilder;
 use NTR1X\FormBundle\Form\FormField;
 
+use NTR1X\LayoutBundle\Entity\Resource;
+use NTR1X\LayoutBundle\Entity\Portal;
 use NTR1X\LayoutBundle\Entity\User;
 use NTR1X\LayoutBundle\Security\UserPrincipal;
 
 class DefaultController extends Controller {
 
     /**
-     * @Route("/ws/portals", name = "portals")
-     * @Method({"GET"})
+     * @Route("/ws/portals", name = "portals-create")
+     * @Method({"POST"})
      */
     public function wsPortalsCreateAction(Request $request) {
 
@@ -37,7 +39,6 @@ class DefaultController extends Controller {
         ;
 
         if (!empty($principal)) {
-            $view['principal'] = $principal;
 
             try {
 
@@ -51,30 +52,47 @@ class DefaultController extends Controller {
                         ->find($principal->getId())
                     ;
 
-                    if ($user != null) {
+                    $portal = (new Portal())
+                        ->setTitle($data['title'])
+                        ->setUser($user)
+                        ->setResource(new Resource())
+                    ;
 
+                    $em->persist($portal);
+                    $em->flush();
 
-                    }
+                    $resource = $portal->getResource();
+
+                    $resource
+                        ->setName("/portals/{$portal->getId()}")
+                        // ->setParams([])
+                    ;
+
+                    $em->persist($resource);
+                    $em->flush();
+
+                    $view['portal'] = $portal;
                 });
 
             } catch (\Exception $e) {
 
                 $view['error'] = [
                     'message' => 'Internal server error',
+                    'message2' => $e->getMessage(),
                 ];
 
                 $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
             }
 
             $response->setStatusCode(Response::HTTP_OK);
+
         } else {
+
             $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
         }
 
         $response->setContent($serializer->serialize($view, 'json'));
-
         $response->headers->set('Content-Type', 'application/json');
-
         return $response;
     }
 
@@ -112,7 +130,7 @@ class DefaultController extends Controller {
                     $view['portals'] = $this
                         ->getDoctrine()
                         ->getRepository('NTR1XLayoutBundle:Portal')
-                        ->findBy([ 'user' => $user ], ['name'=>'asc'])
+                        ->findBy([ 'user' => $user ], ['title' => 'asc'])
                     ;
                 });
 
@@ -132,7 +150,8 @@ class DefaultController extends Controller {
         $serializer = $this->container->get('jms_serializer');
 
         $response->setStatusCode(Response::HTTP_OK);
-        $response->setContent($serializer->serialize([], 'json'));
+        dump($view);
+        $response->setContent($serializer->serialize($view, 'json'));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -206,8 +225,6 @@ class DefaultController extends Controller {
 
             $view['error'] = [
                 'message' => 'The email already in use',
-                'message2' => $e->getMessage(),
-                'message3' => $e->getTraceAsString(),
             ];
 
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);

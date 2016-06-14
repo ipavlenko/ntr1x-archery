@@ -1,6 +1,4 @@
-(function($, Vue, Shell, undefined) {
-
-    // console.log('111');
+(function($, Vue, Core, Shell, undefined) {
 
     $(document).ready(function() {
 
@@ -14,47 +12,8 @@
                 },
                 created: function() {
 
-                    Vue.service('security', {
-
-                        signup: (data) => {
-
-                            return this.$http({
-                                url: '/ws/signup',
-                                method: 'POST',
-                                data: data,
-                            })
-                            .then(
-                                (d) => { this.principal = d.data.principal; this.$router.go('/'); },
-                                (e) => { this.principal = null; }
-                            );
-                        },
-
-                        signin: (data) => {
-
-                            return this.$http({
-                                url: '/ws/signin',
-                                method: 'POST',
-                                data: data,
-                            })
-                            .then(
-                                (d) => { console.log(d); this.principal = d.data.principal; this.$router.go('/'); },
-                                (e) => { this.principal = null; }
-                            );
-                        },
-
-                        signout: () => {
-
-                            return this.$http({
-                                url: '/ws/signout',
-                                method: 'POST',
-                            })
-                            .then(
-                                (d) => { this.principal = null; this.$router.go('/') },
-                                (e) => { }
-                            );
-                        },
-
-                    });
+                    Vue.service('security', Core.SecurityFactory(this));
+                    Vue.service('portals', Core.PortalsFactory(this));
                 },
             });
 
@@ -135,4 +94,4 @@
         })
     });
 
-})(jQuery, Vue, Shell);
+})(jQuery, Vue, Core, Shell);

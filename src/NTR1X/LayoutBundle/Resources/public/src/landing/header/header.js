@@ -7,7 +7,10 @@ Landing = window.Landing || {};
         template: '#landing-header',
         methods: {
             signout: function() {
-                Vue.service('security').signout();
+                Vue.service('security').signout().then(
+                    (d) => { this.$router.go('/'); },
+                    (e) => { }
+                );
             }
         },
     });

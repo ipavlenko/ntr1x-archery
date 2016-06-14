@@ -23,11 +23,14 @@ Landing = window.Landing || {};
         },
         methods: {
             signin: function() {
-                
+
                 Vue.service('security').signin({
                     email: this.form.email,
                     password: this.form.password,
-                });
+                }).then(
+                    (d) => { this.$router.go('/'); },
+                    (e) => { }
+                );
             }
         },
     });
@@ -53,7 +56,10 @@ Landing = window.Landing || {};
                 Vue.service('security').signup({
                     email: this.form.email,
                     password: this.form.password,
-                });
+                }).then(
+                    (d) => { this.$router.go('/'); },
+                    (e) => { }
+                );
             }
         },
     });

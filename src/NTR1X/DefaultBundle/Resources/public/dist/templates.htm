@@ -35,20 +35,6 @@
     </default-box>
 </template>
 
-<template id="default-combobox">
-        <default-box :bindings.sync="bindings" :class="'wg wg-default-combobox'">
-
-            <div class="form-group">
-                <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
-                <select id="{{ systemId }}-input" class="combobox input-large form-control">
-                    <option value="" selected="selected">Type here</option>
-                    <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
-                </select>
-            </div>
-
-        </default-box>
-</template>
-
 <template id="default-carousel">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-carousel'">
             <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
@@ -85,6 +71,20 @@
         </default-box>
 </template>
 
+<template id="default-combobox">
+        <default-box :bindings.sync="bindings" :class="'wg wg-default-combobox'">
+
+            <div class="form-group">
+                <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
+                <select id="{{ systemId }}-input" class="combobox input-large form-control">
+                    <option value="" selected="selected">Type here</option>
+                    <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
+                </select>
+            </div>
+
+        </default-box>
+</template>
+
 <template id="default-dateinterval">
     <default-box :bindings.sync="bindings" class="'wg wg-default-datepicker'">
             <div class="form-group">
@@ -117,6 +117,21 @@
     </default-box>
 </template>
 
+<template id="default-footer">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-footer'">
+        <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
+        <div class="copyright">{{ bindings.copyright }}</div>
+        <div class="contacts-block pull-right">
+            <ul class="social-list">
+                <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
+                <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
+                <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
+            </ul>
+            <div class="phone-block">{{ bindings.contacts }}</div>
+        </div>
+    </default-box>
+</template>
+
 <template id="default-form">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-form'">
         <form action="{{ bindings.acton }}">
@@ -141,21 +156,6 @@
             <input class="form-control" type="submit" name="submit" value="Отправить" data-role="input" data-scope="0">
             <div class="text-bot">{{{ bindings.textbelow }}}</div>
         </form>
-    </default-box>
-</template>
-
-<template id="default-footer">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-footer'">
-        <a class="logo"><img :src="bindings.logo" alt="logo" height="20px"/></a>
-        <div class="copyright">{{ bindings.copyright }}</div>
-        <div class="contacts-block pull-right">
-            <ul class="social-list">
-                <li><a href="{{ bindings.facebook }}"><span class="icon-facebook"></span></a></li>
-                <li><a href="{{ bindings.twitter}}"><span class="icon-twitter"></span></a></li>
-                <li><a href="{{ bindings.google }}"><span class="icon-googleplus"></span></a></li>
-            </ul>
-            <div class="phone-block">{{ bindings.contacts }}</div>
-        </div>
     </default-box>
 </template>
 
@@ -214,6 +214,17 @@
     </default-box>
 </template>
 
+<template id="default-h1-h6">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-h1-h6'">
+        <h1 v-if="bindings.stereotype == 'h1'">{{ bindings.content }}</h1>
+        <h2 v-if="bindings.stereotype == 'h2'">{{ bindings.content }}</h2>
+        <h3 v-if="bindings.stereotype == 'h3'">{{ bindings.content }}</h3>
+        <h4 v-if="bindings.stereotype == 'h4'">{{ bindings.content }}</h4>
+        <h5 v-if="bindings.stereotype == 'h5'">{{ bindings.content }}</h5>
+        <h6 v-if="bindings.stereotype == 'h6'">{{ bindings.content }}</h6>
+    </default-box>
+</template>
+
 <template id="default-header">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-header'">
         <div class="info-block">
@@ -225,17 +236,6 @@
         <ul v-if="bindings.logo" class="partners-block clearfix">
             <li><a href="/" target="_blank"><img :src="bindings.logo" alt=""/></a></li>
         </ul>
-    </default-box>
-</template>
-
-<template id="default-h1-h6">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-h1-h6'">
-        <h1 v-if="bindings.stereotype == 'h1'">{{ bindings.content }}</h1>
-        <h2 v-if="bindings.stereotype == 'h2'">{{ bindings.content }}</h2>
-        <h3 v-if="bindings.stereotype == 'h3'">{{ bindings.content }}</h3>
-        <h4 v-if="bindings.stereotype == 'h4'">{{ bindings.content }}</h4>
-        <h5 v-if="bindings.stereotype == 'h5'">{{ bindings.content }}</h5>
-        <h6 v-if="bindings.stereotype == 'h6'">{{ bindings.content }}</h6>
     </default-box>
 </template>
 
@@ -423,6 +423,17 @@
     </default-box>
 </template>
 
+<template id="default-select">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-select'">
+        <div class="form-group">
+            <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
+            <select class="form-control" :name="bindings.name" id="{{ systemId }}-input">
+                <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
+            </select>
+        </div>
+    </default-box>
+</template>
+
 <template id="default-sitemap">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-sitemap'">
         <ul>
@@ -435,17 +446,6 @@
                 </ul>
             </li>
         </ul>
-    </default-box>
-</template>
-
-<template id="default-select">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-select'">
-        <div class="form-group">
-            <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
-            <select class="form-control" :name="bindings.name" id="{{ systemId }}-input">
-                <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
-            </select>
-        </div>
     </default-box>
 </template>
 
