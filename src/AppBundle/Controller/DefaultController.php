@@ -97,6 +97,73 @@ class DefaultController extends Controller {
     }
 
     /**
+     * @Route("/ws/portals", name = "portals-remove")
+     * @Method({"DELETE"})
+     */
+    public function wsPortalsRemoveAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $view = [];
+
+        $serializer = $this->container->get('jms_serializer');
+
+        $response = new Response();
+
+        $principal = $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')
+            ? $this->get('security.token_storage')->getToken()->getUser()
+            : null
+        ;
+
+        if (!empty($principal)) {
+
+            try {
+
+                $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$serializer, &$principal) {
+
+                    $data = $serializer->deserialize($request->getContent(), 'array', 'json');
+
+                    $user = $this
+                        ->getDoctrine()
+                        ->getRepository('NTR1XLayoutBundle:User')
+                        ->find($principal->getId())
+                    ;
+
+                    $portal = $this
+                        ->getDoctrine()
+                        ->getRepository('NTR1XLayoutBundle:Portal')
+                        ->findOneBy([ 'id' => $data['id'], 'user' => $user ])
+                    ;
+
+                    $em->remove($portal->getResource());
+                    $em->remove($portal);
+
+                    $em->flush();
+                });
+
+            } catch (\Exception $e) {
+
+                $view['error'] = [
+                    'message' => 'Internal server error',
+                    'message2' => $e->getMessage(),
+                ];
+
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $response->setStatusCode(Response::HTTP_OK);
+
+        } else {
+
+            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+        }
+
+        $response->setContent($serializer->serialize($view, 'json'));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
      * @Route("/ws/portals", name = "portals")
      * @Method({"GET"})
      */

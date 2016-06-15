@@ -13,12 +13,27 @@ Landing = window.Landing || {};
             };
         },
         created: function() {
-
-            Vue.service('portals').load().then(
-                (d) => { this.$set('portals', d.data.portals); },
-                (e) => { this.$set('portals', []); }
-            );
+            this.refresh();
         },
+        methods: {
+
+            refresh: function() {
+                Vue.service('portals').load().then(
+                    (d) => { this.$set('portals', d.data.portals); },
+                    (e) => { this.$set('portals', []); }
+                );
+            },
+
+            remove: function(id) {
+                Vue.service('portals').remove({
+                    id: id,
+                })
+                .then(
+                    (d) => { this.refresh(); },
+                    (e) => { }
+                );
+            },
+        }
     });
 
     Landing.ManageCreate =
@@ -35,6 +50,7 @@ Landing = window.Landing || {};
             });
         },
         methods: {
+
             create: function() {
                 Vue.service('portals').create({
                     title: this.form.title,
@@ -43,7 +59,7 @@ Landing = window.Landing || {};
                     (d) => { this.$router.go('/manage')},
                     (e) => { }
                 );
-            }
+            },
         }
     });
 

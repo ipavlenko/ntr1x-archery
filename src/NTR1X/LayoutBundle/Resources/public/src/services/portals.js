@@ -22,6 +22,14 @@ Core = window.Core || {};
                 );
             }),
 
+            remove: (data) => new Promise((resolve, reject) => {
+
+                owner.$http.delete('/ws/portals', data).then(
+                    (d) => { resolve(d); },
+                    (e) => { reject(e); }
+                );
+            }),
+
             // remove: (data) => new Promise((resolve, reject) => {
             //
             //     owner.$http.post('/ws/portals', data).then(
