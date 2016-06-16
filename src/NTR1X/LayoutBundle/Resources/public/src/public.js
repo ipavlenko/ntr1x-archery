@@ -62,10 +62,14 @@
                     component: Shell.ShellPublic,
                     auth: true,
                 },
-                // '/admin/:domain/:page': {
-                //     component: Shell.ShellPrivate,
-                //     auth: true,
-                // },
+                '/manage/:domain': {
+                    component: Shell.Loader,
+                    auth: true,
+                },
+                '/manage/:domain/:page': {
+                    component: Shell.Loader,
+                    auth: true,
+                },
             };
 
             function createRoute(page) {

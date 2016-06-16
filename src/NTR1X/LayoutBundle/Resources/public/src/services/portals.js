@@ -29,6 +29,14 @@ Core = window.Core || {};
                     (e) => { reject(e); }
                 );
             }),
+
+            settings: (data) => new Promise((resolve, reject) => {
+
+                owner.$http.delete('/ws/settings', data).then(
+                    (d) => { resolve(d); },
+                    (e) => { reject(e); }
+                );
+            }),
         };
     }
 

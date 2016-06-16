@@ -14,7 +14,7 @@
                                     <div class="ld ld-data-ref"><a :href="url + '/view/' + portal.id">{{ url }}/view/{{ portal.id }}</a></div>
                                 </div>
                                 <div class="ld ld-portal-buttons">
-                                    <button class="btn btn-primary">Edit</button>
+                                    <button class="btn btn-primary" v-link="{ path: '/manage/' + portal.id }">Edit</button>
                                     <div class="btn-group">
                                         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
                                         <ul class="dropdown-menu">

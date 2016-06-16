@@ -18,8 +18,8 @@
             //
             // })
 
-            console.log(this.$route.params.domain);
-            console.log(this.$route.params.page);
+            // console.log(this.$route.params.domain);
+            // console.log(this.$route.params.page);
 
             Vue.service('shell', {
 

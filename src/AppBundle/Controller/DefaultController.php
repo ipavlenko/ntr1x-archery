@@ -20,6 +20,42 @@ use NTR1X\LayoutBundle\Security\UserPrincipal;
 class DefaultController extends Controller {
 
     /**
+     * @Route("/settings", name="settings")
+     */
+    public function settingsAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $view = [];
+
+        $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$view) {
+
+            $view['pages'] = $this
+                ->getDoctrine()
+                ->getRepository('NTR1XLayoutBundle:Page')
+                ->findBy([], ['name'=>'asc'])
+            ;
+
+            $view['schemes'] = $this
+                ->getDoctrine()
+                ->getRepository('NTR1XLayoutBundle:Schema')
+                ->findBy([], ['name'=>'asc'])
+            ;
+        });
+
+        $serializer = $this->container->get('jms_serializer');
+
+        $response = (new Response())
+            ->setContent($serializer->serialize($view, 'json'))
+            ->setStatusCode(Response::HTTP_OK)
+        ;
+
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    /**
      * @Route("/ws/portals", name = "portals-create")
      * @Method({"POST"})
      */

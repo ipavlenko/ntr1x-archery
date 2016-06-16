@@ -132,33 +132,6 @@
     </default-box>
 </template>
 
-<template id="default-form">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-form'">
-        <form action="{{ bindings.acton }}">
-            <div class="title" style="">{{{ bindings.title }}}</div>
-            <div class="text-top">{{{ bindings.textabove }}}</div>
-            <div v-for="field in bindings.fields" class="form-group">
-                <input v-if="field.type != 'textarea'"
-                        class="form-control"
-                        type="{{ field.type }}"
-                        name="{{ field.name }}"
-                        placeholder="{{ field.placeholder }}"
-                        value=""
-                        data-role="input"
-                        data-scope="{{ field.scope }}"
-                >
-                <textarea v-if="field.type == 'textarea'"
-                          name="{{ field.name }}"
-                          placeholder="{{ field.placeholder }}"
-                          class="form-control"
-                ></textarea>
-            </div>
-            <input class="form-control" type="submit" name="submit" value="Отправить" data-role="input" data-scope="0">
-            <div class="text-bot">{{{ bindings.textbelow }}}</div>
-        </form>
-    </default-box>
-</template>
-
 <template id="default-gallery">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-gallery'">
             <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
@@ -211,6 +184,33 @@
 
             </div>
         </div>
+    </default-box>
+</template>
+
+<template id="default-form">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-form'">
+        <form action="{{ bindings.acton }}">
+            <div class="title" style="">{{{ bindings.title }}}</div>
+            <div class="text-top">{{{ bindings.textabove }}}</div>
+            <div v-for="field in bindings.fields" class="form-group">
+                <input v-if="field.type != 'textarea'"
+                        class="form-control"
+                        type="{{ field.type }}"
+                        name="{{ field.name }}"
+                        placeholder="{{ field.placeholder }}"
+                        value=""
+                        data-role="input"
+                        data-scope="{{ field.scope }}"
+                >
+                <textarea v-if="field.type == 'textarea'"
+                          name="{{ field.name }}"
+                          placeholder="{{ field.placeholder }}"
+                          class="form-control"
+                ></textarea>
+            </div>
+            <input class="form-control" type="submit" name="submit" value="Отправить" data-role="input" data-scope="0">
+            <div class="text-bot">{{{ bindings.textbelow }}}</div>
+        </form>
     </default-box>
 </template>
 
@@ -406,6 +406,17 @@
         </default-box>
 </template>
 
+<template id="default-select">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-select'">
+        <div class="form-group">
+            <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
+            <select class="form-control" :name="bindings.name" id="{{ systemId }}-input">
+                <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
+            </select>
+        </div>
+    </default-box>
+</template>
+
 <template id="default-rich">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-rich'" v-if="!bindings.stereotype">
         {{{ bindings.content }}}
@@ -423,17 +434,6 @@
     </default-box>
 </template>
 
-<template id="default-select">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-select'">
-        <div class="form-group">
-            <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
-            <select class="form-control" :name="bindings.name" id="{{ systemId }}-input">
-                <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
-            </select>
-        </div>
-    </default-box>
-</template>
-
 <template id="default-sitemap">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-sitemap'">
         <ul>
@@ -446,6 +446,17 @@
                 </ul>
             </li>
         </ul>
+    </default-box>
+</template>
+
+<template id="default-stub">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-stub'">
+        <div class="wg wg-table">
+            <span class="wg wg-cell">
+                <div><small>{{ bindings.title }}</small></div>
+                <div>{{ bindings.subtitle }}</div>
+            </span>
+        </div>
     </default-box>
 </template>
 
@@ -525,17 +536,6 @@
             </div>
         </div>
     </section>
-</template>
-
-<template id="default-stub">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-stub'">
-        <div class="wg wg-table">
-            <span class="wg wg-cell">
-                <div><small>{{ bindings.title }}</small></div>
-                <div>{{ bindings.subtitle }}</div>
-            </span>
-        </div>
-    </default-box>
 </template>
 
 <template id="default-table">
