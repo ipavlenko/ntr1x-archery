@@ -1200,6 +1200,12 @@
 
 </template>
 
+<template id="landing-benefits">
+    <div class="ld ld-section ld-benefits">
+        <h3>Benefits</h3>
+    </div>
+</template>
+
 
 <template id="landing-account-signin">
     <div class="ld ld-section ld-body ld-account ld-account-signin">
@@ -1284,12 +1290,6 @@
                 </validator>
             </div>
         </div>
-    </div>
-</template>
-
-<template id="landing-benefits">
-    <div class="ld ld-section ld-benefits">
-        <h3>Benefits</h3>
     </div>
 </template>
 
@@ -1916,6 +1916,44 @@
     </div>
 </template>
 
+<template id="landing-video">
+    <div class="ld ld-section ld-video">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-facetime-video"></span> Video Tutorial</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <div class="ld ld-video">
+                            <iframe width="530" height="260" src="https://www.youtube.com/embed/aqRBN7qvyxs" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="ld ld-message">
+                            <p>
+                                Archery is made to be simple and agile.
+                                No extra skills required, you can start in several clicks.
+                            </p>
+                            <p>
+                                Create project from scratch or use any template from the gallery.
+                                With a little effort you will get a functional online service in a few minutes.
+                            </p>
+                            <p>
+                                You can publish your portal immediately and update it any time you want.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="landing-usecases">
     <div class="ld ld-section ld-usecases">
         <div class="ld ld-container">
@@ -1965,44 +2003,6 @@
                                     a powerful dashboard.
                                 </p>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template id="landing-video">
-    <div class="ld ld-section ld-video">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-facetime-video"></span> Video Tutorial</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-6">
-                        <div class="ld ld-video">
-                            <iframe width="530" height="260" src="https://www.youtube.com/embed/aqRBN7qvyxs" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-6">
-                        <div class="ld ld-message">
-                            <p>
-                                Archery is made to be simple and agile.
-                                No extra skills required, you can start in several clicks.
-                            </p>
-                            <p>
-                                Create project from scratch or use any template from the gallery.
-                                With a little effort you will get a functional online service in a few minutes.
-                            </p>
-                            <p>
-                                You can publish your portal immediately and update it any time you want.
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -2501,6 +2501,15 @@
     </div>
 </template>
 
+<template id="shell-loader">
+    <div class="ge ge-shell-loader">
+        <shell-private v-if="portal != null"
+            :settings="settings"
+            :model="portal"
+        ></shell-private>
+    </div>
+</template>
+
 <template id="shell-domains">
     <section class="ge ge-panel ge-domains">
         <domains :items.sync="domains" :globals.sync="globals" inline-template>
@@ -2523,33 +2532,6 @@
             </ul>
         </domains>
     </section>
-</template>
-
-<template id="shell-loader">
-    <div class="ge ge-shell-loader">
-        <shell-private v-if="portal != null"
-            :settings="settings"
-            :model="portal"
-        ></shell-private>
-    </div>
-</template>
-
-<template id="shell-page">
-
-    <div class="ge ge-page" :style="{
-        'width': pageSettings.width,
-    }">
-        <div
-            :is="decorator"
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :data.sync="data"
-            :storage.sync="storage"
-            :items.sync="page.widgets"
-        ></div>
-    </div>
-
 </template>
 
 <template id="shell-pages">
@@ -2575,6 +2557,24 @@
             </ul>
         </pages>
     </section>
+</template>
+
+<template id="shell-page">
+
+    <div class="ge ge-page" :style="{
+        'width': pageSettings.width,
+    }">
+        <div
+            :is="decorator"
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :data.sync="data"
+            :storage.sync="storage"
+            :items.sync="page.widgets"
+        ></div>
+    </div>
+
 </template>
 
 <template id="shell-palette-item">
@@ -2611,22 +2611,10 @@
 <template id="shell-private">
     <div class="ge ge-shell ge-shell-private">
         <div class="ge ge-head">
-            <div class="ge ge-nav">
-                <shell-brand
-                    :model.sync="model"
-                    :globals.sync="globals"
-                ></shell-brand>
-            </div>
-            <div class="ge ge-subnav">
-            </div>
-            <div class="ge ge-structure">
-            </div>
-            <div class="ge ge-editor">
-                <shell-actions
-                    :model.sync="model"
-                    :globals.sync="globals"
-                ></shell-actions>
-            </div>
+            <shell-brand
+                :model.sync="model"
+                :globals.sync="globals"
+            ></shell-brand>
         </div>
         <div class="ge ge-body">
             <div class="ge ge-body-table">
@@ -2641,6 +2629,10 @@
                     </div>
                 </div>
                 <div class="ge ge-editor" v-scrollable>
+                    <shell-actions
+                        :model.sync="model"
+                        :globals.sync="globals"
+                    ></shell-actions>
                     <shell-container
                         :globals.sync="globals"
                         :settings.sync="settings"
@@ -2745,12 +2737,6 @@
     </div>
 </template>
 
-<template id="shell-target">
-    <div class="ge ge-target">
-        <span>Drop Here</span>
-    </div>
-</template>
-
 <template id="shell-widget">
     <div>
         <div
@@ -2765,5 +2751,11 @@
             :editable.sync="editable"
             :items.sync="model.widgets"
         ></div>
+    </div>
+</template>
+
+<template id="shell-target">
+    <div class="ge ge-target">
+        <span>Drop Here</span>
     </div>
 </template>

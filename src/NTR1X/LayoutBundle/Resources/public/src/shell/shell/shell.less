@@ -44,7 +44,7 @@
         display: block;
 
         .ge.ge-body-table {
-            display: table;
+            display: flex;
             width: 100%;
             height: 100%;
         }
@@ -65,7 +65,8 @@
         // width: 220px;
         // width: 40px;
         // bottom: 0px;
-        display: table-cell;
+        // display: table-cell;
+        flex: 0 1 40px;
         vertical-align: top;
         width: 40px;
 
@@ -90,10 +91,12 @@
         }
 
         &:hover {
-            width: 320px;
+            transition: 0.5s;
+            flex: 0 1 320px;
+            // width: 320px;
             .ge.ge-subnav {
                 transition: 0.5s;
-                left: 0px;
+                left: 40px;
             }
         }
     }
@@ -107,17 +110,20 @@
     // }
 
     .ge.ge-structure {
-        display: table-cell;
-        vertical-align: top;
+        // display: table-cell;
+        // vertical-align: top;
         // position: absolute;
-        width: 220px;
+        // width: 220px;
+        flex: 0 1 220px;
     }
 
     .ge.ge-editor {
 
-        display: table-cell;
-        vertical-align: top;
-        width: auto;
+        // display: table-cell;
+        // vertical-align: top;
+        // width: auto;
+        flex: 1 1 100px;
+        position: relative;
     }
 
     .ge.ge-panel {

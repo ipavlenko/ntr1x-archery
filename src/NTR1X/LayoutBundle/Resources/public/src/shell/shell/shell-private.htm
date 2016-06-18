@@ -1,22 +1,10 @@
 <template id="shell-private">
     <div class="ge ge-shell ge-shell-private">
         <div class="ge ge-head">
-            <div class="ge ge-nav">
-                <shell-brand
-                    :model.sync="model"
-                    :globals.sync="globals"
-                ></shell-brand>
-            </div>
-            <div class="ge ge-subnav">
-            </div>
-            <div class="ge ge-structure">
-            </div>
-            <div class="ge ge-editor">
-                <shell-actions
-                    :model.sync="model"
-                    :globals.sync="globals"
-                ></shell-actions>
-            </div>
+            <shell-brand
+                :model.sync="model"
+                :globals.sync="globals"
+            ></shell-brand>
         </div>
         <div class="ge ge-body">
             <div class="ge ge-body-table">
@@ -31,6 +19,10 @@
                     </div>
                 </div>
                 <div class="ge ge-editor" v-scrollable>
+                    <shell-actions
+                        :model.sync="model"
+                        :globals.sync="globals"
+                    ></shell-actions>
                     <shell-container
                         :globals.sync="globals"
                         :settings.sync="settings"
