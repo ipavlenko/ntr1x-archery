@@ -1,25 +1,16 @@
 (function($, Vue, Shell, undefined) {
 
     Shell.Shell = {
-        // props: {
-        //     selection: Object,
-        //     settings: Object,
-        //     model: Object,
-        // },
+        props: {
+            settings: Object,
+            model: Object,
+        },
         data: function() {
             return {
                 globals: this.globals,
             };
         },
         created: function() {
-
-            // this.$http({
-            //     url: '',
-            //
-            // })
-
-            // console.log(this.$route.params.domain);
-            // console.log(this.$route.params.page);
 
             Vue.service('shell', {
 
@@ -37,7 +28,12 @@
             });
 
             this.globals = {
-                selection: this.selection,
+                selection: {
+                    category: null,
+                    page: null,
+                    source: null,
+                    storage: null,
+                },
                 settings: this.settings,
                 model: this.model,
             };
@@ -57,8 +53,6 @@
         template: '#shell-private',
 
         created: function() {
-
-            // this.$http()
 
             function relevant(current, collection) {
 
@@ -92,31 +86,31 @@
                         category = sub.categories[0];
                     }
                 }
-                this.selection.category = category;
+                this.globals.selection.category = category;
             }, {
                 immediate: true,
             });
 
             this.$watch('model.domains', (domains) => {
-                this.selection.domain = relevant(this.selection.domain, domains);
+                this.globals.selection.domain = relevant(this.globals.selection.domain, domains);
             }, {
                 immediate: true,
             });
 
             this.$watch('model.pages', (pages) => {
-                this.selection.page = relevant(this.selection.page, pages);
+                this.globals.selection.page = relevant(this.globals.selection.page, pages);
             }, {
                 immediate: true,
             });
 
-            this.$watch('selection.page.sources', (sources) => {
-                this.selection.source = relevant(this.selection.source, sources);
+            this.$watch('globals.selection.page.sources', (sources) => {
+                this.globals.selection.source = relevant(this.globals.selection.source, sources);
             }, {
                 immediate: true,
             });
 
-            this.$watch('selection.page.storages', (storages) => {
-                this.selection.storage = relevant(this.selection.storage, storages);
+            this.$watch('globals.selection.page.storages', (storages) => {
+                this.globals.selection.storage = relevant(this.globals.selection.storage, storages);
             }, {
                 immediate: true,
             });
@@ -160,19 +154,19 @@
                 })
             },
             selectCategory: function(data) {
-                this.selection.category = data.item;
+                this.globals.selection.category = data.item;
             },
             selectDomain: function(data) {
-                this.selection.domain = data.item;
+                this.globals.selection.domain = data.item;
             },
             selectPage: function(data) {
-                this.selection.page = data.item;
+                this.globals.selection.page = data.item;
             },
             selectSource: function(data) {
-                this.selection.source = data.item;
+                this.globals.selection.source = data.item;
             },
             selectStorage: function(data) {
-                this.selection.storage = data.item;
+                this.globals.selection.storage = data.item;
             },
         }
     });

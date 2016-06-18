@@ -30,9 +30,9 @@ Core = window.Core || {};
                 );
             }),
 
-            settings: (data) => new Promise((resolve, reject) => {
+            get: (data) => new Promise((resolve, reject) => {
 
-                owner.$http.delete('/ws/settings', data).then(
+                owner.$http.get(`/ws/portals/${data.id}`).then(
                     (d) => { resolve(d); },
                     (e) => { reject(e); }
                 );

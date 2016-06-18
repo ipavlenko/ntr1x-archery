@@ -14,44 +14,84 @@ use NTR1X\FormBundle\Form\FormField;
 
 use NTR1X\LayoutBundle\Entity\Resource;
 use NTR1X\LayoutBundle\Entity\Portal;
+use NTR1X\LayoutBundle\Entity\Page;
 use NTR1X\LayoutBundle\Entity\User;
 use NTR1X\LayoutBundle\Security\UserPrincipal;
 
 class DefaultController extends Controller {
 
     /**
-     * @Route("/settings", name="settings")
+     * @Route("/ws/portals/{id}", name="portals-get")
+     * @Method({"GET"})
      */
-    public function settingsAction(Request $request) {
+    public function wsPortalsGetAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
 
         $view = [];
 
-        $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$view) {
-
-            $view['pages'] = $this
-                ->getDoctrine()
-                ->getRepository('NTR1XLayoutBundle:Page')
-                ->findBy([], ['name'=>'asc'])
-            ;
-
-            $view['schemes'] = $this
-                ->getDoctrine()
-                ->getRepository('NTR1XLayoutBundle:Schema')
-                ->findBy([], ['name'=>'asc'])
-            ;
-        });
-
         $serializer = $this->container->get('jms_serializer');
 
-        $response = (new Response())
-            ->setContent($serializer->serialize($view, 'json'))
-            ->setStatusCode(Response::HTTP_OK)
+        $response = new Response();
+
+        $principal = $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')
+            ? $this->get('security.token_storage')->getToken()->getUser()
+            : null
         ;
 
-        $response->headers->set('Content-Type', 'application/json');
+        if (!empty($principal)) {
 
+            try {
+
+                $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$view, &$serializer, &$principal) {
+
+                    $user = $this
+                        ->getDoctrine()
+                        ->getRepository('NTR1XLayoutBundle:User')
+                        ->find($principal->getId())
+                    ;
+
+                    $portal = $this
+                        ->getDoctrine()
+                        ->getRepository('NTR1XLayoutBundle:Portal')
+                        ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ], [])
+                    ;
+
+                    $view['portal'] = $portal;
+
+                    $view['settings'] = [
+
+                        'widgets' => $this
+                            ->get('ntr1_x_layout.widget.manager')
+                            ->getWidgets()
+                        ,
+
+                        'categories' => $this
+                            ->get('ntr1_x_layout.category.manager')
+                            ->getCategories()
+                        ,
+                    ];
+                });
+
+            } catch (\Exception $e) {
+
+                $view['error'] = [
+                    'message' => 'Internal server error',
+                    'message2' => $e->getMessage(),
+                ];
+
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $response->setStatusCode(Response::HTTP_OK);
+
+        } else {
+
+            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+        }
+
+        $response->setContent($serializer->serialize($view, 'json'));
+        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
@@ -101,6 +141,28 @@ class DefaultController extends Controller {
 
                     $resource
                         ->setName("/portals/{$portal->getId()}")
+                        // ->setParams([])
+                    ;
+
+                    $em->persist($resource);
+                    $em->flush();
+
+                    $page = (new Page())
+                        ->setName('')
+                        ->setTitle([
+                            'value' => 'Default',
+                        ])
+                        ->setPortal($portal)
+                        ->setResource(new Resource())
+                    ;
+
+                    $em->persist($page);
+                    $em->flush();
+
+                    $resource = $page->getResource();
+
+                    $resource
+                        ->setName("/portals/{$portal->getId()}/pages/{$page->getId()}")
                         // ->setParams([])
                     ;
 

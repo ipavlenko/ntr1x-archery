@@ -1,46 +1,3 @@
-<template id="bindings-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Edit Param</span>
-                        <span v-if="!original">New Param</span>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="bindings-dialog-binding">Binding</label>
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span v-if="getStrategy() == 'eval'">Eval </span>
-                                    <span v-if="getStrategy() != 'eval'">Interpolate </span>
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li :class="{ 'active': getStrategy() == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
-                                    <li :class="{ 'active': getStrategy() != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
-                                </ul>
-                            </div>
-                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding.expression" />
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="domains-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -204,6 +161,49 @@
 
     <domains-list :items.sync="items"></domains-list>
 
+</template>
+
+<template id="bindings-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Edit Param</span>
+                        <span v-if="!original">New Param</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="bindings-dialog-binding">Binding</label>
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span v-if="getStrategy() == 'eval'">Eval </span>
+                                    <span v-if="getStrategy() != 'eval'">Interpolate </span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li :class="{ 'active': getStrategy() == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
+                                    <li :class="{ 'active': getStrategy() != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
+                                </ul>
+                            </div>
+                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding.expression" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </template>
 
 <template id="landing-gallery-page">
@@ -1200,12 +1200,6 @@
 
 </template>
 
-<template id="landing-benefits">
-    <div class="ld ld-section ld-benefits">
-        <h3>Benefits</h3>
-    </div>
-</template>
-
 
 <template id="landing-account-signin">
     <div class="ld ld-section ld-body ld-account ld-account-signin">
@@ -1290,6 +1284,12 @@
                 </validator>
             </div>
         </div>
+    </div>
+</template>
+
+<template id="landing-benefits">
+    <div class="ld ld-section ld-benefits">
+        <h3>Benefits</h3>
     </div>
 </template>
 
@@ -1760,66 +1760,6 @@
     </div>
 </template>
 
-<template id="landing-storage-full">
-    <div class="ld ld-section ld-storage ld-storage-full">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div style="height: 1200px">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template id="landing-storage">
-    <div class="ld ld-section ld-storage">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-hdd"></span> Data Storage</h3>
-                            <a href="/storage" class="btn btn-primary pull-right">Explore Catalog</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-features">
-                            <div class="ld ld-feature">
-                                Goods &amp; Prices
-                            </div>
-                            <div class="ld ld-feature">
-                                Features &amp; Benefits
-                            </div>
-                            <div class="ld ld-feature">
-                                Booking &amp; Orders
-                            </div>
-                            <div class="ld ld-feature">
-                                News &amp; Events
-                            </div>
-                            <div class="ld ld-feature">
-                                Communication &amp; Collaboration
-                            </div>
-                            <div class="ld ld-feature">
-                                Users &amp; Personalities
-                            </div>
-                            <div class="ld ld-feature">
-                                Photo &amp; Video Galleries
-                            </div>
-                            <div class="ld ld-feature">
-                                Geospatial Data
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <template id="landing-pricing">
     <div class="ld ld-section ld-pricing">
         <div class="ld ld-container">
@@ -1889,6 +1829,66 @@
                                     <p>We are welcome you as a partner. Please mail us.</p>
                                     <a href="#" class="btn btn-primary">Apply</a>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-storage-full">
+    <div class="ld ld-section ld-storage ld-storage-full">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div style="height: 1200px">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-storage">
+    <div class="ld ld-section ld-storage">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-hdd"></span> Data Storage</h3>
+                            <a href="/storage" class="btn btn-primary pull-right">Explore Catalog</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-features">
+                            <div class="ld ld-feature">
+                                Goods &amp; Prices
+                            </div>
+                            <div class="ld ld-feature">
+                                Features &amp; Benefits
+                            </div>
+                            <div class="ld ld-feature">
+                                Booking &amp; Orders
+                            </div>
+                            <div class="ld ld-feature">
+                                News &amp; Events
+                            </div>
+                            <div class="ld ld-feature">
+                                Communication &amp; Collaboration
+                            </div>
+                            <div class="ld ld-feature">
+                                Users &amp; Personalities
+                            </div>
+                            <div class="ld ld-feature">
+                                Photo &amp; Video Galleries
+                            </div>
+                            <div class="ld ld-feature">
+                                Geospatial Data
                             </div>
                         </div>
                     </div>
@@ -2330,6 +2330,12 @@
 
 </template>
 
+<template id="shell-brand">
+    <section class="ge ge-brand">
+        <a href="#"></a>
+    </section>
+</template>
+
 <template id="shell-actions">
     <section class="ge ge-actions">
         <div class="pull-left">
@@ -2359,12 +2365,6 @@
             <button type="button" class="btn btn-default">Add Source</button>
             -->
         </div>
-    </section>
-</template>
-
-<template id="shell-brand">
-    <section class="ge ge-brand">
-        <a href="#"></a>
     </section>
 </template>
 
@@ -2527,6 +2527,10 @@
 
 <template id="shell-loader">
     <div class="ge ge-shell-loader">
+        <shell-private v-if="portal != null"
+            :settings="settings"
+            :model="portal"
+        ></shell-private>
     </div>
 </template>
 
@@ -2560,9 +2564,10 @@
             <ul class="nav nav-pills nav-stacked">
                 <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.page }">
                     <a href="#" @click="trigger('selectPage', item)">
-                        <span>{{ item.name }}</span>
+                        <span v-if="item.name != ''">{{ item.name }}</span>
+                        <span v-if="item.name == ''"><i>default</i></span>
                         <span class="ge ge-overlays">
-                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span v-if="item.name != ''" class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
                             <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
                         </span>
                     </a>
@@ -2615,7 +2620,7 @@
             </div>
             <div class="ge ge-subnav" v-scrollable>
                 <shell-palette
-                    :category.sync="selection.category"
+                    :category.sync="globals.selection.category"
                     :globals.sync="globals"
                 ></shell-palette>
             </div>
@@ -2623,25 +2628,20 @@
                 <shell-container
                     :globals.sync="globals"
                     :settings.sync="settings"
-                    :page.sync="selection.page"
-                    :category.sync="selection.category"
+                    :page.sync="globals.selection.page"
                 ></shell-container>
             </div>
             <div class="ge ge-structure" v-scrollable>
-                <shell-domains
-                    :domains.sync="model.domains"
-                    :globals.sync="globals"
-                ></shell-domains>
                 <shell-pages
                     :pages.sync="model.pages"
                     :globals.sync="globals"
                 ></shell-pages>
                 <shell-sources
-                    :sources.sync="selection.page.sources"
+                    :sources.sync="globals.selection.page.sources"
                     :globals.sync="globals"
                 ></shell-sources>
                 <shell-storages
-                    :storages.sync="selection.page.storages"
+                    :storages.sync="globals.selection.page.storages"
                     :globals.sync="globals"
                 ></shell-storages>
             </div>

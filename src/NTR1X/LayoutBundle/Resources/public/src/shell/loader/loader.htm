@@ -1,4 +1,8 @@
 <template id="shell-loader">
     <div class="ge ge-shell-loader">
+        <shell-private v-if="portal != null"
+            :settings="settings"
+            :model="portal"
+        ></shell-private>
     </div>
 </template>

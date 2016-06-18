@@ -35,6 +35,20 @@
     </default-box>
 </template>
 
+<template id="default-combobox">
+        <default-box :bindings.sync="bindings" :class="'wg wg-default-combobox'">
+
+            <div class="form-group">
+                <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
+                <select id="{{ systemId }}-input" class="combobox input-large form-control">
+                    <option value="" selected="selected">Type here</option>
+                    <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
+                </select>
+            </div>
+
+        </default-box>
+</template>
+
 <template id="default-carousel">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-carousel'">
             <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
@@ -68,20 +82,6 @@
                 </a>
 
             </div>
-        </default-box>
-</template>
-
-<template id="default-combobox">
-        <default-box :bindings.sync="bindings" :class="'wg wg-default-combobox'">
-
-            <div class="form-group">
-                <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
-                <select id="{{ systemId }}-input" class="combobox input-large form-control">
-                    <option value="" selected="selected">Type here</option>
-                    <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
-                </select>
-            </div>
-
         </default-box>
 </template>
 
@@ -129,6 +129,44 @@
             </ul>
             <div class="phone-block">{{ bindings.contacts }}</div>
         </div>
+    </default-box>
+</template>
+
+<template id="default-form">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-form'">
+        <form action="{{ bindings.acton }}">
+            <div class="title" style="">{{{ bindings.title }}}</div>
+            <div class="text-top">{{{ bindings.textabove }}}</div>
+            <div v-for="field in bindings.fields" class="form-group">
+                <input v-if="field.type != 'textarea'"
+                        class="form-control"
+                        type="{{ field.type }}"
+                        name="{{ field.name }}"
+                        placeholder="{{ field.placeholder }}"
+                        value=""
+                        data-role="input"
+                        data-scope="{{ field.scope }}"
+                >
+                <textarea v-if="field.type == 'textarea'"
+                          name="{{ field.name }}"
+                          placeholder="{{ field.placeholder }}"
+                          class="form-control"
+                ></textarea>
+            </div>
+            <input class="form-control" type="submit" name="submit" value="Отправить" data-role="input" data-scope="0">
+            <div class="text-bot">{{{ bindings.textbelow }}}</div>
+        </form>
+    </default-box>
+</template>
+
+<template id="default-h1-h6">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-h1-h6'">
+        <h1 v-if="bindings.stereotype == 'h1'">{{ bindings.content }}</h1>
+        <h2 v-if="bindings.stereotype == 'h2'">{{ bindings.content }}</h2>
+        <h3 v-if="bindings.stereotype == 'h3'">{{ bindings.content }}</h3>
+        <h4 v-if="bindings.stereotype == 'h4'">{{ bindings.content }}</h4>
+        <h5 v-if="bindings.stereotype == 'h5'">{{ bindings.content }}</h5>
+        <h6 v-if="bindings.stereotype == 'h6'">{{ bindings.content }}</h6>
     </default-box>
 </template>
 
@@ -184,44 +222,6 @@
 
             </div>
         </div>
-    </default-box>
-</template>
-
-<template id="default-form">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-form'">
-        <form action="{{ bindings.acton }}">
-            <div class="title" style="">{{{ bindings.title }}}</div>
-            <div class="text-top">{{{ bindings.textabove }}}</div>
-            <div v-for="field in bindings.fields" class="form-group">
-                <input v-if="field.type != 'textarea'"
-                        class="form-control"
-                        type="{{ field.type }}"
-                        name="{{ field.name }}"
-                        placeholder="{{ field.placeholder }}"
-                        value=""
-                        data-role="input"
-                        data-scope="{{ field.scope }}"
-                >
-                <textarea v-if="field.type == 'textarea'"
-                          name="{{ field.name }}"
-                          placeholder="{{ field.placeholder }}"
-                          class="form-control"
-                ></textarea>
-            </div>
-            <input class="form-control" type="submit" name="submit" value="Отправить" data-role="input" data-scope="0">
-            <div class="text-bot">{{{ bindings.textbelow }}}</div>
-        </form>
-    </default-box>
-</template>
-
-<template id="default-h1-h6">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-h1-h6'">
-        <h1 v-if="bindings.stereotype == 'h1'">{{ bindings.content }}</h1>
-        <h2 v-if="bindings.stereotype == 'h2'">{{ bindings.content }}</h2>
-        <h3 v-if="bindings.stereotype == 'h3'">{{ bindings.content }}</h3>
-        <h4 v-if="bindings.stereotype == 'h4'">{{ bindings.content }}</h4>
-        <h5 v-if="bindings.stereotype == 'h5'">{{ bindings.content }}</h5>
-        <h6 v-if="bindings.stereotype == 'h6'">{{ bindings.content }}</h6>
     </default-box>
 </template>
 
@@ -449,17 +449,6 @@
     </default-box>
 </template>
 
-<template id="default-stub">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-stub'">
-        <div class="wg wg-table">
-            <span class="wg wg-cell">
-                <div><small>{{ bindings.title }}</small></div>
-                <div>{{ bindings.subtitle }}</div>
-            </span>
-        </div>
-    </default-box>
-</template>
-
 <template id="default-stack-canvas">
     <section class="wg wg-default-stack wg-default-stack-canvas">
         <div class="wg wg-content">
@@ -536,6 +525,17 @@
             </div>
         </div>
     </section>
+</template>
+
+<template id="default-stub">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-stub'">
+        <div class="wg wg-table">
+            <span class="wg wg-cell">
+                <div><small>{{ bindings.title }}</small></div>
+                <div>{{ bindings.subtitle }}</div>
+            </span>
+        </div>
+    </default-box>
 </template>
 
 <template id="default-table">

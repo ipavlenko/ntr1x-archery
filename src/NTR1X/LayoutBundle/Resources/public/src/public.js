@@ -58,17 +58,19 @@
                     component: Landing.LandingManageCreatePage,
                     auth: true,
                 },
-                '/site/:domain/:page': {
+                '/site/:portal/:page': {
                     component: Shell.ShellPublic,
                     auth: true,
                 },
-                '/manage/:domain': {
+                '/manage/:portal': {
                     component: Shell.Loader,
                     auth: true,
+                    private: true,
                 },
-                '/manage/:domain/:page': {
+                '/manage/:portal/:page': {
                     component: Shell.Loader,
                     auth: true,
+                    private: true,
                 },
             };
 

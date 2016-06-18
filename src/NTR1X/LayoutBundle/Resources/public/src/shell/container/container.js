@@ -6,7 +6,6 @@
             globals: Object,
             settings: Object,
             page: Object,
-            category: Object,
         },
         // data: function() {
             // console.log(this.globals, this.settings, this.page, this.category);
