@@ -28,11 +28,19 @@
     Vue.component('shell-palette', {
         template: '#shell-palette',
         props: {
-            category: Object
+            globals: Object,
+            category: Object,
+            categories: Array,
         },
         components: {
             'palette-item': PaletteItem
-        }
+        },
+        methods: {
+            trigger: function(event, item, context) {
+                console.log(event, item, context);
+                this.$dispatch(event, { item: item, context: context });
+            },
+        },
     });
 
 })(jQuery, Vue);

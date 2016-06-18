@@ -292,16 +292,12 @@ Shell = window.Shell || {};
 
             created: function() {
 
-                console.log('init', this.$route);
-
                 if (this.$route.private) {
 
                     var shell = Vue.service('shell');
 
                     var self = this;
                     this.$watch('selected', function(selected) {
-
-                        console.log(selected);
 
                         if (selected) {
 

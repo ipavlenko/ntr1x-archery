@@ -118,7 +118,7 @@ Placeholder:
     tag: default-placeholder
     mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
     thumbnail: 'src/placeholder/placeholder.png'
-    categories: [ composite.all, composite.header ]
+    categories: [ composites.other ]
     params:
         height: { value: 100px }
 
@@ -127,7 +127,7 @@ Header:
     tag: default-header
     mixins: [ WidgetMixin, BoxMixin, SizeMixin]
     thumbnail: 'src/header/header.png'
-    categories: [ composite.all, composite.header ]
+    categories: [ composites.header ]
     params:
             phone: { value: '8 800 000 00 00' }
             outerBackground: { value: 'url(/bundles/ntr1xdefault/src/header/cover.jpg) center right no-repeat' }
@@ -150,7 +150,7 @@ Footer:
     tag: default-footer
     mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/footer/footer.png'
-    categories: [ composite.all, composite.footer ]
+    categories: [ composites.footer ]
     params:
             height: { value: 55px }
             padding: { value: 13px 23px }
@@ -203,7 +203,7 @@ Table:
     tag: default-table
     mixins: [ WidgetMixin, CollectionMixin, BoxMixin ]
     thumbnail: 'src/table/table.png'
-    categories: [ composite.all]
+    categories: [ composites.other ]
     params:
         columns:
             value:
@@ -285,7 +285,7 @@ Items:
     size: { width: 12, height: 5 }
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/items/items.png'
-    categories: [ composite.all]
+    categories: [ composites.other ]
     props:
         -
             name: items
@@ -326,7 +326,7 @@ Items:
 #    tag: default-media-horisontal
 #    mixins: [ WidgetMixin, BoxMixin ]
 #    thumbnail: 'src/items/media-horisontal.png'
-#    categories: [ composite.all]
+#    categories: [ composites.other ]
 #    props:
 #        -
 #            name: items
@@ -367,7 +367,7 @@ NavHorizontal:
     tag: default-nav-horisontal
     mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/nav/horisontal.png'
-    categories: [ navigation.all, navigation.horisontal ]
+    categories: [ composites.navigation ]
     props:
         - { name: active, title: Active, type: string, tab: data }
         - { name: stereotype, title: Stereotype, type: string, tab: data }
@@ -404,7 +404,7 @@ NavVertical:
     tag: default-nav-vertical
     mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/nav/vertical.png'
-    categories: [ navigation.all, navigation.vertical ]
+    categories: [ composites.navigation ]
     props:
         - { name: active, title: Active, type: string, tab: data }
         - { name: stereotype, title: Stereotype, type: string, tab: data }
@@ -441,7 +441,7 @@ Sitemap: # TODO нужна вложенность
     tag: default-sitemap
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/sitemap/sitemap.png'
-    categories: [ navigation.all]
+    categories: [ composites.navigation ]
     props:
         -
             name: items
@@ -476,7 +476,7 @@ Carousel:
     tag: default-carousel
     mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/carousel/carousel.png'
-    categories: [ slider.all ]
+    categories: [ composites.slider ]
     props:
         -
             name: items
@@ -510,7 +510,7 @@ Gallery:
     tag: default-gallery
     mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/gallery/gallery.png'
-    categories: [ slider.all ]
+    categories: [ composites.slider ]
     props:
         - { name: cols, title: Number of Columns, type: string, tab: data }
         - { name: rows, title: Number of Rows, type: string, tab: data }
@@ -566,14 +566,14 @@ Horisontal:
     tag: default-stack-horisontal
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/stack/horisontal.png'
-    categories: [ layout.all, layout.stack ]
+    categories: [ layouts.stack ]
 
 Vertical:
     title: 'Vertical Stack'
     tag: default-stack-vertical
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/stack/vertical.png'
-    categories: [ layout.all, layout.stack ]
+    categories: [ layouts.stack ]
 
 # Forms Widgets
 
@@ -582,7 +582,7 @@ InputText:
     tag: default-input-text
     mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/input/text.png'
-    categories: [ form.all, form.input ]
+    categories: [ forms.input ]
     props:
         - { name: model, title: Model, type: string, tab: data, variable: true }
         - { name: type, title: Type, type: string, tab: data }
@@ -598,7 +598,7 @@ InputTextarea:
     tag: default-input-textarea
     mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/input/textarea.png'
-    categories: [ form.all, form.input ]
+    categories: [ forms.input ]
     props:
         - { name: model, title: Model, type: string, tab: data, variable: true }
         - { name: label, title: Label, type: string, tab: data }
@@ -613,7 +613,7 @@ InputCheckbox:
     tag: default-input-checkbox
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/input/checkbox.png'
-    categories: [ form.all, form.input ]
+    categories: [ forms.input ]
     props:
         - { name: model, title: Model, type: string, tab: data, variable: true }
         - { name: name, title: Name, type: string, tab: data }
@@ -648,7 +648,7 @@ InputRadio:
     tag: default-input-radio
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/input/radio.png'
-    categories: [ form.all, form.input ]
+    categories: [ forms.input ]
     props:
         - { name: model, title: Model, type: string, tab: data, variable: true }
         - { name: name, title: Name, type: string, tab: data }
@@ -683,7 +683,7 @@ Select:
     tag: default-select
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/select/select.png'
-    categories: [ form.all, form.input ]
+    categories: [ forms.input ]
     props:
         - { name: label, title: Label, type: string, tab: data }
         - { name: name, title: Name, type: string, tab: data }
@@ -717,7 +717,7 @@ Datepicker: # https://eonasdan.github.io/bootstrap-datetimepicker/
     tag: default-datepicker
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/datepicker/datepicker.png'
-    categories: [ form.all, form.input ]
+    categories: [ forms.input ]
     props:
         - { name: label, title: Label, type: string, tab: data }
         - { name: format, title: Format, type: string, tab: data }
@@ -730,7 +730,7 @@ Dateinterval:
     tag: default-dateinterval
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/datepicker/dateinterval.png'
-    categories: [ form.all, form.input ]
+    categories: [ forms.input ]
     props:
         - { name: format, title: Format, type: string, tab: data }
     params:
@@ -742,7 +742,7 @@ Inputrange:
     tag: default-inputrange
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/inputrange/inputrange.png'
-    categories: [ form.all, form.input ]
+    categories: [ forms.input ]
     props:
         - { name: min, title: Min, type: string, tab: data }
         - { name: max, title: Max, type: string, tab: data }
@@ -760,7 +760,7 @@ Combobox:
     tag: default-combobox
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/combobox/combobox.png'
-    categories: [ form.all, form.input ]
+    categories: [ forms.input ]
     props:
         -
             name: items
@@ -791,7 +791,7 @@ ButtonDefault:
     tag: default-button
     mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/button/default.png'
-    categories: [ form.all, form.button ]
+    categories: [ forms.button ]
     props:
         - { name: type, title: Type, type: string, tab: data }
         - { name: stereotype, title: Stereotype, type: string, tab: data }
@@ -807,7 +807,7 @@ ButtonPrimary:
     tag: default-button
     mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/button/primary.png'
-    categories: [ form.all, form.button ]
+    categories: [ forms.button ]
     props:
         - { name: type, title: Type, type: string, tab: data }
         - { name: stereotype, title: Stereotype, type: string, tab: data }
@@ -823,7 +823,7 @@ ButtonSuccess:
     tag: default-button
     mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/button/success.png'
-    categories: [ form.all, form.button ]
+    categories: [ forms.button ]
     props:
         - { name: type, title: Type, type: string, tab: data }
         - { name: stereotype, title: Stereotype, type: string, tab: data }
@@ -839,7 +839,7 @@ ButtonInfo:
     tag: default-button
     mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/button/info.png'
-    categories: [ form.all, form.button ]
+    categories: [ forms.button ]
     props:
         - { name: type, title: Type, type: string, tab: data }
         - { name: stereotype, title: Stereotype, type: string, tab: data }
@@ -855,7 +855,7 @@ ButtonWarning:
     tag: default-button
     mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/button/warning.png'
-    categories: [ form.all, form.button ]
+    categories: [ forms.button ]
     props:
         - { name: type, title: Type, type: string, tab: data }
         - { name: stereotype, title: Stereotype, type: string, tab: data }
@@ -871,7 +871,7 @@ ButtonDanger:
     tag: default-button
     mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/button/danger.png'
-    categories: [ form.all, form.button ]
+    categories: [ forms.button ]
     props:
         - { name: type, title: Type, type: string, tab: data }
         - { name: stereotype, title: Stereotype, type: string, tab: data }
@@ -887,7 +887,7 @@ ButtonLink:
     tag: default-button
     mixins: [ WidgetMixin, BoxMixin, SizeMixin ]
     thumbnail: 'src/button/link.png'
-    categories: [ form.all, form.button ]
+    categories: [ forms.button ]
     props:
         - { name: type, title: Type, type: string, tab: data }
         - { name: stereotype, title: Stereotype, type: string, tab: data }
@@ -903,7 +903,7 @@ Form:
     tag: default-form
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/form/form.png'
-    categories: [ form.all ]
+    categories: [ forms.input ]
     params:
         fields: { value: [{ name: {value:'name'}, scope: {value:'FORM'}, type: {value:'type'}, title: {value:'Ваше имя'}, placeholder: {value:'Ваше имя'}}] }
     props:
@@ -985,7 +985,7 @@ Rich:
     tag: default-rich
     mixins: [ WidgetMixin, BoxMixin, ContentMixin ]
     thumbnail: 'src/rich/rich.png'
-    categories: [ text.all ]
+    categories: [ composites.text ]
     props:
         - { name: stereotype, title: Stereotype, type: string, tab: data }
     params:
@@ -997,7 +997,7 @@ Rich2:
     tag: default-rich
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/rich/rich2.png'
-    categories: [ text.all ]
+    categories: [ composites.text ]
     props:
         - { name: content1, title: Content1, type: rich, tab: content }
         - { name: content2, title: Content2, type: rich, tab: content }
@@ -1013,7 +1013,7 @@ Rich3:
     tag: default-rich
     mixins: [ WidgetMixin, BoxMixin ]
     thumbnail: 'src/rich/rich3.png'
-    categories: [ text.all ]
+    categories: [ composites.text ]
     props:
         - { name: content1, title: Content1, type: rich, tab: content }
         - { name: content2, title: Content2, type: rich, tab: content }
@@ -1031,7 +1031,7 @@ H1:
     tag: default-h1-h6
     mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
     thumbnail: 'src/h1-h6/h1.png'
-    categories: [ text.all ]
+    categories: [ composites.text ]
     props:
         - { name: stereotype, title: Stereotype, type: string, tab: data }
     params:
@@ -1044,7 +1044,7 @@ H2:
     tag: default-h1-h6
     mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
     thumbnail: 'src/h1-h6/h2.png'
-    categories: [ text.all ]
+    categories: [ composites.text ]
     props:
         - { name: stereotype, title: Stereotype, type: string, tab: data }
     params:
@@ -1057,7 +1057,7 @@ H3:
     tag: default-h1-h6
     mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
     thumbnail: 'src/h1-h6/h3.png'
-    categories: [ text.all ]
+    categories: [ composites.text ]
     props:
         - { name: stereotype, title: Stereotype, type: string, tab: data }
     params:
@@ -1070,7 +1070,7 @@ H4:
     tag: default-h1-h6
     mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
     thumbnail: 'src/h1-h6/h4.png'
-    categories: [ text.all ]
+    categories: [ composites.text ]
     props:
         - { name: stereotype, title: Stereotype, type: string, tab: data }
     params:
@@ -1083,7 +1083,7 @@ H5:
     tag: default-h1-h6
     mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
     thumbnail: 'src/h1-h6/h5.png'
-    categories: [ text.all ]
+    categories: [ composites.text ]
     props:
         - { name: stereotype, title: Stereotype, type: string, tab: data }
     params:
@@ -1096,7 +1096,7 @@ H6:
     tag: default-h1-h6
     mixins: [ WidgetMixin, BoxMixin, SizeMixin, ContentMixin ]
     thumbnail: 'src/h1-h6/h6.png'
-    categories: [ text.all ]
+    categories: [ composites.text ]
     props:
         - { name: stereotype, title: Stereotype, type: string, tab: data }
     params:

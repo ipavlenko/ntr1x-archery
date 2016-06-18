@@ -81,10 +81,11 @@
 
                 var category = null;
                 if (categories.length > 0) {
-                    var sub = categories[0];
-                    if (categories.length > 0) {
-                        category = sub.categories[0];
-                    }
+                    category = categories[0];
+                    // var sub = categories[0];
+                    // if (categories.length > 0) {
+                    //     category = sub.categories[0];
+                    // }
                 }
                 this.globals.selection.category = category;
             }, {

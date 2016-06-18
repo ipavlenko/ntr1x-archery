@@ -1,5 +1,14 @@
 // "out": "shell.css"
 
+@keyframes expand {
+    0% {
+        width: 40px;
+    }
+    100% {
+        width: 220px;
+    }
+}
+
 .ge.ge-shell.ge-shell-public {
     font-family: 'Roboto', sans-serif;
 }
@@ -32,6 +41,13 @@
         left: 0px;
         right: 0px;
         bottom: 0px;
+        display: block;
+
+        .ge.ge-body-table {
+            display: table;
+            width: 100%;
+            height: 100%;
+        }
 
         .ge.ge-subnav {
             background: #1F2E3C;
@@ -43,38 +59,65 @@
     }
 
     .ge.ge-nav {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        width: 220px;
-        bottom: 0px;
+        // position: absolute;
+        // top: 0px;
+        // left: 0px;
+        // width: 220px;
+        // width: 40px;
+        // bottom: 0px;
+        display: table-cell;
+        vertical-align: top;
+        width: 40px;
 
-        padding-bottom: 20px;
+        // padding-bottom: 20px;
+
+        // left: -200px;
+
+        .ge.ge-hover {
+            position: absolute;
+            width: 40px;
+            top: 0px;
+            left: 0px;
+            bottom: 0px;
+        }
+
+        .ge.ge-subnav {
+            position: absolute;
+            top: 0px;
+            left: -280px;
+            bottom: 0px;
+            width: 280px;
+        }
+
+        &:hover {
+            width: 320px;
+            .ge.ge-subnav {
+                transition: 0.5s;
+                left: 0px;
+            }
+        }
     }
 
-    .ge.ge-subnav {
-        position: absolute;
-        top: 0px;
-        left: 220px;
-        width: 280px;
-        bottom: 0px;
-    }
+    // .ge.ge-subnav {
+    //     position: absolute;
+    //     top: 0px;
+    //     left: 220px;
+    //     width: 280px;
+    //     bottom: 0px;
+    // }
 
     .ge.ge-structure {
-        position: absolute;
-        top: 0px;
-        right: 0px;
+        display: table-cell;
+        vertical-align: top;
+        // position: absolute;
         width: 220px;
-        bottom: 0px;
     }
 
     .ge.ge-editor {
 
-        position: absolute;
-        top: 0px;
-        bottom: 0px;
-        left: 500px;
-        right: 220px;
+        display: table-cell;
+        vertical-align: top;
+        width: auto;
     }
 
     .ge.ge-panel {

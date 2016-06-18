@@ -3,7 +3,7 @@ MgaGallery:
     tag: mga-gallery
     mixins: [ 'NTR1XDefaultBundle/WidgetMixin', 'NTR1XDefaultBundle/BoxMixin' ]
     thumbnail: 'src/gallery/gallery.png'
-    categories: [ composite.all]
+    categories: [ composites.other ]
     tabs:
         -
             name: theme

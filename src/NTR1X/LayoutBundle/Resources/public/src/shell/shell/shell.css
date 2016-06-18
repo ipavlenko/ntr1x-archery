@@ -1,3 +1,11 @@
+@keyframes expand {
+  0% {
+    width: 40px;
+  }
+  100% {
+    width: 220px;
+  }
+}
 .ge.ge-shell.ge-shell-public {
   font-family: 'Roboto', sans-serif;
 }
@@ -23,6 +31,12 @@
   left: 0px;
   right: 0px;
   bottom: 0px;
+  display: block;
+}
+.ge.ge-shell.ge-shell-private .ge.ge-body .ge.ge-body-table {
+  display: table;
+  width: 100%;
+  height: 100%;
 }
 .ge.ge-shell.ge-shell-private .ge.ge-body .ge.ge-subnav {
   background: #1F2E3C;
@@ -31,33 +45,40 @@
   background-color: #F3F7F7;
 }
 .ge.ge-shell.ge-shell-private .ge.ge-nav {
+  display: table-cell;
+  vertical-align: top;
+  width: 40px;
+}
+.ge.ge-shell.ge-shell-private .ge.ge-nav .ge.ge-hover {
   position: absolute;
+  width: 40px;
   top: 0px;
   left: 0px;
-  width: 220px;
   bottom: 0px;
-  padding-bottom: 20px;
 }
-.ge.ge-shell.ge-shell-private .ge.ge-subnav {
+.ge.ge-shell.ge-shell-private .ge.ge-nav .ge.ge-subnav {
   position: absolute;
   top: 0px;
-  left: 220px;
-  width: 280px;
+  left: -280px;
   bottom: 0px;
+  width: 280px;
+}
+.ge.ge-shell.ge-shell-private .ge.ge-nav:hover {
+  width: 320px;
+}
+.ge.ge-shell.ge-shell-private .ge.ge-nav:hover .ge.ge-subnav {
+  transition: 0.5s;
+  left: 0px;
 }
 .ge.ge-shell.ge-shell-private .ge.ge-structure {
-  position: absolute;
-  top: 0px;
-  right: 0px;
+  display: table-cell;
+  vertical-align: top;
   width: 220px;
-  bottom: 0px;
 }
 .ge.ge-shell.ge-shell-private .ge.ge-editor {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 500px;
-  right: 220px;
+  display: table-cell;
+  vertical-align: top;
+  width: auto;
 }
 .ge.ge-shell.ge-shell-private .ge.ge-panel {
   margin-bottom: 40px;
