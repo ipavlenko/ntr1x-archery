@@ -1,11 +1,3 @@
-@keyframes expand {
-  0% {
-    width: 40px;
-  }
-  100% {
-    width: 220px;
-  }
-}
 .ge.ge-shell.ge-shell-public {
   font-family: 'Roboto', sans-serif;
 }
@@ -55,6 +47,21 @@
   top: 0px;
   left: 0px;
   bottom: 0px;
+  z-index: 20;
+  background: #34495E;
+}
+.ge.ge-shell.ge-shell-private .ge.ge-nav .ge.ge-hover .ge.ge-hover-button {
+  position: absolute;
+  top: 30px;
+  left: -20px;
+  transform: rotate(-90deg);
+  background: #1F2E3C;
+  color: #FFFFFF;
+  border-radius: 4px;
+  padding: 4px 6px;
+  white-space: nowrap;
+  width: 80px;
+  text-align: center;
 }
 .ge.ge-shell.ge-shell-private .ge.ge-nav .ge.ge-subnav {
   position: absolute;
@@ -62,6 +69,7 @@
   left: -280px;
   bottom: 0px;
   width: 280px;
+  z-index: 10;
 }
 .ge.ge-shell.ge-shell-private .ge.ge-nav:hover {
   transition: 0.5s;
