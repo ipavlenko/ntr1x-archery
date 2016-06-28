@@ -2,7 +2,7 @@
     <section class="ge ge-palette">
         <div class="ge ge-palette-selector">
             <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <button class="btn btn-palette dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     {{ globals.selection.category.title }} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
@@ -10,7 +10,7 @@
                 </ul>
             </div>
         </div>
-        <div class="ge ge-palette-categories">
+        <div class="ge ge-palette-categories" v-scrollable>
             <div v-for="c in category.categories" class="ge ge-palette-category">
                 <div class="ge ge-category-title">{{ c.title }}</div>
                 <div class="ge ge-category-palette">

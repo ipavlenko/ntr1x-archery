@@ -8,7 +8,7 @@
   left: 0px;
   right: 0px;
   bottom: 0px;
-  background-color: #34495E;
+  background: #34495E;
 }
 .ge.ge-shell.ge-shell-private .ge.ge-head {
   position: absolute;
@@ -34,7 +34,7 @@
   background: #1F2E3C;
 }
 .ge.ge-shell.ge-shell-private .ge.ge-body .ge.ge-editor {
-  background-color: #F3F7F7;
+  background: #F3F7F7;
 }
 .ge.ge-shell.ge-shell-private .ge.ge-nav {
   flex: 0 1 40px;
