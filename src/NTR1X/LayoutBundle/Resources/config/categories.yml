@@ -1,4 +1,18 @@
 -
+    name: text
+    title: Text Elements
+    items:
+        - { name: heading, title: Headings }
+        - { name: section, title: Sections }
+
+-
+    name: forms
+    title: Form Elements
+    items:
+        - { name: input, title: Inputs }
+        - { name: button, title: Buttons }
+
+-
     name: composites
     title: Composite Elements
     items:
@@ -8,13 +22,6 @@
         - { name: slider, title: Slider }
         - { name: text, title: Text }
         - { name: other, title: Other }
-
--
-    name: forms
-    title: Form Elements
-    items:
-        - { name: input, title: Inputs }
-        - { name: button, title: Buttons }
 
 -
     name: layouts
