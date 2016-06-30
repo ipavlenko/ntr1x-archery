@@ -16,6 +16,20 @@
     </section>
 </template>
 
+<template id="default-combobox">
+        <default-box :bindings.sync="bindings" :class="'wg wg-default-combobox'">
+
+            <div class="form-group">
+                <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
+                <select id="{{ systemId }}-input" class="combobox input-large form-control">
+                    <option value="" selected="selected">Type here</option>
+                    <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
+                </select>
+            </div>
+
+        </default-box>
+</template>
+
 <template id="default-button">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-button'">
         <div class="form-group">
@@ -33,20 +47,6 @@
             }">{{ bindings.title }}</button>
         </div>
     </default-box>
-</template>
-
-<template id="default-combobox">
-        <default-box :bindings.sync="bindings" :class="'wg wg-default-combobox'">
-
-            <div class="form-group">
-                <label v-if="bindings.label" for="{{ systemId }}-label">{{ bindings.label }}</label>
-                <select id="{{ systemId }}-input" class="combobox input-large form-control">
-                    <option value="" selected="selected">Type here</option>
-                    <option v-for="item in bindings.items" :value="item.value">{{ item.title }}</option>
-                </select>
-            </div>
-
-        </default-box>
 </template>
 
 <template id="default-carousel">
@@ -114,33 +114,6 @@
             <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
             <input type="text" id="{{ systemId }}-input" class="datepicker form-control">
         </div>
-    </default-box>
-</template>
-
-<template id="default-form">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-form'">
-        <form action="{{ bindings.acton }}">
-            <div class="title" style="">{{{ bindings.title }}}</div>
-            <div class="text-top">{{{ bindings.textabove }}}</div>
-            <div v-for="field in bindings.fields" class="form-group">
-                <input v-if="field.type != 'textarea'"
-                        class="form-control"
-                        type="{{ field.type }}"
-                        name="{{ field.name }}"
-                        placeholder="{{ field.placeholder }}"
-                        value=""
-                        data-role="input"
-                        data-scope="{{ field.scope }}"
-                >
-                <textarea v-if="field.type == 'textarea'"
-                          name="{{ field.name }}"
-                          placeholder="{{ field.placeholder }}"
-                          class="form-control"
-                ></textarea>
-            </div>
-            <input class="form-control" type="submit" name="submit" value="Отправить" data-role="input" data-scope="0">
-            <div class="text-bot">{{{ bindings.textbelow }}}</div>
-        </form>
     </default-box>
 </template>
 
@@ -214,17 +187,30 @@
     </default-box>
 </template>
 
-<template id="default-header">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-header'">
-        <div class="info-block">
-            <a v-if="bindings.logo" class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
-            <div class="phone-block">
-                {{{ bindings.phone }}}
+<template id="default-form">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-form'">
+        <form action="{{ bindings.acton }}">
+            <div class="title" style="">{{{ bindings.title }}}</div>
+            <div class="text-top">{{{ bindings.textabove }}}</div>
+            <div v-for="field in bindings.fields" class="form-group">
+                <input v-if="field.type != 'textarea'"
+                        class="form-control"
+                        type="{{ field.type }}"
+                        name="{{ field.name }}"
+                        placeholder="{{ field.placeholder }}"
+                        value=""
+                        data-role="input"
+                        data-scope="{{ field.scope }}"
+                >
+                <textarea v-if="field.type == 'textarea'"
+                          name="{{ field.name }}"
+                          placeholder="{{ field.placeholder }}"
+                          class="form-control"
+                ></textarea>
             </div>
-        </div>
-        <ul v-if="bindings.logo" class="partners-block clearfix">
-            <li><a href="/" target="_blank"><img :src="bindings.logo" alt=""/></a></li>
-        </ul>
+            <input class="form-control" type="submit" name="submit" value="Отправить" data-role="input" data-scope="0">
+            <div class="text-bot">{{{ bindings.textbelow }}}</div>
+        </form>
     </default-box>
 </template>
 
@@ -236,6 +222,20 @@
         <h4 v-if="bindings.stereotype == 'h4'">{{ bindings.content }}</h4>
         <h5 v-if="bindings.stereotype == 'h5'">{{ bindings.content }}</h5>
         <h6 v-if="bindings.stereotype == 'h6'">{{ bindings.content }}</h6>
+    </default-box>
+</template>
+
+<template id="default-header">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-header'">
+        <div class="info-block">
+            <a v-if="bindings.logo" class="logo" href="/" title=""><img :src="bindings.logo" alt="Logo"/></a>
+            <div class="phone-block">
+                {{{ bindings.phone }}}
+            </div>
+        </div>
+        <ul v-if="bindings.logo" class="partners-block clearfix">
+            <li><a href="/" target="_blank"><img :src="bindings.logo" alt=""/></a></li>
+        </ul>
     </default-box>
 </template>
 

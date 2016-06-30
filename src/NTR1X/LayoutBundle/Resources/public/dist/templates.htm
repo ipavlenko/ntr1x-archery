@@ -1200,6 +1200,12 @@
 
 </template>
 
+<template id="landing-benefits">
+    <div class="ld ld-section ld-benefits">
+        <h3>Benefits</h3>
+    </div>
+</template>
+
 
 <template id="landing-account-signin">
     <div class="ld ld-section ld-body ld-account ld-account-signin">
@@ -1287,15 +1293,25 @@
     </div>
 </template>
 
-<template id="landing-benefits">
-    <div class="ld ld-section ld-benefits">
-        <h3>Benefits</h3>
-    </div>
-</template>
-
 <template id="landing-contacts">
     <div class="ld ld-section ld-contacts">
         <h3>Contacts</h3>
+    </div>
+</template>
+
+<template id="landing-footer">
+    <div class="ld ld-section ld-footer">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-copyright">
+                            &copy; 2016 NTR, LLC. Archery Cloud Platform.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -1369,22 +1385,6 @@
                                 <div><i>Futurama, Character</i></div>
                                 <div><p>I don't have emotions and sometimes that makes me very sad.</p></div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template id="landing-footer">
-    <div class="ld ld-section ld-footer">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-copyright">
-                            &copy; 2016 NTR, LLC. Archery Cloud Platform.
                         </div>
                     </div>
                 </div>
@@ -1689,77 +1689,6 @@
     </div>
 </template>
 
-<template id="landing-manage-create">
-    <div class="ld ld-section ld-body ld-manage ld-manage-create">
-        <div class="ld ld-table">
-            <div class="ld ld-cell">
-                <validator name="validation">
-                    <form novalidate @submit.prevent="$validation.valid && create()">
-                        <div class="form-group">
-                            <h3>Create Portal</h3>
-                        </dif>
-                        <div class="form-group" :class="{
-                            'has-error': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
-                            'has-feedback': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
-                        }">
-                            <input type="text" class="form-control input-lg" placeholder="Title" v-model="form.title" v-validate:title="{
-                                required: { rule: true, message: 'Title is a required field' },
-                            }">
-                            <span v-if="$validation.title.dirty && $validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                            <div v-if="$validation.title.dirty && $validation.title.required">{{ $validation.title.required }}</div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-lg" v-if="$validation.valid" :disabled="">Create</button>
-                        </div>
-                    </form>
-                </validator>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template id="landing-manage">
-    <div class="ld ld-section ld-manage">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-globe"></span> Portals</h3>
-                        </div>
-                        <div class="ld ld-portals">
-                            <div class="ld ld-portal" v-for="portal in portals">
-                                <div class="ld ld-portal-data">
-                                    <div class="ld ld-data-title">{{ portal.title }}</div>
-                                    <div class="ld ld-data-ref"><a :href="url + '/view/' + portal.id">{{ url }}/view/{{ portal.id }}</a></div>
-                                </div>
-                                <div class="ld ld-portal-buttons">
-                                    <button class="btn btn-primary" v-link="{ path: '/manage/' + portal.id }">Edit</button>
-                                    <div class="btn-group">
-                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">Publish</a></li>
-                                            <li><a href="#">Clone</a></li>
-                                            <li role="separator" class="divider"></li>
-                                            <li><a href="#" @click.prevent="remove(portal.id)">Remove</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ld ld-portal">
-                                <div class="ld ld-portal-buttons">
-                                    <a v-link="{ path: '/gallery' }" class="btn btn-primary">Browse Gallery</a>
-                                    <a v-link="{ path: '/manage-create' }" class="btn btn-default">Create Blank</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <template id="landing-pricing">
     <div class="ld ld-section ld-pricing">
         <div class="ld ld-container">
@@ -1834,6 +1763,95 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-manage-create">
+    <div class="ld ld-section ld-body ld-manage ld-manage-create">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <validator name="validation">
+                    <form novalidate @submit.prevent="$validation.valid && create()">
+                        <div class="form-group">
+                            <h3>Create Portal</h3>
+                        </dif>
+                        <div class="form-group" :class="{
+                            'has-error': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
+                            'has-feedback': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="Title" v-model="form.title" v-validate:title="{
+                                required: { rule: true, message: 'Title is a required field' },
+                            }">
+                            <span v-if="$validation.title.dirty && $validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="$validation.title.dirty && $validation.title.required">{{ $validation.title.required }}</div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="$validation.valid" :disabled="">Create</button>
+                        </div>
+                    </form>
+                </validator>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-manage">
+    <div class="ld ld-section ld-manage">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-globe"></span> Portals</h3>
+                        </div>
+                        <div class="ld ld-portals">
+                            <div class="ld ld-portal" v-for="portal in portals">
+                                <div class="ld ld-portal-data">
+                                    <div class="ld ld-data-title">{{ portal.title }}</div>
+                                    <div class="ld ld-data-ref"><a :href="url + '/view/' + portal.id">{{ url }}/view/{{ portal.id }}</a></div>
+                                </div>
+                                <div class="ld ld-portal-buttons">
+                                    <button class="btn btn-primary" v-link="{ path: '/manage/' + portal.id }">Edit</button>
+                                    <div class="btn-group">
+                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Publish</a></li>
+                                            <li><a href="#">Clone</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#" @click.prevent="remove(portal.id)">Remove</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ld ld-portal">
+                                <div class="ld ld-portal-buttons">
+                                    <a v-link="{ path: '/gallery' }" class="btn btn-primary">Browse Gallery</a>
+                                    <a v-link="{ path: '/manage-create' }" class="btn btn-default">Create Blank</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-super">
+    <div class="ld ld-section ld-super">
+        <div class="ld ld-container">
+            <ul class="nav nav-pills pull-left">
+                <li role="presentation"><a href="#">NTR1X</a></li>
+                <li role="presentation"><a v-link="{ path: '/' }">Archery</a></li>
+                <li role="presentation"><a href="#">Blog</a></li>
+            </ul>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation"><a href="#">FAQ</a></li>
+                <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
+                <li role="presentation"><a href="#">Contacts</a></li>
+                <li role="presentation"><a href="#">Documentation</a></li>
+            </ul>
         </div>
     </div>
 </template>
@@ -1989,24 +2007,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</template>
-
-<template id="landing-super">
-    <div class="ld ld-section ld-super">
-        <div class="ld ld-container">
-            <ul class="nav nav-pills pull-left">
-                <li role="presentation"><a href="#">NTR1X</a></li>
-                <li role="presentation"><a v-link="{ path: '/' }">Archery</a></li>
-                <li role="presentation"><a href="#">Blog</a></li>
-            </ul>
-            <ul class="nav nav-pills pull-right">
-                <li role="presentation"><a href="#">FAQ</a></li>
-                <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
-                <li role="presentation"><a href="#">Contacts</a></li>
-                <li role="presentation"><a href="#">Documentation</a></li>
-            </ul>
         </div>
     </div>
 </template>
@@ -2381,19 +2381,6 @@
     </section>
 </template>
 
-<template id="shell-container">
-
-    <section class="ge ge-container">
-        <shell-page
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :items.sync="page.widgets"
-        ></shell-page>
-    </section>
-
-</template>
-
 <template id="shell-domains">
     <section class="ge ge-panel ge-domains">
         <domains :items.sync="domains" :globals.sync="globals" inline-template>
@@ -2416,6 +2403,19 @@
             </ul>
         </domains>
     </section>
+</template>
+
+<template id="shell-container">
+
+    <section class="ge ge-container">
+        <shell-page
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :items.sync="page.widgets"
+        ></shell-page>
+    </section>
+
 </template>
 
 <template id="shell-decorator-canvas">
@@ -2525,15 +2525,6 @@
     </div>
 </template>
 
-<template id="shell-loader">
-    <div class="ge ge-shell-loader">
-        <shell-private v-if="portal != null"
-            :settings="settings"
-            :model="portal"
-        ></shell-private>
-    </div>
-</template>
-
 <template id="shell-page">
 
     <div class="ge ge-page" :style="{
@@ -2550,6 +2541,40 @@
         ></div>
     </div>
 
+</template>
+
+<template id="shell-loader">
+    <div class="ge ge-shell-loader">
+        <shell-private v-if="portal != null"
+            :settings="settings"
+            :model="portal"
+        ></shell-private>
+    </div>
+</template>
+
+<template id="shell-pages">
+    <section class="ge ge-panel ge-pages">
+        <pages :items.sync="pages" :globals.sync="globals" inline-template>
+            <h5>
+                <span>Pages</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ title: {}, resource: { params: [] }, sources: [], storages: [], widgets: [], metas: []})"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.page }">
+                    <a href="#" @click="trigger('selectPage', item)">
+                        <span v-if="item.name != ''">{{ item.name }}</span>
+                        <span v-if="item.name == ''"><i>default</i></span>
+                        <span class="ge ge-overlays">
+                            <span v-if="item.name != ''" class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </pages>
+    </section>
 </template>
 
 <template id="shell-palette-item">
@@ -2580,31 +2605,6 @@
                 </div>
             </div>
         </div>
-    </section>
-</template>
-
-<template id="shell-pages">
-    <section class="ge ge-panel ge-pages">
-        <pages :items.sync="pages" :globals.sync="globals" inline-template>
-            <h5>
-                <span>Pages</span>
-                <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({ title: {}, resource: { params: [] }, sources: [], storages: [], widgets: [], metas: []})"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                </span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.page }">
-                    <a href="#" @click="trigger('selectPage', item)">
-                        <span v-if="item.name != ''">{{ item.name }}</span>
-                        <span v-if="item.name == ''"><i>default</i></span>
-                        <span class="ge ge-overlays">
-                            <span v-if="item.name != ''" class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </pages>
     </section>
 </template>
 
@@ -2700,16 +2700,10 @@
     </section>
 </template>
 
-<template id="shell-stacked">
-    <div class="ge ge-stacked"
-        ><shell-widget v-for="item in items" v-if="item._action != 'remove'"
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :stack.sync="page"
-            :page.sync="page"
-            :data.sync="item"
-        ></shell-widget
-    ></div>
+<template id="shell-stub">
+    <div class="ge ge-stub">
+        <span>Stub</span>
+    </div>
 </template>
 
 <template id="shell-storages">
@@ -2736,15 +2730,21 @@
     </section>
 </template>
 
+<template id="shell-stacked">
+    <div class="ge ge-stacked"
+        ><shell-widget v-for="item in items" v-if="item._action != 'remove'"
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :stack.sync="page"
+            :page.sync="page"
+            :data.sync="item"
+        ></shell-widget
+    ></div>
+</template>
+
 <template id="shell-target">
     <div class="ge ge-target">
         <span>Drop Here</span>
-    </div>
-</template>
-
-<template id="shell-stub">
-    <div class="ge ge-stub">
-        <span>Stub</span>
     </div>
 </template>
 
