@@ -122,11 +122,80 @@ Placeholder:
     params:
         height: { value: 100px }
 
-Header:
-    title: 'Header'
+Header1:
+    title: 'Header1'
     tag: default-header
     mixins: [ WidgetMixin, BoxMixin, SizeMixin]
-    thumbnail: 'src/header/header.png'
+    thumbnail: 'src/header/header-1.png'
+    categories: [ composites.header ]
+    params:
+            phone: { value: '8 800 000 00 00' }
+            outerBackground: { value: 'url(/bundles/ntr1xdefault/src/header/cover.jpg) center right no-repeat' }
+            outerBackgroundSize: { value: 'cover' }
+            logo: { value: '/bundles/ntr1xdefault/src/header/logo.png' }
+    props:
+        -
+            name: phone
+            title: 'Phone'
+            type: 'rich'
+            tab: content
+        -
+            name: logo
+            title: 'Logo'
+            type: 'string'
+            tab: appearance
+
+Header2:
+    title: 'Header2'
+    tag: default-header
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin]
+    thumbnail: 'src/header/header-2.png'
+    categories: [ composites.header ]
+    params:
+            phone: { value: '8 800 000 00 00' }
+            outerBackground: { value: 'url(/bundles/ntr1xdefault/src/header/cover.jpg) center right no-repeat' }
+            outerBackgroundSize: { value: 'cover' }
+            logo: { value: '/bundles/ntr1xdefault/src/header/logo.png' }
+    props:
+        -
+            name: phone
+            title: 'Phone'
+            type: 'rich'
+            tab: content
+        -
+            name: logo
+            title: 'Logo'
+            type: 'string'
+            tab: appearance
+
+Header3:
+    title: 'Header3'
+    tag: default-header
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin]
+    thumbnail: 'src/header/header-3.png'
+    categories: [ composites.header ]
+    params:
+            phone: { value: '8 800 000 00 00' }
+            outerBackground: { value: 'url(/bundles/ntr1xdefault/src/header/cover.jpg) center right no-repeat' }
+            outerBackgroundSize: { value: 'cover' }
+            logo: { value: '/bundles/ntr1xdefault/src/header/logo.png' }
+    props:
+        -
+            name: phone
+            title: 'Phone'
+            type: 'rich'
+            tab: content
+        -
+            name: logo
+            title: 'Logo'
+            type: 'string'
+            tab: appearance
+
+Header4:
+    title: 'Header4'
+    tag: default-header
+    mixins: [ WidgetMixin, BoxMixin, SizeMixin]
+    thumbnail: 'src/header/header-4.png'
     categories: [ composites.header ]
     params:
             phone: { value: '8 800 000 00 00' }
