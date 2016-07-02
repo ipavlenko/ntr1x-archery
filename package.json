@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "postinstall": "./node_modules/bower/bin/bower install",
+    "postinstall": "node ./node_modules/bower/bin/bower install && node ./node_modules/gulp-cli/bin/gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -29,8 +29,10 @@
     "gulp-clean-css": "^2.0.6",
     "gulp-cli": "^1.2.1",
     "gulp-concat": "^2.6.0",
+    "gulp-file-include": "^0.13.7",
     "gulp-livereload": "^3.8.1",
     "gulp-sourcemaps": "^1.6.0",
+    "streamqueue": "^1.1.1",
     "tiny-lr": "^0.2.1"
   }
 }

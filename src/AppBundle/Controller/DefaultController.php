@@ -12,11 +12,11 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use NTR1X\FormBundle\Form\FormBuilder;
 use NTR1X\FormBundle\Form\FormField;
 
-use NTR1X\LayoutBundle\Entity\Resource;
-use NTR1X\LayoutBundle\Entity\Portal;
-use NTR1X\LayoutBundle\Entity\Page;
-use NTR1X\LayoutBundle\Entity\User;
-use NTR1X\LayoutBundle\Security\UserPrincipal;
+use AppBundle\Entity\Resource;
+use AppBundle\Entity\Portal;
+use AppBundle\Entity\Page;
+use AppBundle\Entity\User;
+use AppBundle\Security\UserPrincipal;
 
 class DefaultController extends Controller {
 

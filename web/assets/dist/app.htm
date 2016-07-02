@@ -1,38 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title>{% block title %}NTR1X Archery{% endblock %}</title>
-
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic,100,100italic,900,900italic&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic" rel="stylesheet" />
-
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-
-    {% block stylesheets %}
-        <link href="{{ asset('assets/dist/vendor.css') }}" rel="stylesheet" />
-        <link href="{{ asset('assets/dist/app.css') }}" rel="stylesheet" />
-    {% endblock %}
-
-    {% block javascripts %}
-        <script src="{{ asset('assets/dist/vendor.js') }}"></script>
-        <script src="{{ asset('assets/dist/app.js') }}"></script>
-    {% endblock %}
-</head>
-<body
-    data-vue-app
-    data-principal="{{ principal | serialize('json') }}"
->
-
-{% verbatim %}
-    <div data-vue-body>
-        <router-view
-            :principal.sync="principal"
-        ></router-view>
-    </div>
-{% endverbatim %}
-
-{% block templates %}
-{% verbatim %}
 <template id="bindings-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
@@ -2818,9 +2783,3 @@
         </div>
     </div>
 </template>
-
-{% endverbatim %}
-{% endblock %}
-
-</body>
-</html>
