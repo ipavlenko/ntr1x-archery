@@ -48,6 +48,14 @@ gulp.task('vendor-styles', function() {
         .pipe(gulp.dest('web/assets/dist/'));
 })
 
+gulp.task('vendor-fonts', function() {
+    return gulp.src([
+        'web/assets/vendor/bootstrap/dist/fonts/**/*'
+    ])
+        .pipe(gulp.dest('web/assets/fonts/'));
+    ;
+})
+
 gulp.task('dev-scripts', function() {
     return streamqueue(
         { objectMode: true },
@@ -112,6 +120,7 @@ gulp.task('build', function() {
 gulp.task('dev', [
     'vendor-scripts',
     'vendor-styles',
+    'vendor-fonts',
     'dev-scripts',
     'dev-styles',
     'dev-templates',

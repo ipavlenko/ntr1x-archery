@@ -41,171 +41,6 @@
     </div>
 </template>
 
-<template id="domains-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Настройки домена</span>
-                        <span v-if="!original">Новый домен</span>
-                        <span>&gt;</span>
-                        <span v-if="isActive('main')">Основное</span>
-                        <span v-if="isActive('settings')">Настроки</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
-                                <li :class="{ 'active': isActive('settings') }"><a href="#" @click="activate('settings')">Настройки</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="overflow: auto">
-                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
-                                    <div class="form-group">
-                                        <label for="dialog-domain-name">Имя</label>
-                                        <input class="form-control" type="text" id="dialog-domain-name" required="true" v-model="current.name" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="dialog-page-title">Заголовок</label>
-                                        <input class="form-control" type="text" id="dialog-page-title" name="title" required="true" v-model="current.title.value" />
-                                    </div>
-                                </div>
-                                <div class="tab-pane" :class="{ 'active': isActive('settings') }">
-                                    <domains-settings :items.sync="current.resource.params"></domains-settings>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
-<template id="domains-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 60%">Имя</th>
-                    <th><a class="btn btn-xs btn-primary" @click="create({ title: {}, resource: { params: [] }})">Добавить</a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td>
-                        <span class="label label-success">{{ item.name }}</span>
-                        &nbsp;
-                        <span>{{ item.title.value }}</span>
-                    </td>
-                    <td>
-                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
-                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</template>
-
-<template id="domains-settings-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Редактирование параметра</span>
-                        <span v-if="!original">Новый параметр</span>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="domains-settings-dialog-name">Имя</label>
-                        <input class="form-control" type="text" id="domains-settings-dialog-name" required="true" v-model="current.name" />
-                    </div>
-                    <div class="form-group">
-                        <label for="domains-settings-dialog-value">Значение</label>
-                        <div class="input-group">
-                            <input class="form-control" type="text" id="domains-settings-dialog-value" v-model="current.value" />
-                            <div class="input-group-btn">
-                                <bindings :model.sync="current" inline-template>
-                                    <button type="button" class="btn btn-default" @click="open">...</button>
-                                </bindings>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
-<template id="domains-settings-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 20%">Имя</th>
-                    <th style="width: 40%">Значение</th>
-                    <th><a class="btn btn-xs btn-primary" @click="create({ value: null, binding: null})">Добавить</a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>
-                        <span>{{ item.value }}</span>
-                        <span v-if="item.value">&nbsp;</span>
-                        <span v-if="item.binding" class="label label-primary">Связано</span>
-                    </td>
-                    <td>
-                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
-                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</template>
-
-<template id="domains-settings">
-
-    <domains-settings-list :items.sync="items"></domains-settings-list>
-
-</template>
-
-<template id="domains">
-
-    <domains-list :items.sync="items"></domains-list>
-
-</template>
-
 <template id="pages-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -462,6 +297,171 @@
     <div>
         <pages-list :items.sync="items" :globals.sync="globals"></pages-list>
     </div>
+
+</template>
+
+<template id="domains-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Настройки домена</span>
+                        <span v-if="!original">Новый домен</span>
+                        <span>&gt;</span>
+                        <span v-if="isActive('main')">Основное</span>
+                        <span v-if="isActive('settings')">Настроки</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
+                                <li :class="{ 'active': isActive('settings') }"><a href="#" @click="activate('settings')">Настройки</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="overflow: auto">
+                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
+                                    <div class="form-group">
+                                        <label for="dialog-domain-name">Имя</label>
+                                        <input class="form-control" type="text" id="dialog-domain-name" required="true" v-model="current.name" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dialog-page-title">Заголовок</label>
+                                        <input class="form-control" type="text" id="dialog-page-title" name="title" required="true" v-model="current.title.value" />
+                                    </div>
+                                </div>
+                                <div class="tab-pane" :class="{ 'active': isActive('settings') }">
+                                    <domains-settings :items.sync="current.resource.params"></domains-settings>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="domains-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width: 60%">Имя</th>
+                    <th><a class="btn btn-xs btn-primary" @click="create({ title: {}, resource: { params: [] }})">Добавить</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        <span class="label label-success">{{ item.name }}</span>
+                        &nbsp;
+                        <span>{{ item.title.value }}</span>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
+                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="domains-settings-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Редактирование параметра</span>
+                        <span v-if="!original">Новый параметр</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="domains-settings-dialog-name">Имя</label>
+                        <input class="form-control" type="text" id="domains-settings-dialog-name" required="true" v-model="current.name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="domains-settings-dialog-value">Значение</label>
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="domains-settings-dialog-value" v-model="current.value" />
+                            <div class="input-group-btn">
+                                <bindings :model.sync="current" inline-template>
+                                    <button type="button" class="btn btn-default" @click="open">...</button>
+                                </bindings>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="domains-settings-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width: 20%">Имя</th>
+                    <th style="width: 40%">Значение</th>
+                    <th><a class="btn btn-xs btn-primary" @click="create({ value: null, binding: null})">Добавить</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>
+                        <span>{{ item.value }}</span>
+                        <span v-if="item.value">&nbsp;</span>
+                        <span v-if="item.binding" class="label label-primary">Связано</span>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
+                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="domains-settings">
+
+    <domains-settings-list :items.sync="items"></domains-settings-list>
+
+</template>
+
+<template id="domains">
+
+    <domains-list :items.sync="items"></domains-list>
 
 </template>
 
@@ -872,60 +872,6 @@
 
 </template>
 
-<template id="settings-dialog">
-    <div class="ge ge-modal modal modal-center">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span>Настройки сайта</span>
-                        <span>&gt;</span>
-                        <span v-if="isActive('domains')">Домены</span>
-                        <span v-if="isActive('pages')">Страницы</span>
-                        <span v-if="isActive('schemes')">Схемы</span>
-                        <span v-if="isActive('widgets')">Виджеты</span>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li :class="{ 'active': isActive('domains') }"><a href="#" @click="activate('domains')">Домены</a></li>
-                                <li :class="{ 'active': isActive('pages') }"><a href="#" @click="activate('pages')">Страницы</a></li>
-                                <li :class="{ 'active': isActive('schemes') }"><a href="#" @click="activate('schemes')">Схемы</a></li>
-                                <li :class="{ 'active': isActive('widgets') }"><a href="#" @click="activate('widgets')">Виджеты</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="overflow: auto">
-                                <div class="tab-pane" :class="{ 'active': isActive('domains') }">
-                                    <domains :items.sync="current.domains" :globals.sync="globals"></domains>
-                                </div>
-                                <div class="tab-pane" :class="{ 'active': isActive('pages') }">
-                                    <pages :items.sync="current.pages" :globals.sync="globals"></pages>
-                                </div>
-                                <div class="tab-pane" :class="{ 'active': isActive('schemes') }">
-                                    <schemes :items.sync="current.schemes" :globals.sync="globals"></schemes>
-                                </div>
-                                <div class="tab-pane" :class="{ 'active': isActive('widgets') }">
-                                    <widgets :items.sync="current.widgets" :globals.sync="globals"></widgets>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="storages-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
@@ -1071,6 +1017,60 @@
 
     <storages-list :items.sync="items"></storages-list>
 
+</template>
+
+<template id="settings-dialog">
+    <div class="ge ge-modal modal modal-center">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span>Настройки сайта</span>
+                        <span>&gt;</span>
+                        <span v-if="isActive('domains')">Домены</span>
+                        <span v-if="isActive('pages')">Страницы</span>
+                        <span v-if="isActive('schemes')">Схемы</span>
+                        <span v-if="isActive('widgets')">Виджеты</span>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li :class="{ 'active': isActive('domains') }"><a href="#" @click="activate('domains')">Домены</a></li>
+                                <li :class="{ 'active': isActive('pages') }"><a href="#" @click="activate('pages')">Страницы</a></li>
+                                <li :class="{ 'active': isActive('schemes') }"><a href="#" @click="activate('schemes')">Схемы</a></li>
+                                <li :class="{ 'active': isActive('widgets') }"><a href="#" @click="activate('widgets')">Виджеты</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="overflow: auto">
+                                <div class="tab-pane" :class="{ 'active': isActive('domains') }">
+                                    <domains :items.sync="current.domains" :globals.sync="globals"></domains>
+                                </div>
+                                <div class="tab-pane" :class="{ 'active': isActive('pages') }">
+                                    <pages :items.sync="current.pages" :globals.sync="globals"></pages>
+                                </div>
+                                <div class="tab-pane" :class="{ 'active': isActive('schemes') }">
+                                    <schemes :items.sync="current.schemes" :globals.sync="globals"></schemes>
+                                </div>
+                                <div class="tab-pane" :class="{ 'active': isActive('widgets') }">
+                                    <widgets :items.sync="current.widgets" :globals.sync="globals"></widgets>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </template>
 
 <template id="widgets-dialog">
@@ -1400,10 +1400,10 @@
             </div>
         </div>
         <div class="ge ge-palette-categories" v-scrollable>
-            <div v-for="c in category.categories" class="ge ge-palette-category">
-                <div class="ge ge-category-title">{{ c.title }}</div>
+            <div v-for="g in category.groups()" class="ge ge-palette-category">
+                <div class="ge ge-category-title">{{ g.title }}</div>
                 <div class="ge ge-category-palette">
-                    <palette-item v-for="widget in c.widgets" :widget.sync="widget"></palette-item>
+                    <palette-item v-for="widget in g.items()" :widget.sync="widget"></palette-item>
                 </div>
             </div>
         </div>
@@ -1429,7 +1429,6 @@
                     </div>
                     <div class="ge ge-subnav">
                         <shell-palette
-                            :categories.sync="settings.categories"
                             :category.sync="globals.selection.category"
                             :globals.sync="globals"
                         ></shell-palette>
@@ -1565,6 +1564,102 @@
             :items.sync="model.widgets"
         ></div>
     </div>
+</template>
+
+<template id="pages-widgets-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                  @submit.prevent="submit"
+                  @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Редактирование виджета</span>
+                        <span v-if="!original">Новый виджет</span>
+                        <span>&gt;</span>
+                        <span v-for="tab in context.widget.tabs" v-if="isActive(tab.name)">{{ tab.title }}</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li v-for="tab in context.widget.tabs" v-if="hasProps(tab.name)" :class="{ 'active': isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+<template id="pages-widgets-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width: 20%">Имя</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        <span class="label label-success">{{ item.name }}</span>
+                        &nbsp;
+                        <span>{{ item.type }}</span>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-default" @click="update(item, { widget: getWidget(item) })">Редактировать</a>
+                        <a class="btn btn-xs btn-danger" @click="remove(item, { widget: getWidget(item) })">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="pages-widgets">
+
+    <section>
+
+        <div class="input-group">
+            <div class="pull-left">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span>Добавить</span>
+                    &nbsp;
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li v-for="w in globals.widgets">
+                        <a href="#" @click.prevent="create(proto(w), { widget: w })">
+                            <span><span class="label label-success">{{ w.id }}</span> {{ w.title }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <pages-widgets-list :items.sync="items" :globals.sync="globals"></pages-widgets-list>
+
+    <section>
+
 </template>
 
 <template id="pages-sources-dialog">
@@ -1790,100 +1885,82 @@
 
 </template>
 
-<template id="pages-widgets-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                  @submit.prevent="submit"
-                  @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Редактирование виджета</span>
-                        <span v-if="!original">Новый виджет</span>
-                        <span>&gt;</span>
-                        <span v-for="tab in context.widget.tabs" v-if="isActive(tab.name)">{{ tab.title }}</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li v-for="tab in context.widget.tabs" v-if="hasProps(tab.name)" :class="{ 'active': isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
+<template id="default-stack-canvas">
+    <section class="wg wg-default-stack wg-default-stack-canvas">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <div class="wg wg-row" v-for="child in children">
+                    <div class="wg wg-cell">
+                        <div class="wg wg-inner">
+                            <shell-widget
+                                :globals.sync="globals"
+                                :settings.sync="settings"
+                                :stack.sync="page"
+                                :page.sync="page"
+                                :data.sync="data"
+                                :storage.sync="storage"
+                                :model.sync="child"
+                                :editable.sync="editable"
+                                :items.sync="child.widgets"
+                            ></shell-widget>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
-</template>
-<template id="pages-widgets-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 20%">Имя</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td>
-                        <span class="label label-success">{{ item.name }}</span>
-                        &nbsp;
-                        <span>{{ item.type }}</span>
-                    </td>
-                    <td>
-                        <a class="btn btn-xs btn-default" @click="update(item, { widget: getWidget(item) })">Редактировать</a>
-                        <a class="btn btn-xs btn-danger" @click="remove(item, { widget: getWidget(item) })">Удалить</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
     </section>
 </template>
 
-<template id="pages-widgets">
-
-    <section>
-
-        <div class="input-group">
-            <div class="pull-left">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span>Добавить</span>
-                    &nbsp;
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li v-for="w in globals.widgets">
-                        <a href="#" @click.prevent="create(proto(w), { widget: w })">
-                            <span><span class="label label-success">{{ w.id }}</span> {{ w.title }}</span>
-                        </a>
-                    </li>
-                </ul>
+<template id="default-stack-horisontal">
+    <section class="wg wg-default-stack wg-default-stack-horisontal">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <div class="wg wg-row">
+                    <div class="wg wg-cell" v-for="child in children">
+                        <div class="wg wg-inner">
+                            <shell-widget
+                                :globals.sync="globals"
+                                :settings.sync="settings"
+                                :stack.sync="page"
+                                :page.sync="page"
+                                :data.sync="data"
+                                :storage.sync="storage"
+                                :model.sync="child"
+                                :editable.sync="editable"
+                                :items.sync="child.widgets"
+                            ></shell-widget>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
+</template>
 
-        <pages-widgets-list :items.sync="items" :globals.sync="globals"></pages-widgets-list>
-
-    <section>
-
+<template id="default-stack-vertical">
+    <section class="wg wg-default-stack wg-default-stack-vertical">
+        <div class="wg wg-content">
+            <div class="wg wg-table">
+                <div class="wg wg-row" v-for="child in children">
+                    <div class="wg wg-cell">
+                        <div class="wg wg-inner">
+                            <shell-widget
+                                :globals.sync="globals"
+                                :settings.sync="settings"
+                                :stack.sync="page"
+                                :page.sync="page"
+                                :data.sync="data"
+                                :storage.sync="storage"
+                                :model.sync="child"
+                                :editable.sync="editable"
+                                :items.sync="child.widgets"
+                            ></shell-widget>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </template>
 
 <template id="default-button">
@@ -1901,6 +1978,45 @@
             :style="{
                 height: bindings.height
             }">{{ bindings.title }}</button>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-box">
+    <section :class="class" :id="bindings.id" :style="{
+        'height': bindings.height,
+        'width': bindings.width,
+        'border': bindings.outerBorder,
+        'background': bindings.outerBackground,
+        'background-size': bindings.outerBackgroundSize,
+    }">
+        <div class="wg wg-content" :style="{
+            'margin': bindings.margin,
+            'padding': bindings.padding,
+            'border': bindings.innerBorder,
+            'background': bindings.innerBackground,
+            'background-size': bindings.outerBackgroundSize,
+        }"><slot>Empty</slot></div>
+    </section>
+</template>
+
+<template id="default-placeholder">
+        <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
+            <div class="wg wg-table" :style="{
+                height: bindings.height,
+            }">
+                <span class="wg wg-cell">{{{ bindings.content }}}</span>
+            </div>
+        </default-box>
+</template>
+
+<template id="default-stub">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-stub'">
+        <div class="wg wg-table">
+            <span class="wg wg-cell">
+                <div><small>{{ bindings.title }}</small></div>
+                <div>{{ bindings.subtitle }}</div>
+            </span>
         </div>
     </default-box>
 </template>
@@ -2689,44 +2805,6 @@
     </div>
 </template>
 
-<template id="landing-video">
-    <div class="ld ld-section ld-video">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-facetime-video"></span> Video Tutorial</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-6">
-                        <div class="ld ld-video">
-                            <iframe width="530" height="260" src="https://www.youtube.com/embed/aqRBN7qvyxs" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-6">
-                        <div class="ld ld-message">
-                            <p>
-                                Archery is made to be simple and agile.
-                                No extra skills required, you can start in several clicks.
-                            </p>
-                            <p>
-                                Create project from scratch or use any template from the gallery.
-                                With a little effort you will get a functional online service in a few minutes.
-                            </p>
-                            <p>
-                                You can publish your portal immediately and update it any time you want.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <template id="landing-usecases">
     <div class="ld ld-section ld-usecases">
         <div class="ld ld-container">
@@ -2776,6 +2854,44 @@
                                     a powerful dashboard.
                                 </p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-video">
+    <div class="ld ld-section ld-video">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-facetime-video"></span> Video Tutorial</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <div class="ld ld-video">
+                            <iframe width="530" height="260" src="https://www.youtube.com/embed/aqRBN7qvyxs" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="ld ld-message">
+                            <p>
+                                Archery is made to be simple and agile.
+                                No extra skills required, you can start in several clicks.
+                            </p>
+                            <p>
+                                Create project from scratch or use any template from the gallery.
+                                With a little effort you will get a functional online service in a few minutes.
+                            </p>
+                            <p>
+                                You can publish your portal immediately and update it any time you want.
+                            </p>
                         </div>
                     </div>
                 </div>

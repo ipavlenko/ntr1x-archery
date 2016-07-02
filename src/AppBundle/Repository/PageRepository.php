@@ -143,7 +143,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
             }
 
         } else {
-            $source = $em->getRepository('NTR1XLayoutBundle:Source')->findOneById($data['id']);
+            $source = $em->getRepository('AppBundle:Source')->findOneById($data['id']);
             $this->handlePageSourceTree($em, $page, $source, $data);
         }
     }
@@ -166,7 +166,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
 
     private function handlePageSourceUpdate($em, $page, $data) {
 
-        $source = $em->getRepository('NTR1XLayoutBundle:Source')->findOneById($data['id'])
+        $source = $em->getRepository('AppBundle:Source')->findOneById($data['id'])
             ->setName($data['name'])
             ->setUrl($data['url'])
             ->setMethod($data['method'])
@@ -181,7 +181,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
 
     private function handlePageSourceRemove($em, $page, $data) {
 
-        $source = $em->getRepository('NTR1XLayoutBundle:Source')->findOneById($data['id']);
+        $source = $em->getRepository('AppBundle:Source')->findOneById($data['id']);
 
         $em->remove($source);
         $em->flush();
@@ -209,7 +209,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
             }
 
         } else {
-            $storage = $em->getRepository('NTR1XLayoutBundle:Storage')->findOneById($data['id']);
+            $storage = $em->getRepository('AppBundle:Storage')->findOneById($data['id']);
             $this->handlePageStorageTree($em, $page, $storage, $data);
         }
     }
@@ -230,7 +230,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
 
     private function handlePageStorageUpdate($em, $page, $data) {
 
-        $storage = $em->getRepository('NTR1XLayoutBundle:Storage')->findOneById($data['id'])
+        $storage = $em->getRepository('AppBundle:Storage')->findOneById($data['id'])
             ->setName($data['name'])
             ->setVariables($this->clearParams($data['variables']))
         ;
@@ -243,7 +243,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
 
     private function handlePageStorageRemove($em, $page, $data) {
 
-        $storage = $em->getRepository('NTR1XLayoutBundle:Storage')->findOneById($data['id']);
+        $storage = $em->getRepository('AppBundle:Storage')->findOneById($data['id']);
 
         $em->remove($storage);
         $em->flush();
@@ -306,7 +306,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
 
     private function handlePageWidgetIndex($em, &$context, $data) {
 
-        $widget = $em->getRepository('NTR1XLayoutBundle:Widget')->findOneById($data['id'])
+        $widget = $em->getRepository('AppBundle:Widget')->findOneById($data['id'])
             ->setIndex($context['index']++)
         ;
 
@@ -318,7 +318,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
 
     private function handlePageWidgetUpdate($em, &$context, $data) {
 
-        $widget = $em->getRepository('NTR1XLayoutBundle:Widget')->findOneById($data['id'])
+        $widget = $em->getRepository('AppBundle:Widget')->findOneById($data['id'])
             ->setType($data['type'])
             ->setIndex($context['index']++)
             ->setParams($data['params'])
@@ -338,7 +338,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
 
     private function handlePageWidgetRemove($em, &$context, $data) {
 
-        $widget = $em->getRepository('NTR1XLayoutBundle:Widget')->findOneById($data['id']);
+        $widget = $em->getRepository('AppBundle:Widget')->findOneById($data['id']);
 
         $em->remove($widget);
         $em->flush();

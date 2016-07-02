@@ -1,7 +1,0 @@
-services:
-
-    ntr1_x_controls.component.provider:
-        class: NTR1X\LayoutBundle\Component\ComponentProvider
-        arguments: ["@kernel", "NTR1XControlsBundle", "ntr1xcontrols", "components.yml"]
-        tags:
-            - { name: component.provider }

@@ -47,13 +47,13 @@ class DefaultController extends Controller {
 
                     $user = $this
                         ->getDoctrine()
-                        ->getRepository('NTR1XLayoutBundle:User')
+                        ->getRepository('AppBundle:User')
                         ->find($principal->getId())
                     ;
 
                     $portal = $this
                         ->getDoctrine()
-                        ->getRepository('NTR1XLayoutBundle:Portal')
+                        ->getRepository('AppBundle:Portal')
                         ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ], [])
                     ;
 
@@ -124,7 +124,7 @@ class DefaultController extends Controller {
 
                     $user = $this
                         ->getDoctrine()
-                        ->getRepository('NTR1XLayoutBundle:User')
+                        ->getRepository('AppBundle:User')
                         ->find($principal->getId())
                     ;
 
@@ -223,13 +223,13 @@ class DefaultController extends Controller {
 
                     $user = $this
                         ->getDoctrine()
-                        ->getRepository('NTR1XLayoutBundle:User')
+                        ->getRepository('AppBundle:User')
                         ->find($principal->getId())
                     ;
 
                     $portal = $this
                         ->getDoctrine()
-                        ->getRepository('NTR1XLayoutBundle:Portal')
+                        ->getRepository('AppBundle:Portal')
                         ->findOneBy([ 'id' => $data['id'], 'user' => $user ])
                     ;
 
@@ -288,13 +288,13 @@ class DefaultController extends Controller {
 
                     $user = $this
                         ->getDoctrine()
-                        ->getRepository('NTR1XLayoutBundle:User')
+                        ->getRepository('AppBundle:User')
                         ->findById($principal->getId())
                     ;
 
                     $view['portals'] = $this
                         ->getDoctrine()
-                        ->getRepository('NTR1XLayoutBundle:Portal')
+                        ->getRepository('AppBundle:Portal')
                         ->findBy([ 'user' => $user ], ['title' => 'asc'])
                     ;
                 });
@@ -365,7 +365,7 @@ class DefaultController extends Controller {
 
                 $user = $this
                     ->getDoctrine()
-                    ->getRepository('NTR1XLayoutBundle:User')
+                    ->getRepository('AppBundle:User')
                     ->findOneBy([ 'email' => $data['email'] ])
                 ;
 
@@ -390,6 +390,7 @@ class DefaultController extends Controller {
 
             $view['error'] = [
                 'message' => 'The email already in use',
+                'message2' => $e->getMessage()
             ];
 
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -434,7 +435,7 @@ class DefaultController extends Controller {
 
                 $view['principal'] = $this
                     ->getDoctrine()
-                    ->getRepository('NTR1XLayoutBundle:User')
+                    ->getRepository('AppBundle:User')
                     ->find($user->getId())
                 ;
             });
@@ -487,19 +488,19 @@ class DefaultController extends Controller {
         //
         //         'domains' => $this
         //             ->getDoctrine()
-        //             ->getRepository('NTR1XLayoutBundle:Domain')
+        //             ->getRepository('AppBundle:Domain')
         //             ->findBy([], ['name'=>'asc'])
         //         ,
         //
         //         'pages' => $this
         //             ->getDoctrine()
-        //             ->getRepository('NTR1XLayoutBundle:Page')
+        //             ->getRepository('AppBundle:Page')
         //             ->findBy([], ['name'=>'asc'])
         //         ,
         //
         //         'schemes' => $this
         //             ->getDoctrine()
-        //             ->getRepository('NTR1XLayoutBundle:Schema')
+        //             ->getRepository('AppBundle:Schema')
         //             ->findBy([], ['name'=>'asc'])
         //         ,
         //     ];
@@ -543,19 +544,19 @@ class DefaultController extends Controller {
     //
     //             'domains' => $this
     //                 ->getDoctrine()
-    //                 ->getRepository('NTR1XLayoutBundle:Domain')
+    //                 ->getRepository('AppBundle:Domain')
     //                 ->findBy([], ['name'=>'asc'])
     //             ,
     //
     //             'pages' => $this
     //                 ->getDoctrine()
-    //                 ->getRepository('NTR1XLayoutBundle:Page')
+    //                 ->getRepository('AppBundle:Page')
     //                 ->findBy([], ['name'=>'asc'])
     //             ,
     //
     //             'schemes' => $this
     //                 ->getDoctrine()
-    //                 ->getRepository('NTR1XLayoutBundle:Schema')
+    //                 ->getRepository('AppBundle:Schema')
     //                 ->findBy([], ['name'=>'asc'])
     //             ,
     //         ];
