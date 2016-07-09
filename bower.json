@@ -35,6 +35,7 @@
     "ntr1x-archery-core": "../ntr1x-archery-core",
     "ntr1x-archery-shell": "../ntr1x-archery-shell",
     "ntr1x-archery-widgets": "../ntr1x-archery-widgets",
-    "ntr1x-archery-landing": "../ntr1x-archery-landing"
+    "ntr1x-archery-landing": "../ntr1x-archery-landing",
+    "jquery-sortable": "^0.9.13"
   }
 }

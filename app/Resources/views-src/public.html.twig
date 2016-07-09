@@ -8,6 +8,10 @@
 
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
+    <script>
+        window.CKEDITOR_BASEPATH = '/assets/vendor/ckeditor/';
+    </script>
+
     {% block stylesheets %}
         <link href="{{ asset('assets/dist/vendor.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/dist/app.css') }}" rel="stylesheet" />
