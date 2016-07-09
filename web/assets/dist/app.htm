@@ -41,6 +41,171 @@
     </div>
 </template>
 
+<template id="domains-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Настройки домена</span>
+                        <span v-if="!original">Новый домен</span>
+                        <span>&gt;</span>
+                        <span v-if="isActive('main')">Основное</span>
+                        <span v-if="isActive('settings')">Настроки</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
+                                <li :class="{ 'active': isActive('settings') }"><a href="#" @click="activate('settings')">Настройки</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="overflow: auto">
+                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
+                                    <div class="form-group">
+                                        <label for="dialog-domain-name">Имя</label>
+                                        <input class="form-control" type="text" id="dialog-domain-name" required="true" v-model="current.name" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dialog-page-title">Заголовок</label>
+                                        <input class="form-control" type="text" id="dialog-page-title" name="title" required="true" v-model="current.title.value" />
+                                    </div>
+                                </div>
+                                <div class="tab-pane" :class="{ 'active': isActive('settings') }">
+                                    <domains-settings :items.sync="current.resource.params"></domains-settings>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="domains-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width: 60%">Имя</th>
+                    <th><a class="btn btn-xs btn-primary" @click="create({ title: {}, resource: { params: [] }})">Добавить</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        <span class="label label-success">{{ item.name }}</span>
+                        &nbsp;
+                        <span>{{ item.title.value }}</span>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
+                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="domains-settings-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Редактирование параметра</span>
+                        <span v-if="!original">Новый параметр</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="domains-settings-dialog-name">Имя</label>
+                        <input class="form-control" type="text" id="domains-settings-dialog-name" required="true" v-model="current.name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="domains-settings-dialog-value">Значение</label>
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="domains-settings-dialog-value" v-model="current.value" />
+                            <div class="input-group-btn">
+                                <bindings :model.sync="current" inline-template>
+                                    <button type="button" class="btn btn-default" @click="open">...</button>
+                                </bindings>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="domains-settings-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width: 20%">Имя</th>
+                    <th style="width: 40%">Значение</th>
+                    <th><a class="btn btn-xs btn-primary" @click="create({ value: null, binding: null})">Добавить</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>
+                        <span>{{ item.value }}</span>
+                        <span v-if="item.value">&nbsp;</span>
+                        <span v-if="item.binding" class="label label-primary">Связано</span>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
+                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="domains-settings">
+
+    <domains-settings-list :items.sync="items"></domains-settings-list>
+
+</template>
+
+<template id="domains">
+
+    <domains-list :items.sync="items"></domains-list>
+
+</template>
+
 <template id="pages-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -300,336 +465,6 @@
 
 </template>
 
-<template id="schemes-dialog">
-	<div class="ge ge-modal modal modal-center" role="dialog">
-		<div class="modal-dialog modal-lg">
-			<form class="modal-content"
-				@submit.prevent="submit"
-				@reset.prevent="reset"
-			>
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-					<h4 class="modal-title">
-						<span v-if="original" class="label label-primary">{{ original.name }}</span>
-						<span v-if="original">&nbsp;Настройки схемы</span>
-						<span v-if="!original">Новая схема</span>
-                        <span>&gt;</span>
-                        <span v-if="isActive('main')">Основное</span>
-                        <span v-if="isActive('settings')">Настроки</span>
-					</h4>
-				</div>
-				<div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
-                                <li :class="{ 'active': isActive('settings') }"><a href="#" @click="activate('settings')">Настройки</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="overflow: auto">
-                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
-                                    <div class="form-group">
-                						<label for="dialog-schema-name">Имя</label>
-                						<input class="form-control" type="text" id="dialog-schema-name" required="true" v-model="current.name" />
-                					</div>
-                					<div class="form-group">
-                						<label for="dialog-schema-url">URL</label>
-                						<input class="form-control" type="text" id="dialog-schema-url" name="url" required="true" v-model="current.url" />
-                					</div>
-                                </div>
-                                <div class="tab-pane" :class="{ 'active': isActive('settings') }">
-                                    <schemes-settings :items.sync="current.resource.params"></schemes-settings>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-				</div>
-				<div class="modal-footer">
-					<button type="reset" class="btn btn-default">Отменить</button>
-					<button type="submit" class="btn btn-primary">Сохранить</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</template>
-
-<template id="schemes-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 60%">Схема</th>
-                    <th><a class="btn btn-xs btn-primary" @click="create({ resource: { params: [] }})">Добавить</a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td>
-                        <span class="label label-success">{{ item.name }}</span>
-                        &nbsp;
-                        <a :href="item.url">{{ item.url }}</a>
-                    </td>
-                    <td>
-                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
-                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</template>
-
-<template id="schemes-settings-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Редактирование параметра</span>
-                        <span v-if="!original">Новый параметр</span>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="schemes-settings-dialog-name">Имя</label>
-                        <input class="form-control" type="text" id="schemes-settings-dialog-name" required="true" v-model="current.name" />
-                    </div>
-                    <div class="form-group">
-                        <label for="schemes-settings-dialog-value">Значение</label>
-                        <div class="input-group">
-                            <input class="form-control" type="text" id="schemes-settings-dialog-value" v-model="current.value" />
-                            <div class="input-group-btn">
-                                <bindings :model.sync="current" inline-template>
-                                    <button type="button" class="btn btn-default" @click="open">...</button>
-                                </bindings>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
-<template id="schemes-settings-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 20%">Имя</th>
-                    <th style="width: 40%">Значение</th>
-                    <th><a class="btn btn-xs btn-primary" @click="create({ value: null, binding: null})">Добавить</a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>
-                        <span>{{ item.value }}</span>
-                        <span v-if="item.value">&nbsp;</span>
-                        <span v-if="item.binding" class="label label-primary">Связано</span>
-                    </td>
-                    <td>
-                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
-                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</template>
-
-<template id="schemes-settings">
-
-    <schemes-settings-list :items.sync="items"></schemes-settings-list>
-
-</template>
-
-<template id="schemes">
-
-    <schemes-list :items.sync="items"></schemes-list>
-
-</template>
-
-<template id="domains-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Настройки домена</span>
-                        <span v-if="!original">Новый домен</span>
-                        <span>&gt;</span>
-                        <span v-if="isActive('main')">Основное</span>
-                        <span v-if="isActive('settings')">Настроки</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
-                                <li :class="{ 'active': isActive('settings') }"><a href="#" @click="activate('settings')">Настройки</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="overflow: auto">
-                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
-                                    <div class="form-group">
-                                        <label for="dialog-domain-name">Имя</label>
-                                        <input class="form-control" type="text" id="dialog-domain-name" required="true" v-model="current.name" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="dialog-page-title">Заголовок</label>
-                                        <input class="form-control" type="text" id="dialog-page-title" name="title" required="true" v-model="current.title.value" />
-                                    </div>
-                                </div>
-                                <div class="tab-pane" :class="{ 'active': isActive('settings') }">
-                                    <domains-settings :items.sync="current.resource.params"></domains-settings>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
-<template id="domains-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 60%">Имя</th>
-                    <th><a class="btn btn-xs btn-primary" @click="create({ title: {}, resource: { params: [] }})">Добавить</a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td>
-                        <span class="label label-success">{{ item.name }}</span>
-                        &nbsp;
-                        <span>{{ item.title.value }}</span>
-                    </td>
-                    <td>
-                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
-                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</template>
-
-<template id="domains-settings-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Редактирование параметра</span>
-                        <span v-if="!original">Новый параметр</span>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="domains-settings-dialog-name">Имя</label>
-                        <input class="form-control" type="text" id="domains-settings-dialog-name" required="true" v-model="current.name" />
-                    </div>
-                    <div class="form-group">
-                        <label for="domains-settings-dialog-value">Значение</label>
-                        <div class="input-group">
-                            <input class="form-control" type="text" id="domains-settings-dialog-value" v-model="current.value" />
-                            <div class="input-group-btn">
-                                <bindings :model.sync="current" inline-template>
-                                    <button type="button" class="btn btn-default" @click="open">...</button>
-                                </bindings>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
-<template id="domains-settings-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 20%">Имя</th>
-                    <th style="width: 40%">Значение</th>
-                    <th><a class="btn btn-xs btn-primary" @click="create({ value: null, binding: null})">Добавить</a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>
-                        <span>{{ item.value }}</span>
-                        <span v-if="item.value">&nbsp;</span>
-                        <span v-if="item.binding" class="label label-primary">Связано</span>
-                    </td>
-                    <td>
-                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
-                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</template>
-
-<template id="domains-settings">
-
-    <domains-settings-list :items.sync="items"></domains-settings-list>
-
-</template>
-
-<template id="domains">
-
-    <domains-list :items.sync="items"></domains-list>
-
-</template>
-
 <template id="params-bindings-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -698,6 +533,10 @@
 <template id="params-list">
     <div>
         <div v-for="item in items" v-if="item.prop.tab == tab">
+            <params-variable v-if="item.prop.type == 'var'" :id="'pages-widgets-dialog-props-' + $index"
+                :item.sync="item"
+                :globals.sync="globals"
+            ></params-variable>
             <params-string v-if="item.prop.type == 'string'" :id="'pages-widgets-dialog-props-' + $index"
                 :item.sync="item"
                 :globals.sync="globals"
@@ -867,10 +706,189 @@
     </div>
 </template>
 
+<template id="params-variable">
+    <div class="form-group">
+        <label for="{{ id }}">{{ item.prop.title }}</label>
+        <div class="input-group">
+            <div class="form-control">{{ item.param.value.value | json }}</div>
+            <div class="input-group-btn">
+                <params-bindings :model.sync="item.param" :context="{ prop: item.prop }" inline-template>
+                    <button type="button" class="btn btn-default" @click="open()">...</button>
+                </params-bindings>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="params">
     <div>
         <params-list :items.sync="items" :globals.sync="globals" :owner.sync="owner" :tab="tab"></params-list>
     </div>
+</template>
+
+<template id="schemes-dialog">
+	<div class="ge ge-modal modal modal-center" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<form class="modal-content"
+				@submit.prevent="submit"
+				@reset.prevent="reset"
+			>
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+					<h4 class="modal-title">
+						<span v-if="original" class="label label-primary">{{ original.name }}</span>
+						<span v-if="original">&nbsp;Настройки схемы</span>
+						<span v-if="!original">Новая схема</span>
+                        <span>&gt;</span>
+                        <span v-if="isActive('main')">Основное</span>
+                        <span v-if="isActive('settings')">Настроки</span>
+					</h4>
+				</div>
+				<div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
+                                <li :class="{ 'active': isActive('settings') }"><a href="#" @click="activate('settings')">Настройки</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="overflow: auto">
+                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
+                                    <div class="form-group">
+                						<label for="dialog-schema-name">Имя</label>
+                						<input class="form-control" type="text" id="dialog-schema-name" required="true" v-model="current.name" />
+                					</div>
+                					<div class="form-group">
+                						<label for="dialog-schema-url">URL</label>
+                						<input class="form-control" type="text" id="dialog-schema-url" name="url" required="true" v-model="current.url" />
+                					</div>
+                                </div>
+                                <div class="tab-pane" :class="{ 'active': isActive('settings') }">
+                                    <schemes-settings :items.sync="current.resource.params"></schemes-settings>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-default">Отменить</button>
+					<button type="submit" class="btn btn-primary">Сохранить</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</template>
+
+<template id="schemes-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width: 60%">Схема</th>
+                    <th><a class="btn btn-xs btn-primary" @click="create({ resource: { params: [] }})">Добавить</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        <span class="label label-success">{{ item.name }}</span>
+                        &nbsp;
+                        <a :href="item.url">{{ item.url }}</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
+                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="schemes-settings-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Редактирование параметра</span>
+                        <span v-if="!original">Новый параметр</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="schemes-settings-dialog-name">Имя</label>
+                        <input class="form-control" type="text" id="schemes-settings-dialog-name" required="true" v-model="current.name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="schemes-settings-dialog-value">Значение</label>
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="schemes-settings-dialog-value" v-model="current.value" />
+                            <div class="input-group-btn">
+                                <bindings :model.sync="current" inline-template>
+                                    <button type="button" class="btn btn-default" @click="open">...</button>
+                                </bindings>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="schemes-settings-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width: 20%">Имя</th>
+                    <th style="width: 40%">Значение</th>
+                    <th><a class="btn btn-xs btn-primary" @click="create({ value: null, binding: null})">Добавить</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>
+                        <span>{{ item.value }}</span>
+                        <span v-if="item.value">&nbsp;</span>
+                        <span v-if="item.binding" class="label label-primary">Связано</span>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
+                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="schemes-settings">
+
+    <schemes-settings-list :items.sync="items"></schemes-settings-list>
+
+</template>
+
+<template id="schemes">
+
+    <schemes-list :items.sync="items"></schemes-list>
+
 </template>
 
 <template id="settings-dialog">
@@ -1074,38 +1092,6 @@
 
 </template>
 
-<template id="shell-actions">
-    <section class="ge ge-actions">
-        <div class="pull-left">
-            <button type="button" class="btn btn-default" @click="trigger('push')">
-                <span class="glyphicon glyphicon-cloud-upload"></span>
-                <span>Store Changes</span>
-            </button>
-            <button type="button" class="btn btn-default" @click="trigger('pull')">
-                <span class="glyphicon glyphicon-cloud-download"></span>
-                <span>Discard Changes</span>
-            </button>
-        </div>
-        <div class="pull-right">
-
-            <button type="button" class="btn btn-default" @click="zoom('in')">
-                <span class="glyphicon glyphicon-zoom-in"></span>
-                <span>Zoom in</span>
-            </button>
-            <button type="button" class="btn btn-default" @click="zoom('out')">
-                <span class="glyphicon glyphicon-zoom-out"></span>
-                <span>Zoom out</span>
-            </button>
-
-
-            <!--
-            <button type="button" class="btn btn-default">Page Settings</button>
-            <button type="button" class="btn btn-default">Add Source</button>
-            -->
-        </div>
-    </section>
-</template>
-
 <template id="widgets-dialog">
 	<div class="modal modal-center" role="dialog">
 		<div class="ge ge-modal modal-dialog modal-lg">
@@ -1163,6 +1149,38 @@
 
     <widgets-list :items.sync="items"></widgets-list>
 
+</template>
+
+<template id="shell-actions">
+    <section class="ge ge-actions">
+        <div class="pull-left">
+            <button type="button" class="btn btn-default" @click="trigger('push')">
+                <span class="glyphicon glyphicon-cloud-upload"></span>
+                <span>Store Changes</span>
+            </button>
+            <button type="button" class="btn btn-default" @click="trigger('pull')">
+                <span class="glyphicon glyphicon-cloud-download"></span>
+                <span>Discard Changes</span>
+            </button>
+        </div>
+        <div class="pull-right">
+
+            <button type="button" class="btn btn-default" @click="zoom('in')">
+                <span class="glyphicon glyphicon-zoom-in"></span>
+                <span>Zoom in</span>
+            </button>
+            <button type="button" class="btn btn-default" @click="zoom('out')">
+                <span class="glyphicon glyphicon-zoom-out"></span>
+                <span>Zoom out</span>
+            </button>
+
+
+            <!--
+            <button type="button" class="btn btn-default">Page Settings</button>
+            <button type="button" class="btn btn-default">Add Source</button>
+            -->
+        </div>
+    </section>
 </template>
 
 <template id="shell-brand">
@@ -1304,6 +1322,15 @@
     </div>
 </template>
 
+<template id="shell-loader">
+    <div class="ge ge-shell-loader">
+        <shell-private v-if="portal != null"
+            :settings="settings"
+            :model="portal"
+        ></shell-private>
+    </div>
+</template>
+
 <template id="shell-domains">
     <section class="ge ge-panel ge-domains">
         <domains :items.sync="domains" :globals.sync="globals" inline-template>
@@ -1328,13 +1355,22 @@
     </section>
 </template>
 
-<template id="shell-loader">
-    <div class="ge ge-shell-loader">
-        <shell-private v-if="portal != null"
-            :settings="settings"
-            :model="portal"
-        ></shell-private>
+<template id="shell-page">
+
+    <div class="ge ge-page" :style="{
+        'width': pageSettings.width,
+    }">
+        <div
+            :is="decorator"
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :data.sync="data"
+            :storage.sync="storage"
+            :items.sync="page.widgets"
+        ></div>
     </div>
+
 </template>
 
 <template id="shell-pages">
@@ -1360,24 +1396,6 @@
             </ul>
         </pages>
     </section>
-</template>
-
-<template id="shell-page">
-
-    <div class="ge ge-page" :style="{
-        'width': pageSettings.width,
-    }">
-        <div
-            :is="decorator"
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :data.sync="data"
-            :storage.sync="storage"
-            :items.sync="page.widgets"
-        ></div>
-    </div>
-
 </template>
 
 <template id="shell-palette-item">
@@ -1989,9 +2007,9 @@
 </template>
 
 <template id="default-check">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-check'">
-        <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-default" v-for="item in bindings.items" :class="{
+    <default-box :bindings.sync="bindings" class="wg wg-default-check">
+        <div class="btn-group">
+            <label class="btn" v-for="item in bindings.items" :class="{
                     'btn-default': bindings.stereotype == 'default',
                     'btn-primary': bindings.stereotype == 'primary',
                     'btn-success': bindings.stereotype == 'success',
@@ -1999,6 +2017,7 @@
                     'btn-warning': bindings.stereotype == 'warning',
                     'btn-danger': bindings.stereotype == 'danger',
                     'btn-link': bindings.stereotype == 'link',
+                    'active': bindings.model.value.indexOf(item.value) > -1,
                 }"
                 :style="{
                     height: bindings.height
@@ -2012,11 +2031,10 @@
 
 <template id="default-input-checkbox">
     <default-box :bindings.sync="bindings" :class="'wg wg-widget wg-default-input-checkbox'">
-
         <div class="form-group">
             <div class="checkbox" v-for="item in bindings.items">
                 <label>
-                    <input type="checkbox" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
+                    <input type="checkbox" :name="bindings.name" value="{{ item.value }}" v-model="bindings.model.value"> {{ item.label }}
                 </label>
             </div>
         </div>
@@ -2026,7 +2044,6 @@
 
 <template id="default-input-radio">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-radio">
-
         <div class="form-group">
             <div class="radio" v-for="item in bindings.items">
                 <label>
@@ -2059,9 +2076,9 @@
 </template>
 
 <template id="default-radio">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-radio'">
-        <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-default" v-for="item in bindings.items" :class="{
+    <default-box :bindings.sync="bindings" class="wg wg-default-radio">
+        <div class="btn-group">
+            <label class="btn" v-for="item in bindings.items" :class="{
                     'btn-default': bindings.stereotype == 'default',
                     'btn-primary': bindings.stereotype == 'primary',
                     'btn-success': bindings.stereotype == 'success',
@@ -2069,6 +2086,7 @@
                     'btn-warning': bindings.stereotype == 'warning',
                     'btn-danger': bindings.stereotype == 'danger',
                     'btn-link': bindings.stereotype == 'link',
+                    'active': bindings.model.value == item.value,
                 }"
                 :style="{
                     height: bindings.height
@@ -2098,6 +2116,16 @@
     </section>
 </template>
 
+<template id="default-placeholder">
+        <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
+            <div class="wg wg-table" :style="{
+                height: bindings.height,
+            }">
+                <span class="wg wg-cell">{{{ bindings.content }}}</span>
+            </div>
+        </default-box>
+</template>
+
 <template id="default-stub">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-stub'">
         <div class="wg wg-table">
@@ -2107,16 +2135,6 @@
             </span>
         </div>
     </default-box>
-</template>
-
-<template id="default-placeholder">
-        <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
-            <div class="wg wg-table" :style="{
-                height: bindings.height,
-            }">
-                <span class="wg wg-cell">{{{ bindings.content }}}</span>
-            </div>
-        </default-box>
 </template>
 
 <template id="landing-gallery-page">
@@ -2280,6 +2298,12 @@
     </div>
 </template>
 
+<template id="landing-contacts">
+    <div class="ld ld-section ld-contacts">
+        <h3>Contacts</h3>
+    </div>
+</template>
+
 <template id="landing-feedback">
     <div class="ld ld-section ld-feedback">
         <div class="ld ld-container">
@@ -2294,7 +2318,7 @@
                 <div class="row">
                     <div class="col-xs-4">
                         <div class="ld ld-feedback-item">
-                            <img class="img-circle" style="width: 70px; height: 70px;" src="/bundles/ntr1xlayout/src/landing/feedback/avatars/1.jpg" />
+                            <img class="img-circle" style="width: 70px; height: 70px;" src="/assets/vendor/ntr1x-archery-landing/src/landing/feedback/avatars/1.jpg" />
                             <div class="ld ld-item-details">
                                 <div><b>Homer Simpson</b></div>
                                 <div><i>The Simpsons, Character</i></div>
@@ -2304,7 +2328,7 @@
                     </div>
                     <div class="col-xs-4">
                         <div class="ld ld-feedback-item">
-                            <img class="img-circle" style="width: 70px; height: 70px;" src="/bundles/ntr1xlayout/src/landing/feedback/avatars/2.jpg" />
+                            <img class="img-circle" style="width: 70px; height: 70px;" src="/assets/vendor/ntr1x-archery-landing/src/landing/feedback/avatars/2.jpg" />
                             <div class="ld ld-item-details">
                                 <div><b>Bart Simpson</b></div>
                                 <div><i>The Simpsons, Character</i></div>
@@ -2314,7 +2338,7 @@
                     </div>
                     <div class="col-xs-4">
                         <div class="ld ld-feedback-item">
-                            <img class="img-circle" style="width: 70px; height: 70px;" src="/bundles/ntr1xlayout/src/landing/feedback/avatars/3.jpg" />
+                            <img class="img-circle" style="width: 70px; height: 70px;" src="/assets/vendor/ntr1x-archery-landing/src/landing/feedback/avatars/3.jpg" />
                             <div class="ld ld-item-details">
                                 <div><b>Lisa Simpson</b></div>
                                 <div><i>The Simpsons, Character</i></div>
@@ -2324,7 +2348,7 @@
                     </div>
                     <div class="col-xs-4">
                         <div class="ld ld-feedback-item">
-                            <img class="img-circle" style="width: 70px; height: 70px;" src="/bundles/ntr1xlayout/src/landing/feedback/avatars/4.jpg" />
+                            <img class="img-circle" style="width: 70px; height: 70px;" src="/assets/vendor/ntr1x-archery-landing/src/landing/feedback/avatars/4.jpg" />
                             <div class="ld ld-item-details">
                                 <div><b>Maggie Simpson</b></div>
                                 <div><i>The Simpsons, Character</i></div>
@@ -2334,7 +2358,7 @@
                     </div>
                     <div class="col-xs-4">
                         <div class="ld ld-feedback-item">
-                            <img class="img-circle" style="width: 70px; height: 70px;" src="/bundles/ntr1xlayout/src/landing/feedback/avatars/5.jpg" />
+                            <img class="img-circle" style="width: 70px; height: 70px;" src="/assets/vendor/ntr1x-archery-landing/src/landing/feedback/avatars/5.jpg" />
                             <div class="ld ld-item-details">
                                 <div><b>Abraham Simpson</b></div>
                                 <div><i>The Simpsons, Character</i></div>
@@ -2344,7 +2368,7 @@
                     </div>
                     <div class="col-xs-4">
                         <div class="ld ld-feedback-item">
-                            <img class="img-circle" style="width: 70px; height: 70px;" src="/bundles/ntr1xlayout/src/landing/feedback/avatars/6.jpg" />
+                            <img class="img-circle" style="width: 70px; height: 70px;" src="/assets/vendor/ntr1x-archery-landing/src/landing/feedback/avatars/6.jpg" />
                             <div class="ld ld-item-details">
                                 <div><b>Bender Bending Rodriguez</b></div>
                                 <div><i>Futurama, Character</i></div>
@@ -2355,12 +2379,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</template>
-
-<template id="landing-contacts">
-    <div class="ld ld-section ld-contacts">
-        <h3>Contacts</h3>
     </div>
 </template>
 
@@ -2387,7 +2405,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/1/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2400,7 +2418,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/2/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2413,7 +2431,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/3/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2426,7 +2444,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/1/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2439,7 +2457,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/2/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2452,7 +2470,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/3/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2465,7 +2483,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/1/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2478,7 +2496,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/2/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2491,7 +2509,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/3/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2504,7 +2522,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/1/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2517,7 +2535,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/2/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2530,7 +2548,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/3/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2543,7 +2561,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/1/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2556,7 +2574,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/2/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2569,7 +2587,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/3/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2601,7 +2619,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/1/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2614,7 +2632,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/2/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2627,7 +2645,7 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/bundles/ntr1xlayout/src/landing/gallery/portals/3/thumbnail.jpg" />
+                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2885,6 +2903,63 @@
     </div>
 </template>
 
+<template id="landing-usecases">
+    <div class="ld ld-section ld-usecases">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-briefcase"></span> Use Cases</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                        <div class="ld ld-usecase">
+                            <img class="img-circle" style="width: 140px; height: 140px;" src="/assets/vendor/ntr1x-archery-landing/src/landing/usecases/options/1.jpg" />
+                            <div>
+                                <h4>Need a styled well landing page</h4>
+                                <p>
+                                    Use our Gallery to find a suitable template. Then update page content.
+                                    Use our well designed widgets to make your user interface better.
+                                    Be sure you will be able to update your site data, design and structure any time you want.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="ld ld-usecase">
+                            <img class="img-circle" style="width: 140px; height: 140px;" src="/assets/vendor/ntr1x-archery-landing/src/landing/usecases/options/2.jpg" />
+                            <div>
+                                <h4>Need a portal with anvanced services</h4>
+                                <p>
+                                    Build a Portal with our powerful visual editor. Wire portal data with our public storage
+                                    services, we made them to solve 90% of your needs. Feel free to use your own storages for
+                                    least 10%.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="ld ld-usecase">
+                            <img class="img-circle" style="width: 140px; height: 140px;" src="/assets/vendor/ntr1x-archery-landing/src/landing/usecases/options/3.jpg" />
+                            <div>
+                                <h4>Need a data &amp; flow control panel</h4>
+                                <p>
+                                    Archery may connect to any REST storage worldwide. Use our storage services of wire your
+                                    own services. Use our special widgets: tables, grids, charts and input controls to build
+                                    a powerful dashboard.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="landing-super">
     <div class="ld ld-section ld-super">
         <div class="ld ld-container">
@@ -2933,63 +3008,6 @@
                             <p>
                                 You can publish your portal immediately and update it any time you want.
                             </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template id="landing-usecases">
-    <div class="ld ld-section ld-usecases">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-briefcase"></span> Use Cases</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-4">
-                        <div class="ld ld-usecase">
-                            <img class="img-circle" style="width: 140px; height: 140px;" src="/bundles/ntr1xlayout/src/landing/usecases/options/1.jpg" />
-                            <div>
-                                <h4>Need a styled well landing page</h4>
-                                <p>
-                                    Use our Gallery to find a suitable template. Then update page content.
-                                    Use our well designed widgets to make your user interface better.
-                                    Be sure you will be able to update your site data, design and structure any time you want.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="ld ld-usecase">
-                            <img class="img-circle" style="width: 140px; height: 140px;" src="/bundles/ntr1xlayout/src/landing/usecases/options/2.jpg" />
-                            <div>
-                                <h4>Need a portal with anvanced services</h4>
-                                <p>
-                                    Build a Portal with our powerful visual editor. Wire portal data with our public storage
-                                    services, we made them to solve 90% of your needs. Feel free to use your own storages for
-                                    least 10%.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="ld ld-usecase">
-                            <img class="img-circle" style="width: 140px; height: 140px;" src="/bundles/ntr1xlayout/src/landing/usecases/options/3.jpg" />
-                            <div>
-                                <h4>Need a data &amp; flow control panel</h4>
-                                <p>
-                                    Archery may connect to any REST storage worldwide. Use our storage services of wire your
-                                    own services. Use our special widgets: tables, grids, charts and input controls to build
-                                    a powerful dashboard.
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </div>
