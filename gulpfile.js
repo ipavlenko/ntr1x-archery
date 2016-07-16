@@ -16,7 +16,7 @@ gulp.task('vendor-scripts', function() {
         'web/assets/vendor/vue-resource/dist/vue-resource.js',
         'web/assets/vendor/vue-validator/dist/vue-validator.js',
         'web/assets/vendor/moment/min/moment.min.js',
-        'web/assets/vendor/jquery-sortable/source/js/jquery-sortable.js',
+        // 'web/assets/vendor/jquery-sortable/source/js/jquery-sortable.js',
         // 'web/assets/vendor/Sortable/Sortable.js',
         'web/assets/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
         'web/assets/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js',
