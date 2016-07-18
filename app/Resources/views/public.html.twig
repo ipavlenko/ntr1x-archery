@@ -1204,11 +1204,11 @@
         </div>
         <div class="pull-right">
 
-            <button type="button" class="btn btn-default" @click="zoom('in')">
+            <button type="button" class="btn btn-default" @click="trigger('zoomIn')">
                 <span class="glyphicon glyphicon-zoom-in"></span>
                 <span>Zoom in</span>
             </button>
-            <button type="button" class="btn btn-default" @click="zoom('out')">
+            <button type="button" class="btn btn-default" @click="trigger('zoomOut')">
                 <span class="glyphicon glyphicon-zoom-out"></span>
                 <span>Zoom out</span>
             </button>
@@ -1243,7 +1243,7 @@
 
 <template id="shell-container">
 
-    <section class="ge ge-container">
+    <section class="ge ge-container" v-scrollable>
         <shell-page
             :globals.sync="globals"
             :settings.sync="settings"
@@ -1440,7 +1440,7 @@
 
 <template id="shell-palette-item">
     <div class="ge ge-palette-item">
-        <div class="ge ge-palette-widget wg-sortable-item" data-widget="{{ category.name }}/{{ group.name }}/{{ item.name }}">
+        <div class="ge ge-palette-widget wg-sortable-item" data-widget="{{ item.name }}">
             <img class="when-in-palette" :src="item.thumbnail" />
         </div>
     </div>
@@ -1454,7 +1454,7 @@
                     {{ globals.selection.category.title }} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li v-for="category in categories"><a @click.prevent="trigger('selectCategory', category)">{{ category.title }}</a></li>
+                    <li v-for="category in categories" v-if="!category.ignore"><a @click.prevent="trigger('selectCategory', category)">{{ category.title }}</a></li>
                 </ul>
             </div>
         </div>
@@ -1483,7 +1483,7 @@
         </div>
         <div class="ge ge-body">
             <div class="ge ge-body-table">
-                <div class="ge ge-nav" v-scrollable>
+                <div class="ge ge-left" v-scrollable>
                     <div class="ge ge-hover">
                         <div class="ge ge-hover-button">
                             <span class="glyphicon glyphicon-th"></span>
@@ -1497,7 +1497,7 @@
                         ></shell-palette>
                     </div>
                 </div>
-                <div class="ge ge-editor" v-scrollable>
+                <div class="ge ge-editor">
                     <shell-actions
                         :model.sync="model"
                         :globals.sync="globals"
@@ -1508,7 +1508,7 @@
                         :page.sync="globals.selection.page"
                     ></shell-container>
                 </div>
-                <div class="ge ge-structure" v-scrollable>
+                <div class="ge ge-right" v-scrollable>
                     <div class="ge ge-subnav">
                         <shell-pages
                             :pages.sync="model.pages"
@@ -2184,16 +2184,6 @@
     </section>
 </template>
 
-<template id="default-placeholder">
-        <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
-            <div class="wg wg-table" :style="{
-                height: bindings.height,
-            }">
-                <span class="wg wg-cell">{{{ bindings.content }}}</span>
-            </div>
-        </default-box>
-</template>
-
 <template id="default-stub">
     <default-box :bindings.sync="bindings" class="wg wg-default-stub">
         <div class="wg wg-table">
@@ -2202,6 +2192,16 @@
             </span>
         </div>
     </default-box>
+</template>
+
+<template id="default-placeholder">
+        <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
+            <div class="wg wg-table" :style="{
+                height: bindings.height,
+            }">
+                <span class="wg wg-cell">{{{ bindings.content }}}</span>
+            </div>
+        </default-box>
 </template>
 
 <template id="landing-gallery-page">

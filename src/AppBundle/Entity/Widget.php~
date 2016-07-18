@@ -26,9 +26,9 @@ class Widget
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="type", type="string", length=511)
+	 * @ORM\Column(name="name", type="string", length=511)
 	 */
-	private $type;
+	private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="Page", inversedBy="widgets")
@@ -81,30 +81,6 @@ class Widget
     }
 
     /**
-     * Set type
-     *
-     * @param string $type
-     *
-     * @return Widget
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * Set name
      *
      * @param string $name
@@ -126,102 +102,6 @@ class Widget
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set width
-     *
-     * @param integer $width
-     *
-     * @return Widget
-     */
-    public function setWidth($width)
-    {
-        $this->width = $width;
-
-        return $this;
-    }
-
-    /**
-     * Get width
-     *
-     * @return integer
-     */
-    public function getWidth()
-    {
-        return $this->width;
-    }
-
-    /**
-     * Set height
-     *
-     * @param integer $height
-     *
-     * @return Widget
-     */
-    public function setHeight($height)
-    {
-        $this->height = $height;
-
-        return $this;
-    }
-
-    /**
-     * Get height
-     *
-     * @return integer
-     */
-    public function getHeight()
-    {
-        return $this->height;
-    }
-
-    /**
-     * Set x
-     *
-     * @param integer $x
-     *
-     * @return Widget
-     */
-    public function setX($x)
-    {
-        $this->x = $x;
-
-        return $this;
-    }
-
-    /**
-     * Get x
-     *
-     * @return integer
-     */
-    public function getX()
-    {
-        return $this->x;
-    }
-
-    /**
-     * Set y
-     *
-     * @param integer $y
-     *
-     * @return Widget
-     */
-    public function setY($y)
-    {
-        $this->y = $y;
-
-        return $this;
-    }
-
-    /**
-     * Get y
-     *
-     * @return integer
-     */
-    public function getY()
-    {
-        return $this->y;
     }
 
     /**

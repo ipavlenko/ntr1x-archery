@@ -282,7 +282,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
             ->setPage($context['page'])
             ->setIndex($context['index']++)
             ->setParent($context['parent'])
-            ->setType($data['type'])
+            ->setName($data['name'])
             // TODO: Проверить/очистить
             ->setParams($data['params'])
             ->setResource(new Resource())
@@ -319,7 +319,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
     private function handlePageWidgetUpdate($em, &$context, $data) {
 
         $widget = $em->getRepository('AppBundle:Widget')->findOneById($data['id'])
-            ->setType($data['type'])
+            ->setName($data['name'])
             ->setIndex($context['index']++)
             ->setParams($data['params'])
         ;
@@ -352,9 +352,10 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
             'parent' => $widget,
         ];
 
-        foreach ($data['widgets'] as $widget) {
-
-            $this->handlePageWidget($em, $nestedContext, $widget);
+        if (isset($data['widgets'])) {
+            foreach ($data['widgets'] as $widget) {
+                $this->handlePageWidget($em, $nestedContext, $widget);
+            }
         }
     }
 

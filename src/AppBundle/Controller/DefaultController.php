@@ -9,8 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-use NTR1X\FormBundle\Form\FormBuilder;
-use NTR1X\FormBundle\Form\FormField;
+use JMS\Serializer\SerializationContext;
 
 use AppBundle\Entity\Resource;
 use AppBundle\Entity\Portal;
@@ -19,6 +18,88 @@ use AppBundle\Entity\User;
 use AppBundle\Security\UserPrincipal;
 
 class DefaultController extends Controller {
+
+    public function __construct() {
+        $this->context = new SerializationContext();
+        $this->context->setSerializeNull(true);
+    }
+
+    /**
+     * @Route("/ws/portals/{id}", name="portals-update")
+     * @Method({"PUT"})
+     */
+    public function wsPortalsPutAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $view = [];
+
+        $serializer = $this->container->get('jms_serializer');
+
+        $response = new Response();
+
+        $principal = $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')
+            ? $this->get('security.token_storage')->getToken()->getUser()
+            : null
+        ;
+
+        if (!empty($principal)) {
+
+            try {
+
+                $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$serializer, &$principal, &$view) {
+
+                    $data = $serializer->deserialize($request->getContent(), 'array', 'json');
+
+                    $user = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:User')
+                        ->find($principal->getId())
+                    ;
+
+                    $portal = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Portal')
+                        ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ])
+                    ;
+
+                    $this->getDoctrine()
+                        ->getRepository('AppBundle:Page')
+                        ->savePages($data['pages'])
+                    ;
+
+                    $em->clear();
+
+                    $view['portal'] = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Portal')
+                        ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ])
+                    ;
+
+                    $em->flush();
+                });
+
+            } catch (\Exception $e) {
+
+                $view['error'] = [
+                    'message' => 'Internal server error',
+                    'message2' => $e->getMessage(),
+                ];
+
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $response->setStatusCode(Response::HTTP_OK);
+
+        } else {
+
+            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+        }
+
+        $response->setContent($serializer->serialize($view, 'json', $this->context));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 
     /**
      * @Route("/ws/portals/{id}", name="portals-get")
@@ -58,19 +139,6 @@ class DefaultController extends Controller {
                     ;
 
                     $view['portal'] = $portal;
-
-                    $view['settings'] = [
-
-                        'widgets' => $this
-                            ->get('ntr1_x_layout.widget.manager')
-                            ->getWidgets()
-                        ,
-
-                        'categories' => $this
-                            ->get('ntr1_x_layout.category.manager')
-                            ->getCategories()
-                        ,
-                    ];
                 });
 
             } catch (\Exception $e) {
@@ -90,7 +158,7 @@ class DefaultController extends Controller {
             $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
         }
 
-        $response->setContent($serializer->serialize($view, 'json'));
+        $response->setContent($serializer->serialize($view, 'json', $this->context));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -189,13 +257,13 @@ class DefaultController extends Controller {
             $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
         }
 
-        $response->setContent($serializer->serialize($view, 'json'));
+        $response->setContent($serializer->serialize($view, 'json', $this->context));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     /**
-     * @Route("/ws/portals", name = "portals-remove")
+     * @Route("/ws/portals/{id}", name = "portals-remove")
      * @Method({"DELETE"})
      */
     public function wsPortalsRemoveAction(Request $request) {
@@ -219,8 +287,6 @@ class DefaultController extends Controller {
 
                 $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$serializer, &$principal) {
 
-                    $data = $serializer->deserialize($request->getContent(), 'array', 'json');
-
                     $user = $this
                         ->getDoctrine()
                         ->getRepository('AppBundle:User')
@@ -230,7 +296,7 @@ class DefaultController extends Controller {
                     $portal = $this
                         ->getDoctrine()
                         ->getRepository('AppBundle:Portal')
-                        ->findOneBy([ 'id' => $data['id'], 'user' => $user ])
+                        ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ])
                     ;
 
                     $em->remove($portal->getResource());
@@ -256,7 +322,7 @@ class DefaultController extends Controller {
             $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
         }
 
-        $response->setContent($serializer->serialize($view, 'json'));
+        $response->setContent($serializer->serialize($view, 'json', $this->context));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -316,7 +382,7 @@ class DefaultController extends Controller {
 
         $response->setStatusCode(Response::HTTP_OK);
         dump($view);
-        $response->setContent($serializer->serialize($view, 'json'));
+        $response->setContent($serializer->serialize($view, 'json', $this->context));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -334,7 +400,7 @@ class DefaultController extends Controller {
 
         $response = new Response();
         $response->setStatusCode(Response::HTTP_OK);
-        $response->setContent($serializer->serialize([], 'json'));
+        $response->setContent($serializer->serialize([], 'json', $this->context));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -399,7 +465,7 @@ class DefaultController extends Controller {
         $this->get('security.token_storage')->setToken($token);
         $this->get('session')->set('_security_main', serialize($token));
 
-        $response->setContent($serializer->serialize($view, 'json'));
+        $response->setContent($serializer->serialize($view, 'json', $this->context));
 
         $response->headers->set('Content-Type', 'application/json');
 
@@ -451,7 +517,7 @@ class DefaultController extends Controller {
             $response->setStatusCode(Response::HTTP_CONFLICT);
         }
 
-        $response->setContent($serializer->serialize($view, 'json'));
+        $response->setContent($serializer->serialize($view, 'json', $this->context));
 
         $response->headers->set('Content-Type', 'application/json');
 
