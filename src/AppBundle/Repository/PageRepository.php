@@ -16,28 +16,28 @@ use AppBundle\Entity\Resource;
  */
 class PageRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function savePages($pages) {
+    public function savePages($portal, $pages) {
 
         $em = $this->getEntityManager();
         foreach ($pages as $data) {
-            $this->handlePage($em, $data);
+            $this->handlePage($em, $portal, $data);
         }
     }
 
-    private function handlePage($em, $data) {
+    private function handlePage($em, $portal, $data) {
 
         if (isset($data['_action'])) {
 
             switch ($data['_action']) {
                 case 'remove':
-                    $this->handlePageRemove($em, $data);
+                    $this->handlePageRemove($em, $portal, $data);
                     break;
                 case 'update':
-                    $page = $this->handlePageUpdate($em, $data);
+                    $page = $this->handlePageUpdate($em, $portal, $data);
                     $this->handlePageTree($em, $page, $data);
                     break;
                 case 'create':
-                    $page = $this->handlePageCreate($em, $data);
+                    $page = $this->handlePageCreate($em, $portal, $data);
                     $this->handlePageTree($em, $page, $data);
                     break;
             }
@@ -48,10 +48,11 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
         }
     }
 
-    private function handlePageCreate($em, $data) {
+    private function handlePageCreate($em, $portal, $data) {
 
         $page = (new Page())
             ->setName($data['name'])
+            ->setPortal($portal)
             ->setTitle($data['title'])
             ->setMetas($this->clearParams($data['metas']))
             ->setResource(new Resource())
@@ -73,7 +74,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
         return $page;
     }
 
-    private function handlePageUpdate($em, $data) {
+    private function handlePageUpdate($em, $portal, $data) {
 
         $page = $this->findOneById($data['id'])
             ->setName($data['name'])
@@ -93,7 +94,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
         return $page;
     }
 
-    private function handlePageRemove($em, $data) {
+    private function handlePageRemove($em, $portal, $data) {
 
         $page = $this->findOneById($data['id']);
 

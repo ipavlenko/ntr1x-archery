@@ -65,7 +65,7 @@ class DefaultController extends Controller {
 
                     $this->getDoctrine()
                         ->getRepository('AppBundle:Page')
-                        ->savePages($data['pages'])
+                        ->savePages($portal, $data['pages'])
                     ;
 
                     $em->clear();
