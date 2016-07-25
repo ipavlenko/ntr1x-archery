@@ -6,7 +6,6 @@ use AppBundle\Entity\Page;
 use AppBundle\Entity\Source;
 use AppBundle\Entity\Storage;
 use AppBundle\Entity\Widget;
-use AppBundle\Entity\Resource;
 
 /**
  * PageRepository
@@ -55,20 +54,9 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
             ->setPortal($portal)
             ->setTitle($data['title'])
             ->setMetas($this->clearParams($data['metas']))
-            ->setResource(new Resource())
         ;
 
         $em->persist($page);
-        $em->flush();
-
-        $resource = $page->getResource();
-
-        $resource
-            ->setName("/pages/{$page->getId()}")
-            ->setParams($this->clearParams($data['resource']['params']))
-        ;
-
-        $em->persist($resource);
         $em->flush();
 
         return $page;
@@ -80,12 +68,6 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
             ->setName($data['name'])
             ->setTitle($data['title'])
             ->setMetas($this->clearParams($data['metas']))
-        ;
-
-        $resource = $page->getResource();
-
-        $resource
-            ->setParams($this->clearParams($data['resource']['params']))
         ;
 
         $em->persist($page);
@@ -286,20 +268,9 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
             ->setName($data['name'])
             // TODO: Проверить/очистить
             ->setParams($data['params'])
-            ->setResource(new Resource())
         ;
 
         $em->persist($widget);
-        $em->flush();
-
-        $resource = $widget->getResource();
-
-        $resource
-            ->setName("/widgets/{$widget->getId()}")
-            ->setParams($this->clearParams($data['resource']['params']))
-        ;
-
-        $em->persist($resource);
         $em->flush();
 
         return $widget;
@@ -323,12 +294,6 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
             ->setName($data['name'])
             ->setIndex($context['index']++)
             ->setParams($data['params'])
-        ;
-
-        $resource = $widget->getResource();
-
-        $resource
-            ->setParams($this->clearParams($data['resource']['params']))
         ;
 
         $em->persist($widget);

@@ -60,12 +60,6 @@ class Widget
      */
     private $widgets;
 
-    /**
-     * @ORM\OneToOne(targetEntity="Resource", cascade={"persist"}, fetch="EAGER")
-     * @ORM\JoinColumn(name="resource_id", referencedColumnName="id", nullable=false)
-     */
-    private $resource;
-
 	public function __construct() {
         $this->widgets = new ArrayCollection();
 	}
@@ -126,30 +120,6 @@ class Widget
     public function getPage()
     {
         return $this->page;
-    }
-
-    /**
-     * Set resource
-     *
-     * @param \AppBundle\Entity\Resource $resource
-     *
-     * @return Widget
-     */
-    public function setResource(\AppBundle\Entity\Resource $resource)
-    {
-        $this->resource = $resource;
-
-        return $this;
-    }
-
-    /**
-     * Get resource
-     *
-     * @return \AppBundle\Entity\Resource
-     */
-    public function getResource()
-    {
-        return $this->resource;
     }
 
     /**

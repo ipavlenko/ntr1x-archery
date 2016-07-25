@@ -3,7 +3,6 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Schema;
-use AppBundle\Entity\Resource;
 
 /**
  * SchemaRepository
@@ -50,20 +49,9 @@ class SchemaRepository extends \Doctrine\ORM\EntityRepository
         $schema = (new Schema())
             ->setName($data['name'])
             ->setUrl($data['url'])
-            ->setResource(new Resource())
         ;
 
         $em->persist($schema);
-        $em->flush();
-
-        $resource = $schema->getResource();
-
-        $resource
-            ->setName("/schemes/{$schema->getId()}")
-            ->setParams($this->clearParams($data['resource']['params']))
-        ;
-
-        $em->persist($resource);
         $em->flush();
 
         return $schema;
@@ -74,12 +62,6 @@ class SchemaRepository extends \Doctrine\ORM\EntityRepository
         $schema = $this->findOneById($data['id'])
             ->setName($data['name'])
             ->setUrl($data['url'])
-        ;
-
-        $resource = $schema->getResource();
-
-        $resource
-            ->setParams($this->clearParams($data['resource']['params']))
         ;
 
         $em->persist($schema);

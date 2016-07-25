@@ -44,15 +44,14 @@ class Page
     private $portal;
 
     /**
-     * @ORM\OneToOne(targetEntity="Resource", cascade={"persist"}, fetch="EAGER")
-     * @ORM\JoinColumn(name="resource_id", referencedColumnName="id", nullable=false)
-     */
-    private $resource;
-
-    /**
      * @ORM\Column(name="metas", type="json_array", nullable=true)
      */
     private $metas;
+
+    /**
+     * @ORM\Column(name="settings", type="json_array", nullable=true)
+     */
+    private $settings;
 
     /**
      * @ORM\OneToMany(targetEntity="Widget", mappedBy="page", orphanRemoval=true, cascade={"persist", "remove"})
@@ -182,30 +181,6 @@ class Page
     }
 
     /**
-     * Set resource
-     *
-     * @param \AppBundle\Entity\Resource $resource
-     *
-     * @return Page
-     */
-    public function setResource(\AppBundle\Entity\Resource $resource)
-    {
-        $this->resource = $resource;
-
-        return $this;
-    }
-
-    /**
-     * Get resource
-     *
-     * @return \AppBundle\Entity\Resource
-     */
-    public function getResource()
-    {
-        return $this->resource;
-    }
-
-    /**
      * Add widget
      *
      * @param \AppBundle\Entity\Widget $widget
@@ -305,5 +280,29 @@ class Page
     public function getStorages()
     {
         return $this->storages;
+    }
+
+    /**
+     * Set settings
+     *
+     * @param array $settings
+     *
+     * @return Page
+     */
+    public function setSettings($settings)
+    {
+        $this->settings = $settings;
+
+        return $this;
+    }
+
+    /**
+     * Get settings
+     *
+     * @return array
+     */
+    public function getSettings()
+    {
+        return $this->settings;
     }
 }

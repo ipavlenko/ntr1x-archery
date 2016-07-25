@@ -40,10 +40,9 @@ class Portal
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="Resource", cascade={"persist"}, fetch="EAGER")
-     * @ORM\JoinColumn(name="resource_id", referencedColumnName="id", nullable=false)
+     * @ORM\Column(name="settings", type="json_array", nullable=true)
      */
-    private $resource;
+    private $settings;
 
     /**
      * @ORM\OneToMany(targetEntity="Page", mappedBy="portal", orphanRemoval=true, cascade={"persist", "remove"})
@@ -112,30 +111,6 @@ class Portal
     }
 
     /**
-     * Set resource
-     *
-     * @param \AppBundle\Entity\Resource $resource
-     *
-     * @return Portal
-     */
-    public function setResource(\AppBundle\Entity\Resource $resource)
-    {
-        $this->resource = $resource;
-
-        return $this;
-    }
-
-    /**
-     * Get resource
-     *
-     * @return \AppBundle\Entity\Resource
-     */
-    public function getResource()
-    {
-        return $this->resource;
-    }
-
-    /**
      * Add page
      *
      * @param \AppBundle\Entity\Page $page
@@ -167,5 +142,29 @@ class Portal
     public function getPages()
     {
         return $this->pages;
+    }
+
+    /**
+     * Set settings
+     *
+     * @param array $settings
+     *
+     * @return Portal
+     */
+    public function setSettings($settings)
+    {
+        $this->settings = $settings;
+
+        return $this;
+    }
+
+    /**
+     * Get settings
+     *
+     * @return array
+     */
+    public function getSettings()
+    {
+        return $this->settings;
     }
 }

@@ -3,7 +3,6 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Portal;
-use AppBundle\Entity\Resource;
 
 /**
  * PortalRepository
@@ -50,20 +49,9 @@ class PortalRepository extends \Doctrine\ORM\EntityRepository
         $portal = (new Portal())
             ->setName($data['name'])
             ->setTitle($data['title'])
-            ->setResource(new Resource())
         ;
 
         $em->persist($portal);
-        $em->flush();
-
-        $resource = $portal->getResource();
-
-        $resource
-            ->setName("/portals/{$portal->getId()}")
-            ->setParams($this->clearParams($data['resource']['params']))
-        ;
-
-        $em->persist($resource);
         $em->flush();
 
         return $portal;
@@ -74,12 +62,6 @@ class PortalRepository extends \Doctrine\ORM\EntityRepository
         $portal = $this->findOneById($data['id'])
             ->setName($data['name'])
             ->setTitle($data['title'])
-        ;
-
-        $resource = $portal->getResource();
-
-        $resource
-            ->setParams($this->clearParams($data['resource']['params']))
         ;
 
         $em->persist($portal);

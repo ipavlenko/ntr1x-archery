@@ -40,10 +40,9 @@ class Portal
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="Resource", cascade={"persist"}, fetch="EAGER")
-     * @ORM\JoinColumn(name="resource_id", referencedColumnName="id", nullable=false)
+     * @ORM\Column(name="settings", type="json_array", nullable=true)
      */
-    private $resource;
+    private $settings;
 
     /**
      * @ORM\OneToMany(targetEntity="Page", mappedBy="portal", orphanRemoval=true, cascade={"persist", "remove"})
@@ -109,30 +108,6 @@ class Portal
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * Set resource
-     *
-     * @param \AppBundle\Entity\Resource $resource
-     *
-     * @return Portal
-     */
-    public function setResource(\AppBundle\Entity\Resource $resource)
-    {
-        $this->resource = $resource;
-
-        return $this;
-    }
-
-    /**
-     * Get resource
-     *
-     * @return \AppBundle\Entity\Resource
-     */
-    public function getResource()
-    {
-        return $this->resource;
     }
 
     /**

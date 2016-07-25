@@ -11,7 +11,6 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 use JMS\Serializer\SerializationContext;
 
-use AppBundle\Entity\Resource;
 use AppBundle\Entity\Portal;
 use AppBundle\Entity\Page;
 use AppBundle\Entity\User;
@@ -199,20 +198,9 @@ class DefaultController extends Controller {
                     $portal = (new Portal())
                         ->setTitle($data['title'])
                         ->setUser($user)
-                        ->setResource(new Resource())
                     ;
 
                     $em->persist($portal);
-                    $em->flush();
-
-                    $resource = $portal->getResource();
-
-                    $resource
-                        ->setName("/portals/{$portal->getId()}")
-                        // ->setParams([])
-                    ;
-
-                    $em->persist($resource);
                     $em->flush();
 
                     $page = (new Page())
@@ -221,20 +209,9 @@ class DefaultController extends Controller {
                             'value' => 'Default',
                         ])
                         ->setPortal($portal)
-                        ->setResource(new Resource())
                     ;
 
                     $em->persist($page);
-                    $em->flush();
-
-                    $resource = $page->getResource();
-
-                    $resource
-                        ->setName("/portals/{$portal->getId()}/pages/{$page->getId()}")
-                        // ->setParams([])
-                    ;
-
-                    $em->persist($resource);
                     $em->flush();
 
                     $view['portal'] = $portal;
@@ -299,7 +276,6 @@ class DefaultController extends Controller {
                         ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ])
                     ;
 
-                    $em->remove($portal->getResource());
                     $em->remove($portal);
 
                     $em->flush();
