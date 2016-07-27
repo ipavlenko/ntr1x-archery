@@ -49,9 +49,9 @@ class Page
     private $metas;
 
     /**
-     * @ORM\Column(name="settings", type="json_array", nullable=true)
+     * @ORM\Column(name="params", type="json_array", nullable=true)
      */
-    private $settings;
+    private $params;
 
     /**
      * @ORM\OneToMany(targetEntity="Widget", mappedBy="page", orphanRemoval=true, cascade={"persist", "remove"})
@@ -283,26 +283,26 @@ class Page
     }
 
     /**
-     * Set settings
+     * Set params
      *
-     * @param array $settings
+     * @param array $params
      *
      * @return Page
      */
-    public function setSettings($settings)
+    public function setParams($params)
     {
-        $this->settings = $settings;
+        $this->params = $params;
 
         return $this;
     }
 
     /**
-     * Get settings
+     * Get params
      *
      * @return array
      */
-    public function getSettings()
+    public function getParams()
     {
-        return $this->settings;
+        return $this->params;
     }
 }

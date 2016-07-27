@@ -143,4 +143,28 @@ class Portal
     {
         return $this->pages;
     }
+
+    /**
+     * Set settings
+     *
+     * @param array $settings
+     *
+     * @return Portal
+     */
+    public function setSettings($settings)
+    {
+        $this->settings = $settings;
+
+        return $this;
+    }
+
+    /**
+     * Get settings
+     *
+     * @return array
+     */
+    public function getSettings()
+    {
+        return $this->settings;
+    }
 }
