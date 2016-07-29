@@ -98,15 +98,13 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
             $this->handlePageStorage($em, $page, $storage);
         }
 
-        $nextedContext = [
+        $nestedContext = [
             'index' => 0,
             'page' => $page,
             'parent' => null,
         ];
 
-        foreach ($data['widgets'] as $widget) {
-            $this->handlePageWidget($em, $nextedContext, $widget);
-        }
+        $this->handlePageWidget($em, $nestedContext, $data['root']);
     }
 
     private function handlePageSource($em, $page, $data) {

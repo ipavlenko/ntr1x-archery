@@ -13,6 +13,7 @@ use JMS\Serializer\SerializationContext;
 
 use AppBundle\Entity\Portal;
 use AppBundle\Entity\Page;
+use AppBundle\Entity\Widget;
 use AppBundle\Entity\User;
 use AppBundle\Security\UserPrincipal;
 
@@ -210,6 +211,19 @@ class DefaultController extends Controller {
                         ])
                         ->setPortal($portal)
                     ;
+
+                    $root = (new Widget())
+                        ->setName('default-container/default-container-stack/default-stack-canvas')
+                        ->setPage($page)
+                        ->setParent(null)
+                        ->setIndex(0)
+                        ->setParams([
+                            'width' => [ "value" => 1200 ],
+                            'height' => [ "value" => null ],
+                        ])
+                    ;
+
+                    $page->setRoot($root);
 
                     $em->persist($page);
                     $em->flush();

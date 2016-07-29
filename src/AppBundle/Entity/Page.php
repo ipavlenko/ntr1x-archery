@@ -54,10 +54,9 @@ class Page
     private $params;
 
     /**
-     * @ORM\OneToMany(targetEntity="Widget", mappedBy="page", orphanRemoval=true, cascade={"persist", "remove"})
-     * @ORM\OrderBy({"index" = "ASC"})
+     * @ORM\OneToOne(targetEntity="Widget", mappedBy="page", orphanRemoval=true, cascade={"persist", "remove"})
      */
-    private $widgets;
+    private $root;
 
     /**
      * @ORM\OneToMany(targetEntity="Source", mappedBy="page", orphanRemoval=true, cascade={"persist", "remove"})
@@ -70,7 +69,6 @@ class Page
     private $storages;
 
     public function __construct() {
-        $this->widgets = new ArrayCollection();
         $this->sources = new ArrayCollection();
     }
 
@@ -181,40 +179,6 @@ class Page
     }
 
     /**
-     * Add widget
-     *
-     * @param \AppBundle\Entity\Widget $widget
-     *
-     * @return Page
-     */
-    public function addWidget(\AppBundle\Entity\Widget $widget)
-    {
-        $this->widgets[] = $widget;
-
-        return $this;
-    }
-
-    /**
-     * Remove widget
-     *
-     * @param \AppBundle\Entity\Widget $widget
-     */
-    public function removeWidget(\AppBundle\Entity\Widget $widget)
-    {
-        $this->widgets->removeElement($widget);
-    }
-
-    /**
-     * Get widgets
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getWidgets()
-    {
-        return $this->widgets;
-    }
-
-    /**
      * Add source
      *
      * @param \AppBundle\Entity\Source $source
@@ -304,5 +268,53 @@ class Page
     public function getParams()
     {
         return $this->params;
+    }
+
+    /**
+     * Add root
+     *
+     * @param \AppBundle\Entity\Widget $root
+     *
+     * @return Page
+     */
+    public function addRoot(\AppBundle\Entity\Widget $root)
+    {
+        $this->root[] = $root;
+
+        return $this;
+    }
+
+    /**
+     * Remove root
+     *
+     * @param \AppBundle\Entity\Widget $root
+     */
+    public function removeRoot(\AppBundle\Entity\Widget $root)
+    {
+        $this->root->removeElement($root);
+    }
+
+    /**
+     * Get root
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRoot()
+    {
+        return $this->root;
+    }
+
+    /**
+     * Set root
+     *
+     * @param \AppBundle\Entity\Widget $root
+     *
+     * @return Page
+     */
+    public function setRoot(\AppBundle\Entity\Widget $root = null)
+    {
+        $this->root = $root;
+
+        return $this;
     }
 }
