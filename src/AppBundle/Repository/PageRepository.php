@@ -52,9 +52,6 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
         $page = (new Page())
             ->setName($data['name'])
             ->setPortal($portal)
-            ->setTitle($data['title'])
-            ->setMetas($this->clearParams($data['metas']))
-            ->setParams($this->clearParams($data['params']))
         ;
 
         $em->persist($page);
@@ -67,9 +64,6 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
 
         $page = $this->findOneById($data['id'])
             ->setName($data['name'])
-            ->setTitle($data['title'])
-            ->setMetas($this->clearParams($data['metas']))
-            ->setParams($this->clearParams($data['params']))
         ;
 
         $em->persist($page);

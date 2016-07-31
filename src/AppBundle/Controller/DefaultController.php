@@ -206,9 +206,6 @@ class DefaultController extends Controller {
 
                     $page = (new Page())
                         ->setName('')
-                        ->setTitle([
-                            'value' => 'Default',
-                        ])
                         ->setPortal($portal)
                     ;
 

@@ -31,27 +31,10 @@ class Page
     private $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="json_array", nullable=false)
-     */
-    private $title;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Portal", inversedBy="pages")
      * @ORM\JoinColumn(name="portal_id", referencedColumnName="id", nullable=false)
      */
     private $portal;
-
-    /**
-     * @ORM\Column(name="metas", type="json_array", nullable=true)
-     */
-    private $metas;
-
-    /**
-     * @ORM\Column(name="params", type="json_array", nullable=true)
-     */
-    private $params;
 
     /**
      * @ORM\OneToOne(targetEntity="Widget", mappedBy="page", orphanRemoval=true, cascade={"persist", "remove"})
@@ -104,54 +87,6 @@ class Page
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set title
-     *
-     * @param array $title
-     *
-     * @return Page
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return array
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set metas
-     *
-     * @param array $metas
-     *
-     * @return Page
-     */
-    public function setMetas($metas)
-    {
-        $this->metas = $metas;
-
-        return $this;
-    }
-
-    /**
-     * Get metas
-     *
-     * @return array
-     */
-    public function getMetas()
-    {
-        return $this->metas;
     }
 
     /**
@@ -244,54 +179,6 @@ class Page
     public function getStorages()
     {
         return $this->storages;
-    }
-
-    /**
-     * Set params
-     *
-     * @param array $params
-     *
-     * @return Page
-     */
-    public function setParams($params)
-    {
-        $this->params = $params;
-
-        return $this;
-    }
-
-    /**
-     * Get params
-     *
-     * @return array
-     */
-    public function getParams()
-    {
-        return $this->params;
-    }
-
-    /**
-     * Add root
-     *
-     * @param \AppBundle\Entity\Widget $root
-     *
-     * @return Page
-     */
-    public function addRoot(\AppBundle\Entity\Widget $root)
-    {
-        $this->root[] = $root;
-
-        return $this;
-    }
-
-    /**
-     * Remove root
-     *
-     * @param \AppBundle\Entity\Widget $root
-     */
-    public function removeRoot(\AppBundle\Entity\Widget $root)
-    {
-        $this->root->removeElement($root);
     }
 
     /**
