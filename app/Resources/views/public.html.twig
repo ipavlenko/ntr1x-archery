@@ -6,18 +6,20 @@
 
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic,100,100italic,900,900italic&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic" rel="stylesheet" />
+
     <script>
         window.CKEDITOR_BASEPATH = '/assets/vendor/ckeditor/';
     </script>
 
     {% block stylesheets %}
-        <link href="{{ asset('assets/dist/vendor.css') }}" rel="stylesheet" />
-        <link href="{{ asset('assets/dist/app.css') }}" rel="stylesheet" />
+        <link href="{{ asset('assets/dist/css/vendor.css') }}" rel="stylesheet" />
+        <link href="{{ asset('assets/dist/css/app.css') }}" rel="stylesheet" />
     {% endblock %}
 
     {% block javascripts %}
-        <script src="{{ asset('assets/dist/vendor.js') }}"></script>
-        <script src="{{ asset('assets/dist/app.js') }}"></script>
+        <script src="{{ asset('assets/dist/js/vendor.js') }}"></script>
+        <script src="{{ asset('assets/dist/js/app.js') }}"></script>
     {% endblock %}
 </head>
 <body
@@ -35,6 +37,49 @@
 
 {% block templates %}
 {% verbatim %}
+<template id="bindings-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Edit Param</span>
+                        <span v-if="!original">New Param</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="bindings-dialog-binding">Binding</label>
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span v-if="getStrategy() == 'eval'">Eval </span>
+                                    <span v-if="getStrategy() != 'eval'">Interpolate </span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li :class="{ 'active': getStrategy() == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
+                                    <li :class="{ 'active': getStrategy() != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
+                                </ul>
+                            </div>
+                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding.expression" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
 <template id="domains-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -200,7 +245,89 @@
 
 </template>
 
-<template id="bindings-dialog">
+<template id="schemes-dialog">
+	<div class="ge ge-modal modal modal-center" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<form class="modal-content"
+				@submit.prevent="submit"
+				@reset.prevent="reset"
+			>
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+					<h4 class="modal-title">
+						<span v-if="original" class="label label-primary">{{ original.name }}</span>
+						<span v-if="original">&nbsp;Настройки схемы</span>
+						<span v-if="!original">Новая схема</span>
+                        <span>&gt;</span>
+                        <span v-if="isActive('main')">Основное</span>
+                        <span v-if="isActive('settings')">Настроки</span>
+					</h4>
+				</div>
+				<div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
+                                <li :class="{ 'active': isActive('settings') }"><a href="#" @click="activate('settings')">Настройки</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="overflow: auto">
+                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
+                                    <div class="form-group">
+                						<label for="dialog-schema-name">Имя</label>
+                						<input class="form-control" type="text" id="dialog-schema-name" required="true" v-model="current.name" />
+                					</div>
+                					<div class="form-group">
+                						<label for="dialog-schema-url">URL</label>
+                						<input class="form-control" type="text" id="dialog-schema-url" name="url" required="true" v-model="current.url" />
+                					</div>
+                                </div>
+                                <div class="tab-pane" :class="{ 'active': isActive('settings') }">
+                                    <schemes-settings :items.sync="current.settings"></schemes-settings>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-default">Отменить</button>
+					<button type="submit" class="btn btn-primary">Сохранить</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</template>
+
+<template id="schemes-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width: 60%">Схема</th>
+                    <th><a class="btn btn-xs btn-primary" @click="create({})">Добавить</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        <span class="label label-success">{{ item.name }}</span>
+                        &nbsp;
+                        <a :href="item.url">{{ item.url }}</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
+                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="schemes-settings-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
             <form class="modal-content"
@@ -211,36 +338,76 @@
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                     <h4 class="modal-title">
                         <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Edit Param</span>
-                        <span v-if="!original">New Param</span>
+                        <span v-if="original">&nbsp;Редактирование параметра</span>
+                        <span v-if="!original">Новый параметр</span>
                     </h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="bindings-dialog-binding">Binding</label>
+                        <label for="schemes-settings-dialog-name">Имя</label>
+                        <input class="form-control" type="text" id="schemes-settings-dialog-name" required="true" v-model="current.name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="schemes-settings-dialog-value">Значение</label>
                         <div class="input-group">
+                            <input class="form-control" type="text" id="schemes-settings-dialog-value" v-model="current.value" />
                             <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span v-if="getStrategy() == 'eval'">Eval </span>
-                                    <span v-if="getStrategy() != 'eval'">Interpolate </span>
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li :class="{ 'active': getStrategy() == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
-                                    <li :class="{ 'active': getStrategy() != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
-                                </ul>
+                                <bindings :model.sync="current" inline-template>
+                                    <button type="button" class="btn btn-default" @click="open">...</button>
+                                </bindings>
                             </div>
-                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding.expression" />
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
             </form>
         </div>
     </div>
+</template>
+
+<template id="schemes-settings-list">
+    <section>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width: 20%">Имя</th>
+                    <th style="width: 40%">Значение</th>
+                    <th><a class="btn btn-xs btn-primary" @click="create({ value: null, binding: null})">Добавить</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" v-show="item._action != 'remove'">
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>
+                        <span>{{ item.value }}</span>
+                        <span v-if="item.value">&nbsp;</span>
+                        <span v-if="item.binding" class="label label-primary">Связано</span>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
+                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>
+
+<template id="schemes-settings">
+
+    <schemes-settings-list :items.sync="items"></schemes-settings-list>
+
+</template>
+
+<template id="schemes">
+
+    <schemes-list :items.sync="items"></schemes-list>
+
 </template>
 
 <template id="shell-pages-dialog">
@@ -792,171 +959,6 @@
 
 </template>
 
-<template id="schemes-dialog">
-	<div class="ge ge-modal modal modal-center" role="dialog">
-		<div class="modal-dialog modal-lg">
-			<form class="modal-content"
-				@submit.prevent="submit"
-				@reset.prevent="reset"
-			>
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-					<h4 class="modal-title">
-						<span v-if="original" class="label label-primary">{{ original.name }}</span>
-						<span v-if="original">&nbsp;Настройки схемы</span>
-						<span v-if="!original">Новая схема</span>
-                        <span>&gt;</span>
-                        <span v-if="isActive('main')">Основное</span>
-                        <span v-if="isActive('settings')">Настроки</span>
-					</h4>
-				</div>
-				<div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
-                                <li :class="{ 'active': isActive('settings') }"><a href="#" @click="activate('settings')">Настройки</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="overflow: auto">
-                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
-                                    <div class="form-group">
-                						<label for="dialog-schema-name">Имя</label>
-                						<input class="form-control" type="text" id="dialog-schema-name" required="true" v-model="current.name" />
-                					</div>
-                					<div class="form-group">
-                						<label for="dialog-schema-url">URL</label>
-                						<input class="form-control" type="text" id="dialog-schema-url" name="url" required="true" v-model="current.url" />
-                					</div>
-                                </div>
-                                <div class="tab-pane" :class="{ 'active': isActive('settings') }">
-                                    <schemes-settings :items.sync="current.settings"></schemes-settings>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-				</div>
-				<div class="modal-footer">
-					<button type="reset" class="btn btn-default">Отменить</button>
-					<button type="submit" class="btn btn-primary">Сохранить</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</template>
-
-<template id="schemes-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 60%">Схема</th>
-                    <th><a class="btn btn-xs btn-primary" @click="create({})">Добавить</a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td>
-                        <span class="label label-success">{{ item.name }}</span>
-                        &nbsp;
-                        <a :href="item.url">{{ item.url }}</a>
-                    </td>
-                    <td>
-                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
-                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</template>
-
-<template id="schemes-settings-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Редактирование параметра</span>
-                        <span v-if="!original">Новый параметр</span>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="schemes-settings-dialog-name">Имя</label>
-                        <input class="form-control" type="text" id="schemes-settings-dialog-name" required="true" v-model="current.name" />
-                    </div>
-                    <div class="form-group">
-                        <label for="schemes-settings-dialog-value">Значение</label>
-                        <div class="input-group">
-                            <input class="form-control" type="text" id="schemes-settings-dialog-value" v-model="current.value" />
-                            <div class="input-group-btn">
-                                <bindings :model.sync="current" inline-template>
-                                    <button type="button" class="btn btn-default" @click="open">...</button>
-                                </bindings>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
-<template id="schemes-settings-list">
-    <section>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 20%">Имя</th>
-                    <th style="width: 40%">Значение</th>
-                    <th><a class="btn btn-xs btn-primary" @click="create({ value: null, binding: null})">Добавить</a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>
-                        <span>{{ item.value }}</span>
-                        <span v-if="item.value">&nbsp;</span>
-                        <span v-if="item.binding" class="label label-primary">Связано</span>
-                    </td>
-                    <td>
-                        <a class="btn btn-xs btn-default" @click="update(item)">Редактировать</a>
-                        <a class="btn btn-xs btn-danger" @click="remove(item)">Удалить</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</template>
-
-<template id="schemes-settings">
-
-    <schemes-settings-list :items.sync="items"></schemes-settings-list>
-
-</template>
-
-<template id="schemes">
-
-    <schemes-list :items.sync="items"></schemes-list>
-
-</template>
-
 <template id="shell-actions">
     <section class="ge ge-actions">
         <div class="pull-left">
@@ -1226,41 +1228,6 @@
     </section>
 </template>
 
-<template id="shell-palette-item">
-    <div class="ge ge-palette-item">
-        <div class="ge ge-palette-widget wg-sortable-item" data-widget="{{ item.name }}">
-            <img class="when-in-palette" :src="item.thumbnail" />
-        </div>
-    </div>
-</template>
-
-<template id="shell-palette">
-    <section class="ge ge-palette">
-        <div class="ge ge-palette-selector">
-            <div class="dropdown">
-                <button class="btn btn-palette dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    {{ globals.selection.category.title }} <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li v-for="category in categories" v-if="!category.ignore"><a @click.prevent="trigger('selectCategory', category)">{{ category.title }}</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="ge ge-palette-categories wg-sortable-container" v-scrollable>
-            <div v-for="group in category.groups()" v-if="!group.ignore" class="ge ge-palette-category">
-                <div class="ge ge-category-title">{{ group.title }}</div>
-                <div class="ge ge-category-palette">
-                    <palette-item v-for="item in group.items()" v-if="!item.hidden"
-                        :category="category"
-                        :group="group"
-                        :item="item"
-                    ></palette-item>
-                </div>
-            </div>
-        </div>
-    </section>
-</template>
-
 <template id="shell-private">
     <div class="ge ge-shell ge-shell-private">
         <div class="ge ge-head">
@@ -1336,6 +1303,41 @@
     </div>
 </template>
 
+<template id="shell-palette-item">
+    <div class="ge ge-palette-item">
+        <div class="ge ge-palette-widget wg-sortable-item" data-widget="{{ item.name }}">
+            <img class="when-in-palette" :src="item.thumbnail" />
+        </div>
+    </div>
+</template>
+
+<template id="shell-palette">
+    <section class="ge ge-palette">
+        <div class="ge ge-palette-selector">
+            <div class="dropdown">
+                <button class="btn btn-palette dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    {{ globals.selection.category.title }} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li v-for="category in categories" v-if="!category.ignore"><a @click.prevent="trigger('selectCategory', category)">{{ category.title }}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="ge ge-palette-categories wg-sortable-container" v-scrollable>
+            <div v-for="group in category.groups()" v-if="!group.ignore" class="ge ge-palette-category">
+                <div class="ge ge-category-title">{{ group.title }}</div>
+                <div class="ge ge-category-palette">
+                    <palette-item v-for="item in group.items()" v-if="!item.hidden"
+                        :category="category"
+                        :group="group"
+                        :item="item"
+                    ></palette-item>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
 <template id="shell-sources">
     <section class="ge ge-panel ge-sources">
         <pages-sources :items.sync="sources" :globals.sync="globals" inline-template>
@@ -1404,6 +1406,48 @@
             :editable.sync="editable"
             :items.sync="model.widgets"
         ></div>
+    </div>
+</template>
+
+<template id="shell-widgets-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                  @submit.prevent="submit"
+                  @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Редактирование виджета</span>
+                        <span v-if="!original">Новый виджет</span>
+                        <span>&gt;</span>
+                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -1630,156 +1674,119 @@
 
 </template>
 
-<template id="shell-widgets-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                  @submit.prevent="submit"
-                  @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Редактирование виджета</span>
-                        <span v-if="!original">Новый виджет</span>
-                        <span>&gt;</span>
-                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                            </ul>
+<template id="default-carousel">
+        <default-box :bindings.sync="bindings" :class="'wg wg-default-carousel'">
+            <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
+
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li v-for="item in bindings.items" data-target="#{{ systemId }}" data-slide-to="{{ $index }}" :class="{ 'active' : !$index }"></li>
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div v-for="item in bindings.items" class="item" :class="{ 'active' : !$index }" :style="{
+                        'height': bindings.height,
+                        'background': item.background,
+                        'background-size': item.backgroundSize,
+                    }">
+                        <div v-if="item.caption" class="carousel-caption">
+                            {{{ item.caption }}}
                         </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <a class="left carousel-control" href="#{{ systemId }}" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#{{ systemId }}" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+
+            </div>
+        </default-box>
+</template>
+
+<template id="default-gallery">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-gallery">
+
+        <div id="{{ systemId }}-carousel" class="wg wg-carousel carousel slide" data-ride="carousel" v-if="bindings.items.collection"
+            :class="{
+                'wg-dock-above': !bindings.dock || bindings.dock == 'above',
+                'wg-dock-top': bindings.dock == 'top',
+                'wg-dock-right': bindings.dock == 'right',
+                'wg-dock-bottom': bindings.dock == 'bottom',
+                'wg-dock-left': bindings.dock == 'left',
+            }"
+        >
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <div v-for="pd in matrix" class="item" :class="{ 'active' : !$index }">
+                    <div class="wg wg-item-table" :style="{
+                        'text-align': bindings.align,
+                        'color': bindings.color,
+                        'border-spacing': bindings.border.spacing,
+                        'border-collapse': bindings.border.collapse,
+                    }">
+                        <div class="wg wg-item-row" v-for="rd in pd">
+                            <div class="wg wg-item-cell" v-for="cd in rd">
+                                <div class="wg wg-cell-content" v-if="cd"
+                                    :style="{
+                                        width: cd.width || bindings.items.style.width,
+                                        height: cd.height || bindings.items.style.height,
+                                        margin: cd.margin || bindings.items.style.margin,
+                                        padding: cd.padding || bindings.items.style.padding,
+                                        background: cd.background || bindings.items.style.background,
+                                    }"
+                                >
+                                    <div class="wg wg-content-drawing" v-if="cd"
+                                        :style="{
+                                            'width': cd.drawing.width || bindings.items.style.drawing.width,
+                                            'height': cd.drawing.height || bindings.items.style.drawing.height,
+                                            'margin': cd.drawing.margin || bindings.items.style.drawing.margin,
+                                            'padding': cd.drawing.padding || bindings.items.style.drawing.padding,
+                                            'background': cd.drawing.background || bindings.items.style.drawing.background,
+                                        }"
+                                    >
+                                    </div>
+                                    <div class="wg wg-content-description" v-if="cd"
+                                        :style="{
+                                            'width': cd.description.width || bindings.items.style.description.width,
+                                            'height': cd.description.height || bindings.items.style.description.height,
+                                            'margin': cd.description.margin || bindings.items.style.description.margin,
+                                            'padding': cd.description.padding || bindings.items.style.description.padding,
+                                            'background': cd.description.background || bindings.items.style.description.background,
+                                            'color': cd.description.color || bindings.items.style.description.color,
+                                        }"
+                                    >{{{ cd.description.content }}}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
-<template id="default-button">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
-        <div class="form-group">
-            <button type="{{ bindings.type }}" class="btn btn-block" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                }"
-                :style="{
-                    height: bindings.height
-                }"
-            >{{ bindings.title }}</button>
-        </div>
-    </default-box>
-</template>
-
-<template id="default-input-checkbox">
-    <default-box :bindings.sync="bindings" :class="'wg wg-widget wg-default-input-checkbox'">
-        <div class="form-group">
-            <div class="checkbox" v-for="item in bindings.items">
-                <label>
-                    <input type="checkbox" :name="bindings.name" value="{{ item.value }}" v-model="bindings.model.value"> {{ item.label }}
-                </label>
             </div>
-        </div>
 
-    </default-box>
-</template>
+            <!-- Indicators -->
+            <ol class="carousel-indicators" v-if="matrix.length > 1">
+                <li v-for="item in matrix" data-target="#{{ systemId }}-carousel" data-slide-to="{{ $index }}" :class="{ 'active' : !$index }"></li>
+            </ol>
 
-<template id="default-input-radio">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-radio">
-        <div class="form-group">
-            <div class="radio" v-for="item in bindings.items">
-                <label>
-                    <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
-                </label>
-            </div>
-        </div>
+            <!-- Controls -->
+            <!--
+            <a v-if="matrix.length > 1" class="left carousel-control" href="#{{ systemId }}-carousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a v-if="matrix.length > 1" class="right carousel-control" href="#{{ systemId }}-carousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+            -->
 
-    </default-box>
-</template>
-
-<template id="default-input-text">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-text">
-        <div class="form-group">
-            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
-            <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder }}" v-model="bindings.model.value" />
-        </div>
-    </default-box>
-</template>
-
-<template id="default-input-textarea">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-textarea">
-        <div class="form-group">
-            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
-            <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model.value" style="{
-                height: bindings.height
-            }"></textarea>
-        </div>
-    </default-box>
-</template>
-
-<template id="default-check">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-check">
-        <div class="btn-group">
-            <label class="btn" v-for="item in bindings.items" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                    'active': bindings.model.value.indexOf(item.value) > -1,
-                }"
-                :style="{
-                    height: bindings.height
-                }"
-            >
-                <input type="checkbox" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
-            </label>
-        </div>
-    </default-box>
-</template>
-
-<template id="default-radio">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-radio">
-        <div class="btn-group">
-            <label class="btn" v-for="item in bindings.items" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                    'active': bindings.model.value == item.value,
-                }"
-                :style="{
-                    height: bindings.height
-                }"
-            >
-                <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
-            </label>
         </div>
     </default-box>
 </template>
@@ -1870,42 +1877,6 @@
     </section>
 </template>
 
-<template id="default-carousel">
-        <default-box :bindings.sync="bindings" :class="'wg wg-default-carousel'">
-            <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
-
-                <!-- Indicators -->
-                <ol class="carousel-indicators">
-                    <li v-for="item in bindings.items" data-target="#{{ systemId }}" data-slide-to="{{ $index }}" :class="{ 'active' : !$index }"></li>
-                </ol>
-
-                <!-- Wrapper for slides -->
-                <div class="carousel-inner" role="listbox">
-                    <div v-for="item in bindings.items" class="item" :class="{ 'active' : !$index }" :style="{
-                        'height': bindings.height,
-                        'background': item.background,
-                        'background-size': item.backgroundSize,
-                    }">
-                        <div v-if="item.caption" class="carousel-caption">
-                            {{{ item.caption }}}
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Controls -->
-                <a class="left carousel-control" href="#{{ systemId }}" role="button" data-slide="prev">
-                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="right carousel-control" href="#{{ systemId }}" role="button" data-slide="next">
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-
-            </div>
-        </default-box>
-</template>
-
 <template id="default-navbar">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-navbar">
         <nav class="navbar" :class="{
@@ -1930,90 +1901,159 @@
     </default-box>
 </template>
 
-<template id="default-gallery">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-gallery">
+<template id="default-image">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-image">
+        <img :src="bindings.src" />
+    </default-box>
+</template>
 
-        <div id="{{ systemId }}-carousel" class="wg wg-carousel carousel slide" data-ride="carousel" v-if="bindings.items.collection"
-            :class="{
-                'wg-dock-above': !bindings.dock || bindings.dock == 'above',
-                'wg-dock-top': bindings.dock == 'top',
-                'wg-dock-right': bindings.dock == 'right',
-                'wg-dock-bottom': bindings.dock == 'bottom',
-                'wg-dock-left': bindings.dock == 'left',
-            }"
-        >
-
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner" role="listbox">
-                <div v-for="pd in matrix" class="item" :class="{ 'active' : !$index }">
-                    <div class="wg wg-item-table" :style="{
-                        'text-align': bindings.align,
-                        'color': bindings.color,
-                        'border-spacing': bindings.border.spacing,
-                        'border-collapse': bindings.border.collapse,
-                    }">
-                        <div class="wg wg-item-row" v-for="rd in pd">
-                            <div class="wg wg-item-cell" v-for="cd in rd">
-                                <div class="wg wg-cell-content" v-if="cd"
-                                    :style="{
-                                        width: cd.width || bindings.items.style.width,
-                                        height: cd.height || bindings.items.style.height,
-                                        margin: cd.margin || bindings.items.style.margin,
-                                        padding: cd.padding || bindings.items.style.padding,
-                                        background: cd.background || bindings.items.style.background,
-                                    }"
-                                >
-                                    <div class="wg wg-content-drawing" v-if="cd"
-                                        :style="{
-                                            'width': cd.drawing.width || bindings.items.style.drawing.width,
-                                            'height': cd.drawing.height || bindings.items.style.drawing.height,
-                                            'margin': cd.drawing.margin || bindings.items.style.drawing.margin,
-                                            'padding': cd.drawing.padding || bindings.items.style.drawing.padding,
-                                            'background': cd.drawing.background || bindings.items.style.drawing.background,
-                                        }"
-                                    >
-                                    </div>
-                                    <div class="wg wg-content-description" v-if="cd"
-                                        :style="{
-                                            'width': cd.description.width || bindings.items.style.description.width,
-                                            'height': cd.description.height || bindings.items.style.description.height,
-                                            'margin': cd.description.margin || bindings.items.style.description.margin,
-                                            'padding': cd.description.padding || bindings.items.style.description.padding,
-                                            'background': cd.description.background || bindings.items.style.description.background,
-                                            'color': cd.description.color || bindings.items.style.description.color,
-                                        }"
-                                    >{{{ cd.description.content }}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<template id="default-input-checkbox">
+    <default-box :bindings.sync="bindings" :class="'wg wg-widget wg-default-input-checkbox'">
+        <div class="form-group">
+            <div class="checkbox" v-for="item in bindings.items">
+                <label>
+                    <input type="checkbox" :name="bindings.name" value="{{ item.value }}" v-model="bindings.model.value"> {{ item.label }}
+                </label>
             </div>
+        </div>
 
-            <!-- Indicators -->
-            <ol class="carousel-indicators" v-if="matrix.length > 1">
-                <li v-for="item in matrix" data-target="#{{ systemId }}-carousel" data-slide-to="{{ $index }}" :class="{ 'active' : !$index }"></li>
-            </ol>
+    </default-box>
+</template>
 
-            <!-- Controls -->
-            <!--
-            <a v-if="matrix.length > 1" class="left carousel-control" href="#{{ systemId }}-carousel" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a v-if="matrix.length > 1" class="right carousel-control" href="#{{ systemId }}-carousel" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-            -->
+<template id="default-input-radio">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-radio">
+        <div class="form-group">
+            <div class="radio" v-for="item in bindings.items">
+                <label>
+                    <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
+                </label>
+            </div>
+        </div>
 
+    </default-box>
+</template>
+
+<template id="default-input-text">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-text">
+        <div class="form-group">
+            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
+            <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder }}" v-model="bindings.model.value" />
         </div>
     </default-box>
 </template>
 
-<template id="default-image">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-image">
-        <img :src="bindings.src" />
+<template id="default-input-textarea">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-textarea">
+        <div class="form-group">
+            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
+            <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model.value" style="{
+                height: bindings.height
+            }"></textarea>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-button">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
+        <div class="form-group">
+            <button type="{{ bindings.type }}" class="btn btn-block" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                }"
+                :style="{
+                    height: bindings.height
+                }"
+            >{{ bindings.title }}</button>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-box">
+    <section :class="class" :id="bindings.id" :style="{
+        'border': bindings.outer.border,
+        'background': bindings.outer.background,
+        'margin': bindings.outer.margin,
+        'padding': bindings.outer.padding,
+    }">
+        <div class="wg wg-content" :style="{
+            'height': bindings.height,
+            'width': bindings.width,
+            'margin': bindings.inner.margin,
+            'padding': bindings.inner.padding,
+            'border': bindings.inner.border,
+            'background': bindings.inner.background,
+        }"><slot>Empty</slot></div>
+    </section>
+</template>
+
+<template id="default-check">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-check">
+        <div class="btn-group">
+            <label class="btn" v-for="item in bindings.items" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                    'active': bindings.model.value.indexOf(item.value) > -1,
+                }"
+                :style="{
+                    height: bindings.height
+                }"
+            >
+                <input type="checkbox" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
+            </label>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-radio">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-radio">
+        <div class="btn-group">
+            <label class="btn" v-for="item in bindings.items" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                    'active': bindings.model.value == item.value,
+                }"
+                :style="{
+                    height: bindings.height
+                }"
+            >
+                <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
+            </label>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-placeholder">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
+        <div class="wg wg-table" :style="{
+            height: bindings.height,
+        }">
+            <span class="wg wg-cell">{{{ bindings.content }}}</span>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-stub">
+    <default-box :bindings.sync="bindings" class="wg wg-default-stub">
+        <div class="wg wg-table">
+            <span class="wg wg-cell">
+                {{{ bindings.content }}}
+            </span>
+        </div>
     </default-box>
 </template>
 
@@ -2047,44 +2087,6 @@
             {{{ bindings.content }}}
         </div>
     </section>
-</template>
-
-<template id="default-placeholder">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
-        <div class="wg wg-table" :style="{
-            height: bindings.height,
-        }">
-            <span class="wg wg-cell">{{{ bindings.content }}}</span>
-        </div>
-    </default-box>
-</template>
-
-<template id="default-box">
-    <section :class="class" :id="bindings.id" :style="{
-        'height': bindings.height,
-        'width': bindings.width,
-        'border': bindings.outer.border,
-        'background': bindings.outer.background,
-        'margin': bindings.outer.margin,
-        'padding': bindings.outer.padding,
-    }">
-        <div class="wg wg-content" :style="{
-            'margin': bindings.inner.margin,
-            'padding': bindings.inner.padding,
-            'border': bindings.inner.border,
-            'background': bindings.inner.background,
-        }"><slot>Empty</slot></div>
-    </section>
-</template>
-
-<template id="default-stub">
-    <default-box :bindings.sync="bindings" class="wg wg-default-stub">
-        <div class="wg wg-table">
-            <span class="wg wg-cell">
-                {{{ bindings.content }}}
-            </span>
-        </div>
-    </default-box>
 </template>
 
 <template id="landing-gallery-page">
@@ -2248,12 +2250,6 @@
     </div>
 </template>
 
-<template id="landing-contacts">
-    <div class="ld ld-section ld-contacts">
-        <h3>Contacts</h3>
-    </div>
-</template>
-
 <template id="landing-feedback">
     <div class="ld ld-section ld-feedback">
         <div class="ld ld-container">
@@ -2332,19 +2328,9 @@
     </div>
 </template>
 
-<template id="landing-footer">
-    <div class="ld ld-section ld-footer">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-copyright">
-                            &copy; 2016 NTR, LLC. Archery Cloud Platform.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<template id="landing-contacts">
+    <div class="ld ld-section ld-contacts">
+        <h3>Contacts</h3>
     </div>
 </template>
 
@@ -2644,6 +2630,22 @@
     </div>
 </template>
 
+<template id="landing-footer">
+    <div class="ld ld-section ld-footer">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-copyright">
+                            &copy; 2016 NTR, LLC. Archery Cloud Platform.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="landing-manage-create">
     <div class="ld ld-section ld-body ld-manage ld-manage-create">
         <div class="ld ld-table">
@@ -2793,6 +2795,24 @@
     </div>
 </template>
 
+<template id="landing-super">
+    <div class="ld ld-section ld-super">
+        <div class="ld ld-container">
+            <ul class="nav nav-pills pull-left">
+                <li role="presentation"><a href="#">NTR1X</a></li>
+                <li role="presentation"><a v-link="{ path: '/' }">Archery</a></li>
+                <li role="presentation"><a href="#">Blog</a></li>
+            </ul>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation"><a href="#">FAQ</a></li>
+                <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
+                <li role="presentation"><a href="#">Contacts</a></li>
+                <li role="presentation"><a href="#">Documentation</a></li>
+            </ul>
+        </div>
+    </div>
+</template>
+
 <template id="landing-storage-full">
     <div class="ld ld-section ld-storage ld-storage-full">
         <div class="ld ld-container">
@@ -2910,24 +2930,6 @@
     </div>
 </template>
 
-<template id="landing-super">
-    <div class="ld ld-section ld-super">
-        <div class="ld ld-container">
-            <ul class="nav nav-pills pull-left">
-                <li role="presentation"><a href="#">NTR1X</a></li>
-                <li role="presentation"><a v-link="{ path: '/' }">Archery</a></li>
-                <li role="presentation"><a href="#">Blog</a></li>
-            </ul>
-            <ul class="nav nav-pills pull-right">
-                <li role="presentation"><a href="#">FAQ</a></li>
-                <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
-                <li role="presentation"><a href="#">Contacts</a></li>
-                <li role="presentation"><a href="#">Documentation</a></li>
-            </ul>
-        </div>
-    </div>
-</template>
-
 <template id="landing-video">
     <div class="ld ld-section ld-video">
         <div class="ld ld-container">
@@ -2964,6 +2966,59 @@
             </div>
         </div>
     </div>
+</template>
+
+<template id="academy-header">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-header">
+        <div class="wg wg-header-table">
+            <div class="wg wg-table-promo">
+                {{{ bindings.promo }}}
+            </div>
+            <div class="wg wg-table-logo">
+                <img :src="bindings.logo" />
+            </div>
+            <div class="wg wg-table-links">
+                <div class="wg wg-links-socials">
+                    <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                    <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                    <a href="#"><i class="fa fa-google" aria-hidden="true"></i></a>
+                    <a href="#"><i class="fa fa-vk" aria-hidden="true"></i></a>
+                </div>
+                <div class="wg wg-links-email">
+                    <a href="#">
+                        <span>{{ bindings.email }}</span>
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <div class="wg wg-links-phone">
+                    <a href="#">
+                        <span>{{ bindings.phone }}</span>
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </default-box>
+</template>
+
+<template id="academy-menu">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-menu">
+        <ul class="wg wg-menu-table">
+            <li v-for="item in bindings.items.collection" class="wg wg-table-item" :class="{ 'active': item.active }">
+                <a v-if="item.vlink" v-link="{ path: item.vlink }" :style="{
+                    'margin': item.margin || bindings.items.style.margin,
+                    'padding': item.padding || bindings.items.style.padding,
+                    'background': item.background || bindings.items.style.background,
+                }">{{{ item.title }}}</a>
+                <a v-if="!item.vlink" :href="item.href" :style="{
+                    'margin': item.margin || bindings.items.style.margin,
+                    'padding': item.padding || bindings.items.style.padding,
+                    'background': item.background || bindings.items.style.background,
+                }"
+                >{{{ item.title }}}</a>
+            </li>
+        </ul>
+    </default-box>
 </template>
 
 {% endverbatim %}
