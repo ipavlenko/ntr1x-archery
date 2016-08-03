@@ -43,6 +43,9 @@
         "dist/css/bootstrap-theme.css"
       ]
     },
+    "ckeditor": {
+      "main": []
+    },
     "font-awesome": {
       "main": [
         "css/font-awesome.css"
@@ -76,7 +79,7 @@
     "ntr1x-archery-widgets": {
       "main": []
     },
-    "ntr1x-archery-academy": {
+    "ntr1x-archery-widgets-academy": {
       "main": []
     }
   }

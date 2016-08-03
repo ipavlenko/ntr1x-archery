@@ -1,18 +1,22 @@
 var gulp = require('gulp');
-var browserify = require('gulp-browserify');
 var concat = require('gulp-concat');
 var cleancss = require('gulp-clean-css');
 var fileinclude = require('gulp-file-include');
 var sourcemaps = require('gulp-sourcemaps');
-var streamqueue  = require('streamqueue');
-var lib    = require('bower-files')();
+var babel = require('gulp-babel');
+var uglify = require('gulp-uglify');
+var streamqueue = require('streamqueue');
+var gulpif = require('gulp-if');
+var lib = require('bower-files')();
+
+var debug = false;
 
 gulp.task('vendor-scripts', function() {
     return gulp.src(lib.ext('js').files)
         .pipe(sourcemaps.init())
-        // .pipe(browserify())
         .pipe(concat('vendor.js'))
-        .pipe(sourcemaps.write())
+        .pipe(gulpif(!debug, uglify()))
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('web/assets/dist/js/'))
 })
 
@@ -21,7 +25,7 @@ gulp.task('vendor-styles', function() {
         .pipe(sourcemaps.init())
         .pipe(cleancss())
         .pipe(concat('vendor.css'))
-        .pipe(sourcemaps.write())
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('web/assets/dist/css/'));
 })
 
@@ -44,9 +48,10 @@ gulp.task('dev-scripts', function() {
         gulp.src([ '../ntr1x-archery-widgets-academy/src/**/*.js' ])
     )
         .pipe(sourcemaps.init())
-        // .pipe(browserify())
         .pipe(concat('app.js'))
-        .pipe(sourcemaps.write())
+        .pipe(gulpif(!debug, babel()))
+        .pipe(gulpif(!debug, uglify()))
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('web/assets/dist/js/'))
 })
 
@@ -62,7 +67,7 @@ gulp.task('dev-styles', function() {
         .pipe(sourcemaps.init())
         .pipe(cleancss())
         .pipe(concat('app.css'))
-        .pipe(sourcemaps.write())
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('web/assets/dist/css/'));
 })
 
@@ -102,6 +107,8 @@ gulp.task('default', [
 })
 
 gulp.task('watch', function() {
+
+    debug = true;
 
     gulp.start('default');
 
