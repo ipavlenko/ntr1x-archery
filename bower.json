@@ -28,12 +28,7 @@
     "vue": "latest",
     "vue-validator": "latest",
     "vue-resource": "latest",
-    "vue-router": "latest",
-    "ntr1x-archery-core": "../ntr1x-archery-core",
-    "ntr1x-archery-shell": "../ntr1x-archery-shell",
-    "ntr1x-archery-landing": "../ntr1x-archery-landing",
-    "ntr1x-archery-widgets": "../ntr1x-archery-widgets",
-    "ntr1x-archery-widgets-academy": "../ntr1x-archery-widgets-academy"
+    "vue-router": "latest"
   },
   "overrides": {
     "bootstrap": {
@@ -66,21 +61,6 @@
       "main": [
         "dist/vue-validator.js"
       ]
-    },
-    "ntr1x-archery-core": {
-      "main": []
-    },
-    "ntr1x-archery-shell": {
-      "main": []
-    },
-    "ntr1x-archery-landing": {
-      "main": []
-    },
-    "ntr1x-archery-widgets": {
-      "main": []
-    },
-    "ntr1x-archery-widgets-academy": {
-      "main": []
     }
   }
 }
