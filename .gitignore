@@ -2,7 +2,6 @@
 .idea
 
 /web/assets/vendor
-/web/assets/dist
 /web/bundles/
 /build/
 /phpunit.xml
