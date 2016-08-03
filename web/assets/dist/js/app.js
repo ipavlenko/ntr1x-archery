@@ -1,4 +1,5753 @@
-"use strict";var _typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol?"symbol":typeof e};window.Core=function(e,t){var n={};return n}(jQuery,Vue),function(e,t,n){n.TabsMixin=function(e){return{data:function(){return{tabs:{active:e}}},methods:{activate:function(e){this.tabs.active=e},isActive:function(e){return this.tabs.active==e}}}},n.ActionMixin=function(e){return{props:{model:Object,globals:Object,context:Object},methods:{open:function(n){new e({data:{globals:this.globals,owner:this,context:n||this.context,original:this.model,current:JSON.parse(JSON.stringify(this.model))},methods:{submit:function(){this.owner.doApply(this.current),this.$remove(),this.$destroy()},reset:function(){this.$remove(),this.$destroy()}}}).$mount().$appendTo(t("body").get(0))},doApply:function(e){Object.assign(this.model,JSON.parse(JSON.stringify(e)),{_action:this.model._action?this.model._action:"update"}),t(window).trigger("resize")}}}},n.EditorMixin=function(e,n){return{props:{items:Array,globals:Object},methods:{trigger:function(e,t,n){this.$dispatch(e,{item:t,context:n})},create:function(e,a){new n({data:{globals:this.globals,owner:this,context:a,original:null,current:e?JSON.parse(JSON.stringify(e)):{}},methods:{submit:function(){this.owner.doCreate(this.current),this.$remove(),this.$destroy()},reset:function(){this.$remove(),this.$destroy()}}}).$mount().$appendTo(t("body").get(0))},remove:function(e,t){this.doRemove(e,t)},update:function(e,a){this.active=e,new n({data:{globals:this.globals,owner:this,context:a,original:e,current:JSON.parse(JSON.stringify(e))},methods:{submit:function(){this.owner.doUpdate(this.current),this.$remove(),this.$destroy()},reset:function(){this.$remove(),this.$destroy()}}}).$mount().$appendTo(t("body").get(0))},doCreate:function(e,n){this.items.push(Object.assign({},JSON.parse(JSON.stringify(e)),{_action:"create"})),this.$set("items",t.extend(!0,[],this.items)),t(window).trigger("resize"),this.active=null},doUpdate:function(e,n){Object.assign(this.active,JSON.parse(JSON.stringify(e)),{_action:this.active._action?this.active._action:"update"}),this.items=this.items.slice(),t(window).trigger("resize"),this.active=null},doRemove:function(e,n){var a=this.items.indexOf(e);if(a!==-1){var e=this.items[a];"create"==e._action?this.items.$remove(e):e._action="remove"}this.$set("items",t.extend(!0,[],this.items)),t(window).trigger("resize"),this.active=null}},events:{create:function(e){this.create(e.item,e.context)},update:function(e){this.update(e.item,e.context)},remove:function(e){this.remove(e.item,e.context)},doCreate:function(e){this.doCreate(e.item,e.context)},doUpdate:function(e){this.doUpdate(e.item,e.context)},doRemove:function(e){this.doRemove(e.item,e.context)}}}},n.ListViewerMixin={props:{items:Array,globals:Object},methods:{trigger:function(e,t){this.$dispatch(e,{item:item,context:context})},create:function(e,t){this.$dispatch("create",{item:e,context:t})},update:function(e,t){this.$dispatch("update",{item:e,context:t})},remove:function(e,t){this.$dispatch("remove",{item:e,context:t})}}},n.ModalEditorMixin={attached:function(){var e=this;t(this.$el).modal("show"),t(this.$el).on("hide.bs.modal",function(t){t.stopPropagation(),e.reset()})},detached:function(){t(this.$el).modal("hide")},methods:{submit:function(){},reset:function(){}}}}(Vue,jQuery,Core),function(e,t,n){n.WidgetMixin={props:{page:Object,data:Object,storage:Object,stack:Object,bindings:Object,children:Array,editable:Boolean},data:function(){return{systemId:this.systemId}},created:function(){this.randomId=t.service("palette").generateId("widget-"),this.$watch("bindings.id",function(e){e?this.systemId=e:this.systemId=this.randomId},{immediate:!0})},methods:{trigger:function(e,t,n){this.$dispatch(e,{item:t,context:n})}}},n.StackedMixin={props:{globals:Object,settings:Object,page:Object,data:Object,storage:Object,editable:Boolean,children:Array},data:function(){return{stackId:this.stackId}},created:function(){this.stackId=t.service("palette").generateId("stack-")}}}(jQuery,Vue,Core),function(e,t,n,a){function i(t,n){var a=this;this.$element=t,this.options=e.extend({},o,n),t.on("mousedown.sortable",this.options.itemSelector,function(e){a.handleStart(e)}),this.draggable=null,s.push(this)}var o={drag:!0,drop:!0,vertical:!0,containerSelector:"ol, ul",itemSelector:"li",excludeSelector:"",bodyClass:"dragging",activeClass:"active",draggedClass:"dragged",verticalClass:"vertical",horizontalClass:"horizontal",placeholderClass:"placeholder",placeholder:'<li class="placeholder"></li>',onDragStart:function(e,t,n){var a={height:e.$item.outerHeight(),width:e.$item.outerWidth()};e.$originalItem=e.$item,e.$item=e.$originalItem.clone().addClass(e.sortable.options.draggedClass).css({position:"fixed",left:t.pageX-e.adjustment.left,top:t.pageY-e.adjustment.top,width:a.width,height:a.height}).appendTo(e.$parent)},onDrag:function(e,t,n){e.$item.css({left:t.pageX-e.adjustment.left,top:t.pageY-e.adjustment.top})},onDrop:function(e,t,n){e.$item.remove(),e.location&&(e.$item=e.location.before?e.$item.insertBefore(e.location.$item):e.$item.insertAfter(e.location.$item),e.$item.css({position:"",left:"",top:"",width:"",height:""}))}},r=null,s=[];e(document).ready(function(){e(document).on("mouseup.sortable",function(e){r&&r.sortable.handleEnd(e,r)}).on("mousemove.sortable",function(e){r&&r.sortable.handleDrag(e,r)})}),i.prototype={dropLocation:function(t){var n,a;if(r){var i=r.$item.css("display");r.$item.css({display:"none"});for(var o=0;o<s.length;o++){var l=s[o];if(l.options.drop){var c=e(document.elementFromPoint(t.pageX,t.pageY)).closest(l.options.itemSelector);if(c.length&&c.closest(l.$element).length){n=c,a=l;break}}}r.$item.css({display:i})}else for(var o=0;o<s.length;o++){var l=s[o];if(l.options.drop){var c=e(document.elementFromPoint(t.pageX,t.pageY)).closest(l.options.itemSelector);if(c.length&&c.closest(l.$element).length){n=c,a=l;break}}}if(a&&n&&n.length){var p=n.closest(a.options.containerSelector),d=n.offset(),u={width:n.outerWidth(),height:n.outerHeight()},g=this.options.vertical?p.hasClass(a.options.horizontalClass)?"h":"v":p.hasClass(a.options.verticalClass)?"v":"h",m="h"==g?t.pageX-d.left<u.width/2:t.pageY-d.top<u.height/2;return{$item:n,$container:p,sortable:a,before:m}}return null},handleStart:function(t){if(this.options.excludeSelector&&e(t.target).closest(this.options.excludeSelector).length)return!0;var n=["TEXTAREA","INPUT","BUTTON","LABEL"];if(n.indexOf(e(t.target).prop("tagName"))<0&&(t.preventDefault(),t.stopPropagation()),!r){var a=e(t.target).closest(this.options.itemSelector),i=(a.parent(),a.offset());r={sortable:this,index:a.index(),$container:a.closest(this.options.containerSelector),$parent:a.parent(),$item:a,$originalItem:a,$targetItem:null,$targetContainer:null,location:this.dropLocation(t),adjustment:{left:t.clientX-i.left,top:t.clientY-i.top}},this.options.onDragStart(r,t,o.onDragStart)}},handleEnd:function(t){if(r){for(var n=0;n<s.length;n++){var a=s[n];e(a.options.containerSelector,a.$element).removeClass(a.options.activeClass)}r.$placeholder&&r.$placeholder.remove(),r.location=this.dropLocation(t),r.location?r.location.sortable.options.onDrop(r,t,o.onDrop):r.$item.remove(),r=null}},handleDrag:function(t){if(r){for(var n=0;n<s.length;n++){var a=s[n];e(this.options.containerSelector,a.$element).removeClass(this.options.activeClass)}r.$placeholder&&r.$placeholder.remove(),r.location=this.dropLocation(t),r.location&&(r.location.$container.addClass(r.location.sortable.options.activeClass),r.$placeholder=r.location.before?e(r.location.sortable.options.placeholder).insertBefore(r.location.$item):e(r.location.sortable.options.placeholder).insertAfter(r.location.$item)),r.sortable.options.onDrag(r,t,o.onDrag)}}};var l=e.extend(i.prototype,{enable:function(){},disable:function(){},destroy:function(){}});e.fn[n]=function(t){var o=Array.prototype.slice.call(arguments,1);return this.map(function(){var r=e(this),s=r.data(n);return s&&l[t]?l[t].apply(s,o)||this:(s||t!==a&&"object"!==("undefined"==typeof t?"undefined":_typeof(t))||r.data(n,new i(r,t)),this)})}}(jQuery,window,"sortable"),function(e,t){Vue.filter("jsonPath",function(e,t){if(void 0!==t&&void 0!==e){var n=/{([^}]+)}/g;return result=t.replace(n,function(t,n){return json=JSONPath({json:e,path:n}),json.hasOwnProperty(1)?"array":json}),"array"==result?JSONPath({json:e,path:t.replace(n,"$1")}):result}}),Vue.filter("template",function(e,t){var n=/${([^}]+)}/g;return e.replace(n,function(e,n){return t[n]})}),Vue.filter("assign",function(e,t,n,a){return Object.assign(e,t,n,a)}),Vue.filter("copy",function(e){return new Vue({data:null!=e?JSON.parse(JSON.stringify(e)):null}).$data}),Vue.filter("clone",function(e){return new Vue({data:null!=e?JSON.parse(JSON.stringify(e)):null}).$data})}(jQuery,Core),function(e,t){Vue.directive("affix",{bind:function(){e.fn.affix&&e(this.el).affix(this.vm.$get(this.expression))},update:function(e,t){},unbind:function(){}})}(jQuery,Core),function(e,t){Vue.directive("combo",{bind:function(){e.fn.tagsinput&&e(this.el).select2({tags:!0,multiple:!1,createTag:function(e){return{id:e.term,text:e.term,newOption:!0}}})},update:function(e,t){},unbind:function(){}})}(jQuery,Core),function(e,t){Vue.directive("date",{bind:function(){e.fn.datepicker&&e(this.el).datepicker({autoclose:!0,todayHighlight:!0,format:"yyyy-mm-dd"})},update:function(e,t){},unbind:function(){}})}(jQuery,Core),function(e,t){Vue.directive("rich",{bind:function(){window.CKEDITOR&&(this.editor=CKEDITOR.inline(this.el,{stylesSet:[{name:"Bolder",element:"span",attributes:{class:"extrabold"}}],toolbarGroups:[{name:"links"},{name:"tools"},{name:"document",groups:["mode","document","doctools"]},{name:"others"},{name:"paragraph",groups:["list","indent","blocks","align"]},{name:"colors"},"/",{name:"basicstyles",groups:["basicstyles","cleanup"]},{name:"styles"},"/",{name:"insert",groups:["ImageButton"]}]}),this.editor.on("change",function(){this.editor.updateElement(),this.vm.$set(this.expression,e(this.el).val())}.bind(this)),this.editor.setData(this.vm.$get(this.expression)))},update:function(e,t){},unbind:function(){this.editor.destroy(),this.editor=null,this.textarea=null,this.input=null}})}(jQuery,Core),function(e,t){Vue.directive("scrollable",{bind:function(){e.fn.perfectScrollbar&&Vue.nextTick(function(){e(this.el).perfectScrollbar({})}.bind(this))},update:function(e,t){},unbind:function(){}})}(jQuery,Core),function(e,t){Vue.directive("tags",{bind:function(){e.fn.tagsinput&&e(this.el).tagsinput({})},update:function(e,t){},unbind:function(){}})}(jQuery,Core),function(e,t,n){t.use({install:function(e,t){var n={};e.service=function(e,t){return n[e]=n[e]||t}}})}(jQuery,Vue,Core),function(e,t){e(document).ready(function(){function t(t){var n=e(t),a=e(".modal-dialog",n);n.css("display","block"),a.css("margin-top",Math.max(0,(e(window).height()-a.height())/2))}e(e(document),".modal.modal-center").on("show.bs.modal",function(e){t(e.target)}),e(window).on("resize",function(){e(".modal.modal-center:visible").each(function(e,n){t(n)})})})}(jQuery,Core),function(e,t){Vue.validator("email",function(e){return/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(e)})}(jQuery,Core),window.Shell=function(e,t,n){var a={Widgets:{},Pages:{}};return a}(jQuery,Vue,Core),function(e,t,n,a){var i=e.component("bindings-dialog",{template:"#bindings-dialog",mixins:[n.ModalEditorMixin],methods:{setStrategy:function(e){this.$set("current.binding.strategy",e)},getStrategy:function(e){return this.$get("current.binding.strategy")}},created:function(){this.current.binding||(this.current.binding={})}});e.component("bindings",{mixins:[n.ActionMixin(i)]})}(Vue,jQuery,Core,Shell),function(e,t,n,a){var i=e.component("domains-list",{template:"#domains-list",mixins:[n.ListViewerMixin]}),o=e.component("domains-dialog",{template:"#domains-dialog",mixins:[n.ModalEditorMixin,n.TabsMixin("main")]}),r=(e.component("domains",{mixins:[n.EditorMixin(i,o)],template:"#domains"}),e.component("domains-settings-list",{template:"#domains-settings-list",mixins:[n.ListViewerMixin]})),s=e.component("domains-settings-dialog",{template:"#domains-settings-dialog",mixins:[n.ModalEditorMixin]});e.component("domains-settings",{mixins:[n.EditorMixin(r,s)],template:"#domains-settings"})}(Vue,jQuery,Core,Shell),function(e,t,n,a){var i=e.component("schemes-list",{template:"#schemes-list",mixins:[n.ListViewerMixin]}),o=e.component("schemes-dialog",{template:"#schemes-dialog",mixins:[n.ModalEditorMixin,n.TabsMixin("main")]}),r=(e.component("schemes",{mixins:[n.EditorMixin(i,o)],template:"#schemes"}),e.component("schemes-settings-list",{template:"#schemes-settings-list",mixins:[n.ListViewerMixin]})),s=e.component("schemes-settings-dialog",{template:"#schemes-settings-dialog",mixins:[n.ModalEditorMixin]});e.component("schemes-settings",{mixins:[n.EditorMixin(r,s)],template:"#schemes-settings"})}(Vue,jQuery,Core,Shell),function(e,t,n,a){a.Pages.ModalEditor=t.component("shell-pages-dialog",{template:"#shell-pages-dialog",mixins:[n.ModalEditorMixin,n.TabsMixin("main")],created:function(){for(var e=[],t=0;t<this.context.widget.props.length;t++){var n=this.context.widget.props[t],a=this.current.root.params[n.name],i={prop:n,param:a};e.push(i)}this.items=e},data:function(){return{context:this.context,items:this.items}},methods:{hasProps:function(e){if(this.context.widget&&this.context.widget.props)for(var t=0;t<this.context.widget.props.length;t++){var n=this.context.widget.props[t];if(n.tab==e)return!0}return!1}}})}(jQuery,Vue,Core,Shell),function(e,t,n,a){var i=(e.component("params-variable",{template:"#params-variable",props:{id:String,item:Object,globals:Object}}),e.component("params-string",{template:"#params-string",props:{id:String,item:Object,globals:Object}})),o=(e.component("params-select",{template:"#params-select",props:{id:String,item:Object,globals:Object}}),e.component("params-rich",{template:"#params-rich",props:{id:String,item:Object,globals:Object}})),r=e.component("params-source",{template:"#params-source",props:{id:String,item:Object,globals:Object}}),s=e.component("params-multiple",{template:"#params-multiple",props:{id:String,item:Object,globals:Object},data:function(){return{items:this.item.items}}}),l=(e.component("params-object",{template:"#params-object",props:{id:String,item:Object,globals:Object}}),e.component("params",{template:"#params",props:{owner:Object,tab:String,items:Array,globals:Object}}),e.component("params-multiple-list",{template:"#params-multiple-list",mixins:[n.ListViewerMixin],props:{prop:Object,param:Object},methods:{getLabel:function(t){if(this.prop.display){var n=new e({item:t});return n.$interpolate(this.prop.display)}return"<item>"}}})),c=e.component("params-bindings-dialog",{template:"#params-bindings-dialog",mixins:[n.ModalEditorMixin,n.TabsMixin("binding")],data:function(){return{items:this.items}},created:function(){var e=[],t=this.current.binding||{};if(t.strategy||(t.strategy="interpolate"),t.params=t.params||{},this.context.prop.props)for(var n=0;n<this.context.prop.props.length;n++){var a=this.context.prop.props[n],i=this.current.value[a.name]=this.current.value[a.name]||{};i._action="update"==i._action?"update":"create";var o={prop:a,param:i};e.push(o)}this.$set("current.binding",t),this.$set("items",e)},methods:{setStrategy:function(e){this.$set("current.binding.strategy",e)},getStrategy:function(e){return this.$get("current.binding.strategy")}}}),p=(e.component("params-bindings",{mixins:[n.ActionMixin(c)]}),e.component("params-multiple-dialog",{template:"#params-multiple-dialog",mixins:[n.ModalEditorMixin,n.TabsMixin("data")],data:function(){return{items:this.items}},created:function(){for(var e=[],t=0;t<this.context.prop.props.length;t++){var n=this.context.prop.props[t],a=this.current[n.name]=this.current[n.name]||{value:null};a._action="update"==a._action?"update":"create";var i={prop:n,param:a};e.push(i)}this.$set("items",e)}}));e.component("params-multiple-editor",{mixins:[n.EditorMixin(l,p)],template:"#params-multiple-editor",props:{prop:Object,param:Object,items:Array}}),e.component("params-list",{template:"#params-list",components:{"params-string":i,"params-rich":o,"params-source":r,"params-multiple":s},props:{owner:Object,tab:String,items:Array,globals:Object}})}(Vue,jQuery,Core,Shell),function(e,t,n,a){var i=e.component("settings-dialog",{template:"#settings-dialog",mixins:[n.ModalEditorMixin,n.TabsMixin("domains")]});e.component("settings",{mixins:[n.ActionMixin(i)],props:{globals:Object},methods:{push:function(){var e=this;t.ajax({url:"/settings/do-update",method:"POST",dataType:"json",data:JSON.stringify(this.model),contentType:"application/json"}).done(function(t){Object.assign(e.model,t)})},pull:function(){var e=this;t.ajax({url:"/settings",method:"GET",dataType:"json"}).done(function(t){Object.assign(e.model,t)})}}})}(Vue,jQuery,Core,Shell),function(e,t,n,a){var i=e.component("storages-list",{template:"#storages-list",mixins:[n.ListViewerMixin]}),o=e.component("storages-dialog",{template:"#storages-dialog",mixins:[n.ModalEditorMixin],methods:{check:function(){console.log("check")}}}),r=(e.component("storages",{mixins:[n.EditorMixin(i,o)],template:"#storages"}),e.component("storages-variables-list",{template:"#storages-variables-list",mixins:[n.ListViewerMixin]})),s=e.component("storages-variables-dialog",{template:"#storages-variables-dialog",mixins:[n.ModalEditorMixin]});e.component("storages-variables",{mixins:[n.EditorMixin(r,s)],template:"#storages-variables"})}(Vue,jQuery,Core,Shell),function(e,t,n,a){t.component("shell-brand",{template:"#shell-brand"})}(jQuery,Vue,Core,Shell),function(e,t,n,a){t.component("shell-actions",{template:"#shell-actions",props:{model:Object,globals:Object},methods:{trigger:function(e,t,n){this.$dispatch(e,{item:t,context:n})}}})}(jQuery,Vue,Core,Shell),function(e,t,n,a){t.component("shell-categories",{template:"#shell-categories",props:{categories:Array,globals:Object},methods:{trigger:function(e,t,n){this.$dispatch(e,{item:t,context:n})}}})}(jQuery,Vue,Core,Shell),function(e,t,n,a){t.component("shell-container",{template:"#shell-container",props:{globals:Object,settings:Object,page:Object}})}(jQuery,Vue,Core,Shell),function(e,t,n,a){var i=t.service("runtime",{evaluate:function(e,t,n){if(t&&t.expression)try{if("eval"==t.strategy){var a=e.$eval(t.expression);return a}if("wire"==t.strategy){var a=e.$get(t.expression);return a}return e.$interpolate(t.expression)}catch(e){return console.log("Cannot evaluate expression",t.expression),n}return n},evaluateParams:function(n,a,o){for(var r=[],s=0;s<a.length;s++){var l=a[s],c=o&&o[l.name];r.push({prop:l,param:c})}for(var p={},s=0;s<r.length;s++){var d=r[s],u=d.prop.name,g=d.prop.variable,m=d.param?d.param.binding:null,h=d.param?d.param.value:null;if("object"==d.prop.type){var f;if(m&&m.expression)p[u]=f;else{var b=this.evaluateParams(n,d.prop.props,h);f=g?{value:b}:b,p[u]=f}}else if("multiple"==d.prop.type){if(m&&m.expression){var f=null,v=[],y=i.evaluate(n,m,h);if(g)f=y;else if(e.isArray(y)){for(var x=0;x<y.length;x++){var w=new t({data:Object.assign(JSON.parse(JSON.stringify(n.$data)),{item:{index:x,value:y[x]}})});v.push(this.evaluateParams(w,d.prop.props,m.params))}f=v}}else{for(var v=[],k=0,x=0;x<h.length;x++){var j=h[x];"remove"!=j._action&&(v[k++]=this.evaluateParams(n,d.prop.props,j))}f=g?{value:v}:v}p[u]=f}else{var f=i.evaluate(n,m,h);p[u]=f||""}}return p}}),o={props:{items:Array},methods:{removeWidget:function(){this.$dispatch("removeChildWidget",{item:this.model})},doApply:function(t){Object.assign(this.model,JSON.parse(JSON.stringify(t)),{_action:this.model._action?this.model._action:"update"}),e(window).trigger("resize")},showSettings:function(){new a.Widgets.ModalEditor({data:{globals:this.globals,owner:this,context:{widget:this.widget},original:this.model,current:JSON.parse(JSON.stringify(this.model))},methods:{submit:function(){this.owner.doApply(this.current),this.$remove(),this.$destroy()},reset:function(){this.$remove(),this.$destroy()}}}).$mount().$appendTo(e("body").get(0))}}},r={data:function(){return{bindings:this.bindings}},created:function(){var e=this;this.$watch("data",function(t){var n=i.evaluateParams(e,e.widget.props,e.model.params);e.$set("bindings",n)},{deep:!0,immediate:!0}),this.$watch("storage",function(t){var n=i.evaluateParams(e,e.widget.props,e.model.params);e.$set("bindings",n)},{deep:!0,immediate:!0}),this.$watch("model",function(t){var n=i.evaluateParams(e,e.widget.props,t.params);e.$set("bindings",n)},{deep:!0,immediate:!0})}},s={data:function(){return{children:this.children}},created:function(){var e=this;this.$watch("items",function(t){var n=[];if(t)for(var a=0;a<t.length;a++){var i=t[a];"remove"!=i._action&&n.push(i)}n.length<1&&n.push(JSON.parse(JSON.stringify(e.placeholder()))),e.children=n},{immediate:!0,deep:!0})},events:{removeChildWidget:function(e){var t=e.item;"create"==t._action?this.items.$remove(t):t._action="remove",this.items=this.items.slice()}},methods:{}},l=function(e){return{data:function(){return{selected:this.selected}},attached:function(){if(this.$route.private){t.service("shell")}},methods:{selectTarget:function(){this.selected=!0},unselectTarget:function(){this.selected=!1}}}};t.component("shell-decorator-stub",{template:"#shell-decorator-stub",mixins:[o,r],props:{globals:Object,settings:Object,stack:Object,page:Object,data:Object,storage:Object,model:Object,widget:Object,editable:Boolean,items:Array}}),t.component("shell-decorator-widget",{template:"#shell-decorator-widget",mixins:[o,r],props:{globals:Object,settings:Object,stack:Object,page:Object,data:Object,storage:Object,model:Object,widget:Object,editable:Boolean,items:Array}}),t.component("shell-decorator-horizontal",{template:"#shell-decorator-horizontal",mixins:[o,s,l(">.ge.ge-content >.wg.wg-default-stack >.wg.wg-content >.wg.wg-table >.wg.wg-row"),r],props:{globals:Object,settings:Object,stack:Object,page:Object,data:Object,storage:Object,model:Object,widget:Object,editable:Boolean,items:Array},methods:{placeholder:function(){return t.service("palette").placeholder("\n                    <small>Horizontal Stack</small>\n                    <div>Drop Here</div>\n                ")}}}),t.component("shell-decorator-vertical",{template:"#shell-decorator-vertical",mixins:[o,s,l(">.ge.ge-content >.wg.wg-default-stack >.wg.wg-content >.wg.wg-table"),r],props:{globals:Object,settings:Object,stack:Object,page:Object,data:Object,storage:Object,model:Object,widget:Object,editable:Boolean,items:Array},methods:{placeholder:function(){return t.service("palette").placeholder("\n                    <small>Vertical Stack</small>\n                    <div>Drop Here</div>\n                ")}}}),t.component("shell-decorator-canvas",{template:"#shell-decorator-canvas",mixins:[s,l(">.ge.ge-content >.wg.wg-default-stack >.wg.wg-content >.wg.wg-table"),r],props:{globals:Object,settings:Object,stack:Object,page:Object,data:Object,storage:Object,model:Object,widget:Object,editable:Boolean,items:Array},created:function(){this.selected=!0},attached:function(){var n;this.sortable=e(this.$el).sortable({vertical:!0,drop:!0,containerSelector:".wg.wg-sortable-container.wg-sortable-editable",itemSelector:".wg.wg-sortable-item.wg-sortable-editable",excludeSelector:".ge.ge-overlay",verticalClass:"wg-sortable-vertical",horizontalClass:"wg-sortable-horizontal",placeholder:'\n                    <div class="wg wg-sortable-placeholder">\n                        <div class="wg wg-placeholder-container">\n                            <div class="wg wg-placeholder-inner"></div>\n                        </div>\n                    </div>\n                ',onDragStart:function(t,a,i){i(t,a);var o=e(t.$container).closest(".ge.ge-widget").get(0).__vue__,r=t.$originalItem.find(".ge.ge-widget:first").get(0).__vue__;n={stack:o,index:o.items.indexOf(r.model),vue:r}},onDrop:function(e,a,i){i(e,a);var o=e.location.$item.find(".ge.ge-widget:first").get(0).__vue__,r=e.location.$container.closest(".ge.ge-widget").get(0).__vue__,s=r.items.indexOf(o.model)+(e.location.before?0:1),l=e.$item.data("widget");if(l){var c=t.service("palette").item(l);r.items.splice(s,0,c)}else if(n){var p=n.stack,d=n.index,u=n.vue.model,c=Object.assign(JSON.parse(JSON.stringify(n.vue.model)));p!=r?(delete c.id,c._action="create","create"==u._action?p.items.splice(d,1):u._action="remove",r.items.splice(s,0,c)):s!=d&&s!=d+1&&(c._action="create"==u._action?"create":"update",s<d?(p.items.splice(d,1),r.items.splice(s,0,c)):s>d&&(r.items.splice(s,0,c),p.items.splice(d,1))),p.items=p.items.slice(),r.items=r.items.slice()}e.$item.remove()}})},methods:{placeholder:function(){return t.service("palette").placeholder("\n                    <small>Vertical Stack</small>\n                    <div>Drop Here</div>\n                ")}}})}(jQuery,Vue,Core,Shell),function(e,t,n,a){t.component("shell-domains",{template:"#shell-domains",props:{domains:Array,globals:Object}})}(jQuery,Vue,Core,Shell),function(e,t,n,a){a.Loader=t.component("shell-loader",{template:"#shell-loader",data:function(){return{portal:null,settings:null}},created:function(){var e=this;t.service("portals").get({id:this.$route.params.portal}).then(function(t){e.$set("portal",t.data.portal),e.$set("settings",t.data.settings)},function(e){console.log(e)})}})}(jQuery,Vue,Core,Shell),function(e,t,n,a){t.component("shell-page",{template:"#shell-page",mixins:[],props:{globals:Object,settings:Object,page:Object},data:function(){return{decorator:this.decorator,data:this.data,storage:this.storage,widget:this.widget}},created:function(){var n=this;this.widget=t.service("palette").widget("default-container/default-container-stack/default-stack-canvas");var a=t.service("runtime");this.decorator="shell-decorator-canvas",this.data={},this.storage={},this.$watch("page.storages",function(e){if(e){for(var t={},i=0;i<e.length;i++){var o=e[i];t[o.name]={};for(var r=0;r<o.variables.length;r++){var s=o.variables[r];t[o.name][s.name]={value:a.evaluate(n,s.binding,s.value)||null}}}n.$set("storage",t)}},{immediate:!0,deep:!0}),this.$watch("page.sources",function(t){if(t){for(var a=[],i=0;i<t.length;i++)a.push(n.doRequest(t[i]));a.length>1?e.when.apply(n,a).done(function(){for(var e={},n=0;n<arguments.length;n++)e[t[n].name]=arguments[n][0];this.$set("data",e)}.bind(n)):1==a.length&&a[0].done(function(e){var n={};n[t[0].name]=e,this.$set("data",n)}.bind(n))}},{immediate:!0,deep:!0})},methods:{doRequest:function(t){for(var n={},a=0;a<t.params.length;a++){var i=t.params[a];if("query"==i.in&&i.specified){var o=i.binding?this.$interpolate(i.binding):i.value;n[i.name]=o}}return e.ajax({method:t.method,url:t.url,dataType:"json",data:n})}}})}(jQuery,Vue,Core,Shell),function(e,t,n,a){t.component("shell-pages",{template:"#shell-pages",props:{pages:Array,globals:Object},data:function(){return{items:this.items}},created:function(){var e=this;this.$watch("pages",function(t){for(var n=[],a=0;a<e.pages.length;a++){var i=e.pages[a];"remove"!=i._action&&n.push(i)}e.items=n},{deep:!0,immediate:!0})},methods:{remove:function(e){var t=this.pages.indexOf(e);if(t!==-1){var n=this.pages[t];"create"==n._action?this.pages.$remove(n):n._action="remove"}this.pages=this.pages.slice()},create:function(){var n=t.service("palette").item("default-container/default-container-stack/stack-canvas"),i=t.service("palette").widget("default-container/default-container-stack/default-stack-canvas"),o={_action:"create",root:n,sources:[],storages:[]};new a.Pages.ModalEditor({data:{globals:this.globals,owner:this,context:{widget:i},original:o,current:JSON.parse(JSON.stringify(o))},methods:{submit:function(){Object.assign(this.original,JSON.parse(JSON.stringify(this.current))),this.original._action=this.original._action?this.original._action:"create",this.original.root._action=this.original.root._action?this.original.root._action:"create",this.owner.pages.push(this.original),this.$remove(),this.$destroy()},reset:function(){this.$remove(),this.$destroy()}}}).$mount().$appendTo(e("body").get(0))},update:function(n){var i=t.service("palette").widget("default-container/default-container-stack/default-stack-canvas");new a.Pages.ModalEditor({data:{globals:this.globals,owner:this,context:{widget:i},original:n,current:JSON.parse(JSON.stringify(n))},methods:{submit:function(){Object.assign(this.original,JSON.parse(JSON.stringify(this.current))),this.original._action=this.original._action?this.original._action:"update",this.original.root._action=this.original.root._action?this.original.root._action:"update",this.owner.pages=this.owner.pages.slice(),this.$remove(),this.$destroy()},reset:function(){this.$remove(),this.$destroy()}}}).$mount().$appendTo(e("body").get(0))},trigger:function(e,t,n){this.$dispatch(e,{item:t,context:n})}}})}(jQuery,Vue,Core,Shell),function(e,t,n,a){var i=t.component("shell-palette-item",{template:"#shell-palette-item",props:{category:Object,group:Object,item:Object,globals:Object}});t.component("shell-palette",{template:"#shell-palette",props:{globals:Object,category:Object},data:function(){return{categories:this.categories}},components:{"palette-item":i},created:function(){this.categories=Widgets.Palette.categories()},attached:function(){this.sortable=e(this.$el).sortable({group:"widgets",containerSelector:".wg-sortable-container",itemSelector:".wg-sortable-item",drop:!1})},methods:{trigger:function(e,t,n){this.$dispatch(e,{item:t,context:n})}}})}(jQuery,Vue,Core,Shell),function(e,t,n,a){a.Shell={props:{settings:Object,model:Object},data:function(){return{globals:this.globals}},created:function(){this.globals={selection:{category:null,page:null,source:null,storage:null},settings:this.settings,model:this.model}}},a.ShellPublic=t.component("shell-public",{mixins:[a.Shell],template:"#shell-public"}),a.ShellPrivate=t.component("shell-private",{mixins:[a.Shell],template:"#shell-private",created:function(){function e(e,t){if(!e||"remove"==e._action||t&&t.indexOf(e)<0){if(t)for(var n=0;n<t.length;n++){var a=t[n];if("remove"!=a._action)return a}return null}return e&&"remove"==e._action?null:e}var n=this;this.scale=1,this.globals.selection.category=t.service("palette").categories()[0],this.$watch("model.domains",function(t){n.globals.selection.domain=e(n.globals.selection.domain,t)},{immediate:!0}),this.$watch("model.pages",function(t){n.globals.selection.page=e(n.globals.selection.page,t)},{immediate:!0}),this.$watch("globals.selection.page.sources",function(t){n.globals.selection.source=e(n.globals.selection.source,t)},{immediate:!0}),this.$watch("globals.selection.page.storages",function(t){n.globals.selection.storage=e(n.globals.selection.storage,t)},{immediate:!0})},events:{zoomIn:function(t){this.scale+=.1,e(".ge.ge-page",this.$el).css("transform","scale("+this.scale+")"),e(".ge.ge-container",this.$el).perfectScrollbar("update")},zoomOut:function(t){this.scale-=.1,e(".ge.ge-page",this.$el).css("transform","scale("+this.scale+")"),e(".ge.ge-container",this.$el).perfectScrollbar("update")},pull:function(t){var n=this;e.ajax({url:"/ws/portals/"+this.model.id,method:"GET",dataType:"json"}).done(function(e){console.log(e),n.$set("model",e.portal)})},push:function(t){var n=this;e.ajax({url:"/ws/portals/"+this.model.id,method:"PUT",dataType:"json",data:JSON.stringify(this.model),contentType:"application/json"}).done(function(e){console.log(e),n.$set("model",e.portal)})},selectCategory:function(e){this.globals.selection.category=e.item},selectDomain:function(e){this.globals.selection.domain=e.item},selectPage:function(e){this.globals.selection.page=e.item},selectSource:function(e){this.globals.selection.source=e.item},selectStorage:function(e){this.globals.selection.storage=e.item}}})}(jQuery,Vue,Core,Shell),function(e,t,n,a){t.component("shell-sources",{
-template:"#shell-sources",props:{sources:Array,globals:Object}})}(jQuery,Vue,Core,Shell),function(e,t,n,a){t.component("shell-target",{template:"#shell-target",props:{}})}(jQuery,Vue,Core,Shell),function(e,t,n,a){t.component("shell-storages",{template:"#shell-storages",props:{storages:Array,globals:Object}})}(jQuery,Vue,Core,Shell),function(e,t,n,a){a.Widget=t.component("shell-widget",{template:"#shell-widget",mixins:[],props:{globals:Object,settings:Object,page:Object,stack:Object,model:Object,data:Object,storage:Object,editable:Boolean},init:function(){this.decorators={alternatives:{"default-stack-horizontal":"shell-decorator-horizontal","default-stack-vertical":"shell-decorator-vertical","default-stub":"shell-decorator-stub"},fallback:"shell-decorator-widget"}},created:function(){var e=t.service("palette");this.widget=e.widget(this.model.name),this.decorator=this.decorators.alternatives[this.widget.tag]||this.decorators.fallback},data:function(){return{widget:this.widget,decorator:this.decorator}}})}(jQuery,Vue,Core,Shell),function(e,t,n,a){a.Widgets.ModalEditor=e.component("shell-widgets-dialog",{template:"#shell-widgets-dialog",mixins:[n.ModalEditorMixin,n.TabsMixin("data")],created:function(){for(var e=[],t=0;t<this.context.widget.props.length;t++){var n=this.context.widget.props[t],a=this.current.params[n.name],i={prop:n,param:a};e.push(i)}this.items=e},data:function(){return{context:this.context,items:this.items}},methods:{hasProps:function(e){if(this.context.widget&&this.context.widget.props)for(var t=0;t<this.context.widget.props.length;t++){var n=this.context.widget.props[t];if(n.tab==e)return!0}return!1}}})}(Vue,jQuery,Core,Shell),function(e,t,n,a){var i=e.component("pages-sources-list",{template:"#pages-sources-list",mixins:[n.ListViewerMixin]}),o=e.component("pages-sources-dialog",{template:"#pages-sources-dialog",mixins:[n.ModalEditorMixin],methods:{check:function(){console.log("check")}}}),r=(e.component("pages-sources",{mixins:[n.EditorMixin(i,o)],template:"#pages-sources"}),e.component("pages-sources-params-list",{template:"#pages-sources-params-list",mixins:[n.ListViewerMixin]})),s=e.component("pages-sources-params-dialog",{template:"#pages-sources-params-dialog",mixins:[n.ModalEditorMixin]});e.component("pages-sources-params",{mixins:[n.EditorMixin(r,s)],template:"#pages-sources-params"})}(Vue,jQuery,Core,Shell),window.Widgets=function(e,t,n){var a={};return a.Palette=function(){function t(e){for(var t="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",n=8,a="",i=0;i<n;i++)a+=t.charAt(Math.floor(Math.random()*t.length));return e?e+a:a}var n={},i=[],o=function(){return i},r=function(e,t){return e in n?n[e]:(t.name=e,n[e]=t,i.push(t),this)},s=function(e){var t=e.split("/");return this.category(t[0]).group(t[1]).widget(t[2])},l=function(t){var n=t.split("/"),a=e.extend(!0,{},this.category(n[0]).group(n[1]).item(n[2]).widget,{_action:"create"});return delete a.props,delete a.tabs,a};return{categories:o,category:r,widget:s,item:l,placeholder:function(e){return a.StubWidgetFactory(e)},generateId:t}}(),a.Category=function(e,t,n){var i={},o=[],r=function(){return o},s=function(t,n){return t in i?i[t]:(n.name=e+"/"+t,i[t]=n,o.push(n),this)};return a.Palette.category(e,{title:t,groups:r,group:s,ignore:n}),a.Palette.category(e)},a.Group=function(e,t,n,a){var i={},o=[],r=function(){return o},s=function(e){function t(t,n){return e.apply(this,arguments)}return t.toString=function(){return e.toString()},t}(function(e,t){return e in i?i[e]:(t.name=this.name+"/"+e,i[e]=t,o.push(t),this)}),l={},c=[],p=function(){return c},d=function(e,t){return e in l?l[e]:(t.name=this.name+"/"+e,l[e]=t,c.push(t),this)};return e.group(t,{title:n,items:r,item:s,widgets:p,widget:d,ignore:a}),e.group(t)},a.Widget=function(e,t){var n=t.name;return e.widget(t.name,t),e.widget(n)},a.clone=function(e){return JSON.parse(JSON.stringify(e))},a.create=function(e){function t(e,t){t.override?("tabs"in t&&(e.tabs=JSON.parse(JSON.stringify(t.tabs))),"props"in t&&(e.props=JSON.parse(JSON.stringify(t.props)))):("tabs"in t&&(e.tabs=e.tabs.concat(t.tabs)),"props"in t&&(e.props=e.props.concat(t.props)))}var n={name:e.name,tag:e.tag,widgets:e.widgets,tabs:[],props:[],params:{}};if("_action"in e&&(n._action=e._action),e.mixins)for(var a=0;a<e.mixins.length;a++){var i=e.mixins[a];t(n,i)}return t(n,e),n},a.build=function(e,t){function n(e,t){for(var a=0;a<e.length;a++){var i=e[a],o=t[i.name]=t[i.name]||{value:null};if(i.props)if("multiple"==i.type){o.value=null==o.value?[]:o.value;for(var r=0;r<o.value.length;r++)n(i.props,o.value[r])}else"object"==i.type&&(o.value=null==o.value?{}:o.value,n(i.props,o.value))}}var a=Object.assign(JSON.parse(JSON.stringify(e)),{params:t||{}});return n(a.props,a.params),a},a.Item=function(e,t){var n=t.name;return e.item(t.name,t),e.item(n)},a.Prop=function(e,t,n,a,i){return{name:e,title:t,type:n,tab:a,placeholder:i}},a.Param=function(e,t,n){return{value:e||void 0}},t.service("palette",a.Palette),a}(jQuery,Vue,Core),function(e,t,n,a){a.CompositeCategory=a.Category("default-composites","Composite Elements"),a.FormCategory=a.Category("default-form","Form Elements"),a.TextCategory=a.Category("default-text","Text Elements"),a.ContainerCategory=a.Category("default-container","Container Elements"),a.ImagesCategory=a.Category("default-images","Free Images"),a.UtilCategory=a.Category("default-util","Util Elements",!0)}(jQuery,Vue,Core,Widgets),function(e,t,n,a){var i=a.Props={},o=a.Tabs={};o.Data={name:"data",title:"Data"},o.Appearance={name:"appearance",title:"Appearance"},o.Content={name:"content",title:"Content"},i.Id={name:"id",title:"ID",type:"string",tab:"data",placeholder:"Unique ID"},i.Width={name:"width",title:"Width",type:"string",tab:"appearance"},i.Height={name:"height",title:"Height",type:"string",tab:"appearance"},i.Padding={name:"padding",title:"Padding",type:"string",tab:"appearance"},i.Margin={name:"margin",title:"Margin",type:"string",tab:"appearance"},i.Border={name:"border",title:"Border",type:"string",placeholder:"1px solid #000000",tab:"appearance"},i.Background={name:"background",title:"Background",type:"string",tab:"appearance"},i.Cols={name:"cols",title:"Columns",type:"string",tab:"appearance"},i.Rows={name:"rows",title:"Rows",type:"string",tab:"appearance"},i.Color={name:"color",title:"Color",type:"string",tab:"appearance"},i.Content={name:"content",title:"Content",type:"string",tab:"content"},i.Title={name:"title",title:"Title",type:"string",tab:"data"},i.Vlink={name:"vlink",title:"Vlink",type:"string",tab:"data"},i.Href={name:"href",title:"Href",type:"string",tab:"data"},i.Spacing={name:"spacing",title:"Border Spacing",type:"string",tab:"appearance"},i.Collapse={name:"collapse",title:"Border Collapse",type:"string",tab:"appearance"},i.Align={name:"align",title:"Text Align",type:"select",tab:"appearance",options:[{value:"left",text:"Left"},{value:"right",text:"Right"},{value:"center",text:"Ceneter"},{value:"justify",text:"Justify"}]},i.Dock={name:"dock",title:"Dock",type:"select",tab:"appearance",options:[{value:"above",text:"Above"},{value:"top",text:"Top"},{value:"right",text:"Right"},{value:"bottom",text:"Bottom"},{value:"left",text:"Left"}]},a.CanvasMixin={tabs:[o.Data,o.Appearance,o.Content]},a.WidgetMixin={tabs:[o.Data,o.Appearance,o.Content],props:[i.Id]},a.BoxMixin={props:[{name:"inner",title:"Inner Container",type:"object",tab:"appearance",tabs:[o.Appearance],props:[i.Margin,i.Padding,i.Border,i.Background]},{name:"outer",title:"Outer Container",type:"object",tab:"appearance",tabs:[o.Appearance],props:[i.Margin,i.Padding,i.Border,i.Background]}]},a.SizeMixin={props:[i.Width,i.Height]}}(jQuery,Vue,Core,Widgets),function(e,t,n,a){a.HeadersGroup=a.Group(a.CompositeCategory,"default-composite-headers","Headers"),a.NavigationGroup=a.Group(a.CompositeCategory,"default-composite-navigation","Navigation"),a.GalleryGroup=a.Group(a.CompositeCategory,"default-composite-gallery","Galleries")}(jQuery,Vue,Core,Widgets),function(e,t,n,a){a.StackGroup=a.Group(a.ContainerCategory,"default-container-stack","Stacked")}(jQuery,Vue,Core,Widgets),function(e,t,n,a){a.ImagesGroup=a.Group(a.ImagesCategory,"default-images-default","Images",!0),a.AbstractGroup=a.Group(a.ImagesCategory,"default-images-abstract","Abstract"),a.CityGroup=a.Group(a.ImagesCategory,"default-images-city","City"),a.NatureGroup=a.Group(a.ImagesCategory,"default-images-nature","Nature"),a.SpaceGroup=a.Group(a.ImagesCategory,"default-images-space","Space")}(jQuery,Vue,Core,Widgets),function(e,t,n,a){a.ButtonsGroup=a.Group(a.FormCategory,"default-form-buttons","Buttons"),a.InputsGroup=a.Group(a.FormCategory,"default-form-inputs","Inputs"),a.RadiosGroup=a.Group(a.FormCategory,"default-form-radios","Radios"),a.ChecksGroup=a.Group(a.FormCategory,"default-form-checks","Checkboxes")}(jQuery,Vue,Core,Widgets),function(e,t,n,a){a.HeadingsGroup=a.Group(a.TextCategory,"default-text-headings","Headings"),a.BlocksGroup=a.Group(a.TextCategory,"default-text-blocks","Blocks")}(jQuery,Vue,Core,Widgets),function(e,t,n,a){a.UtilGroup=a.Group(a.UtilCategory,"default-util-group","Util Elements")}(jQuery,Vue,Core,Widgets),function(e,t,n){t.component("default-carousel",{template:"#default-carousel",mixins:[n.WidgetMixin]})}(jQuery,Vue,Core),function(e,t,n){t.component("default-gallery",{template:"#default-gallery",mixins:[n.WidgetMixin],data:function(){return{matrix:this.matrix}},created:function(){function e(e){var t=e.items.collection||[],n=parseInt(e.rows);n=n>0?n:1;var a=parseInt(e.cols);a=a>0?a:3;for(var i=n*a,o=parseInt(t.length/i),r=t.length%i,s=r>0||0==o?o+1:o,l=[],c=0;c<s;c++){for(var p=[],d=0;d<n;d++){for(var u=[],g=0;g<a;g++){var m=(c*n+d)*a+g;m<t.length&&u.push(t[m])}p.push(u)}l.push(p)}this.matrix=l}this.$watch("bindings",e.bind(this),{immediate:!0,deep:!0})}})}(jQuery,Vue,Core),function(e,t,n,a){var i=a.Props,o=a.Tabs;a.GalleryWidget=a.Widget(a.GalleryGroup,a.create({name:"default-gallery",tag:"default-gallery",mixins:[a.WidgetMixin,a.BoxMixin,a.SizeMixin],props:[i.Cols,i.Rows,i.Dock,i.Color,i.Align,{name:"border",title:"Border",type:"object",tab:"appearance",tabs:[o.Appearance],props:[i.Spacing,i.Collapse]},{name:"items",title:"Items",type:"object",tab:"data",tabs:[o.Data,o.Appearance],props:[{name:"collection",title:"Collection",type:"multiple",tab:"data",tabs:[o.Appearance,o.Content],props:[i.Width,i.Height,i.Margin,i.Padding,i.Background,{name:"drawing",title:"Drawing",type:"object",tab:"appearance",tabs:[o.Appearance],props:[i.Width,i.Height,i.Margin,i.Padding,i.Background]},{name:"description",title:"Description",type:"object",tab:"appearance",tabs:[o.Appearance,o.Content],props:[i.Width,i.Height,i.Margin,i.Padding,i.Background,i.Color,i.Align,i.Content]}]},{name:"style",title:"Style",type:"object",tab:"appearance",tabs:[o.Appearance],props:[i.Width,i.Height,i.Margin,i.Padding,i.Background,{name:"drawing",title:"Drawing",type:"object",tab:"appearance",tabs:[o.Appearance],props:[i.Width,i.Height,i.Margin,i.Padding,i.Background]},{name:"description",title:"Description",type:"object",tab:"appearance",tabs:[o.Appearance],props:[i.Width,i.Height,i.Margin,i.Padding,i.Background,i.Color,i.Align]}]}]}]})),a.GalleryWidgetFactory=function(e){var t=a.build(a.GalleryWidget,{rows:{value:e.rows},cols:{value:e.cols},dock:{value:e.dock},align:{value:e.align},color:{value:e.color},background:{value:e.background},border:{value:{spacing:{value:e.border.spacing}}},items:{value:{style:{value:{width:{value:e.items.style.width},height:{value:e.items.style.height},description:{value:{padding:{value:e.padding}}}}},collection:{value:e.items.collection.map(function(e){return{drawing:{value:{background:{value:e.drawing.background},height:{value:e.drawing.height}}},description:{value:{content:{value:e.description.content}}}}})}}}});return t},a.Item(a.GalleryGroup,{name:"gallery-r1c1f",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r1c1f.png",widget:a.GalleryWidgetFactory({rows:1,cols:1,dock:"above",padding:"30px",align:"center",color:"#FFFFFF",border:{spacing:"0px"},items:{style:{width:"100%",height:"250px"},collection:[{drawing:{background:"#FF6466"},description:{content:'\n                                <h3><span style="font-size:48px">First Item</span></h3>\n                                <p><span style="font-size: 28px">You can change item data using settings editor</span></p>\n                            '}},{drawing:{background:"#605BE8"},description:{content:'\n                                <h3><span style="font-size:48px">Second Item</span></h3>\n                                <p><span style="font-size: 28px">You can change item data using settings editor</span></p>\n                            '}},{drawing:{background:"#70FFBF"},description:{content:'\n                                <h3><span style="font-size:48px">Third Item</span></h3>\n                                <p><span style="font-size: 28px">You can change item data using settings editor</span></p>\n                            '}}]}})}),a.Item(a.GalleryGroup,{name:"gallery-r1c1r",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r1c1r.png",widget:a.GalleryWidgetFactory({rows:1,cols:1,dock:"right",padding:"30px",align:"left",color:"#333333",border:{spacing:"20px"},items:{style:{width:"100%",height:"240px"},collection:[{drawing:{background:"#FF6466"},description:{content:'\n                                <h3><span style="font-size:48px">First Item</span></h3>\n                                <p><span style="font-size: 28px">You can change item data using settings editor</span></p>\n                            '}},{drawing:{background:"#605BE8"},description:{content:'\n                                <h3><span style="font-size:48px">Second Item</span></h3>\n                                <p><span style="font-size: 28px">You can change item data using settings editor</span></p>\n                            '}},{drawing:{background:"#70FFBF"},description:{content:'\n                                <h3><span style="font-size:48px">Third Item</span></h3>\n                                <p><span style="font-size: 28px">You can change item data using settings editor</span></p>\n                            '}}]}})}),a.Item(a.GalleryGroup,{name:"gallery-r1c3f",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r1c3f.png",widget:a.GalleryWidgetFactory({rows:1,cols:3,dock:"above",padding:"30px",align:"center",color:"#FFFFFF",border:{spacing:"20px"},items:{style:{width:"100%",height:"180px"},collection:[{drawing:{background:"#FF6466"},description:{content:"\n                                <h3><span>First Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#605BE8"},description:{content:"\n                                <h3><span>Second Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#70FFBF"},description:{content:"\n                                <h3><span>Third Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#A52939"},description:{content:"\n                                <h3><span>Fourth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#EE3B80"},description:{content:"\n                                <h3><span>Fifth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#EE6B9E"},description:{content:"\n                                <h3><span>Sixth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}}]}})}),a.Item(a.GalleryGroup,{name:"gallery-r1c3b",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r1c3b.png",widget:a.GalleryWidgetFactory({rows:1,cols:3,dock:"bottom",padding:"15px",align:"left",color:"#333333",border:{spacing:"20px"},items:{style:{width:"100%"},collection:[{drawing:{background:"#FF6466",height:"180px"},description:{content:'\n                                <h3><span style="font-size:24px">First Item</span></h3>\n                                <p><span style="font-size: 18px">You can change item data using settings editor</span></p>\n                            '}},{drawing:{background:"#605BE8",height:"180px"},description:{content:'\n                                <h3><span style="font-size:24px">Second Item</span></h3>\n                                <p><span style="font-size: 18px">You can change item data using settings editor</span></p>\n                            '}},{drawing:{background:"#70FFBF",height:"180px"},description:{content:'\n                                <h3><span style="font-size:24px">Third Item</span></h3>\n                                <p><span style="font-size: 18px">You can change item data using settings editor</span></p>\n                            '}},{drawing:{background:"#A52939",height:"180px"},description:{content:"\n                                <h3><span>Fourth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#EE3B80",height:"180px"},description:{content:"\n                                <h3><span>Fifth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#EE6B9E",height:"180px"},description:{content:"\n                                <h3><span>Sixth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}}]}})}),a.Item(a.GalleryGroup,{name:"gallery-r2c4f",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r2c4f.png",widget:a.GalleryWidgetFactory({rows:2,cols:4,dock:"above",padding:"15px",align:"center",color:"#FFFFFF",border:{spacing:"20px"},items:{style:{width:"100%",height:"180px"},collection:[{drawing:{background:"#FF6466"},description:{content:"\n                                <h3><span>First Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#605BE8"},description:{content:"\n                                <h3><span>Second Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#70FFBF"},description:{content:"\n                                <h3><span>Third Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#A52939"},description:{content:"\n                                <h3><span>Fourth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#EE3B80"},description:{content:"\n                                <h3><span>Fifth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#EE6B9E"},description:{content:"\n                                <h3><span>Sixth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#FF6466"},description:{content:"\n                                <h3><span>Seventh Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#605BE8"},description:{content:"\n                                <h3><span>Eighth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}}]}})}),a.Item(a.GalleryGroup,{name:"gallery-r2c4b",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r2c4b.png",widget:a.GalleryWidgetFactory({rows:2,cols:4,dock:"bottom",padding:"15px",align:"center",color:"#333333",border:{spacing:"20px"},items:{style:{width:"100%"},collection:[{drawing:{background:"#FF6466",height:"180px"},description:{content:"\n                                <h3><span>First Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#605BE8",height:"180px"},description:{content:"\n                                <h3><span>Second Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#70FFBF",height:"180px"},description:{content:"\n                                <h3><span>Third Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#A52939",height:"180px"},description:{content:"\n                                <h3><span>Fourth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#EE3B80",height:"180px"},description:{content:"\n                                <h3><span>Fifth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#EE6B9E",height:"180px"},description:{content:"\n                                <h3><span>Sixth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#FF6466",height:"180px"},description:{content:"\n                                <h3><span>Seventh Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#605BE8",height:"180px"},description:{content:"\n                                <h3><span>Eighth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}}]}})}),a.Item(a.GalleryGroup,{name:"gallery-r2c3f",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r2c3f.png",widget:a.GalleryWidgetFactory({rows:2,cols:3,dock:"above",padding:"15px",align:"center",color:"#FFFFFF",border:{spacing:"20px"},items:{style:{width:"100%",height:"180px"},collection:[{drawing:{background:"#FF6466"},description:{content:"\n                                <h3><span>First Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#605BE8"},description:{content:"\n                                <h3><span>Second Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#70FFBF"},description:{content:"\n                                <h3><span>Third Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#A52939"},description:{content:"\n                                <h3><span>Fourth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#EE3B80"},description:{content:"\n                                <h3><span>Fifth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#EE6B9E"},description:{content:"\n                                <h3><span>Sixth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}}]}})}),a.Item(a.GalleryGroup,{name:"gallery-r3c2r",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r3c2r.png",widget:a.GalleryWidgetFactory({rows:3,cols:2,dock:"right",padding:"15px",align:"left",color:"#333333",border:{spacing:"20px"},items:{style:{width:"100%",height:"140px"},collection:[{drawing:{background:"#FF6466"},description:{content:"\n                                <h3><span>First Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#605BE8"},description:{content:"\n                                <h3><span>Second Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#70FFBF"},description:{content:"\n                                <h3><span>Third Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#A52939"},description:{content:"\n                                <h3><span>Fourth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#EE3B80"},description:{content:"\n                                <h3><span>Fifth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}},{drawing:{background:"#EE6B9E"},description:{content:"\n                                <h3><span>Sixth Item</span></h3>\n                                <p><span>You can change item data using settings editor</span></p>\n                            "}}]}})})}(jQuery,Vue,Core,Widgets),function(e,t,n,a){t.component("default-image",{template:"#default-image",mixins:[n.WidgetMixin]})}(jQuery,Vue,Core,Widgets),function(e,t,n,a){a.ImageWidget=a.Widget(a.ImagesGroup,a.create({name:"default-image",tag:"default-image",mixins:[a.WidgetMixin,a.BoxMixin,a.SizeMixin],props:[{name:"src",title:"Source",type:"string",tab:"appearance"}]})),a.ImageWidgetFactory=function(e){var t=a.build(a.ImageWidget,{height:{value:"300px"},src:{value:e}});return t};for(var i=[{group:a.AbstractGroup,names:["a1","a2","a3","a4","a5","a6","a7","a8"]},{group:a.CityGroup,names:["c1","c2","c3","c4","c5","c6"]},{group:a.NatureGroup,names:["n1","n2","n3","n4","n5","n6"]},{group:a.SpaceGroup,names:["s1","s2","s3","s4","s5","s6"]}],o=0;o<i.length;o++)for(var r=i[o],s=0;s<r.names.length;s++){var l=r.names[s];a.Item(r.group,{name:l,thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/120x80/"+l+".jpg",widget:a.ImageWidgetFactory("/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/1920x1280/"+l+".jpg")})}}(jQuery,Vue,Core,Widgets),function(e,t,n){t.component("default-navbar",{template:"#default-navbar",mixins:[n.WidgetMixin]})}(jQuery,Vue,Core),function(e,t,n,a){a.NavbarWidget=a.Widget(a.NavigationGroup,a.create({name:"default-navbar",tag:"default-navbar",mixins:[a.WidgetMixin,a.BoxMixin,a.SizeMixin],props:[{name:"stereotype",title:"Stereotype",type:"string",tab:"data"}]})),a.NavbarWidgetFactory=function(e,t){return a.build(a.NavbarWidget,{stereotype:{value:e}})},a.Item(a.NavigationGroup,{name:"navbar-default",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/navbar/navbar-default.png",widget:a.NavbarWidgetFactory("default")}),a.Item(a.NavigationGroup,{name:"navbar-inverse",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/navbar/navbar-inverse.png",widget:a.NavbarWidgetFactory("inverse")})}(jQuery,Vue,Core,Widgets),function(e,t,n,a){a.StackCanvasWidget=a.Widget(a.StackGroup,a.create({name:"default-stack-canvas",tag:"default-stack-canvas",mixins:[a.CanvasMixin,a.SizeMixin],widgets:[]})),a.Item(a.StackGroup,{hidden:!0,name:"stack-canvas",widget:a.build(a.StackCanvasWidget)}),a.StackHorizontalWidget=a.Widget(a.StackGroup,a.create({name:"default-stack-horizontal",tag:"default-stack-horizontal",mixins:[a.WidgetMixin,a.BoxMixin],widgets:[]})),a.Item(a.StackGroup,{name:"stack-horizontal",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-horizontal.png",widget:a.build(a.StackHorizontalWidget)}),a.StackVerticalWidget=a.Widget(a.StackGroup,a.create({name:"default-stack-vertical",tag:"default-stack-vertical",mixins:[a.WidgetMixin,a.BoxMixin],widgets:[]})),a.Item(a.StackGroup,{name:"stack-vertical",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-vertical.png",widget:a.build(a.StackVerticalWidget,{})}),a.Item(a.StackGroup,{name:"stack-2columns",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-2columns.png",widget:a.build(a.StackVerticalWidget,{})}),a.Item(a.StackGroup,{name:"stack-3columns",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-3columns.png",widget:a.build(a.StackVerticalWidget,{})}),a.Item(a.StackGroup,{name:"stack-left",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-left.png",widget:a.build(a.StackHorizontalWidget)}),a.Item(a.StackGroup,{name:"stack-right",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-right.png",widget:a.build(a.StackHorizontalWidget)})}(jQuery,Vue,Core,Widgets),Shell=window.Shell||{},function(e,t,n,a,i){t.component("default-stack-canvas",{template:"#default-stack-canvas",mixins:[n.WidgetMixin,n.StackedMixin]}),t.component("default-stack-horizontal",{template:"#default-stack-horizontal",mixins:[n.WidgetMixin,n.StackedMixin]}),t.component("default-stack-vertical",{template:"#default-stack-vertical",mixins:[n.WidgetMixin,n.StackedMixin]})}(jQuery,Vue,Core,Shell),function(e,t,n,a){t.component("default-button",{template:"#default-button",mixins:[n.WidgetMixin]})}(jQuery,Vue,Core,Widgets),function(e,t,n,a){a.ButtonWidget=a.Widget(a.ButtonsGroup,a.create({name:"default-button",tag:"default-button",mixins:[a.WidgetMixin,a.BoxMixin,a.SizeMixin],props:[{name:"title",title:"Title",type:"string",tab:"content"},{name:"type",title:"Type",type:"string",tab:"data"},{name:"stereotype",title:"Stereotype",type:"string",tab:"data"}]})),a.ButtonWidgetFactory=function(e,t){var n=a.build(a.ButtonWidget,{inner:{value:{margin:{value:"15px 15px"}}},type:{value:"button"},title:{value:e},stereotype:{value:t}});return n},a.Item(a.ButtonsGroup,{name:"button-default",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-default.png",widget:a.ButtonWidgetFactory("Default","default")}),a.Item(a.ButtonsGroup,{name:"button-primary",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-primary.png",widget:a.ButtonWidgetFactory("Primary","primary")}),a.Item(a.ButtonsGroup,{name:"button-success",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-success.png",widget:a.ButtonWidgetFactory("Success","success")
-}),a.Item(a.ButtonsGroup,{name:"button-info",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-info.png",widget:a.ButtonWidgetFactory("Info","info")}),a.Item(a.ButtonsGroup,{name:"button-warning",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-warning.png",widget:a.ButtonWidgetFactory("Warning","warning")}),a.Item(a.ButtonsGroup,{name:"button-danger",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-danger.png",widget:a.ButtonWidgetFactory("Danger","danger")})}(jQuery,Vue,Core,Widgets),function(e,t,n){t.component("default-check",{template:"#default-check",mixins:[n.WidgetMixin]})}(jQuery,Vue,Core),function(e,t,n,a){a.CheckWidget=a.Widget(a.ChecksGroup,a.create({name:"default-check",tag:"default-check",mixins:[a.WidgetMixin,a.BoxMixin,a.SizeMixin],props:[{name:"model",title:"Model",type:"var",tab:"data",variable:!0},{name:"stereotype",title:"Stereotype",type:"string",tab:"data"},{name:"items",type:"multiple",title:"Items",tab:"data",tabs:[{name:"data",title:"Data"}],props:[{name:"value",title:"Value",type:"string",tab:"data"},{name:"label",title:"Label",type:"string",tab:"data"}]}]})),a.CheckWidgetFactory=function(e,t,n){return a.build(a.CheckWidget,{model:{value:{value:t}},inner:{value:{margin:{value:"15px 15px"}}},stereotype:{value:e},items:{value:n.map(function(e){return{value:{value:e.value},label:{value:e.label}}})}})},a.Item(a.ChecksGroup,{name:"check-default",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-default.png",widget:a.CheckWidgetFactory("default",["A","B"],[{value:"A",label:"A"},{value:"B",label:"B"},{value:"C",label:"C"}])}),a.Item(a.ChecksGroup,{name:"check-primary",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-primary.png",widget:a.CheckWidgetFactory("primary",["A","B"],[{value:"A",label:"A"},{value:"B",label:"B"},{value:"C",label:"C"}])}),a.Item(a.ChecksGroup,{name:"check-success",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-success.png",widget:a.CheckWidgetFactory("success",["A","B"],[{value:"A",label:"A"},{value:"B",label:"B"},{value:"C",label:"C"}])}),a.Item(a.ChecksGroup,{name:"check-info",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-info.png",widget:a.CheckWidgetFactory("info",["A","B"],[{value:"A",label:"A"},{value:"B",label:"B"},{value:"C",label:"C"}])}),a.Item(a.ChecksGroup,{name:"check-warning",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-warning.png",widget:a.CheckWidgetFactory("warning",["A","B"],[{value:"A",label:"A"},{value:"B",label:"B"},{value:"C",label:"C"}])}),a.Item(a.ChecksGroup,{name:"check-danger",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-danger.png",widget:a.CheckWidgetFactory("danger",["A","B"],[{value:"A",label:"A"},{value:"B",label:"B"},{value:"C",label:"C"}])})}(jQuery,Vue,Core,Widgets),function(e,t,n){t.component("default-input-text",{template:"#default-input-text",mixins:[n.WidgetMixin],created:function(){}}),t.component("default-input-textarea",{template:"#default-input-textarea",mixins:[n.WidgetMixin]}),t.component("default-input-checkbox",{template:"#default-input-checkbox",mixins:[n.WidgetMixin]}),t.component("default-input-radio",{template:"#default-input-radio",mixins:[n.WidgetMixin]})}(jQuery,Vue,Core),function(e,t,n,a){a.InputWidget=a.Widget(a.InputsGroup,a.create({name:"default-input-text",tag:"default-input-text",mixins:[a.WidgetMixin,a.BoxMixin,a.SizeMixin],props:[{name:"model",title:"Model",type:"var",tab:"data",variable:!0},{name:"type",title:"Type",type:"string",tab:"content"},{name:"label",title:"Label",type:"string",tab:"content"},{name:"placeholder",title:"Placeholder",type:"string",tab:"content"}]})),a.InputWidgetFactory=function(e,t){return a.build(a.InputWidget,{model:{value:{value:""}},inner:{value:{margin:{value:"15px 15px"}}},label:{value:e},type:{value:t}})},a.Item(a.InputsGroup,{name:"input-text",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/text.png",widget:a.InputWidgetFactory("Input","text")}),a.TextareaWidget=a.Widget(a.InputsGroup,a.create({name:"default-input-textarea",tag:"default-input-textarea",mixins:[a.WidgetMixin,a.BoxMixin,a.SizeMixin],props:[{name:"model",title:"Model",type:"var",tab:"data",variable:!0},{name:"label",title:"Label",type:"string",tab:"data"},{name:"placeholder",title:"Placeholder",type:"string",tab:"data"}]})),a.TextareaWidgetFactory=function(e,t){return a.build(a.TextareaWidget,{model:{value:{value:""}},placeholder:{value:t},inner:{value:{margin:{value:"15px 15px"}}},label:{value:e}})},a.Item(a.InputsGroup,{name:"input-textarea",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/textarea.png",widget:a.TextareaWidgetFactory("Textarea","Type message here")}),a.RadioInputWidget=a.Widget(a.InputsGroup,a.create({name:"default-input-radio",tag:"default-input-radio",mixins:[a.WidgetMixin,a.BoxMixin,a.SizeMixin],props:[{name:"model",title:"Model",type:"var",tab:"data",variable:!0},{name:"stereotype",title:"Stereotype",type:"string",tab:"data"},{name:"items",type:"multiple",title:"Items",tab:"data",tabs:[{name:"data",title:"Data"}],props:[{name:"value",title:"Value",type:"string",tab:"data"},{name:"label",title:"Label",type:"string",tab:"data"}]}]})),a.RadioInputWidgetFactory=function(e,t){return a.build(a.RadioInputWidget,{model:{value:{value:e}},inner:{value:{margin:{value:"15px 15px"}}},items:{value:t.map(function(e){return{value:a.Param(e.value),label:a.Param(e.label)}})}})},a.Item(a.InputsGroup,{name:"input-radio",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/radio.png",widget:a.RadioInputWidgetFactory("1",[{value:"1",label:"First"},{value:"2",label:"Second"}])}),a.CheckInputWidget=a.Widget(a.InputsGroup,a.create({name:"default-input-checkbox",tag:"default-input-checkbox",mixins:[a.WidgetMixin,a.BoxMixin,a.SizeMixin],props:[{name:"model",title:"Model",type:"var",tab:"data",variable:!0},{name:"stereotype",title:"Stereotype",type:"string",tab:"data"},{name:"items",type:"multiple",title:"Items",tab:"data",tabs:[{name:"data",title:"Data"}],props:[{name:"value",title:"Value",type:"string",tab:"data"},{name:"label",title:"Label",type:"string",tab:"data"}]}]})),a.CheckInputWidgetFactory=function(e,t){return a.build(a.CheckInputWidget,{model:{value:{value:e}},inner:{value:{margin:{value:"15px 15px"}}},items:{value:t.map(function(e){return{value:a.Param(e.value),label:a.Param(e.label)}})}})},a.Item(a.InputsGroup,{name:"input-check",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/checkbox.png",widget:a.CheckInputWidgetFactory(["1"],[{value:"1",label:"First"},{value:"2",label:"Second"}])})}(jQuery,Vue,Core,Widgets),function(e,t,n,a){a.RadioWidget=a.Widget(a.RadiosGroup,a.create({name:"default-radio",tag:"default-radio",mixins:[a.WidgetMixin,a.BoxMixin,a.SizeMixin],props:[{name:"model",title:"Model",type:"var",tab:"data",variable:!0},{name:"stereotype",title:"Stereotype",type:"string",tab:"data"},{name:"items",type:"multiple",title:"Items",tab:"data",tabs:[{name:"data",title:"Data"}],props:[{name:"value",title:"Value",type:"string",tab:"data"},{name:"label",title:"Label",type:"string",tab:"data"}]}]})),a.RadioWidgetFactory=function(e,t,n){return a.build(a.RadioWidget,{model:{value:{value:t}},inner:{value:{margin:{value:"15px 15px"}}},stereotype:{value:e},items:{value:n.map(function(e){return{value:{value:e.value},label:{value:e.label}}})}})},a.Item(a.RadiosGroup,{name:"radio-default",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-default.png",widget:a.RadioWidgetFactory("default","1",[{value:"1",label:"On"},{value:"0",label:"Off"}])}),a.Item(a.RadiosGroup,{name:"radio-primary",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-primary.png",widget:a.RadioWidgetFactory("primary","1",[{value:"1",label:"On"},{value:"0",label:"Off"}])}),a.Item(a.RadiosGroup,{name:"radio-success",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-success.png",widget:a.RadioWidgetFactory("success","1",[{value:"1",label:"On"},{value:"0",label:"Off"}])}),a.Item(a.RadiosGroup,{name:"radio-info",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-info.png",widget:a.RadioWidgetFactory("info","1",[{value:"1",label:"On"},{value:"0",label:"Off"}])}),a.Item(a.RadiosGroup,{name:"radio-warning",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-warning.png",widget:a.RadioWidgetFactory("warning","1",[{value:"1",label:"On"},{value:"0",label:"Off"}])}),a.Item(a.RadiosGroup,{name:"radio-danger",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-danger.png",widget:a.RadioWidgetFactory("danger","1",[{value:"1",label:"On"},{value:"0",label:"Off"}])})}(jQuery,Vue,Core,Widgets),function(e,t,n){t.component("default-radio",{template:"#default-radio",mixins:[n.WidgetMixin]})}(jQuery,Vue,Core),function(e,t,n,a){a.TextWidget=a.Widget(a.BlocksGroup,a.create({name:"default-text",tag:"default-text",mixins:[a.WidgetMixin,a.BoxMixin,a.SizeMixin],props:[{name:"stereotype",title:"Stereotype",type:"string",tab:"data"},{name:"content",title:"Content",type:"rich",tab:"content"}]})),a.TextWidgetFactory=function(e,t){return a.build(a.TextWidget,{content:{value:t},stereotype:{value:e},inner:{value:{padding:{value:"15px 15px"}}}})},a.Item(a.HeadingsGroup,{name:"text-h1",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/text-h1.png",widget:a.TextWidgetFactory("default","\n            <h1>Heading 1</h1>\n        ")}),a.Item(a.HeadingsGroup,{name:"text-h2",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/text-h2.png",widget:a.TextWidgetFactory("default","\n            <h2>Heading 2</h2>\n        ")}),a.Item(a.HeadingsGroup,{name:"text-h3",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/text-h3.png",widget:a.TextWidgetFactory("default","\n            <h3>Heading 3</h3>\n        ")}),a.Item(a.HeadingsGroup,{name:"text-h4",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/text-h4.png",widget:a.TextWidgetFactory("default","\n            <h4>Heading 4</h4>\n        ")}),a.Item(a.HeadingsGroup,{name:"text-h5",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/text-h5.png",widget:a.TextWidgetFactory("default","\n            <h5>Heading 5</h5>\n        ")}),a.Item(a.HeadingsGroup,{name:"text-h6",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/text-h6.png",widget:a.TextWidgetFactory("default","\n            <h6>Heading 6</h6>\n        ")}),a.Item(a.BlocksGroup,{name:"block-default",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/block-default.png",widget:a.TextWidgetFactory("default","\n            <h3>Lorem ipsum</h3>\n            <p>Etiam porta sem malesuada magna mollis euismod.</p>\n        ")}),a.Item(a.BlocksGroup,{name:"block-primary",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/block-primary.png",widget:a.TextWidgetFactory("primary","\n            <h3>Lorem ipsum</h3>\n            <p>Etiam porta sem malesuada magna mollis euismod.</p>\n        ")}),a.Item(a.BlocksGroup,{name:"block-success",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/block-success.png",widget:a.TextWidgetFactory("success","\n            <h3>Lorem ipsum</h3>\n            <p>Etiam porta sem malesuada magna mollis euismod.</p>\n        ")}),a.Item(a.BlocksGroup,{name:"block-info",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/block-info.png",widget:a.TextWidgetFactory("info","\n            <h3>Lorem ipsum</h3>\n            <p>Etiam porta sem malesuada magna mollis euismod.</p>\n        ")}),a.Item(a.BlocksGroup,{name:"block-warning",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/block-warning.png",widget:a.TextWidgetFactory("warning","\n            <h3>Lorem ipsum</h3>\n            <p>Etiam porta sem malesuada magna mollis euismod.</p>\n        ")}),a.Item(a.BlocksGroup,{name:"block-danger",thumbnail:"/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/block-danger.png",widget:a.TextWidgetFactory("danger","\n            <h3>Lorem ipsum</h3>\n            <p>Etiam porta sem malesuada magna mollis euismod.</p>\n        ")})}(jQuery,Vue,Core,Widgets),function(e,t,n){t.component("default-text",{template:"#default-text",mixins:[n.WidgetMixin]})}(jQuery,Vue,Core),function(e,t,n){t.component("default-box",{template:"#default-box",props:{bindings:Object,class:String}})}(jQuery,Vue,Core),function(e,t,n){t.component("default-placeholder",{template:"#default-placeholder",mixins:[n.WidgetMixin]})}(jQuery,Vue,Core),function(e,t,n,a){a.StubWidget=a.Widget(a.UtilGroup,a.create({_action:"ignore",name:"default-stub",tag:"default-stub",mixins:[a.BoxMixin],props:[{name:"content",type:"rich"}]})),a.StubWidgetFactory=function(e){return a.build(a.StubWidget,{content:{value:e}})}}(jQuery,Vue,Core,Widgets),function(e,t,n){t.component("default-stub",{template:"#default-stub",mixins:[n.WidgetMixin]})}(jQuery,Vue,Core),window.Landing=function(e,t,n,a){var i={};return e(document).ready(function(){e("[data-vue-app]").each(function(o,r){function s(e){return{component:a.ShellPublic.extend({data:function(){return{page:e}}})}}e('script[type="archery/template"]').each(function(t,n){console.log(n,e(n).html()),e(document.body).append(e(n).html())});var l=e(r).data(),c=t.extend({data:function(){return l},created:function(){t.service("security",n.SecurityFactory(this)),t.service("portals",n.PortalsFactory(this))}}),p=new VueRouter({history:!0});p.beforeEach(function(e){e.to.auth&&!p.app.principal?e.abort():e.to.anon&&p.app.principal?e.abort():e.next()});var d={"/":{component:i.LandingPage},"/gallery":{component:i.LandingGalleryPage},"/storage":{component:i.LandingStoragePage},"/signin":{component:i.LandingSigninPage,anon:!0},"/signup":{component:i.LandingSignupPage,anon:!0},"/manage":{component:i.LandingManagePage,auth:!0},"/manage-create":{component:i.LandingManageCreatePage,auth:!0},"/site/:portal/:page":{component:a.ShellPublic,auth:!0},"/manage/:portal":{component:a.Loader,auth:!0,private:!0},"/manage/:portal/:page":{component:a.Loader,auth:!0,private:!0}};if(l.model)for(var u=0;u<l.model.pages.length;u++){var g=l.model.pages[u];d[g.name]=s(g)}p.map(d),p.start(c,e("[data-vue-body]",r).get(0))})}),i}(jQuery,Vue,Core,Shell),function(e,t,n,a,i){i.LandingPage=t.component("landing-page",{template:"#landing-page"}),i.LandingGalleryPage=t.component("landing-gallery-page",{template:"#landing-gallery-page"}),i.LandingStoragePage=t.component("landing-storage-page",{template:"#landing-storage-page"}),i.LandingSigninPage=t.component("landing-signin-page",{template:"#landing-signin-page"}),i.LandingSignupPage=t.component("landing-signup-page",{template:"#landing-signup-page"}),i.LandingProfilePage=t.component("landing-profile-page",{template:"#landing-profile-page"}),i.LandingManagePage=t.component("landing-manage-page",{template:"#landing-manage-page"}),i.LandingManageCreatePage=t.component("landing-manage-create-page",{template:"#landing-manage-create-page"})}(jQuery,Vue,Core,Shell,Landing),function(e,t,n,a,i){n.PortalsFactory=function(e){return{load:function(t){return new Promise(function(n,a){e.$http.get("/ws/portals",t).then(function(e){n(e)},function(e){a(e)})})},create:function(t){return new Promise(function(n,a){e.$http.post("/ws/portals",t).then(function(e){n(e)},function(e){a(e)})})},remove:function(t){return new Promise(function(n,a){e.$http.delete("/ws/portals/"+t.id).then(function(e){n(e)},function(e){a(e)})})},get:function(t){return new Promise(function(n,a){e.$http.get("/ws/portals/"+t.id).then(function(e){n(e)},function(e){a(e)})})}}}}(jQuery,Vue,Core,Shell,Landing),function(e,t,n,a,i){n.SecurityFactory=function(e){return{signup:function(t){return new Promise(function(n,a){e.$http.post("/ws/signup",t).then(function(t){e.principal=t.data.principal,n(t)},function(t){e.principal=null,a(t)})})},signin:function(t){return new Promise(function(n,a){e.$http.post("/ws/signin",t).then(function(t){e.principal=t.data.principal,n(t)},function(t){e.principal=null,a(t)})})},signout:function(){return new Promise(function(t,n){e.$http.post("/ws/signout").then(function(n){e.principal=null,t(n)},function(e){n(e)})})}}}}(jQuery,Vue,Core,Shell,Landing),function(e,t,n,a,i){var o={email:"/^([a-zA-Z0-9_\\.\\-]+)@([a-zA-Z0-9_\\.\\-]+)\\.([a-zA-Z0-9]{2,})$/g"};i.Signin=t.component("landing-account-signin",{template:"#landing-account-signin",data:function(){return{form:this.form,validation:o}},created:function(){this.$set("form",{email:null,password:null})},methods:{signin:function(){var e=this;t.service("security").signin({email:this.form.email,password:this.form.password}).then(function(t){e.$router.go("/")},function(e){})}}}),i.Signup=t.component("landing-account-signup",{template:"#landing-account-signup",data:function(){return{form:this.form,validation:o}},created:function(){this.$set("form",{email:null,password:null})},methods:{signup:function(){var e=this;t.service("security").signup({email:this.form.email,password:this.form.password}).then(function(t){e.$router.go("/")},function(e){})}}}),i.Profile=t.component("landing-account-profile",{template:"#landing-account-profile"})}(jQuery,Vue,Core,Shell,Landing),function(e,t,n,a,i){i.Feedback=t.component("landing-feedback",{template:"#landing-feedback"})}(jQuery,Vue,Core,Shell,Landing),function(e,t,n,a,i){i.Footer=t.component("landing-footer",{template:"#landing-footer"})}(jQuery,Vue,Core,Shell,Landing),function(e,t,n,a,i){i.Gallery=t.component("landing-gallery",{template:"#landing-gallery"}),i.GalleryFull=t.component("landing-gallery-full",{template:"#landing-gallery-full"})}(jQuery,Vue,Core,Shell,Landing),function(e,t,n,a,i){i.Header=t.component("landing-header",{template:"#landing-header",methods:{signout:function(){var e=this;t.service("security").signout().then(function(t){e.$router.go("/")},function(e){})}}})}(jQuery,Vue,Core,Shell,Landing),function(e,t,n,a,i){i.Manage=t.component("landing-manage",{template:"#landing-manage",data:function(){return{url:window.location.protocol+"//"+window.location.hostname+(window.location.port?":"+window.location.port:""),portals:this.portals}},created:function(){this.refresh()},methods:{refresh:function(){var e=this;t.service("portals").load().then(function(t){e.$set("portals",t.data.portals)},function(t){e.$set("portals",[])})},remove:function(e){var n=this;t.service("portals").remove({id:e}).then(function(e){n.refresh()},function(e){})}}}),i.ManageCreate=t.component("landing-manage-create",{template:"#landing-manage-create",data:function(){return{form:this.form}},created:function(){this.$set("form",{title:null})},methods:{create:function(){var e=this;t.service("portals").create({title:this.form.title}).then(function(t){e.$router.go("/manage")},function(e){})}}})}(jQuery,Vue,Core,Shell,Landing),function(e,t,n,a,i){i.Storage=t.component("landing-pricing",{template:"#landing-pricing"})}(jQuery,Vue,Core,Shell,Landing),function(e,t,n,a,i){i.Storage=t.component("landing-storage",{template:"#landing-storage"}),i.StorageFull=t.component("landing-storage-full",{template:"#landing-storage-full"})}(jQuery,Vue,Core,Shell,Landing),function(e,t,n,a,i){i.Usecases=t.component("landing-usecases",{template:"#landing-usecases"})}(jQuery,Vue,Core,Shell,Landing),function(e,t,n,a,i){i.Super=t.component("landing-super",{template:"#landing-super"})}(jQuery,Vue,Core,Shell,Landing),function(e,t,n,a,i){i.Video=t.component("landing-video",{template:"#landing-video"})}(jQuery,Vue,Core,Shell,Landing),function(e,t,n,a){t.component("academy-header",{template:"#academy-header",mixins:[n.WidgetMixin]})}(jQuery,Vue,Core,Widgets),function(e,t,n,a){var i=a.Widget(a.HeadersGroup,a.create({name:"academy-header",tag:"academy-header",mixins:[a.WidgetMixin,a.BoxMixin,a.SizeMixin],props:[{name:"logo",title:"Logo",type:"string",tab:"content"},{name:"promo",title:"Promo",type:"rich",tab:"content"},{name:"email",title:"Email",type:"string",tab:"content"},{name:"phone",title:"Phone",type:"string",tab:"content"},{name:"tw",title:"Twitter",type:"string",tab:"content"},{name:"gl",title:"Google+",type:"string",tab:"content"},{name:"fb",title:"Facebook",type:"string",tab:"content"},{name:"vk",title:"Vkontakte",type:"string",tab:"content"}]}));a.Item(a.HeadersGroup,{name:"academy-header",thumbnail:"/assets/vendor/ntr1x-archery-widgets-academy/src/header/header.png",widget:a.build(i,{outer:{value:{background:{value:"#F5F5F5"}}},inner:{value:{margin:{value:"0px auto"}}},width:{value:"1200px"},email:{value:"info@moscowacademy.com"},phone:{value:"+7 (495) 123-4567"},tw:{value:"https://twitter.com/bookAgolf"},fb:{value:"https://ru-ru.facebook.com/bookagolf"},gl:{value:"https://plus.google.com/communities/102202642996727382512"},logo:{value:"/assets/vendor/ntr1x-archery-widgets-academy/src/header/img/logo.png"},promo:{value:"\n                <h1>Voted the UK's<br />Leading Residential<br />Golf School</h1>\n                <h3>by Today’s Golfer Magazine</h3>\n            "}})})}(jQuery,Vue,Core,Widgets),function(e,t,n,a){t.component("academy-menu",{template:"#academy-menu",mixins:[n.WidgetMixin]})}(jQuery,Vue,Core,Widgets),function(e,t,n,a){var i=a.Props,o=a.Tabs,r=a.Widget(a.NavigationGroup,a.create({name:"academy-menu",tag:"academy-menu",mixins:[a.WidgetMixin,a.BoxMixin,a.SizeMixin],props:[{name:"items",title:"Items",type:"object",tab:"data",tabs:[o.Data,o.Appearance],props:[{name:"collection",title:"Collection",type:"multiple",tab:"data",tabs:[o.Data],props:[i.Margin,i.Padding,i.Background,{name:"vlink",title:"Vlink",type:"string",tab:"data"},{name:"href",title:"Href",type:"string",tab:"data"},{name:"title",title:"Title",type:"string",tab:"data"},{name:"active",title:"Active",type:"string",tab:"data"}]},{name:"style",title:"Style",type:"object",tab:"appearance",tabs:[o.Appearance],props:[i.Margin,i.Padding,i.Background]}]}]}));a.Item(a.NavigationGroup,{name:"academy-menu",thumbnail:"/assets/vendor/ntr1x-archery-widgets-academy/src/menu/menu.png",widget:a.build(r,{outer:{value:{background:{value:"#266181"}}},inner:{value:{margin:{value:"0px auto"}}},width:{value:"1200px"},items:{value:{style:{value:{padding:{value:"12px 16px"},margin:{value:"4px 2px"}}},collection:{value:[{vlink:{value:""},title:{value:"Home"},active:{value:!0}},{vlink:{value:"courses"},title:{value:"Courses"}},{vlink:{value:"about"},title:{value:"About"}}]}}}})})}(jQuery,Vue,Core,Widgets),function(e,t,n,a){var i=a.Props,o=a.Tabs,r=a.Widget(a.NavigationGroup,a.create({name:"academy-sitemap",tag:"academy-sitemap",mixins:[a.WidgetMixin,a.BoxMixin,a.SizeMixin],props:[{name:"items",title:"Items",type:"object",tab:"data",tabs:[o.Data,o.Appearance],props:[{name:"collection",title:"Collection",type:"multiple",tab:"data",tabs:[o.Data,o.Appearance],props:[i.Margin,i.Padding,i.Background,i.Vlink,i.Href,i.Title,{name:"items",title:"Items",type:"object",tab:"data",tabs:[o.Data,o.Appearance],props:[{name:"collection",title:"Collection",type:"multiple",tab:"data",tabs:[o.Data],props:[i.Margin,i.Padding,i.Background,i.Vlink,i.Href,i.Title]},{name:"style",title:"Item Style",type:"object",tab:"appearance",tabs:[o.Appearance],props:[i.Margin,i.Padding,i.Background]}]},{name:"head",title:"Head Style",type:"object",tab:"appearance",tabs:[o.Appearance],props:[i.Margin,i.Padding,i.Background]},{name:"body",title:"Body Style",type:"object",tab:"appearance",tabs:[o.Appearance],props:[i.Margin,i.Padding,i.Background]}]},{name:"style",title:"Item Style",type:"object",tab:"appearance",tabs:[o.Appearance],props:[i.Margin,i.Padding,i.Background]},{name:"head",title:"Head Style",type:"object",tab:"appearance",tabs:[o.Appearance],props:[i.Margin,i.Padding,i.Background]},{name:"body",title:"Body Style",type:"object",tab:"appearance",tabs:[o.Appearance],props:[i.Margin,i.Padding,i.Background]}]}]}));a.Item(a.NavigationGroup,{name:"academy-sitemap",thumbnail:"/assets/vendor/ntr1x-archery-widgets-academy/src/sitemap/sitemap.png",widget:a.build(r,{outer:{value:{background:{value:"#266181"}}},inner:{value:{margin:{value:"0px auto"}}},width:{value:"1200px"},items:{value:{collection:{value:[{title:{value:"Tuition Courses"},items:{value:{collection:{value:[{title:{value:"Beginner Schools"}},{title:{value:"Intermediate Schools"}},{title:{value:"Advanced Schools"}},{title:{value:"Specialist Schools"}}]}}}},{title:{value:"During Your Stay"},items:{value:{collection:{value:[{title:{value:"Golf Lodge"}},{title:{value:"Restaurant & Bar"}},{title:{value:"Places to Visit"}},{title:{value:"FAQ"}}]}}}},{title:{value:"About Us"},items:{value:{collection:{value:[{title:{value:"Why Us?"}},{title:{value:"Testimonials"}},{title:{value:"In the Media"}},{title:{value:"How to find us"}}]}}}}]}}}})})}(jQuery,Vue,Core,Widgets),function(e,t,n,a){t.component("academy-sitemap",{template:"#academy-sitemap",mixins:[n.WidgetMixin]})}(jQuery,Vue,Core,Widgets);
+window.Core =
+(function($, Vue) {
+
+    var Core = {};
+
+    // if (CKEDITOR) {
+    //     CKEDITOR_BASEPATH = '/assets/vendor/ckeditor/';
+    // }
+
+    return Core;
+
+})(jQuery, Vue);
+
+(function($, Core) {
+
+    Vue.directive('affix', {
+
+        bind: function () {
+
+            if ($.fn.affix) {
+                $(this.el).affix(this.vm.$get(this.expression));
+            }
+        },
+        update: function (newValue, oldValue) {
+        },
+        unbind: function () {
+        }
+    });
+
+})(jQuery, Core);
+
+(function($, Core) {
+
+    Vue.directive('combo', {
+
+        bind: function () {
+
+            if ($.fn.tagsinput) {
+
+                $(this.el).select2({
+                    tags: true,
+                    multiple: false,
+                    createTag: function (params) {
+                        return {
+                            id: params.term,
+                            text: params.term,
+                            newOption: true
+                        }
+                    },
+                });
+            }
+        },
+        update: function (newValue, oldValue) {
+        },
+        unbind: function () {
+        }
+    });
+
+})(jQuery, Core);
+
+(function($, Core) {
+
+    Vue.directive('date', {
+
+        bind: function () {
+
+            if ($.fn.datepicker) {
+
+                $(this.el).datepicker({
+                    autoclose: true,
+                    todayHighlight: true,
+                    format: "yyyy-mm-dd"
+                });
+            }
+        },
+        update: function (newValue, oldValue) {
+        },
+        unbind: function () {
+        }
+    });
+
+})(jQuery, Core);
+
+(function($, Core) {
+
+    Vue.directive('rich', {
+
+        bind: function () {
+
+            if (window.CKEDITOR) {
+
+                this.editor = CKEDITOR.inline(this.el, {
+                    stylesSet: [
+                        { name: 'Bolder', element: 'span', attributes: { 'class': 'extrabold'} }
+                    ],
+                    toolbarGroups: [
+                        // { name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+                        // { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
+                        { name: 'links' },
+                        // { name: 'forms' },
+                        {name: 'tools'},
+                        {name: 'document', groups: ['mode', 'document', 'doctools']},
+                        {name: 'others'},
+                        {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align']},
+                        {name: 'colors'},
+                        '/',
+                        {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
+                        {name: 'styles'},
+                        '/',
+                        { name: 'insert', groups: [ 'ImageButton' ]  }
+                        //{name: 'about'}
+                    ]
+                });
+
+                this.editor.on('change', function() {
+                    this.editor.updateElement();
+                    this.vm.$set(this.expression, $(this.el).val());
+                }.bind(this));
+
+                this.editor.setData(this.vm.$get(this.expression));
+            }
+        },
+
+        update: function (newValue, oldValue) {
+            // console.log('update', newValue, oldValue);
+        },
+
+        unbind: function () {
+            this.editor.destroy();
+            this.editor = null;
+            this.textarea = null;
+            this.input = null;
+        }
+    });
+
+})(jQuery, Core);
+
+(function($, Core) {
+
+    Vue.directive('scrollable', {
+
+        bind: function () {
+
+            // $(this.el).css({
+            //     'overflow': 'auto',
+            // });
+
+            if ($.fn.perfectScrollbar) {
+                Vue.nextTick(function() {
+                    $(this.el).perfectScrollbar({
+                        // axis: this.expression
+                    });
+                }.bind(this));
+            }
+
+        },
+        update: function (newValue, oldValue) {
+        },
+        unbind: function () {
+        }
+    });
+
+})(jQuery, Core);
+
+(function($, Core) {
+
+    Vue.directive('tags', {
+
+        bind: function () {
+
+            if ($.fn.tagsinput) {
+
+                $(this.el).tagsinput({
+                });
+            }
+        },
+        update: function (newValue, oldValue) {
+        },
+        unbind: function () {
+        }
+    });
+
+})(jQuery, Core);
+
+(function(Vue, $, Core) {
+
+    Core.TabsMixin = function(active) {
+
+        return {
+
+            data: function() {
+                return {
+                    tabs: {
+                        active: active
+                    }
+                }
+            },
+
+            methods: {
+
+                activate: function(tab) {
+                    this.tabs.active = tab;
+                },
+
+                isActive: function(tab) {
+                    return this.tabs.active == tab;
+                }
+            }
+        }
+    }
+
+    Core.ActionMixin = function(ModalEditor) {
+
+        return {
+
+            props: {
+                model: Object,
+                globals: Object,
+                context: Object,
+            },
+
+            methods: {
+
+                open: function(context) {
+
+                    var dialog = new ModalEditor({
+
+                        data: {
+                            globals: this.globals,
+                            owner: this,
+                            context: context || this.context,
+                            original: this.model,
+                            current: JSON.parse(JSON.stringify(this.model))
+                        },
+
+                        methods: {
+                            submit: function() {
+                                this.owner.doApply(this.current);
+                                this.$remove();
+                                this.$destroy();
+                            },
+                            reset: function() {
+                                this.$remove();
+                                this.$destroy();
+                            }
+                        }
+                    }).$mount().$appendTo($('body').get(0));
+                },
+
+                doApply: function(model) {
+
+                    Object.assign(this.model, JSON.parse(JSON.stringify(model)), {
+                        _action: this.model._action
+                            ? this.model._action
+                            : 'update'
+                    });
+
+                    $(window).trigger('resize');
+                }
+            }
+        };
+    };
+
+    Core.EditorMixin = function(ListViewer, ModalEditor) {
+
+        return {
+
+            props: {
+                items: Array,
+                globals: Object
+            },
+
+            methods: {
+
+                trigger: function(event, item, context) {
+                    this.$dispatch(event, { item: item, context: context });
+                },
+
+                create: function(item, context) {
+
+                    var dialog = new ModalEditor({
+
+                        data: {
+                            globals: this.globals,
+                            owner: this,
+                            context: context,
+                            original: null,
+                            current: item ? JSON.parse(JSON.stringify(item)) : {}
+                        },
+
+                        methods: {
+                            submit: function() {
+                                this.owner.doCreate(this.current);
+                                this.$remove();
+                                this.$destroy();
+                            },
+                            reset: function() {
+                                this.$remove();
+                                this.$destroy();
+                            }
+                        }
+                    }).$mount().$appendTo($('body').get(0));
+                },
+
+                remove: function(item, context) {
+                    this.doRemove(item, context);
+                },
+
+                update: function(item, context) {
+
+                    this.active = item;
+
+                    new ModalEditor({
+
+                        data: {
+                            globals: this.globals,
+                            owner: this,
+                            context: context,
+                            original: item,
+                            current: JSON.parse(JSON.stringify(item))
+                        },
+
+                        methods: {
+                            submit: function() {
+                                this.owner.doUpdate(this.current);
+                                this.$remove();
+                                this.$destroy();
+                            },
+                            reset:  function() {
+                                this.$remove();
+                                this.$destroy();
+                            },
+                        }
+                    }).$mount().$appendTo($('body').get(0));
+                },
+
+                doCreate: function(item, context) {
+
+                    this.items.push(Object.assign({}, JSON.parse(JSON.stringify(item)), { _action: 'create' }));
+
+                    this.$set('items', $.extend(true, [], this.items));
+
+                    $(window).trigger('resize');
+                    this.active = null;
+                },
+
+                doUpdate: function(item, context) {
+
+                    Object.assign(this.active, JSON.parse(JSON.stringify(item)), {
+                        _action: this.active._action
+                            ? this.active._action
+                            : 'update'
+                    });
+
+                    // this.items = $.extend(true, [], this.items);//this.items.slice();
+                    this.items = this.items.slice();
+                    $(window).trigger('resize');
+                    this.active = null;
+
+                    // console.log('update', item, context);
+                    //
+                    // this.$set('active', Object.assign(JSON.parse(JSON.stringify(item)), {
+                    //     _action: this.active._action
+                    //         ? this.active._action
+                    //         : 'update'
+                    // }));
+                    //
+                    // // this.items = $.extend(true, [], this.items);//this.items.slice();
+                    //
+                    // this.$set('items', $.extend(true, [], this.items));
+                    //
+                    // $(window).trigger('resize');
+                    // this.active = null;
+                },
+
+                doRemove: function(item, context) {
+
+                    var index = this.items.indexOf(item);
+                    if (index !== -1) {
+                        var item = this.items[index];
+                        if (item._action == 'create') {
+                            this.items.$remove(item);
+                        } else {
+                            item._action = 'remove';
+                        }
+                    }
+
+                    // this.items = $.extend(true, [], this.items);
+                    this.$set('items', $.extend(true, [], this.items));
+
+                    $(window).trigger('resize');
+                    this.active = null;
+                }
+            },
+
+            events: {
+                create: function(data) { this.create(data.item, data.context); },
+                update: function(data) { this.update(data.item, data.context); },
+                remove: function(data) { this.remove(data.item, data.context); },
+                doCreate: function(data) { this.doCreate(data.item, data.context); },
+                doUpdate: function(data) { this.doUpdate(data.item, data.context); },
+                doRemove: function(data) { this.doRemove(data.item, data.context); },
+            }
+        };
+    };
+
+    Core.ListViewerMixin = {
+
+        props: {
+            items: Array,
+            globals: Object
+        },
+
+        methods: {
+            trigger: function(event, data) { this.$dispatch(event, { item: item, context: context }); },
+            create: function(item, context) { this.$dispatch('create', { item: item, context: context} ); },
+            update: function(item, context) { this.$dispatch('update', { item: item, context: context} ); },
+            remove: function(item, context) { this.$dispatch('remove', { item: item, context: context} ); },
+        }
+    };
+
+    Core.ModalEditorMixin = {
+
+        attached: function() {
+
+            $(this.$el).modal('show');
+            $(this.$el).on('hide.bs.modal', (e) => {
+                e.stopPropagation();
+                this.reset();
+            });
+        },
+
+        detached: function() {
+            $(this.$el).modal('hide');
+        },
+
+        methods: {
+            submit: function() {},
+            reset: function() {}
+        }
+    };
+
+})(Vue, jQuery, Core);
+
+// Vue.component('v-form', {
+//
+// 	props: {
+// 		action: String,
+// 		method: String,
+// 		init: Object,
+// 		done: Function,
+// 		fail: Function,
+// 		model: Object,
+// 	},
+//
+// 	// replace: false,
+//
+// 	// template: `
+// 	// 	<form>
+// 	// 		<slot></slot>
+// 	// 	</form>
+// 	// `,
+//
+// 	activate: function(done) {
+//
+// 		this.original = JSON.parse(JSON.stringify(this.model));
+//
+// 		$(this.$el)
+//
+// 			.on('submit', (e) => {
+// 				e.preventDefault();
+// 				this.submit();
+// 			})
+// 			.on('reset', (e) => {
+// 				e.preventDefault();
+// 				this.reset();
+// 			})
+//
+// 		done();
+// 	},
+//
+// 	data: function() {
+//
+// 		return {
+// 			model: this.model
+// 		};
+// 	},
+//
+// 	methods: {
+//
+// 		submit: function() {
+//
+// 			// e.preventDefault();
+//
+// 			// console.log(this.model);
+//
+// 			$.ajax({
+// 				url: this.action,
+// 				method: this.method,
+// 				contentType: "application/json",
+// 				data: JSON.stringify(this.model)
+// 			})
+// 			.done((d) => {
+// 				if (done in this) this.done(d);
+// 			})
+// 			.fail(function(e) { if (fail in this) this.fail(e); }.bind(this))
+// 		},
+//
+// 		reset: function() {
+// 			Object.assign(this.model, this.original);
+// 		}
+// 	},
+// });
+
+// Vue.component('inline-text',
+// 	Vue.extend({
+// 		props: [ 'name', 'value' ],
+// 		template: `
+// 			<div class="inline-container">
+// 				<input class="inline-control" type="text" name="{{ name }}" v-model="value" />
+// 			</div>
+// 		`
+// 	})
+// );
+//
+// Vue.component('inline-checkbox',
+// 	Vue.extend({
+// 		props: [ 'name', 'value' ],
+// 		template: `
+// 			<div class="inline-container">
+// 				<input class="inline-checkbox" type="checkbox" name="{{ name }}" v-model="value" />
+// 			</div>
+// 		`
+// 	})
+// );
+//
+// Vue.component('inline-select',
+// 	Vue.extend({
+// 		props: [ 'name', 'value', 'options' ],
+// 		template: `
+// 			<div class="inline-container">
+// 				<select class="inline-control1" name="{{ name }}" v-model="value">
+// 					<option v-for="option in options" value="{{ option.key }}">{{ option.value }}</option>
+// 				</select>
+// 			</div>
+// 		`
+// 	})
+// );
+//
+// Vue.component('inline-value',
+// 	Vue.extend({
+// 		props: [ 'name', 'value', 'class' ],
+// 		template: `
+// 			<input type="hidden" name="{{ name }}" v-model="value" />
+// 			<span :class="class">{{ value }}</span>
+// 		`
+// 	})
+// );
+
+(function($, Vue, Core) {
+
+    Core.WidgetMixin = {
+
+        props: {
+            page: Object,
+            data: Object,
+            storage: Object,
+            stack: Object,
+            bindings: Object,
+            children: Array,
+            editable: Boolean,
+        },
+
+        data:  function() {
+            return {
+                systemId: this.systemId,
+            }
+        },
+
+        created: function() {
+
+            this.randomId = Vue.service('palette').generateId('widget-');
+
+            this.$watch('bindings.id', function(value) {
+
+                if (value) {
+                    this.systemId = value;
+                } else {
+                    this.systemId = this.randomId;
+                }
+            }, {
+                immediate: true
+            });
+        },
+
+        methods: {
+            trigger: function(event, item, context) {
+                this.$dispatch(event, { item: item, context: context });
+            },
+        }
+    };
+
+    Core.StackedMixin = {
+
+        props: {
+            globals: Object,
+            settings: Object,
+            page: Object,
+            data: Object,
+            storage: Object,
+            editable: Boolean,
+            children: Array,
+        },
+
+        data: function() {
+            return {
+                stackId: this.stackId,
+            }
+        },
+
+        created: function() {
+             this.stackId = Vue.service('palette').generateId('stack-');
+        }
+    };
+
+})(jQuery, Vue, Core);
+
+// Vue.component('modal', {
+//
+//     props: {
+//         id: String,
+//         current: Object,
+//         original: Object,
+//     },
+//
+//     methods: {
+//
+//         submit: function(e) {
+//             this.$dispatch('submit', this.current);
+//             // Object.assign(this.original, JSON.parse(JSON.stringify(this.current)));
+//             $(e.target).closest('.modal').modal('hide');
+//         },
+//
+//         reset: function(e) {
+//             this.$dispatch('reset', this.current);
+//             // Object.assign(this.current, JSON.parse(JSON.stringify(this.original)));
+//             $(e.target).closest('.modal').modal('hide');
+//         }
+//     }
+// });
+
+(function ($, window, pluginName, undefined) {
+
+    var defaults = {
+
+        drag: true,
+        drop: true,
+        vertical: true,
+
+        containerSelector: "ol, ul",
+        itemSelector: "li",
+        excludeSelector: "",
+
+        bodyClass: "dragging",
+        activeClass: "active",
+        draggedClass: "dragged",
+        verticalClass: "vertical",
+        horizontalClass: "horizontal",
+        placeholderClass: "placeholder",
+
+        placeholder: '<li class="placeholder"></li>',
+
+        onDragStart: function(context, event, _super) {
+
+            var size = {
+                height: context.$item.outerHeight(),
+                width: context.$item.outerWidth(),
+            };
+
+            context.$originalItem = context.$item;
+
+            context.$item = context.$originalItem
+                .clone()
+                .addClass(context.sortable.options.draggedClass)
+                .css({
+                    position: 'fixed',
+                    left: event.pageX - context.adjustment.left,
+                    top: event.pageY - context.adjustment.top,
+                    width: size.width,
+                    height: size.height,
+                })
+                .appendTo(context.$parent)
+            ;
+        },
+
+        onDrag: function(context, event, _super) {
+
+            context.$item.css({
+                left: event.pageX - context.adjustment.left,
+                top: event.pageY - context.adjustment.top,
+            })
+        },
+
+        onDrop: function(context, event, _super) {
+
+            context.$item.remove();
+            if (context.location) {
+
+                context.$item = context.location.before
+                    ? context.$item.insertBefore(context.location.$item)
+                    : context.$item.insertAfter(context.location.$item)
+                ;
+
+                context.$item.css({
+                    position: '',
+                    left: '',
+                    top: '',
+                    width: '',
+                    height: '',
+                })
+            }
+
+        },
+    };
+
+    var context = null;
+    var sortables = [];
+
+    function Sortable($element, options) {
+
+        this.$element = $element;
+        this.options = $.extend({}, defaults, options);
+
+        $element.on('mousedown.sortable', this.options.itemSelector, (e) => { this.handleStart(e); });
+
+        this.draggable = null;
+
+        sortables.push(this);
+    }
+
+    $(document).ready(function() {
+        $(document)
+            .on('mouseup.sortable', (e) => { context && context.sortable.handleEnd(e, context); })
+            .on('mousemove.sortable', (e) => { context && context.sortable.handleDrag(e, context); })
+        ;
+    });
+
+    Sortable.prototype = {
+
+        dropLocation: function(e) {
+
+            var $item;
+            var sortable;
+
+            if (context) {
+
+                var display = context.$item.css('display');
+                context.$item.css({ display: 'none', });
+
+                for (var i = 0; i < sortables.length; i++) {
+                    var s = sortables[i];
+                    if (s.options.drop) {
+                        var $result = $(document.elementFromPoint(e.pageX, e.pageY)).closest(s.options.itemSelector);
+                        if ($result.length && $result.closest(s.$element).length) {
+                            $item = $result;
+                            sortable = s;
+                            break;
+                        }
+                    }
+                }
+
+                context.$item.css({ display: display, });
+
+            } else {
+
+                for (var i = 0; i < sortables.length; i++) {
+                    var s = sortables[i];
+                    if (s.options.drop) {
+                        var $result = $(document.elementFromPoint(e.pageX, e.pageY)).closest(s.options.itemSelector);
+                        if ($result.length && $result.closest(s.$element).length) {
+                            $item = $result;
+                            sortable = s;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (sortable && $item && $item.length) {
+
+                var $container = $item.closest(sortable.options.containerSelector);
+
+                var offset = $item.offset();
+                var size = {
+                    width: $item.outerWidth(),
+                    height: $item.outerHeight(),
+                };
+
+                var orientation = this.options.vertical
+                    ? $container.hasClass(sortable.options.horizontalClass) ? 'h' : 'v'
+                    : $container.hasClass(sortable.options.verticalClass) ? 'v' : 'h'
+                ;
+
+                var before = (orientation == 'h')
+                    ? e.pageX - offset.left < size.width / 2
+                    : e.pageY - offset.top < size.height / 2
+                ;
+
+                return {
+                    $item: $item,
+                    $container: $container,
+                    sortable: sortable,
+                    before: before,
+                };
+            }
+
+            return null;
+        },
+
+        handleStart: function(e) {
+
+            if (this.options.excludeSelector && $(e.target).closest(this.options.excludeSelector).length) {
+                return true;
+            }
+
+            var excludeTags = ['TEXTAREA', 'INPUT', 'BUTTON', 'LABEL'];
+
+            if (excludeTags.indexOf($(e.target).prop("tagName")) < 0) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            if (!context) {
+
+                var $item = $(e.target).closest(this.options.itemSelector);
+                var $parent = $item.parent();
+
+                var offset = $item.offset();
+
+                context = {
+                    sortable: this,
+                    index: $item.index(),
+                    $container: $item.closest(this.options.containerSelector),
+                    $parent: $item.parent(),
+                    $item: $item,
+                    $originalItem: $item,
+                    $targetItem: null,
+                    $targetContainer: null,
+                    location: this.dropLocation(e),
+                    adjustment: {
+                        left: e.clientX - offset.left,
+                        top: e.clientY - offset.top,
+                    },
+                };
+
+                this.options.onDragStart(context, e, defaults.onDragStart);
+            }
+        },
+
+        handleEnd: function(e) {
+
+            if (context) {
+
+                for (var i = 0; i < sortables.length; i++) {
+                    var sortable = sortables[i];
+                    $(sortable.options.containerSelector, sortable.$element).removeClass(sortable.options.activeClass);
+                }
+
+                if (context.$placeholder) {
+                    context.$placeholder.remove();
+                }
+
+                context.location = this.dropLocation(e);
+                if (context.location) {
+                    context.location.sortable.options.onDrop(context, e, defaults.onDrop);
+                } else {
+                    context.$item.remove();
+                }
+
+                context = null;
+            }
+        },
+
+        handleDrag: function(e) {
+
+            if (context) {
+
+                for (var i = 0; i < sortables.length; i++) {
+                    var sortable = sortables[i];
+                    $(this.options.containerSelector, sortable.$element).removeClass(this.options.activeClass);
+                }
+
+                if (context.$placeholder) {
+                    context.$placeholder.remove();
+                }
+
+                context.location = this.dropLocation(e);
+                if (context.location) {
+                    context.location.$container.addClass(context.location.sortable.options.activeClass);
+                    context.$placeholder = context.location.before
+                        ? $(context.location.sortable.options.placeholder).insertBefore(context.location.$item)
+                        : $(context.location.sortable.options.placeholder).insertAfter(context.location.$item)
+                    ;
+                }
+
+                context.sortable.options.onDrag(context, e, defaults.onDrag);
+            }
+        },
+    };
+
+    var API = $.extend(Sortable.prototype, {
+
+        enable: function() {
+        },
+        disable: function () {
+        },
+        destroy: function () {
+        }
+    });
+
+    $.fn[pluginName] = function(methodOrOptions) {
+
+        var args = Array.prototype.slice.call(arguments, 1);
+
+        return this.map(function() {
+
+            var $t = $(this),
+                object = $t.data(pluginName)
+            ;
+
+            if (object && API[methodOrOptions]) {
+                return API[methodOrOptions].apply(object, args) || this;
+            } else if (!object && (methodOrOptions === undefined || typeof methodOrOptions === "object")) {
+                $t.data(pluginName, new Sortable($t, methodOrOptions));
+            }
+
+            return this;
+        });
+    };
+
+})(jQuery, window, 'sortable');
+
+(function($, Core) {
+
+    Vue.filter('jsonPath', function (context, str) {
+        if (str === undefined || context === undefined) {
+            return;
+        }
+
+        var re = /{([^}]+)}/g;
+
+        result = str.replace(re, function(match, expr) {
+            json = JSONPath({
+                json: context,
+                path: expr
+            });
+            if (json.hasOwnProperty(1)) {
+                return 'array';
+            } else {
+                return json;
+            }
+        });
+
+        if (result == 'array') {
+            return JSONPath({
+                json: context,
+                path: str.replace(re, "$1")
+            });
+        } else {
+            return result;
+        }
+    });
+
+    Vue.filter('template', function (string, data) {
+        
+        var re = /${([^}]+)}/g;
+        return string.replace(re, function(match, key) {
+            return data[key];
+        });
+    });
+
+    Vue.filter('assign', function (target, source1, source2, source3) {
+
+        return Object.assign(target, source1, source2, source3);
+    });
+
+    Vue.filter('copy', function (source) {
+
+        return new Vue({
+            data: source != null
+                ? JSON.parse(JSON.stringify(source))
+                : null
+        }).$data;
+    });
+
+    Vue.filter('clone', function (source) {
+
+        return new Vue({
+            data: source != null
+                ? JSON.parse(JSON.stringify(source))
+                : null
+        }).$data;
+    });
+
+})(jQuery, Core);
+
+(function($, Core) {
+
+    $(document).ready(function() {
+
+        function reposition(element) {
+
+            var modal = $(element),
+                dialog = $('.modal-dialog', modal);
+
+            modal.css('display', 'block');
+            dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+        }
+
+        $($(document), '.modal.modal-center').on('show.bs.modal', function(e) {
+            reposition(e.target);
+        });
+
+        $(window).on('resize', () => {
+            $('.modal.modal-center:visible').each(function(index, element) {
+                reposition(element);
+            });
+        });
+    });
+
+})(jQuery, Core);
+
+(function($, Vue, Core) {
+
+    Vue.use({
+
+        install: function(Vue, options) {
+
+            var services = {};
+
+            Vue.service = function(name, service) {
+
+                return services[name] = services[name] || service;
+            }
+        }
+    });
+})(jQuery, Vue, Core);
+
+(function($, Core) {
+
+    Vue.validator('email', function (val) {
+      return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(val)
+    });
+
+})(jQuery, Core);
+
+window.Shell =
+(function($, Vue, Core) {
+
+    var Shell = {
+        Widgets: {},
+        Pages: {},
+    };
+
+    return Shell;
+
+})(jQuery, Vue, Core);
+
+(function(Vue, $, Core, Shell) {
+
+    var ModalEditor =
+    Vue.component('bindings-dialog', {
+        template: '#bindings-dialog',
+        mixins: [Core.ModalEditorMixin],
+        methods: {
+            setStrategy: function(strategy) {
+                this.$set('current.binding.strategy', strategy);
+            },
+            getStrategy: function(strategy) {
+                return this.$get('current.binding.strategy');
+            },
+        },
+        created: function() {
+            if (!this.current.binding) this.current.binding = {};
+        },
+    });
+
+    var Editor =
+    Vue.component('bindings', {
+
+        mixins: [Core.ActionMixin(ModalEditor)],
+    });
+
+})(Vue, jQuery, Core, Shell);
+
+(function(Vue, $, Core, Shell) {
+
+    var ListViewer =
+    Vue.component('domains-list', {
+        template: '#domains-list',
+        mixins: [Core.ListViewerMixin],
+    });
+
+    var ModalEditor =
+    Vue.component('domains-dialog', {
+        template: '#domains-dialog',
+        mixins: [Core.ModalEditorMixin, Core.TabsMixin('main')],
+    });
+
+    var Editor =
+    Vue.component('domains', {
+        mixins: [Core.EditorMixin(ListViewer, ModalEditor)],
+        template: '#domains',
+    });
+
+
+    var SettingsListViewer =
+    Vue.component('domains-settings-list', {
+        template: '#domains-settings-list',
+        mixins: [Core.ListViewerMixin],
+    });
+
+    var SettingsModalEditor =
+    Vue.component('domains-settings-dialog', {
+        template: '#domains-settings-dialog',
+        mixins: [Core.ModalEditorMixin],
+    });
+
+    var SettingsEditor =
+    Vue.component('domains-settings', {
+        mixins: [Core.EditorMixin(SettingsListViewer, SettingsModalEditor)],
+        template: '#domains-settings',
+    });
+
+})(Vue, jQuery, Core, Shell);
+
+(function(Vue, $, Core, Shell) {
+
+    var ParamVariable =
+    Vue.component('params-variable', {
+        template: '#params-variable',
+        props: {
+            id: String,
+            item: Object,
+            globals: Object,
+        }
+    });
+
+    var ParamString =
+    Vue.component('params-string', {
+        template: '#params-string',
+        props: {
+            id: String,
+            item: Object,
+            globals: Object,
+        }
+    });
+
+    var ParamSelect =
+    Vue.component('params-select', {
+        template: '#params-select',
+        props: {
+            id: String,
+            item: Object,
+            globals: Object,
+        }
+    });
+
+    var ParamRich =
+    Vue.component('params-rich', {
+        template: '#params-rich',
+        props: {
+            id: String,
+            item: Object,
+            globals: Object,
+        }
+    });
+
+    var ParamSource =
+    Vue.component('params-source', {
+        template: '#params-source',
+        props: {
+            id: String,
+            item: Object,
+            globals: Object,
+        }
+    });
+
+    var ParamMultiple =
+    Vue.component('params-multiple', {
+        template: '#params-multiple',
+        props: {
+            id: String,
+            item: Object,
+            globals: Object,
+        },
+        data: function() {
+            return {
+                items: this.item.items
+            }
+        },
+    });
+
+    var ParamObject =
+    Vue.component('params-object', {
+        template: '#params-object',
+        props: {
+            id: String,
+            item: Object,
+            globals: Object,
+        },
+    });
+
+    var Params =
+    Vue.component('params', {
+        template: '#params',
+        props: {
+            owner: Object,
+            tab: String,
+            items: Array,
+            globals: Object
+        }
+    });
+
+
+    var ParamMultipleListViewer =
+    Vue.component('params-multiple-list', {
+        template: '#params-multiple-list',
+        mixins: [Core.ListViewerMixin],
+        props: {
+            prop: Object,
+            param: Object,
+        },
+        methods: {
+            getLabel: function(item) {
+
+                if (this.prop.display) {
+                    var vm = new Vue({
+                        item: item,
+                    });
+                    return vm.$interpolate(this.prop.display);
+                }
+                return '<item>';
+            },
+        }
+    });
+
+    var ParamBindingsModalEditor =
+    Vue.component('params-bindings-dialog', {
+        template: '#params-bindings-dialog',
+        mixins: [ Core.ModalEditorMixin, Core.TabsMixin('binding') ],
+        data: function() {
+            return {
+                items: this.items,
+            };
+        },
+        created: function() {
+
+            var items = [];
+
+            var binding = this.current.binding || {};
+            if (!binding.strategy) binding.strategy = 'interpolate';
+
+            binding.params = binding.params || {};
+
+            if (this.context.prop.props) {
+
+                for (var i = 0; i < this.context.prop.props.length; i++) {
+
+                    var prop = this.context.prop.props[i];
+                    var param = this.current.value[prop.name] = this.current.value[prop.name] || {};
+
+                    param._action = param._action == 'update'
+                        ? 'update'
+                        : 'create'
+                    ;
+
+                    var item = {
+                        prop: prop,
+                        param: param,
+                    };
+
+                    items.push(item);
+                }
+            }
+
+            this.$set('current.binding', binding);
+            this.$set('items', items);
+        },
+        methods: {
+            setStrategy: function(strategy) {
+                this.$set('current.binding.strategy', strategy);
+            },
+            getStrategy: function(strategy) {
+                return this.$get('current.binding.strategy');
+            },
+        },
+    });
+
+    var Editor =
+    Vue.component('params-bindings', {
+        mixins: [Core.ActionMixin(ParamBindingsModalEditor)],
+    });
+
+    var ParamMultipleModalEditor =
+    Vue.component('params-multiple-dialog', {
+        template: '#params-multiple-dialog',
+        mixins: [Core.ModalEditorMixin, Core.TabsMixin('data')],
+        data: function() {
+            return {
+                items: this.items,
+            };
+        },
+        created: function() {
+
+            var items = [];
+
+            // console.log('created', ParamMultipleModalEditor);
+
+            // console.log(this.context.prop);
+
+            for (var i = 0; i < this.context.prop.props.length; i++) {
+
+                var prop = this.context.prop.props[i];
+                var param = this.current[prop.name] = this.current[prop.name] || { value: null };
+
+                param._action = param._action == 'update'
+                    ? 'update'
+                    : 'create'
+                ;
+
+                var item = {
+                    prop: prop,
+                    param: param,
+                };
+
+                // console.log(item);
+
+                items.push(item);
+            }
+
+            this.$set('items', items);
+        },
+    });
+
+    var ParamMultipleEditor =
+    Vue.component('params-multiple-editor', {
+        mixins: [Core.EditorMixin(ParamMultipleListViewer, ParamMultipleModalEditor)],
+        template: '#params-multiple-editor',
+        props: {
+            prop: Object,
+            param: Object,
+            items: Array,
+        },
+    });
+
+
+    var ParamsList =
+    Vue.component('params-list', {
+        template: '#params-list',
+        components: {
+            'params-string': ParamString,
+            'params-rich': ParamRich,
+            'params-source': ParamSource,
+            'params-multiple': ParamMultiple,
+        },
+        props: {
+            owner: Object,
+            tab: String,
+            items: Array,
+            globals: Object
+        }
+    });
+
+})(Vue, jQuery, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    var PagesModalEditor = Shell.Pages.ModalEditor =
+    Vue.component('shell-pages-dialog', {
+        template: '#shell-pages-dialog',
+        mixins: [ Core.ModalEditorMixin, Core.TabsMixin('main') ],
+        created: function() {
+
+            var items = [];
+
+            for (var i = 0; i < this.context.widget.props.length; i++) {
+
+                var prop = this.context.widget.props[i];
+                var param = this.current.root.params[prop.name];
+
+                var item = {
+                    prop: prop,
+                    param: param,
+                };
+
+                items.push(item);
+            }
+
+            this.items = items;
+        },
+        data: function() {
+            return {
+                context: this.context,
+                items: this.items,
+            };
+        },
+        methods: {
+
+            hasProps: function(tab) {
+                if (this.context.widget && this.context.widget.props) {
+                    for (var i = 0; i < this.context.widget.props.length; i++) {
+                        var prop = this.context.widget.props[i];
+                        if (prop.tab == tab) return true;
+                    }
+                }
+                return false;
+            }
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function(Vue, $, Core, Shell) {
+
+    var ListViewer =
+    Vue.component('schemes-list', {
+        template: '#schemes-list',
+        mixins: [Core.ListViewerMixin],
+    });
+
+    var ModalEditor =
+    Vue.component('schemes-dialog', {
+        template: '#schemes-dialog',
+        mixins: [Core.ModalEditorMixin, Core.TabsMixin('main')],
+    });
+
+    var Editor =
+    Vue.component('schemes', {
+        mixins: [Core.EditorMixin(ListViewer, ModalEditor)],
+        template: '#schemes',
+    });
+
+
+    var SettingsListViewer =
+    Vue.component('schemes-settings-list', {
+        template: '#schemes-settings-list',
+        mixins: [Core.ListViewerMixin],
+    });
+
+    var SettingsModalEditor =
+    Vue.component('schemes-settings-dialog', {
+        template: '#schemes-settings-dialog',
+        mixins: [Core.ModalEditorMixin],
+    });
+
+    var SettingsEditor =
+    Vue.component('schemes-settings', {
+        mixins: [Core.EditorMixin(SettingsListViewer, SettingsModalEditor)],
+        template: '#schemes-settings',
+    });
+
+})(Vue, jQuery, Core, Shell);
+
+(function(Vue, $, Core, Shell) {
+
+    var ModalEditor =
+    Vue.component('settings-dialog', {
+        template: '#settings-dialog',
+        mixins: [Core.ModalEditorMixin, Core.TabsMixin('domains')],
+    });
+
+    var Editor =
+    Vue.component('settings', {
+        mixins: [Core.ActionMixin(ModalEditor)],
+        props: {
+            globals: Object
+        },
+        methods: {
+            push: function() {
+                $.ajax({
+                    url: '/settings/do-update',
+                    method: 'POST',
+                    dataType: "json",
+                    data: JSON.stringify(this.model),
+                    contentType: "application/json",
+                })
+                .done((d) => {
+                    Object.assign(this.model, d);
+                })
+            },
+            pull: function() {
+                $.ajax({
+                    url: '/settings',
+                    method: 'GET',
+                    dataType: "json"
+                })
+                .done((d) => {
+                    Object.assign(this.model, d);
+                })
+            }
+        }
+    });
+
+})(Vue, jQuery, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-actions', {
+        template: '#shell-actions',
+        props: {
+            model: Object,
+            globals: Object,
+            // category: Object,
+            // domain: Object,
+            // page: Object
+        },
+        methods: {
+            trigger: function(event, item, context) {
+                this.$dispatch(event, { item: item, context: context });
+            },
+        }
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function(Vue, $, Core, Shell) {
+
+    var StoragesListViewer =
+    Vue.component('storages-list', {
+        template: '#storages-list',
+        mixins: [Core.ListViewerMixin],
+    });
+
+    var StoragesModalEditor =
+    Vue.component('storages-dialog', {
+        template: '#storages-dialog',
+        mixins: [Core.ModalEditorMixin],
+        methods: {
+            check: function() {
+                console.log('check');
+            }
+        }
+    });
+
+    var StoragesEditor =
+    Vue.component('storages', {
+        mixins: [Core.EditorMixin(StoragesListViewer, StoragesModalEditor)],
+        template: '#storages',
+    });
+
+    var StoragesVariablesListViewer =
+    Vue.component('storages-variables-list', {
+        template: '#storages-variables-list',
+        mixins: [Core.ListViewerMixin],
+    });
+
+    var StoragesVariablesModalEditor =
+    Vue.component('storages-variables-dialog', {
+        template: '#storages-variables-dialog',
+        mixins: [Core.ModalEditorMixin],
+    });
+
+    var StoragesVariablesEditor =
+    Vue.component('storages-variables', {
+        mixins: [Core.EditorMixin(StoragesVariablesListViewer, StoragesVariablesModalEditor)],
+        template: '#storages-variables',
+    });
+
+})(Vue, jQuery, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-brand', {
+        template: '#shell-brand',
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-categories', {
+        template: '#shell-categories',
+        props: {
+            categories: Array,
+            globals: Object,
+        },
+        methods: {
+            trigger: function(event, item, context) {
+                this.$dispatch(event, { item: item, context: context });
+            },
+        }
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-container', {
+        template: '#shell-container',
+        props: {
+            globals: Object,
+            settings: Object,
+            page: Object,
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-domains', {
+        template: '#shell-domains',
+        props: {
+            domains: Array,
+            globals: Object,
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    var runtime = Vue.service('runtime', {
+
+        evaluate: function(self, b, v) {
+
+            if (b && b.expression) {
+
+                try {
+                    if (b.strategy == 'eval') {
+                        var value = self.$eval(b.expression);
+                        return value;
+                    } else if (b.strategy == 'wire') {
+                        var value = self.$get(b.expression);
+                        return value;
+                    } else {
+                        return self.$interpolate(b.expression);
+                    }
+                } catch (e) {
+                    console.log('Cannot evaluate expression', b.expression);
+                    return v;
+                }
+            }
+
+            return v;
+        },
+
+        evaluateParams: function(self, props, params) {
+
+            var items = [];
+            for (var i = 0; i < props.length; i++) {
+                var prop = props[i];
+                var param = params && params[prop.name];
+                items.push({
+                    prop: prop,
+                    param: param,
+                });
+            }
+
+            var value = {};
+            for (var i = 0; i < items.length; i++) {
+
+                var item = items[i];
+
+                var n = item.prop.name;
+                var r = item.prop.variable;
+
+                var b = item.param ? item.param.binding : null;
+                var v = item.param ? item.param.value : null;
+
+                if (item.prop.type == 'object') {
+
+                    var vv;
+
+                    if (b && b.expression) {
+
+                        value[n] = vv;
+
+                    } else {
+
+                        var res = this.evaluateParams(self, item.prop.props, v);
+                        vv = r ? { value: res } : res;
+                        value[n] = vv;
+                    }
+
+                } else if (item.prop.type == 'multiple') {
+
+                    if (b && b.expression) {
+
+                        var vv = null;
+
+                        var array = [];
+                        var result = runtime.evaluate(self, b, v);
+
+                        if (r) {
+                            vv = result;
+                        } else {
+
+                            if ($.isArray(result)) {
+
+                                for (var j = 0; j < result.length; j++) {
+
+                                    var vm = new Vue({
+                                        data: Object.assign(JSON.parse(JSON.stringify(self.$data)), {
+                                            item: {
+                                                index: j,
+                                                value: result[j],
+                                            }
+                                        })
+                                    });
+
+                                    array.push(this.evaluateParams(vm, item.prop.props, b.params));
+                                }
+
+                                vv = array;
+                            }
+                        }
+
+                    } else {
+
+                        var array = [];
+
+                        var index = 0;
+                        for(var j = 0; j < v.length; j++) {
+                            var vi = v[j];
+                            if (vi._action != 'remove') {
+                                array[index++] = this.evaluateParams(self, item.prop.props, vi);
+                            }
+                        }
+
+                        vv = r ? { value: array } : array;
+                    }
+
+                    value[n] = vv;
+
+                } else {
+
+                    var vv = runtime.evaluate(self, b, v);
+                    value[n] = vv || '';
+                }
+            }
+
+            return value;
+        }
+    });
+
+    var DecoratorMixin = {
+
+        props: {
+            items: Array,
+        },
+
+        methods: {
+
+            removeWidget: function() {
+                this.$dispatch('removeChildWidget', { item: this.model });
+            },
+
+            doApply: function(model) {
+
+                Object.assign(this.model, JSON.parse(JSON.stringify(model)), {
+                    _action: this.model._action
+                        ? this.model._action
+                        : 'update'
+                });
+
+                $(window).trigger('resize');
+            },
+
+            showSettings: function() {
+
+                var dialog = new Shell.Widgets.ModalEditor({
+
+                    data: {
+                        globals: this.globals,
+                        owner: this,
+                        context: {
+                            widget: this.widget
+                        },
+                        original: this.model,
+                        current: JSON.parse(JSON.stringify(this.model))
+                    },
+
+                    methods: {
+                        submit: function() {
+                            this.owner.doApply(this.current);
+                            this.$remove();
+                            this.$destroy();
+                        },
+                        reset: function() {
+                            this.$remove();
+                            this.$destroy();
+                        }
+                    }
+                }).$mount().$appendTo($('body').get(0));
+            },
+        },
+    };
+
+    var BindingsMixin = {
+
+        data: function() {
+            return {
+                bindings: this.bindings,
+            };
+        },
+
+        created: function() {
+
+            this.$watch('data', (data) => {
+                var bindings = runtime.evaluateParams(this, this.widget.props, this.model.params);
+                this.$set('bindings', bindings);
+            }, {
+                deep: true,
+                immediate: true,
+            });
+
+            this.$watch('storage', (storage) => {
+                var bindings = runtime.evaluateParams(this, this.widget.props, this.model.params);
+                this.$set('bindings', bindings);
+            }, {
+                deep: true,
+                immediate: true,
+            });
+
+            this.$watch('model', (model) => {
+                var bindings = runtime.evaluateParams(this, this.widget.props, model.params)
+                this.$set('bindings', bindings);
+            }, {
+                deep: true,
+                immediate: true,
+            });
+        }
+    };
+
+    var CompositeMixin = {
+
+        data: function() {
+            return {
+                children: this.children,
+            };
+        },
+
+        created: function() {
+
+            this.$watch('items', (items) => {
+
+                var children = [];
+                if (items) {
+                    for (var i = 0; i < items.length; i++) {
+                        var item = items[i];
+                        if (item._action != 'remove') {
+                            children.push(item);
+                        }
+                    }
+                }
+
+                if (children.length < 1) {
+                    children.push(JSON.parse(JSON.stringify(this.placeholder())));
+                }
+
+                this.children = children;
+            }, {
+                immediate: true,
+                deep: true,
+            });
+        },
+
+        events: {
+
+            removeChildWidget: function(data) {
+
+                var item = data.item;
+
+                if (item._action == 'create') {
+                    this.items.$remove(item);
+                } else {
+                    item._action = 'remove';
+                }
+
+                this.items = this.items.slice();
+            },
+        },
+
+        methods: {
+
+            // find: function(children, item) {
+            //
+            //     var index = 0;
+            //     for (var i = 0; i < children.length && index < domIndex; i++) {
+            //
+            //         var child = children[i];
+            //
+            //         if (child._action != 'remove') {
+            //             index++;
+            //         }
+            //     }
+            //
+            //     return index;
+            // }
+        },
+    };
+
+    var SortableMixin = function (selector) {
+
+        return {
+
+            data: function() {
+
+                return {
+                    selected: this.selected,
+                };
+            },
+
+            attached: function() {
+
+                if (this.$route.private) {
+
+                    var shell = Vue.service('shell');
+
+                    // this.$watch('selected', function(selected) {
+                    //
+                    //     if (this.sortable) {
+                    //         if (selected) {
+                    //             this.sortable.sortable("disable");
+                    //         } else {
+                    //             this.sortable.sortable("enable");
+                    //         }
+                    //     }
+                    // });
+                }
+            },
+
+            methods: {
+                selectTarget: function() {
+                    this.selected = true;
+                },
+
+                unselectTarget: function() {
+                    this.selected = false;
+                },
+            }
+        };
+    };
+
+    Vue.component('shell-decorator-stub', {
+        template: '#shell-decorator-stub',
+        mixins: [ DecoratorMixin, BindingsMixin ],
+        props: {
+            globals: Object,
+            settings: Object,
+            stack: Object,
+            page: Object,
+            data: Object,
+            storage: Object,
+            model: Object,
+            widget: Object,
+            editable: Boolean,
+            items: Array,
+        },
+    });
+
+    Vue.component('shell-decorator-widget', {
+        template: '#shell-decorator-widget',
+        mixins: [ DecoratorMixin, BindingsMixin ],
+        props: {
+            globals: Object,
+            settings: Object,
+            stack: Object,
+            page: Object,
+            data: Object,
+            storage: Object,
+            model: Object,
+            widget: Object,
+            editable: Boolean,
+            items: Array,
+        },
+    });
+
+    Vue.component('shell-decorator-horizontal', {
+        template: '#shell-decorator-horizontal',
+        mixins: [ DecoratorMixin, CompositeMixin, SortableMixin('>.ge.ge-content >.wg.wg-default-stack >.wg.wg-content >.wg.wg-table >.wg.wg-row'), BindingsMixin ],
+        props: {
+            globals: Object,
+            settings: Object,
+            stack: Object,
+            page: Object,
+            data: Object,
+            storage: Object,
+            model: Object,
+            widget: Object,
+            editable: Boolean,
+            items: Array,
+        },
+        methods: {
+            placeholder: function() {
+                return Vue.service('palette').placeholder(`
+                    <small>Horizontal Stack</small>
+                    <div>Drop Here</div>
+                `);
+            }
+        },
+    });
+
+    Vue.component('shell-decorator-vertical', {
+        template: '#shell-decorator-vertical',
+        mixins: [ DecoratorMixin, CompositeMixin, SortableMixin('>.ge.ge-content >.wg.wg-default-stack >.wg.wg-content >.wg.wg-table'), BindingsMixin ],
+        props: {
+            globals: Object,
+            settings: Object,
+            stack: Object,
+            page: Object,
+            data: Object,
+            storage: Object,
+            model: Object,
+            widget: Object,
+            editable: Boolean,
+            items: Array,
+        },
+        methods: {
+            placeholder: function() {
+                return Vue.service('palette').placeholder(`
+                    <small>Vertical Stack</small>
+                    <div>Drop Here</div>
+                `);
+            }
+        },
+    });
+
+    Vue.component('shell-decorator-canvas', {
+        template: '#shell-decorator-canvas',
+        mixins: [ CompositeMixin, SortableMixin('>.ge.ge-content >.wg.wg-default-stack >.wg.wg-content >.wg.wg-table'), BindingsMixin ],
+        props: {
+            globals: Object,
+            settings: Object,
+            stack: Object,
+            page: Object,
+            data: Object,
+            storage: Object,
+            model: Object,
+            widget: Object,
+            editable: Boolean,
+            items: Array,
+        },
+        created: function() {
+            this.selected = true;
+        },
+        attached: function() {
+
+            var dragged;
+
+            this.sortable = $(this.$el).sortable({
+
+                vertical: true,
+                drop: true,
+
+                containerSelector: '.wg.wg-sortable-container.wg-sortable-editable',
+                itemSelector: '.wg.wg-sortable-item.wg-sortable-editable',
+                excludeSelector: '.ge.ge-overlay',
+
+                verticalClass: "wg-sortable-vertical",
+                horizontalClass: "wg-sortable-horizontal",
+                placeholder: `
+                    <div class="wg wg-sortable-placeholder">
+                        <div class="wg wg-placeholder-container">
+                            <div class="wg wg-placeholder-inner"></div>
+                        </div>
+                    </div>
+                `,
+                onDragStart: function(context, event, _super) {
+
+                    _super(context, event);
+
+                    var stack = $(context.$container).closest('.ge.ge-widget').get(0).__vue__;
+                    var vue = context.$originalItem.find('.ge.ge-widget:first').get(0).__vue__;
+
+                    dragged = {
+                        stack: stack,
+                        // index: stack.find(stack.items, context.$originalItem.index()),
+                        index: stack.items.indexOf(vue.model),
+                        vue: vue,
+                    };
+                },
+                onDrop: function(context, event, _super) {
+
+                    _super(context, event);
+
+                    var vue = context.location.$item.find('.ge.ge-widget:first').get(0).__vue__
+
+                    var newStack = context.location.$container.closest('.ge.ge-widget').get(0).__vue__;
+
+                    var newIndex = newStack.items.indexOf(vue.model) + (context.location.before ? 0 : 1);
+
+                    var w = context.$item.data('widget');
+
+                    if (w) {
+
+                        var newItem = Vue.service('palette').item(w);
+                        newStack.items.splice(newIndex, 0, newItem);
+
+                    } else if (dragged) {
+
+                        var oldStack = dragged.stack;
+                        var oldIndex = dragged.index;
+                        var oldItem = dragged.vue.model;
+
+                        var newItem = Object.assign(JSON.parse(JSON.stringify(dragged.vue.model)));
+
+                        if (oldStack != newStack) {
+
+                            delete newItem.id;
+                            newItem._action = 'create';
+
+                            if (oldItem._action == 'create') {
+                                oldStack.items.splice(oldIndex, 1);
+                            } else {
+                                oldItem._action = 'remove';
+                            }
+
+                            newStack.items.splice(newIndex, 0, newItem);
+
+                        } else if (newIndex != oldIndex && newIndex != oldIndex + 1) {
+
+                            newItem._action = oldItem._action == 'create'
+                                ? 'create'
+                                : 'update'
+                            ;
+
+                            if (newIndex < oldIndex) {
+
+                                oldStack.items.splice(oldIndex, 1);
+                                newStack.items.splice(newIndex, 0, newItem);
+
+                            } else if (newIndex > oldIndex) {
+
+                                newStack.items.splice(newIndex, 0, newItem);
+                                oldStack.items.splice(oldIndex, 1);
+                            }
+                        }
+
+                        oldStack.items = oldStack.items.slice();
+                        newStack.items = newStack.items.slice();
+                    }
+
+                    context.$item.remove();
+                }
+            });
+        },
+        methods: {
+            placeholder: function() {
+                return Vue.service('palette').placeholder(`
+                    <small>Vertical Stack</small>
+                    <div>Drop Here</div>
+                `);
+            }
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Shell.Loader =
+    Vue.component('shell-loader', {
+        template: '#shell-loader',
+        data: function() {
+            return {
+                portal: null,
+                settings: null,
+            }
+        },
+        created: function() {
+            Vue.service('portals').get({ id: this.$route.params.portal }).then(
+                (d) => {
+                    this.$set('portal', d.data.portal);
+                    this.$set('settings', d.data.settings);
+                },
+                (e) => {
+                    console.log(e);
+                }
+            );
+        }
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-pages', {
+        template: '#shell-pages',
+        props: {
+            pages: Array,
+            globals: Object,
+        },
+        data: function() {
+            return {
+                items: this.items,
+            }
+        },
+        created: function() {
+
+            this.$watch('pages', (pages) => {
+
+                var items = [];
+                for (var i = 0; i < this.pages.length; i++) {
+                    var page = this.pages[i];
+                    if (page._action != 'remove') {
+                        items.push(page);
+                    }
+                }
+                this.items = items;
+                
+            }, { deep: true, immediate: true })
+        },
+        methods: {
+
+            remove: function(page) {
+
+                var index = this.pages.indexOf(page);
+                if (index !== -1) {
+                    var item = this.pages[index];
+                    if (item._action == 'create') {
+                        this.pages.$remove(item);
+                    } else {
+                        item._action = 'remove';
+                    }
+                }
+
+                this.pages = this.pages.slice();
+                // console.log(this.pages);
+            },
+
+            create: function() {
+
+                var root = Vue.service('palette').item('default-container/default-container-stack/stack-canvas');
+                var widget = Vue.service('palette').widget('default-container/default-container-stack/default-stack-canvas');
+
+                var page = {
+                    _action: 'create',
+                    root: root,
+                    sources: [],
+                    storages: [],
+                };
+
+                var dialog = new Shell.Pages.ModalEditor({
+
+                    data: {
+                        globals: this.globals,
+                        owner: this,
+                        context: {
+                            widget: widget,
+                        },
+                        original: page,
+                        current: JSON.parse(JSON.stringify(page)),
+                    },
+
+                    methods: {
+                        submit: function() {
+
+                            Object.assign(this.original, JSON.parse(JSON.stringify(this.current)));
+                            this.original._action = this.original._action ? this.original._action : 'create';
+                            this.original.root._action = this.original.root._action ? this.original.root._action : 'create';
+
+                            this.owner.pages.push(this.original);
+
+                            this.$remove();
+                            this.$destroy();
+                        },
+                        reset: function() {
+                            this.$remove();
+                            this.$destroy();
+                        }
+                    }
+                }).$mount().$appendTo($('body').get(0));
+            },
+            update: function(page) {
+
+                var widget = Vue.service('palette').widget('default-container/default-container-stack/default-stack-canvas');
+
+                var dialog = new Shell.Pages.ModalEditor({
+
+                    data: {
+                        globals: this.globals,
+                        owner: this,
+                        context: {
+                            widget: widget,
+                        },
+                        original: page,
+                        current: JSON.parse(JSON.stringify(page))
+                    },
+
+                    methods: {
+                        submit: function() {
+
+                            Object.assign(this.original, JSON.parse(JSON.stringify(this.current)));
+                            this.original._action = this.original._action ? this.original._action : 'update';
+                            this.original.root._action = this.original.root._action ? this.original.root._action : 'update';
+
+                            this.owner.pages = this.owner.pages.slice();
+
+                            this.$remove();
+                            this.$destroy();
+                        },
+                        reset: function() {
+                            this.$remove();
+                            this.$destroy();
+                        }
+                    }
+                }).$mount().$appendTo($('body').get(0));
+            },
+            trigger: function(event, item, context) {
+                this.$dispatch(event, { item: item, context: context });
+            },
+        }
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-page', {
+        template: '#shell-page',
+        mixins: [ /*Core.ContainerMixin, Core.SortableMixin*/ ],
+        props: {
+            globals: Object,
+            settings: Object,
+            page: Object,
+        },
+        data: function() {
+            return {
+                decorator: this.decorator,
+                data: this.data,
+                storage: this.storage,
+                widget: this.widget,
+            };
+        },
+        created: function() {
+
+            this.widget = Vue.service('palette').widget('default-container/default-container-stack/default-stack-canvas');
+
+            var runtime = Vue.service('runtime');
+
+            this.decorator = 'shell-decorator-canvas';
+            this.data = {};
+            this.storage = {};
+
+            this.$watch('page.storages', (storages) => {
+
+                if (storages) {
+
+                    var storage = {};
+
+                    for (var i = 0; i < storages.length; i++) {
+
+                        var st = storages[i];
+                        storage[st.name] = {};
+
+                        for (var j = 0; j < st.variables.length; j++) {
+
+                            var variable = st.variables[j];
+                            storage[st.name][variable.name] = {
+                                value: runtime.evaluate(this, variable.binding, variable.value) || null
+                            };
+                        }
+                    }
+
+                    this.$set('storage', storage);
+                }
+            }, {
+                immediate: true,
+                deep: true,
+            });
+
+            this.$watch('page.sources', (sources) => {
+
+                if (sources) {
+
+                    var deferred = [];
+                    for (var i = 0; i < sources.length; i++) {
+                        deferred.push(this.doRequest(sources[i]));
+                    }
+
+                    if (deferred.length > 1) {
+
+                        $.when.apply(this, deferred).done(function() {
+                            var data = {};
+                            for (var i = 0; i < arguments.length; i++) {
+                                data[sources[i].name] = arguments[i][0];
+                            }
+                            this.$set('data', data);
+                        }.bind(this));
+
+                    } else if (deferred.length == 1) {
+
+                        deferred[0].done(function(d) {
+                            var data = {};
+                            data[sources[0].name] = d;
+                            this.$set('data', data);
+                        }.bind(this));
+                    }
+                }
+
+            }, {
+                immediate: true,
+                deep: true,
+            });
+        },
+        methods: {
+            doRequest: function(s) {
+                var query = {};
+                for (var i = 0; i < s.params.length; i++) {
+                    var param = s.params[i];
+                    if (param.in == 'query' && param.specified) {
+
+                        var value = param.binding
+                                ? this.$interpolate(param.binding) // TODO Interpolate in page context
+                                : param.value
+                            ;
+
+                        query[param.name] = value;
+                    }
+                }
+
+                return $.ajax({
+                    method: s.method,
+                    url: s.url,
+                    dataType: "json",
+                    data: query,
+                });
+            }
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    var PaletteItem =
+    Vue.component('shell-palette-item', {
+        template: '#shell-palette-item',
+        props: {
+            category: Object,
+            group: Object,
+            item: Object,
+            globals: Object,
+        },
+    });
+
+    Vue.component('shell-palette', {
+        template: '#shell-palette',
+        props: {
+            globals: Object,
+            category: Object,
+        },
+        data: function() {
+            return {
+                categories: this.categories
+            };
+        },
+        components: {
+            'palette-item': PaletteItem
+        },
+        created: function() {
+            this.categories = Widgets.Palette.categories();
+        },
+        attached: function() {
+
+            this.sortable = $(this.$el).sortable({
+                group: 'widgets',
+                containerSelector: '.wg-sortable-container',
+                itemSelector: '.wg-sortable-item',
+                drop: false,
+            });
+        },
+        methods: {
+            trigger: function(event, item, context) {
+                this.$dispatch(event, { item: item, context: context });
+            },
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-sources', {
+        template: '#shell-sources',
+        props: {
+            sources: Array,
+            globals: Object,
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Shell.Shell = {
+        props: {
+            settings: Object,
+            model: Object,
+        },
+        data: function() {
+            return {
+                globals: this.globals,
+            };
+        },
+        created: function() {
+
+            this.globals = {
+                selection: {
+                    category: null,
+                    page: null,
+                    source: null,
+                    storage: null,
+                },
+                settings: this.settings,
+                model: this.model,
+            };
+        },
+    };
+
+    Shell.ShellPublic =
+    Vue.component('shell-public', {
+        mixins: [ Shell.Shell ],
+        template: '#shell-public',
+    });
+
+    Shell.ShellPrivate =
+    Vue.component('shell-private', {
+
+        mixins: [ Shell.Shell ],
+        template: '#shell-private',
+
+        created: function() {
+
+            this.scale = 1;
+
+            function relevant(current, collection) {
+
+                if (!current || current._action == 'remove' || (collection && collection.indexOf(current) < 0)) {
+
+                    if (collection) {
+                        for (var i = 0; i < collection.length; i++) {
+                            var c = collection[i];
+                            if (c._action != 'remove') {
+                                return c;
+                            }
+                        }
+                    }
+
+                    return null;
+                }
+
+                if (current && current._action == 'remove') {
+                    return null;
+                }
+
+                return current;
+            }
+
+            this.globals.selection.category = Vue.service('palette').categories()[0];
+
+            this.$watch('model.domains', (domains) => {
+                this.globals.selection.domain = relevant(this.globals.selection.domain, domains);
+            }, {
+                immediate: true,
+            });
+
+            this.$watch('model.pages', (pages) => {
+                this.globals.selection.page = relevant(this.globals.selection.page, pages);
+            }, {
+                immediate: true,
+            });
+
+            this.$watch('globals.selection.page.sources', (sources) => {
+                this.globals.selection.source = relevant(this.globals.selection.source, sources);
+            }, {
+                immediate: true,
+            });
+
+            this.$watch('globals.selection.page.storages', (storages) => {
+                this.globals.selection.storage = relevant(this.globals.selection.storage, storages);
+            }, {
+                immediate: true,
+            });
+
+        },
+        events: {
+            zoomIn: function(data) {
+                this.scale += 0.1;
+                $('.ge.ge-page', this.$el).css('transform', 'scale(' + this.scale + ')');
+                $('.ge.ge-container', this.$el).perfectScrollbar('update');
+            },
+            zoomOut: function(data) {
+                this.scale -= 0.1;
+                $('.ge.ge-page', this.$el).css('transform', 'scale(' + this.scale + ')');
+                $('.ge.ge-container', this.$el).perfectScrollbar('update');
+            },
+            pull: function(data) {
+                $.ajax({
+                    url: `/ws/portals/${this.model.id}`,
+                    method: 'GET',
+                    dataType: "json"
+                })
+                .done((d) => {
+
+                        console.log(d);
+                    this.$set('model', d.portal);
+                })
+            },
+            push: function(data) {
+                $.ajax({
+                    url: `/ws/portals/${this.model.id}`,
+                    method: 'PUT',
+                    dataType: "json",
+                    data: JSON.stringify(this.model),
+                    contentType: "application/json",
+                })
+                .done((d) => {
+                    console.log(d);
+                    this.$set('model', d.portal);
+                })
+            },
+            selectCategory: function(data) {
+                this.globals.selection.category = data.item;
+            },
+            selectDomain: function(data) {
+                this.globals.selection.domain = data.item;
+            },
+            selectPage: function(data) {
+                this.globals.selection.page = data.item;
+            },
+            selectSource: function(data) {
+                this.globals.selection.source = data.item;
+            },
+            selectStorage: function(data) {
+                this.globals.selection.storage = data.item;
+            },
+        }
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-storages', {
+        template: '#shell-storages',
+        props: {
+            storages: Array,
+            globals: Object,
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-target', {
+        template: '#shell-target',
+        props: {
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Shell.Widget =
+    Vue.component('shell-widget', {
+        template: '#shell-widget',
+        mixins: [ /* Core.DecoratorMixin, Core.ContainerMixin, Core.SortableMixin, Core.BindingsMixin */ ],
+        props: {
+            globals: Object,
+            settings: Object,
+            page: Object,
+            stack: Object,
+            model: Object,
+            data: Object,
+            storage: Object,
+            editable: Boolean,
+        },
+        init: function() {
+            this.decorators = {
+                alternatives: {
+                    'default-stack-horizontal': 'shell-decorator-horizontal',
+                    'default-stack-vertical': 'shell-decorator-vertical',
+                    'default-stub': 'shell-decorator-stub',
+                },
+                fallback: 'shell-decorator-widget',
+            };
+        },
+        created: function() {
+
+            var palette = Vue.service('palette');
+            this.widget = palette.widget(this.model.name);
+            this.decorator = this.decorators.alternatives[this.widget.tag] || this.decorators.fallback;
+        },
+        data: function() {
+
+            return {
+                widget: this.widget,
+                decorator: this.decorator,
+            };
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function(Vue, $, Core, Shell) {
+
+    var SourcesListViewer =
+    Vue.component('pages-sources-list', {
+        template: '#pages-sources-list',
+        mixins: [Core.ListViewerMixin],
+    });
+
+    var SourcesModalEditor =
+    Vue.component('pages-sources-dialog', {
+        template: '#pages-sources-dialog',
+        mixins: [Core.ModalEditorMixin],
+        methods: {
+            check: function() {
+                console.log('check');
+            }
+        }
+    });
+
+    var SourcesEditor =
+    Vue.component('pages-sources', {
+        mixins: [Core.EditorMixin(SourcesListViewer, SourcesModalEditor)],
+        template: '#pages-sources',
+    });
+
+    var SourcesParamsListViewer =
+    Vue.component('pages-sources-params-list', {
+        template: '#pages-sources-params-list',
+        mixins: [Core.ListViewerMixin],
+    });
+
+    var SourcesParamsModalEditor =
+    Vue.component('pages-sources-params-dialog', {
+        template: '#pages-sources-params-dialog',
+        mixins: [Core.ModalEditorMixin],
+    });
+
+    var SourcesParamsEditor =
+    Vue.component('pages-sources-params', {
+        mixins: [Core.EditorMixin(SourcesParamsListViewer, SourcesParamsModalEditor)],
+        template: '#pages-sources-params',
+    });
+
+})(Vue, jQuery, Core, Shell);
+
+(function(Vue, $, Core, Shell) {
+
+    var WidgetsModalEditor = Shell.Widgets.ModalEditor =
+    Vue.component('shell-widgets-dialog', {
+        template: '#shell-widgets-dialog',
+        mixins: [Core.ModalEditorMixin, Core.TabsMixin('data')],
+        created: function() {
+
+            var items = [];
+
+            for (var i = 0; i < this.context.widget.props.length; i++) {
+
+                var prop = this.context.widget.props[i];
+                var param = this.current.params[prop.name];
+
+                var item = {
+                    prop: prop,
+                    param: param,
+                };
+
+                items.push(item);
+            }
+
+            this.items = items;
+        },
+        data: function() {
+            return {
+                context: this.context,
+                items: this.items,
+            };
+        },
+        methods: {
+
+            hasProps: function(tab) {
+                if (this.context.widget && this.context.widget.props) {
+                    for (var i = 0; i < this.context.widget.props.length; i++) {
+                        var prop = this.context.widget.props[i];
+                        if (prop.tab == tab) return true;
+                    }
+                }
+                return false;
+            }
+        }
+    });
+
+})(Vue, jQuery, Core, Shell);
+
+window.Widgets =
+(function($, Vue, Core) {
+
+    var Widgets = {};
+
+    Widgets.Palette = (function() {
+
+        var map = {};
+        var arr = [];
+
+        var widgets = {};
+
+        var categories = function() { return arr; }
+        var category = function(n, category) {
+
+            if (n in map) {
+                return map[n];
+            } else {
+                category.name = n;
+                map[n] = category;
+                arr.push(category);
+            }
+
+            return this;
+        }
+
+        var widget = function(path) {
+            var segments = path.split('/');
+            return this.category(segments[0]).group(segments[1]).widget(segments[2]);
+        }
+
+        var item = function(path) {
+            var segments = path.split('/');
+            var w = $.extend(true, {}, this.category(segments[0]).group(segments[1]).item(segments[2]).widget, {
+                _action: 'create',
+            });
+            delete w.props;
+            delete w.tabs;
+            return w;
+        }
+
+        function generateId(prefix) {
+
+            var ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            var ID_LENGTH = 8;
+
+            var rtn = '';
+            for (var i = 0; i < ID_LENGTH; i++) {
+                rtn += ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length));
+            }
+            return prefix ? prefix + rtn : rtn;
+        }
+
+        return {
+            categories: categories,
+            category: category,
+            widget: widget,
+            item: item,
+            placeholder: function(content) { return Widgets.StubWidgetFactory(content) },
+            generateId: generateId,
+        };
+    })();
+
+    Widgets.Category = function(name, title, ignore) {
+
+        var map = {};
+        var arr = [];
+
+        var groups = function() { return arr; }
+        var group = function(n, group) {
+
+            if (n in map) {
+                return map[n];
+            } else {
+                group.name = `${name}/${n}`;
+                map[n] = group;
+                arr.push(group);
+            }
+
+            return this;
+        }
+
+        Widgets.Palette.category(name, {
+            title: title,
+            groups: groups,
+            group: group,
+            ignore: ignore,
+        });
+
+        return Widgets.Palette.category(name);
+    };
+
+    Widgets.Group = function(category, name, title, ignore) {
+
+        var map = {};
+        var arr = [];
+
+        var items = function() { return arr; }
+        var item = function(n, item) {
+
+            if (n in map) {
+                return map[n];
+            } else {
+                item.name = `${this.name}/${n}`;
+                map[n] = item;
+                arr.push(item);
+            }
+
+            return this;
+        }
+
+        var w_map = {};
+        var w_arr = [];
+
+        var widgets = function() { return w_arr; }
+        var widget = function(n, widget) {
+
+            if (n in w_map) {
+                return w_map[n];
+            } else {
+                widget.name = `${this.name}/${n}`;
+                w_map[n] = widget;
+                w_arr.push(widget);
+            }
+
+            return this;
+        }
+
+        category.group(name, {
+            title: title,
+            items: items,
+            item: item,
+            widgets: widgets,
+            widget: widget,
+            ignore: ignore,
+        });
+
+        return category.group(name);
+    };
+
+    Widgets.Widget = function(group, config) {
+
+        var name = config.name;
+
+        group.widget(config.name, config);
+
+        return group.widget(name);
+    }
+
+    Widgets.clone = function(original) {
+        return JSON.parse(JSON.stringify(original));
+    }
+
+    Widgets.create = function(config) {
+
+        var result = {
+            name: config.name,
+            tag: config.tag,
+            widgets: config.widgets,
+            tabs: [],
+            props: [],
+            params: {},
+        };
+
+        if ('_action' in config) result._action = config._action;
+
+        function visit(w, m) {
+
+            if (m.override) {
+
+                if ('tabs' in m) w.tabs = JSON.parse(JSON.stringify(m.tabs));
+                if ('props' in m) w.props = JSON.parse(JSON.stringify(m.props));
+
+            } else {
+
+                if ('tabs' in m) w.tabs = w.tabs.concat(m.tabs);
+                if ('props' in m) w.props = w.props.concat(m.props);
+            }
+
+        }
+
+        if (config.mixins) {
+
+            for (var i = 0; i < config.mixins.length; i++) {
+                var m = config.mixins[i];
+                visit(result, m);
+            }
+        }
+
+        visit(result, config);
+
+        return result;
+    };
+
+    Widgets.build = function(widget, params) {
+
+        var w = Object.assign(JSON.parse(JSON.stringify(widget)), {
+            params: params || {}
+        });
+
+        function initParams(props, params) {
+
+            for (var i = 0; i < props.length; i++) {
+
+                var prop = props[i];
+                var param = params[prop.name] = params[prop.name] || { value: null }; // TODO Set a type-dependent initial value
+
+                if (prop.props) {
+                    if (prop.type == 'multiple') {
+                        param.value = param.value == null ? [] : param.value;
+                        for (var j = 0; j < param.value.length; j++) {
+                            initParams(prop.props, param.value[j]);
+                        }
+                    } else if (prop.type == 'object') {
+                        param.value = param.value == null ? {} : param.value;
+                        initParams(prop.props, param.value);
+                    }
+                }
+            }
+        }
+
+        initParams(w.props, w.params);
+
+        return w;
+    }
+
+    Widgets.Item = function(group, config) {
+
+        var name = config.name;
+
+        group.item(config.name, config);
+
+        return group.item(name);
+    };
+
+    Widgets.Prop = function(name, title, type, tab, placeholder) {
+        return {
+            name: name,
+            title: title,
+            type: type,
+            tab: tab,
+            placeholder: placeholder,
+        };
+    }
+
+    Widgets.Param = function(value, binding, strategy) {
+        return {
+            value: value || undefined,
+        }
+    }
+
+    Vue.service('palette', Widgets.Palette);
+
+    return Widgets;
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.CompositeCategory = Widgets.Category('default-composites', 'Composite Elements');
+    Widgets.FormCategory = Widgets.Category('default-form', 'Form Elements');
+    Widgets.TextCategory = Widgets.Category('default-text', 'Text Elements');
+    Widgets.ContainerCategory = Widgets.Category('default-container', 'Container Elements');
+    Widgets.ImagesCategory = Widgets.Category('default-images', 'Free Images');
+
+    Widgets.UtilCategory = Widgets.Category('default-util', 'Util Elements', true);
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    var P = Widgets.Props = {};
+    var T = Widgets.Tabs = {};
+
+    T.Data = { name: 'data', title: 'Data' };
+    T.Appearance = { name: 'appearance', title: 'Appearance' };
+    T.Content = { name: 'content', title: 'Content' };
+
+    P.Id = { name: 'id', title: 'ID', type: 'string', tab: 'data', placeholder: 'Unique ID' };
+
+    P.Width = { name: 'width', title: 'Width', type: 'string', tab: 'appearance' };
+    P.Height = { name: 'height', title: 'Height', type: 'string', tab: 'appearance' };
+    P.Padding = { name: 'padding', title: 'Padding', type: 'string', tab: 'appearance' };
+    P.Margin = { name: 'margin', title: 'Margin', type: 'string', tab: 'appearance' };
+    P.Border = { name: 'border', title: 'Border', type: 'string', placeholder: '1px solid #000000', tab: 'appearance' };
+    P.Background = { name: 'background', title: 'Background', type: 'string', tab: 'appearance' };
+
+    P.Cols = { name: 'cols', title: 'Columns', type: 'string', tab: 'appearance' };
+    P.Rows = { name: 'rows', title: 'Rows', type: 'string', tab: 'appearance' };
+    P.Color = { name: 'color', title: 'Color', type: 'string', tab: 'appearance' };
+    P.Content = { name: 'content', title: 'Content', type: 'string', tab: 'content' };
+    P.Title = { name: 'title', title: 'Title', type: 'string', tab: 'data' };
+    P.Vlink = { name: 'vlink', title: 'Vlink', type: 'string', tab: 'data' };
+    P.Href = { name: 'href', title: 'Href', type: 'string', tab: 'data' };
+
+    P.Spacing = { name: 'spacing', title: 'Border Spacing', type: 'string', tab: 'appearance' };
+    P.Collapse = { name: 'collapse', title: 'Border Collapse', type: 'string', tab: 'appearance' };
+
+    P.Align = { name: 'align', title: 'Text Align', type: 'select', tab: 'appearance', options: [
+        { value: 'left', text: 'Left' },
+        { value: 'right', text: 'Right' },
+        { value: 'center', text: 'Ceneter' },
+        { value: 'justify', text: 'Justify' },
+    ] };
+
+    P.Dock = { name: 'dock', title: 'Dock', type: 'select', tab: 'appearance', options: [
+        { value: 'above', text: 'Above' },
+        { value: 'top', text: 'Top' },
+        { value: 'right', text: 'Right' },
+        { value: 'bottom', text: 'Bottom' },
+        { value: 'left', text: 'Left' },
+    ]};
+
+    Widgets.CanvasMixin = {
+        tabs: [ T.Data, T.Appearance, T.Content ],
+    };
+
+    Widgets.WidgetMixin = {
+        tabs: [ T.Data, T.Appearance, T.Content ],
+        props: [ P.Id ],
+    };
+
+    Widgets.BoxMixin = {
+        props: [
+            { name: 'inner', title: 'Inner Container', type: 'object', tab: 'appearance',
+                tabs: [ T.Appearance ],
+                props: [ P.Margin, P.Padding, P.Border, P.Background ]
+            },
+            { name: 'outer', title: 'Outer Container', type: 'object', tab: 'appearance',
+                tabs: [ T.Appearance ],
+                props: [ P.Margin, P.Padding, P.Border, P.Background ]
+            },
+        ],
+    };
+
+    Widgets.SizeMixin = {
+        props: [ P.Width, P.Height ],
+    }
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.HeadersGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-headers', 'Headers');
+    Widgets.FootersGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-footers', 'Footers');
+    Widgets.NavigationGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-navigation', 'Navigation');
+    Widgets.GalleryGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-gallery', 'Galleries');
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.StackGroup = Widgets.Group(Widgets.ContainerCategory, 'default-container-stack', 'Stacked');
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.ButtonsGroup = Widgets.Group(Widgets.FormCategory, 'default-form-buttons', 'Buttons');
+    Widgets.InputsGroup = Widgets.Group(Widgets.FormCategory, 'default-form-inputs', 'Inputs');
+    Widgets.RadiosGroup = Widgets.Group(Widgets.FormCategory, 'default-form-radios', 'Radios');
+    Widgets.ChecksGroup = Widgets.Group(Widgets.FormCategory, 'default-form-checks', 'Checkboxes');
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.ImagesGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-default', 'Images', true);
+
+    Widgets.AbstractGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-abstract', 'Abstract');
+    Widgets.CityGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-city', 'City');
+    Widgets.NatureGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-nature', 'Nature');
+    Widgets.SpaceGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-space', 'Space');
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.HeadingsGroup = Widgets.Group(Widgets.TextCategory, 'default-text-headings', 'Headings');
+    Widgets.BlocksGroup = Widgets.Group(Widgets.TextCategory, 'default-text-blocks', 'Blocks');
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.UtilGroup = Widgets.Group(Widgets.UtilCategory, 'default-util-group', 'Util Elements');
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-carousel', {
+        template: '#default-carousel',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-navbar', {
+        template: '#default-navbar',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.NavbarWidget =
+    Widgets.Widget(Widgets.NavigationGroup, Widgets.create({
+        name: 'default-navbar',
+        tag: 'default-navbar',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
+        ],
+    }));
+
+    Widgets.NavbarWidgetFactory = function(stereotype, content) {
+
+        return Widgets.build(Widgets.NavbarWidget, {
+            stereotype: { value: stereotype },
+        });
+    }
+
+    Widgets.Item(Widgets.NavigationGroup, {
+        name: 'navbar-default',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/navbar/navbar-default.png',
+        widget: Widgets.NavbarWidgetFactory('default'),
+    });
+
+    Widgets.Item(Widgets.NavigationGroup, {
+        name: 'navbar-inverse',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/navbar/navbar-inverse.png',
+        widget: Widgets.NavbarWidgetFactory('inverse'),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-gallery', {
+        template: '#default-gallery',
+        mixins: [ Core.WidgetMixin ],
+
+        data: function() {
+            return {
+                matrix: this.matrix,
+            }
+        },
+
+        created: function() {
+
+            this.$watch('bindings', updateMatrix.bind(this), { immediate: true, deep: true });
+
+            function updateMatrix(bindings) {
+
+                var items = bindings.items.collection || [];
+
+                var rows = parseInt(bindings.rows);
+                rows = rows > 0 ? rows : 1;
+
+                var cols = parseInt(bindings.cols);
+                cols = cols > 0 ? cols : 3;
+
+                var cells = rows * cols;
+
+                var div = parseInt(items.length / cells);
+                var mod = items.length % cells;
+
+                var count = (mod > 0 || div == 0)
+                    ? div + 1
+                    : div
+                ;
+
+                var matrix = [];
+
+                for (var p = 0; p < count; p++) {
+
+                    var pd = [];
+                    for (var r = 0; r < rows; r++) {
+                        var rd = [];
+                        for (var c = 0; c < cols; c++) {
+                            var index = (p * rows + r) * cols + c;
+                            if (index < items.length) {
+                                rd.push(items[index]);
+                            }
+                        }
+                        pd.push(rd);
+                    }
+                    matrix.push(pd);
+                }
+
+                this.matrix = matrix;
+            };
+        }
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core, Widgets) {
+
+    var P = Widgets.Props;
+    var T = Widgets.Tabs;
+
+    Widgets.GalleryWidget =
+    Widgets.Widget(Widgets.GalleryGroup, Widgets.create({
+        name: 'default-gallery',
+        tag: 'default-gallery',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [ P.Cols, P.Rows, P.Dock, P.Color, P.Align,
+            {
+                name: 'border', title: 'Border', type: 'object', tab: 'appearance',
+                tabs: [ T.Appearance ],
+                props: [ P.Spacing, P.Collapse ]
+            },
+            {
+                name: 'items', title: 'Items', type: 'object', tab: 'data',
+                tabs: [ T.Data, T.Appearance ],
+                props: [
+                    {
+                        name: 'collection', title: 'Collection', type: 'multiple', tab: 'data',
+                        tabs: [ T.Appearance, T.Content ],
+                        props: [ P.Width, P.Height, P.Margin, P.Padding, P.Background,
+                            {
+                                name: 'drawing', title: 'Drawing', type: 'object', tab: 'appearance',
+                                tabs: [ T.Appearance ],
+                                props: [ P.Width, P.Height, P.Margin, P.Padding, P.Background, ],
+                            },
+                            {
+                                name: 'description', title: 'Description', type: 'object', tab: 'appearance',
+                                tabs: [ T.Appearance, T.Content ],
+                                props: [ P.Width, P.Height, P.Margin, P.Padding, P.Background, P.Color, P.Align, P.Content, ]
+                            },
+                        ]
+                    },
+                    {
+                        name: 'style', title: 'Style', type: 'object', tab: 'appearance',
+                        tabs: [ T.Appearance ],
+                        props: [ P.Width, P.Height, P.Margin, P.Padding, P.Background,
+                            {
+                                name: 'drawing', title: 'Drawing', type: 'object', tab: 'appearance',
+                                tabs: [ T.Appearance ],
+                                props: [
+                                    P.Width, P.Height, P.Margin, P.Padding, P.Background,
+                                ]
+                            },
+                            {
+                                name: 'description', title: 'Description', type: 'object', tab: 'appearance',
+                                tabs: [ T.Appearance ],
+                                props: [ P.Width, P.Height, P.Margin, P.Padding, P.Background, P.Color, P.Align, ]
+                            },
+                        ],
+                    }
+                ]
+            },
+        ],
+    }));
+
+    Widgets.GalleryWidgetFactory = function(defaults) {
+
+        var w = Widgets.build(Widgets.GalleryWidget, {
+            rows: { value: defaults.rows },
+            cols: { value: defaults.cols },
+            dock: { value: defaults.dock },
+            align: { value: defaults.align },
+            color: { value: defaults.color },
+            background: { value: defaults.background },
+            border: {
+                value: {
+                    spacing: { value: defaults.border.spacing }
+                }
+            },
+            items: {
+                value: {
+                    style: {
+                        value: {
+                            width: { value: defaults.items.style.width },
+                            height: { value: defaults.items.style.height },
+                            description: {
+                                value: {
+                                    padding: { value: defaults.padding },
+                                }
+                            }
+                        }
+                    },
+                    collection: {
+                        value: defaults.items.collection.map(function(item) {
+                            return {
+                                drawing: {
+                                    value: {
+                                        background: { value: item.drawing.background },
+                                        height: { value: item.drawing.height },
+                                    }
+                                },
+                                description: {
+                                    value: {
+                                        content: { value: item.description.content },
+                                    }
+                                },
+                            };
+                        })
+                    }
+                }
+            },
+        });
+
+        return w;
+    }
+
+    Widgets.Item(Widgets.GalleryGroup, {
+        name: 'gallery-r1c1f',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r1c1f.png',
+        widget: Widgets.GalleryWidgetFactory({
+            rows: 1, cols: 1, dock: 'above', padding: '30px', align: 'center', color: '#FFFFFF',
+            border: {
+                spacing: '0px',
+            },
+            items: {
+                style: {
+                    width: '100%',
+                    height: '250px',
+                },
+                collection: [
+                    {
+                        drawing: {
+                            background: '#FF6466'
+                        },
+                        description: {
+                            content: `
+                                <h3><span style="font-size:48px">First Item</span></h3>
+                                <p><span style="font-size: 28px">You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#605BE8'
+                        },
+                        description: {
+                            content: `
+                                <h3><span style="font-size:48px">Second Item</span></h3>
+                                <p><span style="font-size: 28px">You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#70FFBF'
+                        },
+                        description: {
+                            content: `
+                                <h3><span style="font-size:48px">Third Item</span></h3>
+                                <p><span style="font-size: 28px">You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                ]
+            }
+        }),
+    });
+
+    Widgets.Item(Widgets.GalleryGroup, {
+        name: 'gallery-r1c1r',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r1c1r.png',
+        widget: Widgets.GalleryWidgetFactory({
+            rows: 1, cols: 1, dock: 'right', padding: '30px', align: 'left', color: '#333333',
+            border: {
+                spacing: '20px',
+            },
+            items: {
+                style: {
+                    width: '100%',
+                    height: '240px',
+                },
+                collection: [
+                    {
+                        drawing: {
+                            background: '#FF6466'
+                        },
+                        description: {
+                            content: `
+                                <h3><span style="font-size:48px">First Item</span></h3>
+                                <p><span style="font-size: 28px">You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#605BE8'
+                        },
+                        description: {
+                            content: `
+                                <h3><span style="font-size:48px">Second Item</span></h3>
+                                <p><span style="font-size: 28px">You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#70FFBF'
+                        },
+                        description: {
+                            content: `
+                                <h3><span style="font-size:48px">Third Item</span></h3>
+                                <p><span style="font-size: 28px">You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                ]
+            }
+        }),
+    });
+
+    Widgets.Item(Widgets.GalleryGroup, {
+        name: 'gallery-r1c3f',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r1c3f.png',
+        widget: Widgets.GalleryWidgetFactory({
+            rows: 1, cols: 3, dock: 'above', padding: '30px', align: 'center', color: '#FFFFFF',
+            border: {
+                spacing: '20px',
+            },
+            items: {
+                style: {
+                    width: '100%',
+                    height: '180px',
+                },
+                collection: [
+                    {
+                        drawing: {
+                            background: '#FF6466'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>First Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#605BE8'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Second Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#70FFBF'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Third Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#A52939'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Fourth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#EE3B80'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Fifth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#EE6B9E'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Sixth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                ]
+            }
+        }),
+    });
+
+    Widgets.Item(Widgets.GalleryGroup, {
+        name: 'gallery-r1c3b',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r1c3b.png',
+        widget: Widgets.GalleryWidgetFactory({
+            rows: 1, cols: 3, dock: 'bottom', padding: '15px', align: 'left', color: '#333333',
+            border: {
+                spacing: '20px',
+            },
+            items: {
+                style: {
+                    width: '100%',
+                },
+                collection: [
+                    {
+                        drawing: {
+                            background: '#FF6466',
+                            height: '180px',
+                        },
+                        description: {
+                            content: `
+                                <h3><span style="font-size:24px">First Item</span></h3>
+                                <p><span style="font-size: 18px">You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#605BE8',
+                            height: '180px',
+                        },
+                        description: {
+                            content: `
+                                <h3><span style="font-size:24px">Second Item</span></h3>
+                                <p><span style="font-size: 18px">You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#70FFBF',
+                            height: '180px',
+                        },
+                        description: {
+                            content: `
+                                <h3><span style="font-size:24px">Third Item</span></h3>
+                                <p><span style="font-size: 18px">You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#A52939',
+                            height: '180px',
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Fourth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#EE3B80',
+                            height: '180px',
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Fifth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#EE6B9E',
+                            height: '180px',
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Sixth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                ]
+            }
+        }),
+    });
+
+    Widgets.Item(Widgets.GalleryGroup, {
+        name: 'gallery-r2c4f',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r2c4f.png',
+        widget: Widgets.GalleryWidgetFactory({
+            rows: 2, cols: 4, dock: 'above', padding: '15px', align: 'center', color: '#FFFFFF',
+            border: {
+                spacing: '20px',
+            },
+            items: {
+                style: {
+                    width: '100%',
+                    height: '180px',
+                },
+                collection: [
+                    {
+                        drawing: {
+                            background: '#FF6466'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>First Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#605BE8'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Second Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#70FFBF'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Third Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#A52939'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Fourth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#EE3B80'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Fifth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#EE6B9E'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Sixth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#FF6466'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Seventh Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#605BE8'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Eighth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                ]
+            }
+        }),
+    });
+
+    Widgets.Item(Widgets.GalleryGroup, {
+        name: 'gallery-r2c4b',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r2c4b.png',
+        widget: Widgets.GalleryWidgetFactory({
+            rows: 2, cols: 4, dock: 'bottom', padding: '15px', align: 'center', color: '#333333',
+            border: {
+                spacing: '20px',
+            },
+            items: {
+                style: {
+                    width: '100%',
+                },
+                collection: [
+                    {
+                        drawing: {
+                            background: '#FF6466',
+                            height: '180px',
+                        },
+                        description: {
+                            content: `
+                                <h3><span>First Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#605BE8',
+                            height: '180px',
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Second Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#70FFBF',
+                            height: '180px',
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Third Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#A52939',
+                            height: '180px',
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Fourth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#EE3B80',
+                            height: '180px',
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Fifth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#EE6B9E',
+                            height: '180px',
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Sixth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#FF6466',
+                            height: '180px',
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Seventh Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#605BE8',
+                            height: '180px',
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Eighth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                ]
+            }
+        }),
+    });
+
+    Widgets.Item(Widgets.GalleryGroup, {
+        name: 'gallery-r2c3f',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r2c3f.png',
+        widget: Widgets.GalleryWidgetFactory({
+            rows: 2, cols: 3, dock: 'above', padding: '15px', align: 'center', color: '#FFFFFF',
+            border: {
+                spacing: '20px',
+            },
+            items: {
+                style: {
+                    width: '100%',
+                    height: '180px',
+                },
+                collection: [
+                    {
+                        drawing: {
+                            background: '#FF6466'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>First Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#605BE8'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Second Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#70FFBF'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Third Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#A52939'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Fourth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#EE3B80'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Fifth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#EE6B9E'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Sixth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                ]
+            }
+        }),
+    });
+
+    Widgets.Item(Widgets.GalleryGroup, {
+        name: 'gallery-r3c2r',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/composites/gallery/gallery-r3c2r.png',
+        widget: Widgets.GalleryWidgetFactory({
+            rows: 3, cols: 2, dock: 'right', padding: '15px', align: 'left', color: '#333333',
+            border: {
+                spacing: '20px',
+            },
+            items: {
+                style: {
+                    width: '100%',
+                    height: '140px',
+                },
+                collection: [
+                    {
+                        drawing: {
+                            background: '#FF6466'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>First Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#605BE8'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Second Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#70FFBF'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Third Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#A52939'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Fourth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#EE3B80'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Fifth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                    {
+                        drawing: {
+                            background: '#EE6B9E'
+                        },
+                        description: {
+                            content: `
+                                <h3><span>Sixth Item</span></h3>
+                                <p><span>You can change item data using settings editor</span></p>
+                            `,
+                        },
+                    },
+                ]
+            }
+        }),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.StackCanvasWidget =
+    Widgets.Widget(Widgets.StackGroup, Widgets.create({
+        name: 'default-stack-canvas',
+        tag: 'default-stack-canvas',
+        mixins: [ Widgets.CanvasMixin, Widgets.SizeMixin ],
+        widgets: [],
+    }));
+
+    Widgets.Item(Widgets.StackGroup, {
+        hidden: true,
+        name: 'stack-canvas',
+        widget: Widgets.build(Widgets.StackCanvasWidget),
+    });
+
+    Widgets.StackHorizontalWidget =
+    Widgets.Widget(Widgets.StackGroup, Widgets.create({
+        name: 'default-stack-horizontal',
+        tag: 'default-stack-horizontal',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin ],
+        widgets: [],
+    }));
+
+    Widgets.Item(Widgets.StackGroup, {
+        name: 'stack-horizontal',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-horizontal.png',
+        widget: Widgets.build(Widgets.StackHorizontalWidget),
+    });
+
+    Widgets.StackVerticalWidget =
+    Widgets.Widget(Widgets.StackGroup, Widgets.create({
+        name: 'default-stack-vertical',
+        tag: 'default-stack-vertical',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin ],
+        widgets: [],
+    }));
+
+    Widgets.Item(Widgets.StackGroup, {
+        name: 'stack-vertical',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-vertical.png',
+        widget: Widgets.build(Widgets.StackVerticalWidget, {}),
+    });
+
+    Widgets.Item(Widgets.StackGroup, {
+        name: 'stack-2columns',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-2columns.png',
+        widget: Widgets.build(Widgets.StackVerticalWidget, {}),
+    });
+
+    Widgets.Item(Widgets.StackGroup, {
+        name: 'stack-3columns',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-3columns.png',
+        widget: Widgets.build(Widgets.StackVerticalWidget, {}),
+    });
+
+    Widgets.Item(Widgets.StackGroup, {
+        name: 'stack-left',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-left.png',
+        widget: Widgets.build(Widgets.StackHorizontalWidget),
+    });
+
+    Widgets.Item(Widgets.StackGroup, {
+        name: 'stack-right',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-right.png',
+        widget: Widgets.build(Widgets.StackHorizontalWidget),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+Shell = window.Shell || {};
+
+(function($, Vue, Core, Shell, undefined) {
+
+    Vue.component('default-stack-canvas', {
+        template: '#default-stack-canvas',
+        mixins: [ Core.WidgetMixin, Core.StackedMixin ],
+    });
+
+    Vue.component('default-stack-horizontal', {
+        template: '#default-stack-horizontal',
+        mixins: [ Core.WidgetMixin, Core.StackedMixin ],
+    });
+
+    Vue.component('default-stack-vertical', {
+        template: '#default-stack-vertical',
+        mixins: [ Core.WidgetMixin, Core.StackedMixin ],
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Widgets) {
+
+    Vue.component('default-button', {
+        template: '#default-button',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.ButtonWidget =
+    Widgets.Widget(Widgets.ButtonsGroup, Widgets.create({
+        name: 'default-button',
+        tag: 'default-button',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'title', title: 'Title', type: 'string', tab: 'content' },
+            { name: 'type', title: 'Type', type: 'string', tab: 'data' },
+            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
+        ],
+    }));
+
+    Widgets.ButtonWidgetFactory = function(title, stereotype) {
+
+        var w = Widgets.build(Widgets.ButtonWidget, {
+            inner: {
+                value:  {
+                    margin: { value: '15px 15px' },
+                }
+            },
+            type: { value: 'button' },
+            title: { value: title },
+            stereotype: { value: stereotype },
+        });
+
+        return w;
+    }
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-default',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-default.png',
+        widget: Widgets.ButtonWidgetFactory('Default', 'default'),
+    });
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-primary',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-primary.png',
+        widget: Widgets.ButtonWidgetFactory('Primary', 'primary'),
+    });
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-success',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-success.png',
+        widget: Widgets.ButtonWidgetFactory('Success', 'success'),
+    });
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-info',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-info.png',
+        widget: Widgets.ButtonWidgetFactory('Info', 'info'),
+    });
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-warning',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-warning.png',
+        widget: Widgets.ButtonWidgetFactory('Warning', 'warning'),
+    });
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-danger',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-danger.png',
+        widget: Widgets.ButtonWidgetFactory('Danger', 'danger'),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-check', {
+        template: '#default-check',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.CheckWidget =
+    Widgets.Widget(Widgets.ChecksGroup, Widgets.create({
+        name: 'default-check',
+        tag: 'default-check',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
+            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
+            {
+                name: 'items', type: 'multiple', title: 'Items', tab: 'data',
+                tabs: [
+                    { name: 'data', title: 'Data' },
+                ],
+                props: [
+                    { name: 'value', title: 'Value', type: 'string', tab: 'data' },
+                    { name: 'label', title: 'Label', type: 'string', tab: 'data' },
+                ]
+            },
+        ],
+    }));
+
+    Widgets.CheckWidgetFactory = function(stereotype, value, options) {
+
+        return Widgets.build(Widgets.CheckWidget, {
+            model: {
+                value: { value: value }
+            },
+            inner: {
+                value: {
+                    margin: { value: '15px 15px' },
+                }
+            },
+            stereotype: { value: stereotype },
+            items: {
+                value: options.map(function(option) {
+                    return {
+                        value: { value: option.value },
+                        label: { value: option.label },
+                    };
+                })
+            }
+        });
+    }
+
+    Widgets.Item(Widgets.ChecksGroup, {
+        name: 'check-default',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-default.png',
+        widget: Widgets.CheckWidgetFactory('default', [ 'A', 'B' ], [
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+            { value: 'C', label: 'C' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.ChecksGroup, {
+        name: 'check-primary',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-primary.png',
+        widget: Widgets.CheckWidgetFactory('primary', [ 'A', 'B' ], [
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+            { value: 'C', label: 'C' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.ChecksGroup, {
+        name: 'check-success',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-success.png',
+        widget: Widgets.CheckWidgetFactory('success', [ 'A', 'B' ], [
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+            { value: 'C', label: 'C' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.ChecksGroup, {
+        name: 'check-info',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-info.png',
+        widget: Widgets.CheckWidgetFactory('info', [ 'A', 'B' ], [
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+            { value: 'C', label: 'C' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.ChecksGroup, {
+        name: 'check-warning',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-warning.png',
+        widget: Widgets.CheckWidgetFactory('warning', [ 'A', 'B' ], [
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+            { value: 'C', label: 'C' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.ChecksGroup, {
+        name: 'check-danger',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-danger.png',
+        widget: Widgets.CheckWidgetFactory('danger', [ 'A', 'B' ], [
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+            { value: 'C', label: 'C' },
+        ]),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-input-text', {
+        template: '#default-input-text',
+        mixins: [ Core.WidgetMixin ],
+        created: function() {
+            // console.log('model', this.bindings);
+            // console.log('storage', this.storage.one);
+        }
+    });
+
+    Vue.component('default-input-textarea', {
+        template: '#default-input-textarea',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+    Vue.component('default-input-checkbox', {
+        template: '#default-input-checkbox',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+    Vue.component('default-input-radio', {
+        template: '#default-input-radio',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.InputWidget =
+    Widgets.Widget(Widgets.InputsGroup, Widgets.create({
+        name: 'default-input-text',
+        tag: 'default-input-text',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
+            { name: 'type', title: 'Type', type: 'string', tab: 'content' },
+            { name: 'label', title: 'Label', type: 'string', tab: 'content' },
+            { name: 'placeholder', title: 'Placeholder', type: 'string', tab: 'content' },
+        ],
+    }));
+
+    Widgets.InputWidgetFactory = function(label, type) {
+
+        return Widgets.build(Widgets.InputWidget, {
+            model: {
+                value: { value: '' }
+            },
+            inner: {
+                value: {
+                    margin: { value: '15px 15px' },
+                }
+            },
+            label: { value: label },
+            type: { value: type },
+        });
+    };
+
+    Widgets.Item(Widgets.InputsGroup, {
+        name: 'input-text',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/text.png',
+        widget: Widgets.InputWidgetFactory('Input', 'text'),
+    });
+
+    Widgets.TextareaWidget =
+    Widgets.Widget(Widgets.InputsGroup, Widgets.create({
+        name: 'default-input-textarea',
+        tag: 'default-input-textarea',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
+            { name: 'label', title: 'Label', type: 'string', tab: 'data' },
+            { name: 'placeholder', title: 'Placeholder', type: 'string', tab: 'data' },
+        ],
+    }));
+
+    Widgets.TextareaWidgetFactory = function(label, placeholder) {
+
+        return Widgets.build(Widgets.TextareaWidget, {
+            model: {
+                value: { value: '' }
+            },
+            placeholder: { value: placeholder },
+            inner: {
+                value: {
+                    margin: { value: '15px 15px' },
+                }
+            },
+            label: { value: label },
+        });
+    };
+
+    Widgets.Item(Widgets.InputsGroup, {
+        name: 'input-textarea',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/textarea.png',
+        widget: Widgets.TextareaWidgetFactory('Textarea', 'Type message here'),
+    });
+
+    Widgets.RadioInputWidget =
+    Widgets.Widget(Widgets.InputsGroup, Widgets.create({
+        name: 'default-input-radio',
+        tag: 'default-input-radio',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
+            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
+            {
+                name: 'items', type: 'multiple', title: 'Items', tab: 'data',
+                tabs: [
+                    { name: 'data', title: 'Data' },
+                ],
+                props: [
+                    { name: 'value', title: 'Value', type: 'string', tab: 'data' },
+                    { name: 'label', title: 'Label', type: 'string', tab: 'data' },
+                ]
+            },
+        ],
+    }));
+
+    Widgets.RadioInputWidgetFactory = function(value, options) {
+
+        return Widgets.build(Widgets.RadioInputWidget, {
+            model: {
+                value: { value: value }
+            },
+            inner: {
+                value: {
+                    margin: { value: '15px 15px' },
+                }
+            },
+            items: {
+                value: options.map(function(option) {
+                    return {
+                        value: Widgets.Param(option.value),
+                        label: Widgets.Param(option.label),
+                    };
+                })
+            }
+        });
+    };
+
+    Widgets.Item(Widgets.InputsGroup, {
+        name: 'input-radio',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/radio.png',
+        widget: Widgets.RadioInputWidgetFactory('1', [
+            { value: '1', label: 'First' },
+            { value: '2', label: 'Second' },
+        ]),
+    });
+
+    Widgets.CheckInputWidget =
+    Widgets.Widget(Widgets.InputsGroup, Widgets.create({
+        name: 'default-input-checkbox',
+        tag: 'default-input-checkbox',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
+            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
+            {
+                name: 'items', type: 'multiple', title: 'Items', tab: 'data',
+                tabs: [
+                    { name: 'data', title: 'Data' },
+                ],
+                props: [
+                    { name: 'value', title: 'Value', type: 'string', tab: 'data' },
+                    { name: 'label', title: 'Label', type: 'string', tab: 'data' },
+                ]
+            },
+        ],
+    }));
+
+    Widgets.CheckInputWidgetFactory = function(value, options) {
+
+        return Widgets.build(Widgets.CheckInputWidget, {
+            model: {
+                value: { value: value }
+            },
+            inner: {
+                value: {
+                    margin: { value: '15px 15px' },
+                }
+            },
+            items: {
+                value: options.map(function(option) {
+                    return {
+                        value: Widgets.Param(option.value),
+                        label: Widgets.Param(option.label),
+                    };
+                })
+            }
+        });
+    };
+
+    Widgets.Item(Widgets.InputsGroup, {
+        name: 'input-check',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/checkbox.png',
+        widget: Widgets.CheckInputWidgetFactory([ '1' ], [
+            { value: '1', label: 'First' },
+            { value: '2', label: 'Second' },
+        ]),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.RadioWidget =
+    Widgets.Widget(Widgets.RadiosGroup, Widgets.create({
+        name: 'default-radio',
+        tag: 'default-radio',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
+            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
+            {
+                name: 'items', type: 'multiple', title: 'Items', tab: 'data',
+                tabs: [
+                    { name: 'data', title: 'Data' },
+                ],
+                props: [
+                    { name: 'value', title: 'Value', type: 'string', tab: 'data' },
+                    { name: 'label', title: 'Label', type: 'string', tab: 'data' },
+                ]
+            },
+        ],
+    }));
+
+    Widgets.RadioWidgetFactory = function(stereotype, value, options) {
+
+        return Widgets.build(Widgets.RadioWidget, {
+            model: {
+                value: { value: value }
+            },
+            inner: {
+                value: {
+                    margin: { value: '15px 15px' },
+                }
+            },
+            stereotype: { value: stereotype },
+            items: {
+                value: options.map(function(option) {
+                    return {
+                        value: { value: option.value },
+                        label: { value: option.label },
+                    };
+                })
+            }
+        });
+    };
+
+    Widgets.Item(Widgets.RadiosGroup, {
+        name: 'radio-default',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-default.png',
+        widget: Widgets.RadioWidgetFactory('default', '1', [
+            { value: '1', label: 'On' },
+            { value: '0', label: 'Off' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.RadiosGroup, {
+        name: 'radio-primary',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-primary.png',
+        widget: Widgets.RadioWidgetFactory('primary', '1', [
+            { value: '1', label: 'On' },
+            { value: '0', label: 'Off' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.RadiosGroup, {
+        name: 'radio-success',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-success.png',
+        widget: Widgets.RadioWidgetFactory('success', '1', [
+            { value: '1', label: 'On' },
+            { value: '0', label: 'Off' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.RadiosGroup, {
+        name: 'radio-info',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-info.png',
+        widget: Widgets.RadioWidgetFactory('info', '1', [
+            { value: '1', label: 'On' },
+            { value: '0', label: 'Off' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.RadiosGroup, {
+        name: 'radio-warning',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-warning.png',
+        widget: Widgets.RadioWidgetFactory('warning', '1', [
+            { value: '1', label: 'On' },
+            { value: '0', label: 'Off' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.RadiosGroup, {
+        name: 'radio-danger',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-danger.png',
+        widget: Widgets.RadioWidgetFactory('danger', '1', [
+            { value: '1', label: 'On' },
+            { value: '0', label: 'Off' },
+        ]),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-radio', {
+        template: '#default-radio',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core, Widgets) {
+
+    Vue.component('default-image', {
+        template: '#default-image',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.ImageWidget =
+    Widgets.Widget(Widgets.ImagesGroup, Widgets.create({
+        name: 'default-image',
+        tag: 'default-image',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'src', title: 'Source', type: 'string', tab: 'appearance' },
+        ],
+    }));
+
+    Widgets.ImageWidgetFactory = function(url) {
+
+        var w = Widgets.build(Widgets.ImageWidget, {
+            height: { value: '300px' },
+            src: { value: url },
+        });
+
+        return w;
+    }
+
+    var images = [
+        { group: Widgets.AbstractGroup, names: [ 'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8' ] },
+        { group: Widgets.CityGroup, names: [ 'c1', 'c2', 'c3', 'c4', 'c5', 'c6' ] },
+        { group: Widgets.NatureGroup, names: [ 'n1', 'n2', 'n3', 'n4', 'n5', 'n6' ] },
+        { group: Widgets.SpaceGroup, names: [ 's1', 's2', 's3', 's4', 's5', 's6' ] },
+    ];
+
+    for (var i = 0; i < images.length; i++) {
+
+        var settings = images[i];
+
+        for (var j = 0; j < settings.names.length; j++) {
+
+            var name = settings.names[j];
+
+            Widgets.Item(settings.group, {
+                name: name,
+                thumbnail: `/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/120x80/${name}.jpg`,
+                widget: Widgets.ImageWidgetFactory(`/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/1920x1280/${name}.jpg`),
+            });
+        }
+    }
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.TextWidget =
+    Widgets.Widget(Widgets.BlocksGroup, Widgets.create({
+        name: 'default-text',
+        tag: 'default-text',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
+            { name: 'content', title: 'Content', type: 'rich', tab: 'content' },
+        ],
+    }));
+
+    Widgets.TextWidgetFactory = function(stereotype, content) {
+
+        return Widgets.build(Widgets.TextWidget, {
+            content: { value: content },
+            stereotype: { value: stereotype },
+            inner: {
+                value: {
+                    padding: { value: '15px 15px' },
+                }
+            },
+        });
+    }
+
+    Widgets.Item(Widgets.HeadingsGroup, {
+        name: 'text-h1',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/text-h1.png',
+        widget: Widgets.TextWidgetFactory('default', `
+            <h1>Heading 1</h1>
+        `),
+    });
+
+    Widgets.Item(Widgets.HeadingsGroup, {
+        name: 'text-h2',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/text-h2.png',
+        widget: Widgets.TextWidgetFactory('default', `
+            <h2>Heading 2</h2>
+        `),
+    });
+
+    Widgets.Item(Widgets.HeadingsGroup, {
+        name: 'text-h3',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/text-h3.png',
+        widget: Widgets.TextWidgetFactory('default', `
+            <h3>Heading 3</h3>
+        `),
+    });
+
+    Widgets.Item(Widgets.HeadingsGroup, {
+        name: 'text-h4',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/text-h4.png',
+        widget: Widgets.TextWidgetFactory('default', `
+            <h4>Heading 4</h4>
+        `),
+    });
+
+    Widgets.Item(Widgets.HeadingsGroup, {
+        name: 'text-h5',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/text-h5.png',
+        widget: Widgets.TextWidgetFactory('default', `
+            <h5>Heading 5</h5>
+        `),
+    });
+
+    Widgets.Item(Widgets.HeadingsGroup, {
+        name: 'text-h6',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/text-h6.png',
+        widget: Widgets.TextWidgetFactory('default', `
+            <h6>Heading 6</h6>
+        `),
+    });
+
+    Widgets.Item(Widgets.BlocksGroup, {
+        name: 'block-default',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/block-default.png',
+        widget: Widgets.TextWidgetFactory('default', `
+            <h3>Lorem ipsum</h3>
+            <p>Etiam porta sem malesuada magna mollis euismod.</p>
+        `),
+    });
+
+    Widgets.Item(Widgets.BlocksGroup, {
+        name: 'block-primary',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/block-primary.png',
+        widget: Widgets.TextWidgetFactory('primary', `
+            <h3>Lorem ipsum</h3>
+            <p>Etiam porta sem malesuada magna mollis euismod.</p>
+        `),
+    });
+
+    Widgets.Item(Widgets.BlocksGroup, {
+        name: 'block-success',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/block-success.png',
+        widget: Widgets.TextWidgetFactory('success', `
+            <h3>Lorem ipsum</h3>
+            <p>Etiam porta sem malesuada magna mollis euismod.</p>
+        `),
+    });
+
+    Widgets.Item(Widgets.BlocksGroup, {
+        name: 'block-info',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/block-info.png',
+        widget: Widgets.TextWidgetFactory('info', `
+            <h3>Lorem ipsum</h3>
+            <p>Etiam porta sem malesuada magna mollis euismod.</p>
+        `),
+    });
+
+    Widgets.Item(Widgets.BlocksGroup, {
+        name: 'block-warning',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/block-warning.png',
+        widget: Widgets.TextWidgetFactory('warning', `
+            <h3>Lorem ipsum</h3>
+            <p>Etiam porta sem malesuada magna mollis euismod.</p>
+        `),
+    });
+
+    Widgets.Item(Widgets.BlocksGroup, {
+        name: 'block-danger',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/text/text/block-danger.png',
+        widget: Widgets.TextWidgetFactory('danger', `
+            <h3>Lorem ipsum</h3>
+            <p>Etiam porta sem malesuada magna mollis euismod.</p>
+        `),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-text', {
+        template: '#default-text',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-box', {
+        template: '#default-box',
+        props: {
+            bindings: Object,
+            class: String,
+        }
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.StubWidget =
+    Widgets.Widget(Widgets.UtilGroup, Widgets.create({
+        _action: 'ignore',
+        name: 'default-stub',
+        tag: 'default-stub',
+        mixins: [ Widgets.BoxMixin ],
+        props: [
+            { name: 'content', type: 'rich' }
+        ],
+    }));
+
+    Widgets.StubWidgetFactory = function(content) {
+
+        return Widgets.build(Widgets.StubWidget, {
+            content: { value: content },
+        });
+    }
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-stub', {
+        template: '#default-stub',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-placeholder', {
+        template: '#default-placeholder',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core);
+
+window.Landing =
+(function($, Vue, Core, Shell) {
+
+    var Landing = {};
+
+    $(document).ready(function() {
+
+        $('[data-vue-app]').each(function(index, element) {
+
+            $('script[type="archery/template"]').each((index, el) => {
+                console.log(el, $(el).html());
+                $(document.body).append($(el).html());
+            });
+
+            var data = $(element).data();
+
+            var App = Vue.extend({
+                data: function() {
+                    return data;
+                },
+                created: function() {
+
+                    Vue.service('security', Core.SecurityFactory(this));
+                    Vue.service('portals', Core.PortalsFactory(this));
+                },
+            });
+
+            var router = new VueRouter({
+                history: true,
+            });
+
+            router.beforeEach(function(transition) {
+
+                if (transition.to.auth && !router.app.principal) {
+                    transition.abort();
+                } else if (transition.to.anon && router.app.principal) {
+                    transition.abort();
+                } else {
+                    transition.next();
+                }
+            });
+
+            var routes = {
+                '/': {
+                    component: Landing.LandingPage,
+                },
+                '/gallery': {
+                    component: Landing.LandingGalleryPage,
+                },
+                '/storage': {
+                    component: Landing.LandingStoragePage,
+                },
+                '/signin': {
+                    component: Landing.LandingSigninPage,
+                    anon: true,
+                },
+                '/signup': {
+                    component: Landing.LandingSignupPage,
+                    anon: true,
+                },
+                '/manage': {
+                    component: Landing.LandingManagePage,
+                    auth: true,
+                },
+                '/manage-create': {
+                    component: Landing.LandingManageCreatePage,
+                    auth: true,
+                },
+                '/site/:portal/:page': {
+                    component: Shell.ShellPublic,
+                    auth: true,
+                },
+                '/manage/:portal': {
+                    component: Shell.Loader,
+                    auth: true,
+                    private: true,
+                },
+                '/manage/:portal/:page': {
+                    component: Shell.Loader,
+                    auth: true,
+                    private: true,
+                },
+            };
+
+            function createRoute(page) {
+                return {
+                    component: Shell.ShellPublic.extend({
+                        data: function() {
+                            return {
+                                page: page,
+                            };
+                        }
+                    }),
+                };
+            }
+
+            if (data.model) {
+                for (var i = 0; i < data.model.pages.length; i++) {
+
+                    var page = data.model.pages[i];
+                    routes[page.name] = createRoute(page);
+                }
+            }
+
+            router.map(routes);
+
+            router.start(App, $('[data-vue-body]', element).get(0));
+        });
+    });
+
+    return Landing;
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell, Landing) {
+
+    Landing.LandingPage =
+    Vue.component('landing-page', {
+        template: '#landing-page',
+    });
+
+    Landing.LandingGalleryPage =
+    Vue.component('landing-gallery-page', {
+        template: '#landing-gallery-page',
+    });
+
+    Landing.LandingStoragePage =
+    Vue.component('landing-storage-page', {
+        template: '#landing-storage-page',
+    });
+
+    Landing.LandingSigninPage =
+    Vue.component('landing-signin-page', {
+        template: '#landing-signin-page',
+    });
+
+    Landing.LandingSignupPage =
+    Vue.component('landing-signup-page', {
+        template: '#landing-signup-page',
+    });
+
+    Landing.LandingProfilePage =
+    Vue.component('landing-profile-page', {
+        template: '#landing-profile-page',
+    });
+
+    Landing.LandingManagePage =
+    Vue.component('landing-manage-page', {
+        template: '#landing-manage-page',
+    });
+
+    Landing.LandingManageCreatePage =
+    Vue.component('landing-manage-create-page', {
+        template: '#landing-manage-create-page',
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
+    Core.PortalsFactory = function(owner) {
+
+        return {
+
+            load: (data) => new Promise((resolve, reject) => {
+
+                owner.$http.get('/ws/portals', data).then(
+                    (d) => { resolve(d); },
+                    (e) => { reject(e); }
+                );
+            }),
+
+            create: (data) => new Promise((resolve, reject) => {
+
+                owner.$http.post('/ws/portals', data).then(
+                    (d) => { resolve(d); },
+                    (e) => { reject(e); }
+                );
+            }),
+
+            remove: (data) => new Promise((resolve, reject) => {
+
+                owner.$http.delete(`/ws/portals/${data.id}`).then(
+                    (d) => { resolve(d); },
+                    (e) => { reject(e); }
+                );
+            }),
+
+            get: (data) => new Promise((resolve, reject) => {
+
+                owner.$http.get(`/ws/portals/${data.id}`).then(
+                    (d) => { resolve(d); },
+                    (e) => { reject(e); }
+                );
+            }),
+        };
+    }
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
+    Core.SecurityFactory = function(owner) {
+
+        return {
+
+            signup: (data) => new Promise((resolve, reject) => {
+
+                owner.$http.post('/ws/signup', data).then(
+                    (d) => { owner.principal = d.data.principal; resolve(d); },
+                    (e) => { owner.principal = null; reject(e); }
+                );
+            }),
+
+            signin: (data) => new Promise((resolve, reject) => {
+
+                owner.$http.post('/ws/signin', data).then(
+                    (d) => { owner.principal = d.data.principal; resolve(d); },
+                    (e) => { owner.principal = null; reject(e); }
+                );
+            }),
+
+            signout: () => new Promise((resolve, reject) => {
+
+                owner.$http.post('/ws/signout').then(
+                    (d) => { owner.principal = null; resolve(d); },
+                    (e) => { reject(e); }
+                );
+            }),
+        };
+    }
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
+    var validation = {
+        email: "/^([a-zA-Z0-9_\\.\\-]+)@([a-zA-Z0-9_\\.\\-]+)\\.([a-zA-Z0-9]{2,})$/g",
+    };
+
+    Landing.Signin =
+    Vue.component('landing-account-signin', {
+        template: '#landing-account-signin',
+        data: function() {
+            return {
+                form: this.form,
+                validation: validation,
+            }
+        },
+        created: function() {
+            this.$set('form', {
+                email: null,
+                password: null,
+            });
+        },
+        methods: {
+            signin: function() {
+
+                Vue.service('security').signin({
+                    email: this.form.email,
+                    password: this.form.password,
+                }).then(
+                    (d) => { this.$router.go('/'); },
+                    (e) => { }
+                );
+            }
+        },
+    });
+
+    Landing.Signup =
+    Vue.component('landing-account-signup', {
+        template: '#landing-account-signup',
+        data: function() {
+            return {
+                form: this.form,
+                validation: validation,
+            }
+        },
+        created: function() {
+            this.$set('form', {
+                email: null,
+                password: null,
+            });
+        },
+        methods: {
+            signup: function() {
+
+                Vue.service('security').signup({
+                    email: this.form.email,
+                    password: this.form.password,
+                }).then(
+                    (d) => { this.$router.go('/'); },
+                    (e) => { }
+                );
+            }
+        },
+    });
+
+    Landing.Profile =
+    Vue.component('landing-account-profile', {
+        template: '#landing-account-profile',
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+
+
+(function($, Vue, Core, Shell, Landing) {
+
+    Landing.Feedback =
+    Vue.component('landing-feedback', {
+        template: '#landing-feedback',
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
+    Landing.Footer =
+    Vue.component('landing-footer', {
+        template: '#landing-footer',
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
+    Landing.Header =
+    Vue.component('landing-header', {
+        template: '#landing-header',
+        methods: {
+            signout: function() {
+                Vue.service('security').signout().then(
+                    (d) => { this.$router.go('/'); },
+                    (e) => { }
+                );
+            }
+        },
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
+    Landing.Gallery =
+    Vue.component('landing-gallery', {
+        template: '#landing-gallery',
+    });
+
+    Landing.GalleryFull =
+    Vue.component('landing-gallery-full', {
+        template: '#landing-gallery-full',
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
+    Landing.Manage =
+    Vue.component('landing-manage', {
+
+        template: '#landing-manage',
+        data: function() {
+            return {
+                url: window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port: ''),
+                portals: this.portals,
+            };
+        },
+        created: function() {
+            this.refresh();
+        },
+        methods: {
+
+            refresh: function() {
+                Vue.service('portals').load().then(
+                    (d) => { this.$set('portals', d.data.portals); },
+                    (e) => { this.$set('portals', []); }
+                );
+            },
+
+            remove: function(id) {
+                Vue.service('portals').remove({
+                    id: id,
+                })
+                .then(
+                    (d) => { this.refresh(); },
+                    (e) => { }
+                );
+            },
+        }
+    });
+
+    Landing.ManageCreate =
+    Vue.component('landing-manage-create', {
+        template: '#landing-manage-create',
+        data: function() {
+            return {
+                form: this.form,
+            }
+        },
+        created: function() {
+            this.$set('form', {
+                title: null,
+            });
+        },
+        methods: {
+
+            create: function() {
+                Vue.service('portals').create({
+                    title: this.form.title,
+                })
+                .then(
+                    (d) => { this.$router.go('/manage')},
+                    (e) => { }
+                );
+            },
+        }
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
+    Landing.Storage =
+    Vue.component('landing-pricing', {
+        template: '#landing-pricing',
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
+    Landing.Storage =
+    Vue.component('landing-storage', {
+        template: '#landing-storage',
+    });
+
+    Landing.StorageFull =
+    Vue.component('landing-storage-full', {
+        template: '#landing-storage-full',
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
+    Landing.Usecases =
+    Vue.component('landing-usecases', {
+        template: '#landing-usecases',
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
+    Landing.Super =
+    Vue.component('landing-super', {
+        template: '#landing-super',
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
+    Landing.Video =
+    Vue.component('landing-video', {
+        template: '#landing-video',
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Widgets) {
+
+    Vue.component('academy-footer', {
+        template: '#academy-footer',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    var FooterWidget =
+    Widgets.Widget(Widgets.FootersGroup, Widgets.create({
+        name: 'academy-footer',
+        tag: 'academy-footer',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'logo', title: 'Logo', type: 'string', tab: 'content' },
+            { name: 'copy', title: 'Copyright', type: 'string', tab: 'content' },
+            { name: 'email', title: 'Email', type: 'string', tab: 'content' },
+            { name: 'phone', title: 'Phone', type: 'string', tab: 'content' },
+            { name: 'tw', title: 'Twitter', type: 'string', tab: 'content' },
+            { name: 'gl', title: 'Google+', type: 'string', tab: 'content' },
+            { name: 'fb', title: 'Facebook', type: 'string', tab: 'content' },
+            { name: 'vk', title: 'Vkontakte', type: 'string', tab: 'content' },
+        ],
+    }));
+
+    Widgets.Item(Widgets.FootersGroup, {
+        name: 'academy-footer',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets-academy/src/footer/footer.png',
+        widget: Widgets.build(FooterWidget, {
+            outer: {
+                value: {
+                    background: { value: '#0B3C55' },
+                },
+            },
+            inner: {
+                value: {
+                    margin: { value: '0px auto' },
+                },
+            },
+            width: { value: '1200px' },
+            email: { value: 'info@moscowacademy.com' },
+            phone: { value: '+7 (495) 123-4567' },
+            tw: { value: 'https://twitter.com/bookAgolf' },
+            fb: { value: 'https://ru-ru.facebook.com/bookagolf' },
+            gl: { value: 'https://plus.google.com/communities/102202642996727382512' },
+            copy: { value: `Copyright 2016 © MoscowAcademy.com` },
+        }),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Vue.component('academy-header', {
+        template: '#academy-header',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    var HeaderWidget =
+    Widgets.Widget(Widgets.HeadersGroup, Widgets.create({
+        name: 'academy-header',
+        tag: 'academy-header',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'logo', title: 'Logo', type: 'string', tab: 'content' },
+            { name: 'promo', title: 'Promo', type: 'rich', tab: 'content' },
+            { name: 'email', title: 'Email', type: 'string', tab: 'content' },
+            { name: 'phone', title: 'Phone', type: 'string', tab: 'content' },
+            { name: 'tw', title: 'Twitter', type: 'string', tab: 'content' },
+            { name: 'gl', title: 'Google+', type: 'string', tab: 'content' },
+            { name: 'fb', title: 'Facebook', type: 'string', tab: 'content' },
+            { name: 'vk', title: 'Vkontakte', type: 'string', tab: 'content' },
+        ],
+    }));
+
+    Widgets.Item(Widgets.HeadersGroup, {
+        name: 'academy-header',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets-academy/src/header/header.png',
+        widget: Widgets.build(HeaderWidget, {
+            outer: {
+                value: {
+                    background: { value: '#F5F5F5' },
+                },
+            },
+            inner: {
+                value: {
+                    margin: { value: '0px auto' },
+                },
+            },
+            width: { value: '1200px' },
+            email: { value: 'info@moscowacademy.com' },
+            phone: { value: '+7 (495) 123-4567' },
+            tw: { value: 'https://twitter.com/bookAgolf' },
+            fb: { value: 'https://ru-ru.facebook.com/bookagolf' },
+            gl: { value: 'https://plus.google.com/communities/102202642996727382512' },
+            logo: { value: '/assets/vendor/ntr1x-archery-widgets-academy/src/header/img/logo.png' },
+            promo: { value: `
+                <h1>Voted the UK's<br />Leading Residential<br />Golf School</h1>
+                <h3>by Today’s Golfer Magazine</h3>
+            ` },
+        }),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Vue.component('academy-menu', {
+        template: '#academy-menu',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    var P = Widgets.Props;
+    var T = Widgets.Tabs;
+
+    var MenuWidget =
+    Widgets.Widget(Widgets.NavigationGroup, Widgets.create({
+        name: 'academy-menu',
+        tag: 'academy-menu',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            {
+                name: 'items', title: 'Items', type: 'object', tab: 'data',
+                tabs: [ T.Data, T.Appearance ],
+                props: [
+                    {
+                        name: 'collection', title: 'Collection', type: 'multiple', tab: 'data',
+                        tabs: [ T.Data ],
+                        props: [ P.Margin, P.Padding, P.Background,
+                            { name: 'vlink', title: 'Vlink', type: 'string', tab: 'data', },
+                            { name: 'href', title: 'Href', type: 'string', tab: 'data', },
+                            { name: 'title', title: 'Title', type: 'string', tab: 'data', },
+                            { name: 'active', title: 'Active', type: 'string', tab: 'data', },
+                        ]
+                    },
+                    {
+                        name: 'style', title: 'Style', type: 'object', tab: 'appearance',
+                        tabs: [ T.Appearance ],
+                        props: [ P.Margin, P.Padding, P.Background, ],
+                    }
+                ]
+            },
+        ],
+    }));
+
+    Widgets.Item(Widgets.NavigationGroup, {
+        name: 'academy-menu',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets-academy/src/menu/menu.png',
+        widget: Widgets.build(MenuWidget, {
+            outer: {
+                value: {
+                    background: { value: '#266181' },
+                },
+            },
+            inner: {
+                value: {
+                    margin: { value: '0px auto' },
+                },
+            },
+            width: { value: '1200px' },
+            items: {
+                value: {
+                    style: {
+                        value: {
+                            padding: { value: '12px 16px' },
+                            margin: { value: '4px 2px' },
+                        }
+                    },
+                    collection: {
+                        value: [
+                            { vlink: { value: "" }, title: { value: "Home" }, active: { value: true } },
+                            { vlink: { value: "courses" }, title: { value: "Courses" }, },
+                            { vlink: { value: "about" }, title: { value: "About" }, },
+                        ]
+                    }
+                }
+            },
+        }),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    var P = Widgets.Props;
+    var T = Widgets.Tabs;
+
+    var SitemapWidget =
+    Widgets.Widget(Widgets.NavigationGroup, Widgets.create({
+        name: 'academy-sitemap',
+        tag: 'academy-sitemap',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            {
+                name: 'items', title: 'Items', type: 'object', tab: 'data',
+                tabs: [ T.Data, T.Appearance ],
+                props: [
+                    {
+                        name: 'collection', title: 'Collection', type: 'multiple', tab: 'data',
+                        tabs: [ T.Data, T.Appearance ],
+                        props: [ P.Margin, P.Padding, P.Background, P.Vlink, P.Href, P.Title,
+                            {
+                                name: 'items', title: 'Items', type: 'object', tab: 'data',
+                                tabs: [ T.Data, T.Appearance ],
+                                props: [
+                                    {
+                                        name: 'collection', title: 'Collection', type: 'multiple', tab: 'data',
+                                        tabs: [ T.Data ],
+                                        props: [ P.Margin, P.Padding, P.Background, P.Vlink, P.Href, P.Title, ]
+                                    },
+                                    {
+                                        name: 'style', title: 'Item Style', type: 'object', tab: 'appearance',
+                                        tabs: [ T.Appearance ],
+                                        props: [ P.Margin, P.Padding, P.Background ],
+                                    },
+                                ]
+                            },
+                            {
+                                name: 'head', title: 'Head Style', type: 'object', tab: 'appearance',
+                                tabs: [ T.Appearance ],
+                                props: [ P.Margin, P.Padding, P.Background ],
+                            },
+                            {
+                                name: 'body', title: 'Body Style', type: 'object', tab: 'appearance',
+                                tabs: [ T.Appearance ],
+                                props: [ P.Margin, P.Padding, P.Background ],
+                            }
+                        ]
+                    },
+                    {
+                        name: 'style', title: 'Item Style', type: 'object', tab: 'appearance',
+                        tabs: [ T.Appearance ],
+                        props: [ P.Margin, P.Padding, P.Background ],
+                    },
+                    {
+                        name: 'head', title: 'Head Style', type: 'object', tab: 'appearance',
+                        tabs: [ T.Appearance ],
+                        props: [ P.Margin, P.Padding, P.Background ],
+                    },
+                    {
+                        name: 'body', title: 'Body Style', type: 'object', tab: 'appearance',
+                        tabs: [ T.Appearance ],
+                        props: [ P.Margin, P.Padding, P.Background ],
+                    }
+                ]
+            },
+        ],
+    }));
+
+    Widgets.Item(Widgets.NavigationGroup, {
+        name: 'academy-sitemap',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets-academy/src/sitemap/sitemap.png',
+        widget: Widgets.build(SitemapWidget, {
+            outer: {
+                value: {
+                    background: { value: '#266181' },
+                },
+            },
+            inner: {
+                value: {
+                    margin: { value: '0px auto' },
+                },
+            },
+            width: { value: '1200px' },
+            items: {
+                value: {
+                    // style: {
+                    //     value: {
+                    //         padding: { value: '12px 16px' },
+                    //         margin: { value: '4px 2px' },
+                    //     }
+                    // },
+                    collection: {
+                        value: [
+                            {
+                                title: { value: "Tuition Courses" },
+                                items: {
+                                    value: {
+                                        collection: {
+                                            value: [
+                                                { title: { value: "Beginner Schools" } },
+                                                { title: { value: "Intermediate Schools" } },
+                                                { title: { value: "Advanced Schools" } },
+                                                { title: { value: "Specialist Schools" } },
+                                            ]
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                title: { value: "During Your Stay" },
+                                items: {
+                                    value: {
+                                        collection: {
+                                            value: [
+                                                { title: { value: "Golf Lodge" } },
+                                                { title: { value: "Restaurant & Bar" } },
+                                                { title: { value: "Places to Visit" } },
+                                                { title: { value: "FAQ" } },
+                                            ]
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                title: { value: "About Us" },
+                                items: {
+                                    value: {
+                                        collection: {
+                                            value: [
+                                                { title: { value: "Why Us?" } },
+                                                { title: { value: "Testimonials" } },
+                                                { title: { value: "In the Media" } },
+                                                { title: { value: "How to find us" } },
+                                            ]
+                                        }
+                                    }
+                                }
+                            },
+                        ]
+                    }
+                }
+            },
+        }),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Vue.component('academy-sitemap', {
+        template: '#academy-sitemap',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
 //# sourceMappingURL=app.js.map
