@@ -1018,19 +1018,6 @@
     </section>
 </template>
 
-<template id="shell-container">
-
-    <section class="ge ge-container" v-scrollable>
-        <shell-page
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :items.sync="page.widgets"
-        ></shell-page>
-    </section>
-
-</template>
-
 <template id="shell-categories">
     <section class="ge ge-categories">
         <div v-for="category in categories">
@@ -1042,6 +1029,19 @@
             </ul>
         </div>
     </section>
+</template>
+
+<template id="shell-container">
+
+    <section class="ge ge-container" v-scrollable>
+        <shell-page
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :items.sync="page.widgets"
+        ></shell-page>
+    </section>
+
 </template>
 
 <template id="shell-decorator-canvas">
@@ -1153,6 +1153,31 @@
     </div>
 </template>
 
+<template id="shell-loader">
+    <div class="ge ge-shell-loader">
+        <shell-private v-if="portal != null"
+            :settings="settings"
+            :model="portal"
+        ></shell-private>
+    </div>
+</template>
+
+<template id="shell-page">
+    <div class="ge ge-page">
+        <div
+            :is="decorator"
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :data.sync="data"
+            :storage.sync="storage"
+            :model.sync="page.root"
+            :widget.sync="widget"
+            :items.sync="page.root.widgets"
+        ></div>
+    </div>
+</template>
+
 <template id="shell-domains">
     <section class="ge ge-panel ge-domains">
         <domains :items.sync="domains" :globals.sync="globals" inline-template>
@@ -1177,15 +1202,6 @@
     </section>
 </template>
 
-<template id="shell-loader">
-    <div class="ge ge-shell-loader">
-        <shell-private v-if="portal != null"
-            :settings="settings"
-            :model="portal"
-        ></shell-private>
-    </div>
-</template>
-
 <template id="shell-pages">
     <section class="ge ge-panel ge-pages">
         <h5>
@@ -1207,22 +1223,6 @@
             </li>
         </ul>
     </section>
-</template>
-
-<template id="shell-page">
-    <div class="ge ge-page">
-        <div
-            :is="decorator"
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :data.sync="data"
-            :storage.sync="storage"
-            :model.sync="page.root"
-            :widget.sync="widget"
-            :items.sync="page.root.widgets"
-        ></div>
-    </div>
 </template>
 
 <template id="shell-palette-item">
@@ -1257,30 +1257,6 @@
                 </div>
             </div>
         </div>
-    </section>
-</template>
-
-<template id="shell-sources">
-    <section class="ge ge-panel ge-sources">
-        <pages-sources :items.sync="sources" :globals.sync="globals" inline-template>
-            <h5>
-                <span>Sources</span>
-                <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({ schema: 'petstore', method: 'GET', params: [] })"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                </span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.source }">
-                    <a href="#" @click="trigger('selectSource', item)">
-                        <span>{{ item.name }}</span>
-                        <span class="ge ge-overlays">
-                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </pages-sources>
     </section>
 </template>
 
@@ -1359,10 +1335,28 @@
     </div>
 </template>
 
-<template id="shell-target">
-    <div class="ge ge-target">
-        <span>Drop Here</span>
-    </div>
+<template id="shell-sources">
+    <section class="ge ge-panel ge-sources">
+        <pages-sources :items.sync="sources" :globals.sync="globals" inline-template>
+            <h5>
+                <span>Sources</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ schema: 'petstore', method: 'GET', params: [] })"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.source }">
+                    <a href="#" @click="trigger('selectSource', item)">
+                        <span>{{ item.name }}</span>
+                        <span class="ge ge-overlays">
+                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </pages-sources>
+    </section>
 </template>
 
 <template id="shell-storages">
@@ -1387,6 +1381,12 @@
             </ul>
         </storages>
     </section>
+</template>
+
+<template id="shell-target">
+    <div class="ge ge-target">
+        <span>Drop Here</span>
+    </div>
 </template>
 
 <template id="shell-widget">
@@ -1924,42 +1924,6 @@
     </default-box>
 </template>
 
-<template id="default-text">
-    <section class="wg wg-default-text" :id="bindings.id"
-        :class="{
-            'bg-default': bindings.stereotype == 'default',
-            'bg-primary': bindings.stereotype == 'primary',
-            'bg-success': bindings.stereotype == 'success',
-            'bg-info': bindings.stereotype == 'info',
-            'bg-warning': bindings.stereotype == 'warning',
-            'bg-danger': bindings.stereotype == 'danger',
-        }"
-        :style="{
-            'margin': bindings.outer.margin,
-            'padding': bindings.outer.padding,
-            'border': bindings.outer.border,
-            'background': bindings.outer.background,
-        }"
-    >
-        <div class="wg wg-content"
-            :style="{
-                'height': bindings.height,
-                'width': bindings.width,
-                'margin': bindings.inner.margin,
-                'padding': bindings.inner.padding,
-                'border': bindings.inner.border,
-                'background': bindings.inner.background,
-            }"
-        >{{{ bindings.content }}}</div>
-    </section>
-</template>
-
-<template id="default-image">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-image">
-        <img :src="bindings.src" />
-    </default-box>
-</template>
-
 <template id="default-stack-canvas">
     <section class="wg wg-default-stack wg-default-stack-canvas wg-sortable" :style="{
         width: bindings.width || '1200px'
@@ -2046,6 +2010,22 @@
     </section>
 </template>
 
+<template id="default-image">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-image">
+        <img :src="bindings.src" />
+    </default-box>
+</template>
+
+<template id="default-placeholder">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
+        <div class="wg wg-table" :style="{
+            height: bindings.height,
+        }">
+            <span class="wg wg-cell">{{{ bindings.content }}}</span>
+        </div>
+    </default-box>
+</template>
+
 <template id="default-box">
     <section :class="class" :id="bindings.id" :style="{
         'border': bindings.outer.border,
@@ -2064,16 +2044,6 @@
     </section>
 </template>
 
-<template id="default-placeholder">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
-        <div class="wg wg-table" :style="{
-            height: bindings.height,
-        }">
-            <span class="wg wg-cell">{{{ bindings.content }}}</span>
-        </div>
-    </default-box>
-</template>
-
 <template id="default-stub">
     <default-box :bindings.sync="bindings" class="wg wg-default-stub">
         <div class="wg wg-table">
@@ -2082,6 +2052,36 @@
             </span>
         </div>
     </default-box>
+</template>
+
+<template id="default-text">
+    <section class="wg wg-default-text" :id="bindings.id"
+        :class="{
+            'bg-default': bindings.stereotype == 'default',
+            'bg-primary': bindings.stereotype == 'primary',
+            'bg-success': bindings.stereotype == 'success',
+            'bg-info': bindings.stereotype == 'info',
+            'bg-warning': bindings.stereotype == 'warning',
+            'bg-danger': bindings.stereotype == 'danger',
+        }"
+        :style="{
+            'margin': bindings.outer.margin,
+            'padding': bindings.outer.padding,
+            'border': bindings.outer.border,
+            'background': bindings.outer.background,
+        }"
+    >
+        <div class="wg wg-content"
+            :style="{
+                'height': bindings.height,
+                'width': bindings.width,
+                'margin': bindings.inner.margin,
+                'padding': bindings.inner.padding,
+                'border': bindings.inner.border,
+                'background': bindings.inner.background,
+            }"
+        >{{{ bindings.content }}}</div>
+    </section>
 </template>
 
 <template id="landing-gallery-page">
@@ -2149,12 +2149,6 @@
         <landing-pricing></landing-pricing>
         <landing-feedback></landing-feedback>
         <landing-footer></landing-footer>
-    </div>
-</template>
-
-<template id="landing-benefits">
-    <div class="ld ld-section ld-benefits">
-        <h3>Benefits</h3>
     </div>
 </template>
 
@@ -2245,6 +2239,12 @@
     </div>
 </template>
 
+<template id="landing-benefits">
+    <div class="ld ld-section ld-benefits">
+        <h3>Benefits</h3>
+    </div>
+</template>
+
 <template id="landing-feedback">
     <div class="ld ld-section ld-feedback">
         <div class="ld ld-container">
@@ -2326,22 +2326,6 @@
 <template id="landing-contacts">
     <div class="ld ld-section ld-contacts">
         <h3>Contacts</h3>
-    </div>
-</template>
-
-<template id="landing-footer">
-    <div class="ld ld-section ld-footer">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-copyright">
-                            &copy; 2016 NTR, LLC. Archery Cloud Platform.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -2609,6 +2593,22 @@
     </div>
 </template>
 
+<template id="landing-footer">
+    <div class="ld ld-section ld-footer">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-copyright">
+                            &copy; 2016 NTR, LLC. Archery Cloud Platform.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="landing-header">
     <div class="ld ld-section ld-header">
         <div class="ld ld-header-affix" v-affix="{ offset: { top: 25 } }">
@@ -2634,77 +2634,6 @@
                     <div class="ld ld-offer">
                         <h1>Open your online universe!</h1>
                         <h2>Archery is the Cloud platform to build business friendly online services.</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template id="landing-manage-create">
-    <div class="ld ld-section ld-body ld-manage ld-manage-create">
-        <div class="ld ld-table">
-            <div class="ld ld-cell">
-                <validator name="validation">
-                    <form novalidate @submit.prevent="$validation.valid && create()">
-                        <div class="form-group">
-                            <h3>Create Portal</h3>
-                        </dif>
-                        <div class="form-group" :class="{
-                            'has-error': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
-                            'has-feedback': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
-                        }">
-                            <input type="text" class="form-control input-lg" placeholder="Title" v-model="form.title" v-validate:title="{
-                                required: { rule: true, message: 'Title is a required field' },
-                            }">
-                            <span v-if="$validation.title.dirty && $validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                            <div v-if="$validation.title.dirty && $validation.title.required">{{ $validation.title.required }}</div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-lg" v-if="$validation.valid" :disabled="">Create</button>
-                        </div>
-                    </form>
-                </validator>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template id="landing-manage">
-    <div class="ld ld-section ld-manage">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-globe"></span> Portals</h3>
-                        </div>
-                        <div class="ld ld-portals">
-                            <div class="ld ld-portal" v-for="portal in portals">
-                                <div class="ld ld-portal-data">
-                                    <div class="ld ld-data-title">{{ portal.title }}</div>
-                                    <div class="ld ld-data-ref"><a :href="url + '/view/' + portal.id">{{ url }}/view/{{ portal.id }}</a></div>
-                                </div>
-                                <div class="ld ld-portal-buttons">
-                                    <button class="btn btn-primary" v-link="{ path: '/manage/' + portal.id }">Edit</button>
-                                    <div class="btn-group">
-                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">Publish</a></li>
-                                            <li><a href="#">Clone</a></li>
-                                            <li role="separator" class="divider"></li>
-                                            <li><a href="#" @click.prevent="remove(portal.id)">Remove</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ld ld-portal">
-                                <div class="ld ld-portal-buttons">
-                                    <a v-link="{ path: '/gallery' }" class="btn btn-primary">Browse Gallery</a>
-                                    <a v-link="{ path: '/manage-create' }" class="btn btn-default">Create Blank</a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -2780,6 +2709,77 @@
                                 <div class="ld ld-offer-promo">
                                     <p>We are welcome you as a partner. Please mail us.</p>
                                     <a href="#" class="btn btn-primary">Apply</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-manage-create">
+    <div class="ld ld-section ld-body ld-manage ld-manage-create">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <validator name="validation">
+                    <form novalidate @submit.prevent="$validation.valid && create()">
+                        <div class="form-group">
+                            <h3>Create Portal</h3>
+                        </dif>
+                        <div class="form-group" :class="{
+                            'has-error': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
+                            'has-feedback': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="Title" v-model="form.title" v-validate:title="{
+                                required: { rule: true, message: 'Title is a required field' },
+                            }">
+                            <span v-if="$validation.title.dirty && $validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="$validation.title.dirty && $validation.title.required">{{ $validation.title.required }}</div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="$validation.valid" :disabled="">Create</button>
+                        </div>
+                    </form>
+                </validator>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-manage">
+    <div class="ld ld-section ld-manage">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-globe"></span> Portals</h3>
+                        </div>
+                        <div class="ld ld-portals">
+                            <div class="ld ld-portal" v-for="portal in portals">
+                                <div class="ld ld-portal-data">
+                                    <div class="ld ld-data-title">{{ portal.title }}</div>
+                                    <div class="ld ld-data-ref"><a :href="url + '/view/' + portal.id">{{ url }}/view/{{ portal.id }}</a></div>
+                                </div>
+                                <div class="ld ld-portal-buttons">
+                                    <button class="btn btn-primary" v-link="{ path: '/manage/' + portal.id }">Edit</button>
+                                    <div class="btn-group">
+                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Publish</a></li>
+                                            <li><a href="#">Clone</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#" @click.prevent="remove(portal.id)">Remove</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ld ld-portal">
+                                <div class="ld ld-portal-buttons">
+                                    <a v-link="{ path: '/gallery' }" class="btn btn-primary">Browse Gallery</a>
+                                    <a v-link="{ path: '/manage-create' }" class="btn btn-default">Create Blank</a>
                                 </div>
                             </div>
                         </div>
@@ -2963,6 +2963,51 @@
     </div>
 </template>
 
+<template id="academy-footer">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-footer">
+        <div class="wg wg-footer-table">
+            <div class="wg wg-table-copy">
+                {{ bindings.copy }}
+            </div>
+            <div class="wg wg-table-links">
+                <a href="#">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    <span>{{ bindings.email }}</span>
+                </a>
+                <a href="#">
+                    <i class="fa fa-phone" aria-hidden="true"></i>
+                    <span>{{ bindings.phone }}</span>
+                </a>
+                <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-google" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-vk" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </default-box>
+</template>
+
+
+<template id="academy-menu">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-menu">
+        <ul class="wg wg-menu-table">
+            <li v-for="item in bindings.items.collection" class="wg wg-table-item" :class="{ 'active': item.active }">
+                <a v-if="item.vlink" v-link="{ path: item.vlink }" :style="{
+                    'margin': item.margin || bindings.items.style.margin,
+                    'padding': item.padding || bindings.items.style.padding,
+                    'background': item.background || bindings.items.style.background,
+                }">{{ item.title }}</a>
+                <a v-if="!item.vlink" :href="item.href" :style="{
+                    'margin': item.margin || bindings.items.style.margin,
+                    'padding': item.padding || bindings.items.style.padding,
+                    'background': item.background || bindings.items.style.background,
+                }"
+                >{{ item.title }}</a>
+            </li>
+        </ul>
+    </default-box>
+</template>
+
 <template id="academy-header">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-header">
         <div class="wg wg-header-table">
@@ -2996,47 +3041,43 @@
     </default-box>
 </template>
 
-<template id="academy-footer">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-footer">
-        <div class="wg wg-footer-table">
-            <div class="wg wg-table-copy">
-                {{ bindings.copy }}
+<template id="academy-offer-above">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-offer-above">
+        <a :href="bindings.url" class="wg wg-offer-panel">
+            <h3 class="wg wg-panel-title">{{ bindings.title }}</h3>
+        </a>
+    </default-box>
+</template>
+
+<template id="academy-offer-big">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-offer-big">
+        <div class="wg wg-offer-table">
+            <div class="wg wg-table-image" :style="{
+                'background': bindings.image
+            }">
             </div>
-            <div class="wg wg-table-links">
-                <a href="#">
-                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                    <span>{{ bindings.email }}</span>
-                </a>
-                <a href="#">
-                    <i class="fa fa-phone" aria-hidden="true"></i>
-                    <span>{{ bindings.phone }}</span>
-                </a>
-                <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                <a href="#"><i class="fa fa-google" aria-hidden="true"></i></a>
-                <a href="#"><i class="fa fa-vk" aria-hidden="true"></i></a>
+            <div class="wg wg-table-desc">
+                <div class="wg wg-desc-panel">
+                    <h3 class="wg wg-panel-title">{{ bindings.title }}</h3>
+                    <div class="wg wg-panel-promo">{{{ bindings.promo }}}</div>
+                    <div class="wg wg-panel-price">{{ bindings.price }}</div>
+                    <div class="wg wg-panel-buttons">
+                        <a :href="bindings.url">{{ bindings.button }}</a>
+                    </div>
+                </div>
             </div>
         </div>
     </default-box>
 </template>
 
-<template id="academy-menu">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-menu">
-        <ul class="wg wg-menu-table">
-            <li v-for="item in bindings.items.collection" class="wg wg-table-item" :class="{ 'active': item.active }">
-                <a v-if="item.vlink" v-link="{ path: item.vlink }" :style="{
-                    'margin': item.margin || bindings.items.style.margin,
-                    'padding': item.padding || bindings.items.style.padding,
-                    'background': item.background || bindings.items.style.background,
-                }">{{ item.title }}</a>
-                <a v-if="!item.vlink" :href="item.href" :style="{
-                    'margin': item.margin || bindings.items.style.margin,
-                    'padding': item.padding || bindings.items.style.padding,
-                    'background': item.background || bindings.items.style.background,
-                }"
-                >{{ item.title }}</a>
-            </li>
-        </ul>
+<template id="academy-offer-small">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-offer-small">
+        <div class="wg wg-offer-panel">
+            <h3 class="wg wg-panel-title">{{ bindings.title }}</h3>
+            <div class="wg wg-panel-buttons">
+                <a :href="bindings.url">{{ bindings.button }}</a>
+            </div>
+        </div>
     </default-box>
 </template>
 

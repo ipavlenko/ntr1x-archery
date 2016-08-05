@@ -11,177 +11,6 @@ window.Core =
 
 })(jQuery, Vue);
 
-(function($, Core) {
-
-    Vue.directive('affix', {
-
-        bind: function () {
-
-            if ($.fn.affix) {
-                $(this.el).affix(this.vm.$get(this.expression));
-            }
-        },
-        update: function (newValue, oldValue) {
-        },
-        unbind: function () {
-        }
-    });
-
-})(jQuery, Core);
-
-(function($, Core) {
-
-    Vue.directive('combo', {
-
-        bind: function () {
-
-            if ($.fn.tagsinput) {
-
-                $(this.el).select2({
-                    tags: true,
-                    multiple: false,
-                    createTag: function (params) {
-                        return {
-                            id: params.term,
-                            text: params.term,
-                            newOption: true
-                        }
-                    },
-                });
-            }
-        },
-        update: function (newValue, oldValue) {
-        },
-        unbind: function () {
-        }
-    });
-
-})(jQuery, Core);
-
-(function($, Core) {
-
-    Vue.directive('date', {
-
-        bind: function () {
-
-            if ($.fn.datepicker) {
-
-                $(this.el).datepicker({
-                    autoclose: true,
-                    todayHighlight: true,
-                    format: "yyyy-mm-dd"
-                });
-            }
-        },
-        update: function (newValue, oldValue) {
-        },
-        unbind: function () {
-        }
-    });
-
-})(jQuery, Core);
-
-(function($, Core) {
-
-    Vue.directive('rich', {
-
-        bind: function () {
-
-            if (window.CKEDITOR) {
-
-                this.editor = CKEDITOR.inline(this.el, {
-                    stylesSet: [
-                        { name: 'Bolder', element: 'span', attributes: { 'class': 'extrabold'} }
-                    ],
-                    toolbarGroups: [
-                        // { name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-                        // { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
-                        { name: 'links' },
-                        // { name: 'forms' },
-                        {name: 'tools'},
-                        {name: 'document', groups: ['mode', 'document', 'doctools']},
-                        {name: 'others'},
-                        {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align']},
-                        {name: 'colors'},
-                        '/',
-                        {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
-                        {name: 'styles'},
-                        '/',
-                        { name: 'insert', groups: [ 'ImageButton' ]  }
-                        //{name: 'about'}
-                    ]
-                });
-
-                this.editor.on('change', function() {
-                    this.editor.updateElement();
-                    this.vm.$set(this.expression, $(this.el).val());
-                }.bind(this));
-
-                this.editor.setData(this.vm.$get(this.expression));
-            }
-        },
-
-        update: function (newValue, oldValue) {
-            // console.log('update', newValue, oldValue);
-        },
-
-        unbind: function () {
-            this.editor.destroy();
-            this.editor = null;
-            this.textarea = null;
-            this.input = null;
-        }
-    });
-
-})(jQuery, Core);
-
-(function($, Core) {
-
-    Vue.directive('scrollable', {
-
-        bind: function () {
-
-            // $(this.el).css({
-            //     'overflow': 'auto',
-            // });
-
-            if ($.fn.perfectScrollbar) {
-                Vue.nextTick(function() {
-                    $(this.el).perfectScrollbar({
-                        // axis: this.expression
-                    });
-                }.bind(this));
-            }
-
-        },
-        update: function (newValue, oldValue) {
-        },
-        unbind: function () {
-        }
-    });
-
-})(jQuery, Core);
-
-(function($, Core) {
-
-    Vue.directive('tags', {
-
-        bind: function () {
-
-            if ($.fn.tagsinput) {
-
-                $(this.el).tagsinput({
-                });
-            }
-        },
-        update: function (newValue, oldValue) {
-        },
-        unbind: function () {
-        }
-    });
-
-})(jQuery, Core);
-
 (function(Vue, $, Core) {
 
     Core.TabsMixin = function(active) {
@@ -942,6 +771,177 @@ window.Core =
 
 (function($, Core) {
 
+    Vue.directive('affix', {
+
+        bind: function () {
+
+            if ($.fn.affix) {
+                $(this.el).affix(this.vm.$get(this.expression));
+            }
+        },
+        update: function (newValue, oldValue) {
+        },
+        unbind: function () {
+        }
+    });
+
+})(jQuery, Core);
+
+(function($, Core) {
+
+    Vue.directive('combo', {
+
+        bind: function () {
+
+            if ($.fn.tagsinput) {
+
+                $(this.el).select2({
+                    tags: true,
+                    multiple: false,
+                    createTag: function (params) {
+                        return {
+                            id: params.term,
+                            text: params.term,
+                            newOption: true
+                        }
+                    },
+                });
+            }
+        },
+        update: function (newValue, oldValue) {
+        },
+        unbind: function () {
+        }
+    });
+
+})(jQuery, Core);
+
+(function($, Core) {
+
+    Vue.directive('date', {
+
+        bind: function () {
+
+            if ($.fn.datepicker) {
+
+                $(this.el).datepicker({
+                    autoclose: true,
+                    todayHighlight: true,
+                    format: "yyyy-mm-dd"
+                });
+            }
+        },
+        update: function (newValue, oldValue) {
+        },
+        unbind: function () {
+        }
+    });
+
+})(jQuery, Core);
+
+(function($, Core) {
+
+    Vue.directive('rich', {
+
+        bind: function () {
+
+            if (window.CKEDITOR) {
+
+                this.editor = CKEDITOR.inline(this.el, {
+                    stylesSet: [
+                        { name: 'Bolder', element: 'span', attributes: { 'class': 'extrabold'} }
+                    ],
+                    toolbarGroups: [
+                        // { name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+                        // { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
+                        { name: 'links' },
+                        // { name: 'forms' },
+                        {name: 'tools'},
+                        {name: 'document', groups: ['mode', 'document', 'doctools']},
+                        {name: 'others'},
+                        {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align']},
+                        {name: 'colors'},
+                        '/',
+                        {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
+                        {name: 'styles'},
+                        '/',
+                        { name: 'insert', groups: [ 'ImageButton' ]  }
+                        //{name: 'about'}
+                    ]
+                });
+
+                this.editor.on('change', function() {
+                    this.editor.updateElement();
+                    this.vm.$set(this.expression, $(this.el).val());
+                }.bind(this));
+
+                this.editor.setData(this.vm.$get(this.expression));
+            }
+        },
+
+        update: function (newValue, oldValue) {
+            // console.log('update', newValue, oldValue);
+        },
+
+        unbind: function () {
+            this.editor.destroy();
+            this.editor = null;
+            this.textarea = null;
+            this.input = null;
+        }
+    });
+
+})(jQuery, Core);
+
+(function($, Core) {
+
+    Vue.directive('scrollable', {
+
+        bind: function () {
+
+            // $(this.el).css({
+            //     'overflow': 'auto',
+            // });
+
+            if ($.fn.perfectScrollbar) {
+                Vue.nextTick(function() {
+                    $(this.el).perfectScrollbar({
+                        // axis: this.expression
+                    });
+                }.bind(this));
+            }
+
+        },
+        update: function (newValue, oldValue) {
+        },
+        unbind: function () {
+        }
+    });
+
+})(jQuery, Core);
+
+(function($, Core) {
+
+    Vue.directive('tags', {
+
+        bind: function () {
+
+            if ($.fn.tagsinput) {
+
+                $(this.el).tagsinput({
+                });
+            }
+        },
+        update: function (newValue, oldValue) {
+        },
+        unbind: function () {
+        }
+    });
+
+})(jQuery, Core);
+
+(function($, Core) {
+
     Vue.filter('jsonPath', function (context, str) {
         if (str === undefined || context === undefined) {
             return;
@@ -1134,6 +1134,53 @@ window.Shell =
 
 })(Vue, jQuery, Core, Shell);
 
+(function($, Vue, Core, Shell) {
+
+    var PagesModalEditor = Shell.Pages.ModalEditor =
+    Vue.component('shell-pages-dialog', {
+        template: '#shell-pages-dialog',
+        mixins: [ Core.ModalEditorMixin, Core.TabsMixin('main') ],
+        created: function() {
+
+            var items = [];
+
+            for (var i = 0; i < this.context.widget.props.length; i++) {
+
+                var prop = this.context.widget.props[i];
+                var param = this.current.root.params[prop.name];
+
+                var item = {
+                    prop: prop,
+                    param: param,
+                };
+
+                items.push(item);
+            }
+
+            this.items = items;
+        },
+        data: function() {
+            return {
+                context: this.context,
+                items: this.items,
+            };
+        },
+        methods: {
+
+            hasProps: function(tab) {
+                if (this.context.widget && this.context.widget.props) {
+                    for (var i = 0; i < this.context.widget.props.length; i++) {
+                        var prop = this.context.widget.props[i];
+                        if (prop.tab == tab) return true;
+                    }
+                }
+                return false;
+            }
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
 (function(Vue, $, Core, Shell) {
 
     var ParamVariable =
@@ -1222,6 +1269,10 @@ window.Shell =
         }
     });
 
+    var defaults = {
+        'multiple': [],
+        'object': {},
+    };
 
     var ParamMultipleListViewer =
     Vue.component('params-multiple-list', {
@@ -1268,7 +1319,7 @@ window.Shell =
                 for (var i = 0; i < this.context.prop.props.length; i++) {
 
                     var prop = this.context.prop.props[i];
-                    var param = this.current.value[prop.name] = this.current.value[prop.name] || {};
+                    var param = this.current.value[prop.name] = this.current.value[prop.name] || { value: defaults[prop.type] || null };
 
                     param._action = param._action == 'update'
                         ? 'update'
@@ -1315,14 +1366,10 @@ window.Shell =
 
             var items = [];
 
-            // console.log('created', ParamMultipleModalEditor);
-
-            // console.log(this.context.prop);
-
             for (var i = 0; i < this.context.prop.props.length; i++) {
 
                 var prop = this.context.prop.props[i];
-                var param = this.current[prop.name] = this.current[prop.name] || { value: null };
+                var param = this.current[prop.name] = this.current[prop.name] || { value: defaults[prop.type] || null };
 
                 param._action = param._action == 'update'
                     ? 'update'
@@ -1333,8 +1380,6 @@ window.Shell =
                     prop: prop,
                     param: param,
                 };
-
-                // console.log(item);
 
                 items.push(item);
             }
@@ -1373,53 +1418,6 @@ window.Shell =
     });
 
 })(Vue, jQuery, Core, Shell);
-
-(function($, Vue, Core, Shell) {
-
-    var PagesModalEditor = Shell.Pages.ModalEditor =
-    Vue.component('shell-pages-dialog', {
-        template: '#shell-pages-dialog',
-        mixins: [ Core.ModalEditorMixin, Core.TabsMixin('main') ],
-        created: function() {
-
-            var items = [];
-
-            for (var i = 0; i < this.context.widget.props.length; i++) {
-
-                var prop = this.context.widget.props[i];
-                var param = this.current.root.params[prop.name];
-
-                var item = {
-                    prop: prop,
-                    param: param,
-                };
-
-                items.push(item);
-            }
-
-            this.items = items;
-        },
-        data: function() {
-            return {
-                context: this.context,
-                items: this.items,
-            };
-        },
-        methods: {
-
-            hasProps: function(tab) {
-                if (this.context.widget && this.context.widget.props) {
-                    for (var i = 0; i < this.context.widget.props.length; i++) {
-                        var prop = this.context.widget.props[i];
-                        if (prop.tab == tab) return true;
-                    }
-                }
-                return false;
-            }
-        },
-    });
-
-})(jQuery, Vue, Core, Shell);
 
 (function(Vue, $, Core, Shell) {
 
@@ -1504,26 +1502,6 @@ window.Shell =
 
 })(Vue, jQuery, Core, Shell);
 
-(function($, Vue, Core, Shell) {
-
-    Vue.component('shell-actions', {
-        template: '#shell-actions',
-        props: {
-            model: Object,
-            globals: Object,
-            // category: Object,
-            // domain: Object,
-            // page: Object
-        },
-        methods: {
-            trigger: function(event, item, context) {
-                this.$dispatch(event, { item: item, context: context });
-            },
-        }
-    });
-
-})(jQuery, Vue, Core, Shell);
-
 (function(Vue, $, Core, Shell) {
 
     var StoragesListViewer =
@@ -1579,11 +1557,14 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
-    Vue.component('shell-categories', {
-        template: '#shell-categories',
+    Vue.component('shell-actions', {
+        template: '#shell-actions',
         props: {
-            categories: Array,
+            model: Object,
             globals: Object,
+            // category: Object,
+            // domain: Object,
+            // page: Object
         },
         methods: {
             trigger: function(event, item, context) {
@@ -1609,12 +1590,17 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
-    Vue.component('shell-domains', {
-        template: '#shell-domains',
+    Vue.component('shell-categories', {
+        template: '#shell-categories',
         props: {
-            domains: Array,
+            categories: Array,
             globals: Object,
         },
+        methods: {
+            trigger: function(event, item, context) {
+                this.$dispatch(event, { item: item, context: context });
+            },
+        }
     });
 
 })(jQuery, Vue, Core, Shell);
@@ -2161,6 +2147,18 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
+    Vue.component('shell-domains', {
+        template: '#shell-domains',
+        props: {
+            domains: Array,
+            globals: Object,
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
     Shell.Loader =
     Vue.component('shell-loader', {
         template: '#shell-loader',
@@ -2181,6 +2179,123 @@ window.Shell =
                 }
             );
         }
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-page', {
+        template: '#shell-page',
+        mixins: [ /*Core.ContainerMixin, Core.SortableMixin*/ ],
+        props: {
+            globals: Object,
+            settings: Object,
+            page: Object,
+        },
+        data: function() {
+            return {
+                decorator: this.decorator,
+                data: this.data,
+                storage: this.storage,
+                widget: this.widget,
+            };
+        },
+        created: function() {
+
+            this.widget = Vue.service('palette').widget('default-container/default-container-stack/default-stack-canvas');
+
+            var runtime = Vue.service('runtime');
+
+            this.decorator = 'shell-decorator-canvas';
+            this.data = {};
+            this.storage = {};
+
+            this.$watch('page.storages', (storages) => {
+
+                if (storages) {
+
+                    var storage = {};
+
+                    for (var i = 0; i < storages.length; i++) {
+
+                        var st = storages[i];
+                        storage[st.name] = {};
+
+                        for (var j = 0; j < st.variables.length; j++) {
+
+                            var variable = st.variables[j];
+                            storage[st.name][variable.name] = {
+                                value: runtime.evaluate(this, variable.binding, variable.value) || null
+                            };
+                        }
+                    }
+
+                    this.$set('storage', storage);
+                }
+            }, {
+                immediate: true,
+                deep: true,
+            });
+
+            this.$watch('page.sources', (sources) => {
+
+                if (sources) {
+
+                    var deferred = [];
+                    for (var i = 0; i < sources.length; i++) {
+                        deferred.push(this.doRequest(sources[i]));
+                    }
+
+                    if (deferred.length > 1) {
+
+                        $.when.apply(this, deferred).done(function() {
+                            var data = {};
+                            for (var i = 0; i < arguments.length; i++) {
+                                data[sources[i].name] = arguments[i][0];
+                            }
+                            this.$set('data', data);
+                        }.bind(this));
+
+                    } else if (deferred.length == 1) {
+
+                        deferred[0].done(function(d) {
+                            var data = {};
+                            data[sources[0].name] = d;
+                            this.$set('data', data);
+                        }.bind(this));
+                    }
+                }
+
+            }, {
+                immediate: true,
+                deep: true,
+            });
+        },
+        methods: {
+            doRequest: function(s) {
+                var query = {};
+                for (var i = 0; i < s.params.length; i++) {
+                    var param = s.params[i];
+                    if (param.in == 'query' && param.specified) {
+
+                        var value = param.binding
+                                ? this.$interpolate(param.binding) // TODO Interpolate in page context
+                                : param.value
+                            ;
+
+                        query[param.name] = value;
+                    }
+                }
+
+                return $.ajax({
+                    method: s.method,
+                    url: s.url,
+                    dataType: "json",
+                    data: query,
+                });
+            }
+        },
     });
 
 })(jQuery, Vue, Core, Shell);
@@ -2319,123 +2434,6 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
-    Vue.component('shell-page', {
-        template: '#shell-page',
-        mixins: [ /*Core.ContainerMixin, Core.SortableMixin*/ ],
-        props: {
-            globals: Object,
-            settings: Object,
-            page: Object,
-        },
-        data: function() {
-            return {
-                decorator: this.decorator,
-                data: this.data,
-                storage: this.storage,
-                widget: this.widget,
-            };
-        },
-        created: function() {
-
-            this.widget = Vue.service('palette').widget('default-container/default-container-stack/default-stack-canvas');
-
-            var runtime = Vue.service('runtime');
-
-            this.decorator = 'shell-decorator-canvas';
-            this.data = {};
-            this.storage = {};
-
-            this.$watch('page.storages', (storages) => {
-
-                if (storages) {
-
-                    var storage = {};
-
-                    for (var i = 0; i < storages.length; i++) {
-
-                        var st = storages[i];
-                        storage[st.name] = {};
-
-                        for (var j = 0; j < st.variables.length; j++) {
-
-                            var variable = st.variables[j];
-                            storage[st.name][variable.name] = {
-                                value: runtime.evaluate(this, variable.binding, variable.value) || null
-                            };
-                        }
-                    }
-
-                    this.$set('storage', storage);
-                }
-            }, {
-                immediate: true,
-                deep: true,
-            });
-
-            this.$watch('page.sources', (sources) => {
-
-                if (sources) {
-
-                    var deferred = [];
-                    for (var i = 0; i < sources.length; i++) {
-                        deferred.push(this.doRequest(sources[i]));
-                    }
-
-                    if (deferred.length > 1) {
-
-                        $.when.apply(this, deferred).done(function() {
-                            var data = {};
-                            for (var i = 0; i < arguments.length; i++) {
-                                data[sources[i].name] = arguments[i][0];
-                            }
-                            this.$set('data', data);
-                        }.bind(this));
-
-                    } else if (deferred.length == 1) {
-
-                        deferred[0].done(function(d) {
-                            var data = {};
-                            data[sources[0].name] = d;
-                            this.$set('data', data);
-                        }.bind(this));
-                    }
-                }
-
-            }, {
-                immediate: true,
-                deep: true,
-            });
-        },
-        methods: {
-            doRequest: function(s) {
-                var query = {};
-                for (var i = 0; i < s.params.length; i++) {
-                    var param = s.params[i];
-                    if (param.in == 'query' && param.specified) {
-
-                        var value = param.binding
-                                ? this.$interpolate(param.binding) // TODO Interpolate in page context
-                                : param.value
-                            ;
-
-                        query[param.name] = value;
-                    }
-                }
-
-                return $.ajax({
-                    method: s.method,
-                    url: s.url,
-                    dataType: "json",
-                    data: query,
-                });
-            }
-        },
-    });
-
-})(jQuery, Vue, Core, Shell);
-
-(function($, Vue, Core, Shell) {
-
     var PaletteItem =
     Vue.component('shell-palette-item', {
         template: '#shell-palette-item',
@@ -2488,6 +2486,18 @@ window.Shell =
         template: '#shell-sources',
         props: {
             sources: Array,
+            globals: Object,
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-storages', {
+        template: '#shell-storages',
+        props: {
+            storages: Array,
             globals: Object,
         },
     });
@@ -2645,18 +2655,6 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
-    Vue.component('shell-storages', {
-        template: '#shell-storages',
-        props: {
-            storages: Array,
-            globals: Object,
-        },
-    });
-
-})(jQuery, Vue, Core, Shell);
-
-(function($, Vue, Core, Shell) {
-
     Vue.component('shell-target', {
         template: '#shell-target',
         props: {
@@ -2710,51 +2708,6 @@ window.Shell =
 
 (function(Vue, $, Core, Shell) {
 
-    var SourcesListViewer =
-    Vue.component('pages-sources-list', {
-        template: '#pages-sources-list',
-        mixins: [Core.ListViewerMixin],
-    });
-
-    var SourcesModalEditor =
-    Vue.component('pages-sources-dialog', {
-        template: '#pages-sources-dialog',
-        mixins: [Core.ModalEditorMixin],
-        methods: {
-            check: function() {
-                console.log('check');
-            }
-        }
-    });
-
-    var SourcesEditor =
-    Vue.component('pages-sources', {
-        mixins: [Core.EditorMixin(SourcesListViewer, SourcesModalEditor)],
-        template: '#pages-sources',
-    });
-
-    var SourcesParamsListViewer =
-    Vue.component('pages-sources-params-list', {
-        template: '#pages-sources-params-list',
-        mixins: [Core.ListViewerMixin],
-    });
-
-    var SourcesParamsModalEditor =
-    Vue.component('pages-sources-params-dialog', {
-        template: '#pages-sources-params-dialog',
-        mixins: [Core.ModalEditorMixin],
-    });
-
-    var SourcesParamsEditor =
-    Vue.component('pages-sources-params', {
-        mixins: [Core.EditorMixin(SourcesParamsListViewer, SourcesParamsModalEditor)],
-        template: '#pages-sources-params',
-    });
-
-})(Vue, jQuery, Core, Shell);
-
-(function(Vue, $, Core, Shell) {
-
     var WidgetsModalEditor = Shell.Widgets.ModalEditor =
     Vue.component('shell-widgets-dialog', {
         template: '#shell-widgets-dialog',
@@ -2796,6 +2749,51 @@ window.Shell =
                 return false;
             }
         }
+    });
+
+})(Vue, jQuery, Core, Shell);
+
+(function(Vue, $, Core, Shell) {
+
+    var SourcesListViewer =
+    Vue.component('pages-sources-list', {
+        template: '#pages-sources-list',
+        mixins: [Core.ListViewerMixin],
+    });
+
+    var SourcesModalEditor =
+    Vue.component('pages-sources-dialog', {
+        template: '#pages-sources-dialog',
+        mixins: [Core.ModalEditorMixin],
+        methods: {
+            check: function() {
+                console.log('check');
+            }
+        }
+    });
+
+    var SourcesEditor =
+    Vue.component('pages-sources', {
+        mixins: [Core.EditorMixin(SourcesListViewer, SourcesModalEditor)],
+        template: '#pages-sources',
+    });
+
+    var SourcesParamsListViewer =
+    Vue.component('pages-sources-params-list', {
+        template: '#pages-sources-params-list',
+        mixins: [Core.ListViewerMixin],
+    });
+
+    var SourcesParamsModalEditor =
+    Vue.component('pages-sources-params-dialog', {
+        template: '#pages-sources-params-dialog',
+        mixins: [Core.ModalEditorMixin],
+    });
+
+    var SourcesParamsEditor =
+    Vue.component('pages-sources-params', {
+        mixins: [Core.EditorMixin(SourcesParamsListViewer, SourcesParamsModalEditor)],
+        template: '#pages-sources-params',
     });
 
 })(Vue, jQuery, Core, Shell);
@@ -3145,8 +3143,20 @@ window.Widgets =
 
     Widgets.HeadersGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-headers', 'Headers');
     Widgets.FootersGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-footers', 'Footers');
+    Widgets.OffersGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-offers', 'Offers');
     Widgets.NavigationGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-navigation', 'Navigation');
     Widgets.GalleryGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-gallery', 'Galleries');
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.ImagesGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-default', 'Images', true);
+
+    Widgets.AbstractGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-abstract', 'Abstract');
+    Widgets.CityGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-city', 'City');
+    Widgets.NatureGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-nature', 'Nature');
+    Widgets.SpaceGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-space', 'Space');
 
 })(jQuery, Vue, Core, Widgets);
 
@@ -3162,17 +3172,6 @@ window.Widgets =
     Widgets.InputsGroup = Widgets.Group(Widgets.FormCategory, 'default-form-inputs', 'Inputs');
     Widgets.RadiosGroup = Widgets.Group(Widgets.FormCategory, 'default-form-radios', 'Radios');
     Widgets.ChecksGroup = Widgets.Group(Widgets.FormCategory, 'default-form-checks', 'Checkboxes');
-
-})(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core, Widgets) {
-
-    Widgets.ImagesGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-default', 'Images', true);
-
-    Widgets.AbstractGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-abstract', 'Abstract');
-    Widgets.CityGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-city', 'City');
-    Widgets.NatureGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-nature', 'Nature');
-    Widgets.SpaceGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-space', 'Space');
 
 })(jQuery, Vue, Core, Widgets);
 
@@ -4085,6 +4084,62 @@ window.Widgets =
 
 (function($, Vue, Core, Widgets) {
 
+    Vue.component('default-image', {
+        template: '#default-image',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.ImageWidget =
+    Widgets.Widget(Widgets.ImagesGroup, Widgets.create({
+        name: 'default-image',
+        tag: 'default-image',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'src', title: 'Source', type: 'string', tab: 'appearance' },
+        ],
+    }));
+
+    Widgets.ImageWidgetFactory = function(url) {
+
+        var w = Widgets.build(Widgets.ImageWidget, {
+            height: { value: '300px' },
+            src: { value: url },
+        });
+
+        return w;
+    }
+
+    var images = [
+        { group: Widgets.AbstractGroup, names: [ 'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8' ] },
+        { group: Widgets.CityGroup, names: [ 'c1', 'c2', 'c3', 'c4', 'c5', 'c6' ] },
+        { group: Widgets.NatureGroup, names: [ 'n1', 'n2', 'n3', 'n4', 'n5', 'n6' ] },
+        { group: Widgets.SpaceGroup, names: [ 's1', 's2', 's3', 's4', 's5', 's6' ] },
+    ];
+
+    for (var i = 0; i < images.length; i++) {
+
+        var settings = images[i];
+
+        for (var j = 0; j < settings.names.length; j++) {
+
+            var name = settings.names[j];
+
+            Widgets.Item(settings.group, {
+                name: name,
+                thumbnail: `/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/120x80/${name}.jpg`,
+                widget: Widgets.ImageWidgetFactory(`/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/1920x1280/${name}.jpg`),
+            });
+        }
+    }
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
     Widgets.StackCanvasWidget =
     Widgets.Widget(Widgets.StackGroup, Widgets.create({
         name: 'default-stack-canvas',
@@ -4686,62 +4741,6 @@ Shell = window.Shell || {};
 
 (function($, Vue, Core, Widgets) {
 
-    Vue.component('default-image', {
-        template: '#default-image',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-})(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core, Widgets) {
-
-    Widgets.ImageWidget =
-    Widgets.Widget(Widgets.ImagesGroup, Widgets.create({
-        name: 'default-image',
-        tag: 'default-image',
-        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
-        props: [
-            { name: 'src', title: 'Source', type: 'string', tab: 'appearance' },
-        ],
-    }));
-
-    Widgets.ImageWidgetFactory = function(url) {
-
-        var w = Widgets.build(Widgets.ImageWidget, {
-            height: { value: '300px' },
-            src: { value: url },
-        });
-
-        return w;
-    }
-
-    var images = [
-        { group: Widgets.AbstractGroup, names: [ 'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8' ] },
-        { group: Widgets.CityGroup, names: [ 'c1', 'c2', 'c3', 'c4', 'c5', 'c6' ] },
-        { group: Widgets.NatureGroup, names: [ 'n1', 'n2', 'n3', 'n4', 'n5', 'n6' ] },
-        { group: Widgets.SpaceGroup, names: [ 's1', 's2', 's3', 's4', 's5', 's6' ] },
-    ];
-
-    for (var i = 0; i < images.length; i++) {
-
-        var settings = images[i];
-
-        for (var j = 0; j < settings.names.length; j++) {
-
-            var name = settings.names[j];
-
-            Widgets.Item(settings.group, {
-                name: name,
-                thumbnail: `/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/120x80/${name}.jpg`,
-                widget: Widgets.ImageWidgetFactory(`/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/1920x1280/${name}.jpg`),
-            });
-        }
-    }
-
-})(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core, Widgets) {
-
     Widgets.TextWidget =
     Widgets.Widget(Widgets.BlocksGroup, Widgets.create({
         name: 'default-text',
@@ -5165,6 +5164,7 @@ window.Landing =
 
 })(jQuery, Vue, Core, Shell, Landing);
 
+
 (function($, Vue, Core, Shell, Landing) {
 
     var validation = {
@@ -5237,7 +5237,6 @@ window.Landing =
 })(jQuery, Vue, Core, Shell, Landing);
 
 
-
 (function($, Vue, Core, Shell, Landing) {
 
     Landing.Feedback =
@@ -5258,6 +5257,20 @@ window.Landing =
 
 (function($, Vue, Core, Shell, Landing) {
 
+    Landing.Gallery =
+    Vue.component('landing-gallery', {
+        template: '#landing-gallery',
+    });
+
+    Landing.GalleryFull =
+    Vue.component('landing-gallery-full', {
+        template: '#landing-gallery-full',
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
     Landing.Header =
     Vue.component('landing-header', {
         template: '#landing-header',
@@ -5269,20 +5282,6 @@ window.Landing =
                 );
             }
         },
-    });
-
-})(jQuery, Vue, Core, Shell, Landing);
-
-(function($, Vue, Core, Shell, Landing) {
-
-    Landing.Gallery =
-    Vue.component('landing-gallery', {
-        template: '#landing-gallery',
-    });
-
-    Landing.GalleryFull =
-    Vue.component('landing-gallery-full', {
-        template: '#landing-gallery-full',
     });
 
 })(jQuery, Vue, Core, Shell, Landing);
@@ -5377,18 +5376,18 @@ window.Landing =
 
 (function($, Vue, Core, Shell, Landing) {
 
-    Landing.Usecases =
-    Vue.component('landing-usecases', {
-        template: '#landing-usecases',
+    Landing.Super =
+    Vue.component('landing-super', {
+        template: '#landing-super',
     });
 
 })(jQuery, Vue, Core, Shell, Landing);
 
 (function($, Vue, Core, Shell, Landing) {
 
-    Landing.Super =
-    Vue.component('landing-super', {
-        template: '#landing-super',
+    Landing.Usecases =
+    Vue.component('landing-usecases', {
+        template: '#landing-usecases',
     });
 
 })(jQuery, Vue, Core, Shell, Landing);
@@ -5455,6 +5454,8 @@ window.Landing =
     });
 
 })(jQuery, Vue, Core, Widgets);
+
+
 
 (function($, Vue, Core, Widgets) {
 
@@ -5591,6 +5592,100 @@ window.Landing =
                 }
             },
         }),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Vue.component('academy-offer-big', {
+        template: '#academy-offer-big',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+    Vue.component('academy-offer-small', {
+        template: '#academy-offer-small',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    var BigOfferWidget =
+    Widgets.Widget(Widgets.OffersGroup, Widgets.create({
+        name: 'academy-offer-big',
+        tag: 'academy-offer-big',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'image', title: 'Image', type: 'string', tab: 'data' },
+            { name: 'title', title: 'Title', type: 'string', tab: 'data' },
+            { name: 'promo', title: 'Promo', type: 'rich', tab: 'data' },
+            { name: 'price', title: 'Price', type: 'string', tab: 'data' },
+            { name: 'url', title: 'Button URL', type: 'string', tab: 'data' },
+            { name: 'button', title: 'Button Title ', type: 'string', tab: 'data' },
+        ],
+    }));
+
+    var BigOfferWidgetFactory = function(image) {
+
+        return Widgets.build(BigOfferWidget, {
+            image: { value: image },
+            title: { value: 'Tuition Breaks' },
+            price: { value: 'from as little as £265' },
+            url: { value: 'http://google.com' },
+            button: { value: 'Find out more' },
+            promo: { value: `
+                <p>Our tuition breaks offer you the opportunity for intensive
+                residential golf tuition in small groups. We cater for all
+                abilities and run our courses 7 days a week all year round.
+                Ideal for players of all levels.</p>
+            ` },
+            inner: {
+                value: { background: { value: '#266181' } },
+            },
+            width: { value: '600px' },
+        });
+    }
+
+
+    Widgets.Item(Widgets.OffersGroup, {
+        name: 'academy-offer-big',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets-academy/src/offer/offer-big.png',
+        widget: BigOfferWidgetFactory("url('/assets/vendor/ntr1x-archery-widgets-academy/src/offer/img/offer.jpg') no-repeat"),
+    });
+
+    var SmallOfferWidget =
+    Widgets.Widget(Widgets.OffersGroup, Widgets.create({
+        name: 'academy-offer-small',
+        tag: 'academy-offer-small',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'title', title: 'Title', type: 'string', tab: 'data' },
+            { name: 'url', title: 'Button URL', type: 'string', tab: 'data' },
+            { name: 'button', title: 'Button Title ', type: 'string', tab: 'data' },
+        ],
+    }));
+
+    var SmallOfferWidgetFactory = function(background) {
+
+        return Widgets.build(SmallOfferWidget, {
+            title: { value: 'Online Booking' },
+            url: { value: 'http://google.com' },
+            button: { value: 'Book your course' },
+            inner: {
+                value: {
+                    background: { value: background },
+                    padding: { value: '15px' },
+                },
+            },
+        });
+    }
+
+    Widgets.Item(Widgets.OffersGroup, {
+        name: 'academy-offer-small',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets-academy/src/offer/offer-small.png',
+        widget: SmallOfferWidgetFactory("#164767 url('/assets/vendor/ntr1x-archery-widgets-academy/src/offer/img/brochure.png') no-repeat top right"),
     });
 
 })(jQuery, Vue, Core, Widgets);
