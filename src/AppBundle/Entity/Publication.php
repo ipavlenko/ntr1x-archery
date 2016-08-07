@@ -63,6 +63,7 @@ class Publication
     public function __construct() {
     }
 
+
     /**
      * Get id
      *
@@ -100,11 +101,11 @@ class Publication
     /**
      * Set order
      *
-     * @param \int $order
+     * @param integer $order
      *
      * @return Publication
      */
-    public function setOrder(\int $order)
+    public function setOrder($order)
     {
         $this->order = $order;
 
@@ -114,7 +115,7 @@ class Publication
     /**
      * Get order
      *
-     * @return \int
+     * @return integer
      */
     public function getOrder()
     {
