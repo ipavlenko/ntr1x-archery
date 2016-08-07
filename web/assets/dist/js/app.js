@@ -1549,14 +1549,6 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
-    Vue.component('shell-brand', {
-        template: '#shell-brand',
-    });
-
-})(jQuery, Vue, Core, Shell);
-
-(function($, Vue, Core, Shell) {
-
     Vue.component('shell-actions', {
         template: '#shell-actions',
         props: {
@@ -1577,13 +1569,8 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
-    Vue.component('shell-container', {
-        template: '#shell-container',
-        props: {
-            globals: Object,
-            settings: Object,
-            page: Object,
-        },
+    Vue.component('shell-brand', {
+        template: '#shell-brand',
     });
 
 })(jQuery, Vue, Core, Shell);
@@ -1601,6 +1588,19 @@ window.Shell =
                 this.$dispatch(event, { item: item, context: context });
             },
         }
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-container', {
+        template: '#shell-container',
+        props: {
+            globals: Object,
+            settings: Object,
+            page: Object,
+        },
     });
 
 })(jQuery, Vue, Core, Shell);
@@ -2482,30 +2482,6 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
-    Vue.component('shell-sources', {
-        template: '#shell-sources',
-        props: {
-            sources: Array,
-            globals: Object,
-        },
-    });
-
-})(jQuery, Vue, Core, Shell);
-
-(function($, Vue, Core, Shell) {
-
-    Vue.component('shell-storages', {
-        template: '#shell-storages',
-        props: {
-            storages: Array,
-            globals: Object,
-        },
-    });
-
-})(jQuery, Vue, Core, Shell);
-
-(function($, Vue, Core, Shell) {
-
     Shell.Shell = {
         props: {
             settings: Object,
@@ -2655,9 +2631,23 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
-    Vue.component('shell-target', {
-        template: '#shell-target',
+    Vue.component('shell-sources', {
+        template: '#shell-sources',
         props: {
+            sources: Array,
+            globals: Object,
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-storages', {
+        template: '#shell-storages',
+        props: {
+            storages: Array,
+            globals: Object,
         },
     });
 
@@ -2701,6 +2691,16 @@ window.Shell =
                 widget: this.widget,
                 decorator: this.decorator,
             };
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-target', {
+        template: '#shell-target',
+        props: {
         },
     });
 
@@ -3151,17 +3151,6 @@ window.Widgets =
 
 (function($, Vue, Core, Widgets) {
 
-    Widgets.ImagesGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-default', 'Images', true);
-
-    Widgets.AbstractGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-abstract', 'Abstract');
-    Widgets.CityGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-city', 'City');
-    Widgets.NatureGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-nature', 'Nature');
-    Widgets.SpaceGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-space', 'Space');
-
-})(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core, Widgets) {
-
     Widgets.StackGroup = Widgets.Group(Widgets.ContainerCategory, 'default-container-stack', 'Stacked');
 
 })(jQuery, Vue, Core, Widgets);
@@ -3177,14 +3166,25 @@ window.Widgets =
 
 (function($, Vue, Core, Widgets) {
 
-    Widgets.HeadingsGroup = Widgets.Group(Widgets.TextCategory, 'default-text-headings', 'Headings');
-    Widgets.BlocksGroup = Widgets.Group(Widgets.TextCategory, 'default-text-blocks', 'Blocks');
+    Widgets.ImagesGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-default', 'Images', true);
+
+    Widgets.AbstractGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-abstract', 'Abstract');
+    Widgets.CityGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-city', 'City');
+    Widgets.NatureGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-nature', 'Nature');
+    Widgets.SpaceGroup = Widgets.Group(Widgets.ImagesCategory, 'default-images-space', 'Space');
 
 })(jQuery, Vue, Core, Widgets);
 
 (function($, Vue, Core, Widgets) {
 
     Widgets.UtilGroup = Widgets.Group(Widgets.UtilCategory, 'default-util-group', 'Util Elements');
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.HeadingsGroup = Widgets.Group(Widgets.TextCategory, 'default-text-headings', 'Headings');
+    Widgets.BlocksGroup = Widgets.Group(Widgets.TextCategory, 'default-text-blocks', 'Blocks');
 
 })(jQuery, Vue, Core, Widgets);
 
@@ -4084,62 +4084,6 @@ window.Widgets =
 
 (function($, Vue, Core, Widgets) {
 
-    Vue.component('default-image', {
-        template: '#default-image',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-})(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core, Widgets) {
-
-    Widgets.ImageWidget =
-    Widgets.Widget(Widgets.ImagesGroup, Widgets.create({
-        name: 'default-image',
-        tag: 'default-image',
-        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
-        props: [
-            { name: 'src', title: 'Source', type: 'string', tab: 'appearance' },
-        ],
-    }));
-
-    Widgets.ImageWidgetFactory = function(url) {
-
-        var w = Widgets.build(Widgets.ImageWidget, {
-            height: { value: '300px' },
-            src: { value: url },
-        });
-
-        return w;
-    }
-
-    var images = [
-        { group: Widgets.AbstractGroup, names: [ 'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8' ] },
-        { group: Widgets.CityGroup, names: [ 'c1', 'c2', 'c3', 'c4', 'c5', 'c6' ] },
-        { group: Widgets.NatureGroup, names: [ 'n1', 'n2', 'n3', 'n4', 'n5', 'n6' ] },
-        { group: Widgets.SpaceGroup, names: [ 's1', 's2', 's3', 's4', 's5', 's6' ] },
-    ];
-
-    for (var i = 0; i < images.length; i++) {
-
-        var settings = images[i];
-
-        for (var j = 0; j < settings.names.length; j++) {
-
-            var name = settings.names[j];
-
-            Widgets.Item(settings.group, {
-                name: name,
-                thumbnail: `/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/120x80/${name}.jpg`,
-                widget: Widgets.ImageWidgetFactory(`/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/1920x1280/${name}.jpg`),
-            });
-        }
-    }
-
-})(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core, Widgets) {
-
     Widgets.StackCanvasWidget =
     Widgets.Widget(Widgets.StackGroup, Widgets.create({
         name: 'default-stack-canvas',
@@ -4158,8 +4102,12 @@ window.Widgets =
     Widgets.Widget(Widgets.StackGroup, Widgets.create({
         name: 'default-stack-horizontal',
         tag: 'default-stack-horizontal',
-        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin ],
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
         widgets: [],
+        props: [
+            { name: 'spacing', title: 'Border Spacing', type: 'string', tab: 'appearance' },
+            { name: 'collapse', title: 'Border Collapse', type: 'string', tab: 'appearance' },
+        ],
     }));
 
     Widgets.Item(Widgets.StackGroup, {
@@ -4172,8 +4120,12 @@ window.Widgets =
     Widgets.Widget(Widgets.StackGroup, Widgets.create({
         name: 'default-stack-vertical',
         tag: 'default-stack-vertical',
-        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin ],
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
         widgets: [],
+        props: [
+            { name: 'spacing', title: 'Border Spacing', type: 'string', tab: 'appearance' },
+            { name: 'collapse', title: 'Border Collapse', type: 'string', tab: 'appearance' },
+        ],
     }));
 
     Widgets.Item(Widgets.StackGroup, {
@@ -4228,83 +4180,6 @@ Shell = window.Shell || {};
     });
 
 })(jQuery, Vue, Core, Shell);
-
-(function($, Vue, Core, Widgets) {
-
-    Vue.component('default-button', {
-        template: '#default-button',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-})(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core, Widgets) {
-
-    Widgets.ButtonWidget =
-    Widgets.Widget(Widgets.ButtonsGroup, Widgets.create({
-        name: 'default-button',
-        tag: 'default-button',
-        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
-        props: [
-            { name: 'title', title: 'Title', type: 'string', tab: 'content' },
-            { name: 'type', title: 'Type', type: 'string', tab: 'data' },
-            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
-        ],
-    }));
-
-    Widgets.ButtonWidgetFactory = function(title, stereotype) {
-
-        var w = Widgets.build(Widgets.ButtonWidget, {
-            inner: {
-                value:  {
-                    margin: { value: '15px 15px' },
-                }
-            },
-            type: { value: 'button' },
-            title: { value: title },
-            stereotype: { value: stereotype },
-        });
-
-        return w;
-    }
-
-    Widgets.Item(Widgets.ButtonsGroup, {
-        name: 'button-default',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-default.png',
-        widget: Widgets.ButtonWidgetFactory('Default', 'default'),
-    });
-
-    Widgets.Item(Widgets.ButtonsGroup, {
-        name: 'button-primary',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-primary.png',
-        widget: Widgets.ButtonWidgetFactory('Primary', 'primary'),
-    });
-
-    Widgets.Item(Widgets.ButtonsGroup, {
-        name: 'button-success',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-success.png',
-        widget: Widgets.ButtonWidgetFactory('Success', 'success'),
-    });
-
-    Widgets.Item(Widgets.ButtonsGroup, {
-        name: 'button-info',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-info.png',
-        widget: Widgets.ButtonWidgetFactory('Info', 'info'),
-    });
-
-    Widgets.Item(Widgets.ButtonsGroup, {
-        name: 'button-warning',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-warning.png',
-        widget: Widgets.ButtonWidgetFactory('Warning', 'warning'),
-    });
-
-    Widgets.Item(Widgets.ButtonsGroup, {
-        name: 'button-danger',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-danger.png',
-        widget: Widgets.ButtonWidgetFactory('Danger', 'danger'),
-    });
-
-})(jQuery, Vue, Core, Widgets);
 
 (function($, Vue, Core) {
 
@@ -4419,6 +4294,83 @@ Shell = window.Shell || {};
             { value: 'B', label: 'B' },
             { value: 'C', label: 'C' },
         ]),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Vue.component('default-button', {
+        template: '#default-button',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.ButtonWidget =
+    Widgets.Widget(Widgets.ButtonsGroup, Widgets.create({
+        name: 'default-button',
+        tag: 'default-button',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'title', title: 'Title', type: 'string', tab: 'content' },
+            { name: 'type', title: 'Type', type: 'string', tab: 'data' },
+            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
+        ],
+    }));
+
+    Widgets.ButtonWidgetFactory = function(title, stereotype) {
+
+        var w = Widgets.build(Widgets.ButtonWidget, {
+            inner: {
+                value:  {
+                    margin: { value: '15px 15px' },
+                }
+            },
+            type: { value: 'button' },
+            title: { value: title },
+            stereotype: { value: stereotype },
+        });
+
+        return w;
+    }
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-default',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-default.png',
+        widget: Widgets.ButtonWidgetFactory('Default', 'default'),
+    });
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-primary',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-primary.png',
+        widget: Widgets.ButtonWidgetFactory('Primary', 'primary'),
+    });
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-success',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-success.png',
+        widget: Widgets.ButtonWidgetFactory('Success', 'success'),
+    });
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-info',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-info.png',
+        widget: Widgets.ButtonWidgetFactory('Info', 'info'),
+    });
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-warning',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-warning.png',
+        widget: Widgets.ButtonWidgetFactory('Warning', 'warning'),
+    });
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-danger',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-danger.png',
+        widget: Widgets.ButtonWidgetFactory('Danger', 'danger'),
     });
 
 })(jQuery, Vue, Core, Widgets);
@@ -4741,6 +4693,114 @@ Shell = window.Shell || {};
 
 (function($, Vue, Core, Widgets) {
 
+    Vue.component('default-image', {
+        template: '#default-image',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.ImageWidget =
+    Widgets.Widget(Widgets.ImagesGroup, Widgets.create({
+        name: 'default-image',
+        tag: 'default-image',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'src', title: 'Source', type: 'string', tab: 'appearance' },
+        ],
+    }));
+
+    Widgets.ImageWidgetFactory = function(url) {
+
+        var w = Widgets.build(Widgets.ImageWidget, {
+            height: { value: '300px' },
+            src: { value: url },
+        });
+
+        return w;
+    }
+
+    var images = [
+        { group: Widgets.AbstractGroup, names: [ 'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8' ] },
+        { group: Widgets.CityGroup, names: [ 'c1', 'c2', 'c3', 'c4', 'c5', 'c6' ] },
+        { group: Widgets.NatureGroup, names: [ 'n1', 'n2', 'n3', 'n4', 'n5', 'n6' ] },
+        { group: Widgets.SpaceGroup, names: [ 's1', 's2', 's3', 's4', 's5', 's6' ] },
+    ];
+
+    for (var i = 0; i < images.length; i++) {
+
+        var settings = images[i];
+
+        for (var j = 0; j < settings.names.length; j++) {
+
+            var name = settings.names[j];
+
+            Widgets.Item(settings.group, {
+                name: name,
+                thumbnail: `/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/120x80/${name}.jpg`,
+                widget: Widgets.ImageWidgetFactory(`/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/1920x1280/${name}.jpg`),
+            });
+        }
+    }
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-box', {
+        template: '#default-box',
+        props: {
+            bindings: Object,
+            class: String,
+        }
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-placeholder', {
+        template: '#default-placeholder',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.StubWidget =
+    Widgets.Widget(Widgets.UtilGroup, Widgets.create({
+        _action: 'ignore',
+        name: 'default-stub',
+        tag: 'default-stub',
+        mixins: [ Widgets.BoxMixin ],
+        props: [
+            { name: 'content', type: 'rich' }
+        ],
+    }));
+
+    Widgets.StubWidgetFactory = function(content) {
+
+        return Widgets.build(Widgets.StubWidget, {
+            content: { value: content },
+        });
+    }
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-stub', {
+        template: '#default-stub',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core, Widgets) {
+
     Widgets.TextWidget =
     Widgets.Widget(Widgets.BlocksGroup, Widgets.create({
         name: 'default-text',
@@ -4873,58 +4933,6 @@ Shell = window.Shell || {};
 
     Vue.component('default-text', {
         template: '#default-text',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-})(jQuery, Vue, Core);
-
-(function($, Vue, Core) {
-
-    Vue.component('default-box', {
-        template: '#default-box',
-        props: {
-            bindings: Object,
-            class: String,
-        }
-    });
-
-})(jQuery, Vue, Core);
-
-(function($, Vue, Core, Widgets) {
-
-    Widgets.StubWidget =
-    Widgets.Widget(Widgets.UtilGroup, Widgets.create({
-        _action: 'ignore',
-        name: 'default-stub',
-        tag: 'default-stub',
-        mixins: [ Widgets.BoxMixin ],
-        props: [
-            { name: 'content', type: 'rich' }
-        ],
-    }));
-
-    Widgets.StubWidgetFactory = function(content) {
-
-        return Widgets.build(Widgets.StubWidget, {
-            content: { value: content },
-        });
-    }
-
-})(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core) {
-
-    Vue.component('default-stub', {
-        template: '#default-stub',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-})(jQuery, Vue, Core);
-
-(function($, Vue, Core) {
-
-    Vue.component('default-placeholder', {
-        template: '#default-placeholder',
         mixins: [ Core.WidgetMixin ],
     });
 
@@ -5257,20 +5265,6 @@ window.Landing =
 
 (function($, Vue, Core, Shell, Landing) {
 
-    Landing.Gallery =
-    Vue.component('landing-gallery', {
-        template: '#landing-gallery',
-    });
-
-    Landing.GalleryFull =
-    Vue.component('landing-gallery-full', {
-        template: '#landing-gallery-full',
-    });
-
-})(jQuery, Vue, Core, Shell, Landing);
-
-(function($, Vue, Core, Shell, Landing) {
-
     Landing.Header =
     Vue.component('landing-header', {
         template: '#landing-header',
@@ -5282,6 +5276,20 @@ window.Landing =
                 );
             }
         },
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
+    Landing.Gallery =
+    Vue.component('landing-gallery', {
+        template: '#landing-gallery',
+    });
+
+    Landing.GalleryFull =
+    Vue.component('landing-gallery-full', {
+        template: '#landing-gallery-full',
     });
 
 })(jQuery, Vue, Core, Shell, Landing);
@@ -5385,18 +5393,18 @@ window.Landing =
 
 (function($, Vue, Core, Shell, Landing) {
 
-    Landing.Usecases =
-    Vue.component('landing-usecases', {
-        template: '#landing-usecases',
+    Landing.Video =
+    Vue.component('landing-video', {
+        template: '#landing-video',
     });
 
 })(jQuery, Vue, Core, Shell, Landing);
 
 (function($, Vue, Core, Shell, Landing) {
 
-    Landing.Video =
-    Vue.component('landing-video', {
-        template: '#landing-video',
+    Landing.Usecases =
+    Vue.component('landing-usecases', {
+        template: '#landing-usecases',
     });
 
 })(jQuery, Vue, Core, Shell, Landing);
@@ -5608,6 +5616,11 @@ window.Landing =
         mixins: [ Core.WidgetMixin ],
     });
 
+    Vue.component('academy-offer-above', {
+        template: '#academy-offer-above',
+        mixins: [ Core.WidgetMixin ],
+    });
+
 })(jQuery, Vue, Core, Widgets);
 
 (function($, Vue, Core, Widgets) {
@@ -5686,6 +5699,39 @@ window.Landing =
         name: 'academy-offer-small',
         thumbnail: '/assets/vendor/ntr1x-archery-widgets-academy/src/offer/offer-small.png',
         widget: SmallOfferWidgetFactory("#164767 url('/assets/vendor/ntr1x-archery-widgets-academy/src/offer/img/brochure.png') no-repeat top right"),
+    });
+
+    var AboveOfferWidget =
+    Widgets.Widget(Widgets.OffersGroup, Widgets.create({
+        name: 'academy-offer-above',
+        tag: 'academy-offer-above',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'title', title: 'Title', type: 'string', tab: 'data' },
+            { name: 'url', title: 'URL', type: 'string', tab: 'data' },
+        ],
+    }));
+
+    var AboveOfferWidgetFactory = function(background) {
+
+        return Widgets.build(AboveOfferWidget, {
+            title: { value: 'Online Booking' },
+            url: { value: 'http://google.com' },
+            inner: {
+                value: {
+                    background: { value: background },
+                    margin: { value: '0px auto' },
+                },
+            },
+            width: { value: '235px' },
+            height: { value: '235px' },
+        });
+    }
+
+    Widgets.Item(Widgets.OffersGroup, {
+        name: 'academy-offer-above',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets-academy/src/offer/offer-above.png',
+        widget: AboveOfferWidgetFactory("url('/assets/vendor/ntr1x-archery-widgets-academy/src/offer/img/beginner.jpg') no-repeat center center"),
     });
 
 })(jQuery, Vue, Core, Widgets);
