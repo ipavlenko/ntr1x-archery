@@ -13,10 +13,11 @@ use JMS\Serializer\SerializationContext;
 
 use AppBundle\Entity\Portal;
 use AppBundle\Entity\Publication;
+use AppBundle\Entity\Upload;
 use AppBundle\Entity\User;
 use AppBundle\Security\UserPrincipal;
 
-class PortalsController extends Controller {
+class PublicationsController extends Controller {
 
     public function __construct() {
         $this->context = new SerializationContext();
@@ -79,7 +80,7 @@ class PortalsController extends Controller {
                     $view['publication'] = $this
                         ->getDoctrine()
                         ->getRepository('AppBundle:Publication')
-                        ->findOneBy([ 'id' => $request->attributes->get('id') ])
+                        ->findOneBy([ 'id' => $publication->getId() ])
                     ;
 
                     $em->flush();
