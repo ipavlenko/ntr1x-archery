@@ -40,6 +40,11 @@ class Portal
     private $user;
 
     /**
+     * @ORM\OneToOne(targetEntity="Publication", mappedBy="portal")
+     */
+    private $publication;
+
+    /**
      * @ORM\Column(name="settings", type="json_array", nullable=true)
      */
     private $settings;
@@ -166,5 +171,29 @@ class Portal
     public function getSettings()
     {
         return $this->settings;
+    }
+
+    /**
+     * Set publication
+     *
+     * @param \AppBundle\Entity\Publication $publication
+     *
+     * @return Portal
+     */
+    public function setPublication(\AppBundle\Entity\Publication $publication = null)
+    {
+        $this->publication = $publication;
+
+        return $this;
+    }
+
+    /**
+     * Get publication
+     *
+     * @return \AppBundle\Entity\Publication
+     */
+    public function getPublication()
+    {
+        return $this->publication;
     }
 }

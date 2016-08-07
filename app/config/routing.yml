@@ -1,3 +1,19 @@
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
+security:
+    resource:   "@AppBundle/Controller/SecurityController.php"
+    type:       annotation
+    prefix:     /
+
+portals:
+    resource:   "@AppBundle/Controller/PortalsController.php"
+    type:       annotation
+    prefix:     /
+
+publications:
+    resource:   "@AppBundle/Controller/PublicationsController.php"
+    type:       annotation
+    prefix:     /
+
+default:
+    resource:   "@AppBundle/Controller/DefaultController.php"
+    type:       annotation
+    prefix:     /
