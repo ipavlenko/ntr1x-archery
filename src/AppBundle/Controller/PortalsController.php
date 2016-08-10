@@ -157,11 +157,20 @@ class PortalsController extends Controller {
 
                     $em->clear();
 
-                    $view['portal'] = $this
+                    $portal = $this
                         ->getDoctrine()
                         ->getRepository('AppBundle:Portal')
                         ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ])
                     ;
+
+                    $pages = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Page')
+                        ->findBy([ 'portal' => $portal ], [])
+                    ;
+
+                    $view['portal'] = $portal;
+                    $view['pages'] = $pages;
 
                     $em->flush();
                 });
@@ -225,7 +234,14 @@ class PortalsController extends Controller {
                         ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ], [])
                     ;
 
+                    $pages = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Page')
+                        ->findBy([ 'portal' => $portal ], [])
+                    ;
+
                     $view['portal'] = $portal;
+                    $view['pages'] = $pages;
                 });
 
             } catch (\Exception $e) {
@@ -345,10 +361,20 @@ class PortalsController extends Controller {
                         ->findById($principal->getId())
                     ;
 
-                    $view['portals'] = $this
-                        ->getDoctrine()
-                        ->getRepository('AppBundle:Portal')
-                        ->findBy([ 'user' => $user ], ['title' => 'asc'])
+                    $view['portals'] = $em
+                        ->createQuery('
+                            select partial p.{id, title, user}
+                            FROM AppBundle:Portal p
+                            WHERE p.user = :user
+                        ')
+                        // ->select('p.id', 'p.title', 'IDENTITY(p.user)', 'p.publication')
+                        // ->from('AppBundle:Portal', 'p')
+                        // ->leftJoin('AppBundle:Publication', 'pb')
+                        // ->where('p.user = :user')
+                        // ->orderBy('p.title', 'ASC')
+                        ->setParameter('user', $user)
+                        // ->getQuery()
+                        ->getResult()
                     ;
                 });
 
@@ -358,6 +384,7 @@ class PortalsController extends Controller {
                 $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
                 $view['error'] = [
                     'message' => 'Internal server error',
+                    'message2' => $e->getMessage(),
                 ];
             }
 

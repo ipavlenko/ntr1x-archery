@@ -47,8 +47,9 @@ class Publication
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="Portal", inversedBy="publication")
+     * @ORM\OneToOne(targetEntity="Portal", inversedBy="publication", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="portal_id", referencedColumnName="id", nullable=false)
+     * @JMS\Exclude
      */
     private $portal;
 
@@ -62,7 +63,6 @@ class Publication
 
     public function __construct() {
     }
-
 
     /**
      * Get id

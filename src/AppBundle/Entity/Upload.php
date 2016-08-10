@@ -1,8 +1,11 @@
 <?php
+
 namespace AppBundle\Entity;
+
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Upload
@@ -33,31 +36,41 @@ class Upload
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     public $path;
+
+    /**
+     * @JMS\Exclude
+     */
     private $temp;
     /**
      * @Assert\File(maxSize="6000000")
+     * @JMS\Exclude
      */
     private $file;
+
     public function getAbsolutePath() {
         return null === $this->path
             ? null
             : $this->getUploadRootDir().'/'.$this->path;
     }
+
     public function getWebPath() {
         return null === $this->path
             ? null
             : '/uploads/' . $this->getUploadDir().'/'.$this->path;
     }
+
     protected function getUploadRootDir() {
         // the absolute directory path where uploaded
         // documents should be saved
-        return __DIR__.'/../../../../web/uploads/' . $this->getUploadDir();
+        return __DIR__.'/../../../web/uploads/' . $this->getUploadDir();
     }
+
     protected function getUploadDir() {
         // get rid of the __DIR__ so it doesn't screw up
         // when displaying uploaded doc/image in the view.
         return $this->dir;
     }
+
     /**
      * Get file.
      *
@@ -66,6 +79,7 @@ class Upload
     public function getFile() {
         return $this->file;
     }
+
     /**
      * Sets file.
      *
@@ -89,6 +103,7 @@ class Upload
         }
         return $this;
     }
+
     /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
@@ -100,6 +115,7 @@ class Upload
             $this->path = $filename.'.'.$this->getFile()->guessExtension();
         }
     }
+
     /**
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
@@ -121,6 +137,7 @@ class Upload
         }
         $this->file = null;
     }
+
     /**
      * @ORM\PostRemove()
      */
@@ -130,6 +147,7 @@ class Upload
             @unlink($file);
         }
     }
+
     /**
      * Get id
      *
@@ -139,6 +157,7 @@ class Upload
     {
         return $this->id;
     }
+
     /**
      * Set name
      *
@@ -151,6 +170,7 @@ class Upload
         $this->name = $name;
         return $this;
     }
+
     /**
      * Get name
      *
@@ -160,6 +180,7 @@ class Upload
     {
         return $this->name;
     }
+
     /**
      * Set dir
      *
@@ -172,6 +193,7 @@ class Upload
         $this->dir = $dir;
         return $this;
     }
+
     /**
      * Get dir
      *
@@ -181,6 +203,7 @@ class Upload
     {
         return $this->dir;
     }
+
     /**
      * Set path
      *
@@ -193,6 +216,7 @@ class Upload
         $this->path = $path;
         return $this;
     }
+
     /**
      * Get path
      *

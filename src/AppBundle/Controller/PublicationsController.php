@@ -17,6 +17,8 @@ use AppBundle\Entity\Upload;
 use AppBundle\Entity\User;
 use AppBundle\Security\UserPrincipal;
 
+use \Eventviva\ImageResize;
+
 class PublicationsController extends Controller {
 
     public function __construct() {
@@ -61,6 +63,14 @@ class PublicationsController extends Controller {
                         ->findOneBy([ 'id' => $request->request->get('portal'), 'user' => $user ])
                     ;
 
+                    $upload = $request->files->get('thumbnail');
+
+                    // $view['path'] = mb_convert_encoding($upload->getRealPath(), "UTF-8");
+
+                    $image = new ImageResize($upload->getRealPath());
+                    $image->crop(360, 195);
+                    $image->save($upload->getRealPath());
+
                     $publication = (new Publication())
                         ->setPortal($portal)
                         ->setTitle($request->request->get('title'))
@@ -68,7 +78,7 @@ class PublicationsController extends Controller {
                         ->setThumbnail(
                             (new Upload())
                                 ->setDir('publications/thumbnails')
-                                ->setFile($request->files->get('thumbnail'))
+                                ->setFile($upload)
                         )
                     ;
 
@@ -84,6 +94,72 @@ class PublicationsController extends Controller {
                     ;
 
                     $em->flush();
+                });
+
+            } catch (\Exception $e) {
+
+                dump($e);
+
+                $view['error'] = [
+                    'message' => 'Internal server error',
+                    'message2' => mb_convert_encoding($e->getMessage(), "UTF-8"),
+                ];
+
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $response->setStatusCode(Response::HTTP_OK);
+
+        } else {
+
+            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+        }
+
+        // dump($view);
+
+        $response->setContent($serializer->serialize($view, 'json', $this->context));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/ws/publications/{id}", name="publications-get")
+     * @Method({"GET"})
+     */
+    public function wsPublicationsGetAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $view = [];
+
+        $serializer = $this->container->get('jms_serializer');
+
+        $response = new Response();
+
+        $principal = $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')
+            ? $this->get('security.token_storage')->getToken()->getUser()
+            : null
+        ;
+
+        if (!empty($principal)) {
+
+            try {
+
+                $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$view, &$serializer, &$principal) {
+
+                    $user = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:User')
+                        ->find($principal->getId())
+                    ;
+
+                    $publication = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Publication')
+                        ->findOneBy([ 'id' => $request->attributes->get('id') ], [])
+                    ;
+
+                    $view['publication'] = $publication;
                 });
 
             } catch (\Exception $e) {
@@ -173,7 +249,7 @@ class PublicationsController extends Controller {
     }
 
     /**
-     * @Route("/ws/publications", name="publications-get")
+     * @Route("/ws/publications", name="publications")
      * @Method({"GET"})
      */
     public function wsPublicationsAction(Request $request) {

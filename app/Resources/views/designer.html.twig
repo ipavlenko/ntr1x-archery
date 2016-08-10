@@ -20,14 +20,16 @@
     {% endblock %}
 </head>
 <body
-    data-vue-app
+    data-vue-designer
     data-principal="{{ principal | serialize('json') }}"
+    data-portal="{{ portal | serialize('json') }}"
 >
 
 {% verbatim %}
     <div data-vue-body>
         <router-view
             :principal.sync="principal"
+            :portal.sync="portal"
         ></router-view>
     </div>
 {% endverbatim %}
@@ -841,6 +843,62 @@
     </div>
 </template>
 
+<template id="shell-actions">
+    <section class="ge ge-actions">
+        <div class="pull-left">
+            <button type="button" class="btn btn-default" @click="trigger('push')">
+                <span class="glyphicon glyphicon-cloud-upload"></span>
+                <span>Store Changes</span>
+            </button>
+            <button type="button" class="btn btn-default" @click="trigger('pull')">
+                <span class="glyphicon glyphicon-cloud-download"></span>
+                <span>Discard Changes</span>
+            </button>
+            <!--
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ globals.selection.page.name }} - {{ globals.selection.page.title.value }} <span class="caret"></span>
+                </button>
+                <div class="dropdown-menu">
+                    <div class="ge ge-pages-selector">
+                        <div class="ge ge-selector-row" v-for="p in model.pages">
+                            <div class="ge ge-selector-cell ge-cell-page">
+                                <div><a href="">{{ p.name || 'default' }}</a></div>
+                                <div>{{ p.title.value }}</div>
+                            </div>
+                            <div class="ge ge-selector-cell ge-cell-actions">
+                                <button class="btn btn-primary" @click="update">Edit</button>
+                                <button class="btn btn-danger" @click="remove">Remove</button>
+                            </div>
+                        </div>
+                        <div class="ge ge-selector-row" v-for="p in model.pages">
+                            <button class="btn btn-block btn-default" @click="create">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            -->
+        </div>
+        <div class="pull-right">
+
+            <button type="button" class="btn btn-default" @click="trigger('zoomIn')">
+                <span class="glyphicon glyphicon-zoom-in"></span>
+                <span>Zoom in</span>
+            </button>
+            <button type="button" class="btn btn-default" @click="trigger('zoomOut')">
+                <span class="glyphicon glyphicon-zoom-out"></span>
+                <span>Zoom out</span>
+            </button>
+
+
+            <!--
+            <button type="button" class="btn btn-default">Page Settings</button>
+            <button type="button" class="btn btn-default">Add Source</button>
+            -->
+        </div>
+    </section>
+</template>
+
 <template id="storages-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
@@ -986,62 +1044,6 @@
 
     <storages-list :items.sync="items"></storages-list>
 
-</template>
-
-<template id="shell-actions">
-    <section class="ge ge-actions">
-        <div class="pull-left">
-            <button type="button" class="btn btn-default" @click="trigger('push')">
-                <span class="glyphicon glyphicon-cloud-upload"></span>
-                <span>Store Changes</span>
-            </button>
-            <button type="button" class="btn btn-default" @click="trigger('pull')">
-                <span class="glyphicon glyphicon-cloud-download"></span>
-                <span>Discard Changes</span>
-            </button>
-            <!--
-            <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ globals.selection.page.name }} - {{ globals.selection.page.title.value }} <span class="caret"></span>
-                </button>
-                <div class="dropdown-menu">
-                    <div class="ge ge-pages-selector">
-                        <div class="ge ge-selector-row" v-for="p in model.pages">
-                            <div class="ge ge-selector-cell ge-cell-page">
-                                <div><a href="">{{ p.name || 'default' }}</a></div>
-                                <div>{{ p.title.value }}</div>
-                            </div>
-                            <div class="ge ge-selector-cell ge-cell-actions">
-                                <button class="btn btn-primary" @click="update">Edit</button>
-                                <button class="btn btn-danger" @click="remove">Remove</button>
-                            </div>
-                        </div>
-                        <div class="ge ge-selector-row" v-for="p in model.pages">
-                            <button class="btn btn-block btn-default" @click="create">+</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            -->
-        </div>
-        <div class="pull-right">
-
-            <button type="button" class="btn btn-default" @click="trigger('zoomIn')">
-                <span class="glyphicon glyphicon-zoom-in"></span>
-                <span>Zoom in</span>
-            </button>
-            <button type="button" class="btn btn-default" @click="trigger('zoomOut')">
-                <span class="glyphicon glyphicon-zoom-out"></span>
-                <span>Zoom out</span>
-            </button>
-
-
-            <!--
-            <button type="button" class="btn btn-default">Page Settings</button>
-            <button type="button" class="btn btn-default">Add Source</button>
-            -->
-        </div>
-    </section>
 </template>
 
 <template id="shell-brand">
@@ -1211,9 +1213,8 @@
 
 <template id="shell-loader">
     <div class="ge ge-shell-loader">
-        <shell-private v-if="portal != null"
-            :settings="settings"
-            :model="portal"
+        <shell-private v-if="model != null"
+            :model="model"
         ></shell-private>
     </div>
 </template>
@@ -1232,29 +1233,6 @@
             :items.sync="page.root.widgets"
         ></div>
     </div>
-</template>
-
-<template id="shell-pages">
-    <section class="ge ge-panel ge-pages">
-        <h5>
-            <span>Pages</span>
-            <span class="ge ge-overlays">
-                <span class="ge ge-overlay" @click="create({ sources: [], storages: [], widgets: [] })"><span class="glyphicon glyphicon-plus-sign"></span></span>
-            </span>
-        </h5>
-        <ul class="nav nav-pills nav-stacked">
-            <li v-for="item in items" :class="{ 'active': item == globals.selection.page }">
-                <a href="#" @click="trigger('selectPage', item)">
-                    <span v-if="item.name != ''">{{ item.name }}</span>
-                    <span v-if="item.name == ''"><i>default</i></span>
-                    <span class="ge ge-overlays">
-                        <span v-if="item.name != ''" class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                        <span class="ge ge-overlay" @click.stop.prevent="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                    </span>
-                </a>
-            </li>
-        </ul>
-    </section>
 </template>
 
 <template id="shell-palette-item">
@@ -1289,6 +1267,29 @@
                 </div>
             </div>
         </div>
+    </section>
+</template>
+
+<template id="shell-pages">
+    <section class="ge ge-panel ge-pages">
+        <h5>
+            <span>Pages</span>
+            <span class="ge ge-overlays">
+                <span class="ge ge-overlay" @click="create({ sources: [], storages: [], widgets: [] })"><span class="glyphicon glyphicon-plus-sign"></span></span>
+            </span>
+        </h5>
+        <ul class="nav nav-pills nav-stacked">
+            <li v-for="item in items" :class="{ 'active': item == globals.selection.page }">
+                <a href="#" @click="trigger('selectPage', item)">
+                    <span v-if="item.name != ''">{{ item.name }}</span>
+                    <span v-if="item.name == ''"><i>default</i></span>
+                    <span class="ge ge-overlays">
+                        <span v-if="item.name != ''" class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                        <span class="ge ge-overlay" @click.stop.prevent="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                    </span>
+                </a>
+            </li>
+        </ul>
     </section>
 </template>
 
@@ -1391,6 +1392,12 @@
     </section>
 </template>
 
+<template id="shell-target">
+    <div class="ge ge-target">
+        <span>Drop Here</span>
+    </div>
+</template>
+
 <template id="shell-storages">
     <section class="ge ge-panel ge-storages">
         <storages :items.sync="storages" :globals.sync="globals" inline-template>
@@ -1415,12 +1422,6 @@
     </section>
 </template>
 
-<template id="shell-target">
-    <div class="ge ge-target">
-        <span>Drop Here</span>
-    </div>
-</template>
-
 <template id="shell-widget">
     <div class="ge ge-decorator">
         <div
@@ -1435,6 +1436,48 @@
             :editable.sync="editable"
             :items.sync="model.widgets"
         ></div>
+    </div>
+</template>
+
+<template id="shell-widgets-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                  @submit.prevent="submit"
+                  @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Редактирование виджета</span>
+                        <span v-if="!original">Новый виджет</span>
+                        <span>&gt;</span>
+                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -1661,48 +1704,6 @@
 
 </template>
 
-<template id="shell-widgets-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                  @submit.prevent="submit"
-                  @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Редактирование виджета</span>
-                        <span v-if="!original">Новый виджет</span>
-                        <span>&gt;</span>
-                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="default-carousel">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-carousel'">
             <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
@@ -1817,30 +1818,6 @@
             -->
 
         </div>
-    </default-box>
-</template>
-
-<template id="default-navbar">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-navbar">
-        <nav class="navbar" :class="{
-            'navbar-default': bindings.stereotype == 'default',
-            'navbar-inverse': bindings.stereotype == 'inverse',
-        }">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">
-                        <img alt="Brand" height="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAB+0lEQVR4AcyYg5LkUBhG+1X2PdZGaW3btm3btm3bHttWrPomd1r/2Jn/VJ02TpxcH4CQ/dsuazWgzbIdrm9dZVd4pBz4zx2igTaFHrhvjneVXNHCSqIlFEjiwMyyyOBilRgGSqLNF1jnwNQdIvAt48C3IlBmHCiLQHC2zoHDu6zG1iXn6+y62ScxY9AODO6w0pvAqf23oSE4joOfH6OxfMoRnoGUm+de8wykbFt6wZtA07QwtNOqKh3ZbS3Wzz2F+1c/QJY0UCJ/J3kXWJfv7VhxCRRV1jGw7XI+gcO7rEFFRvdYxydwcPsVsC0bQdKScngt4iUTD4Fy/8p7PoHzRu1DclwmgmiqgUXjD3oTKHbAt869qdJ7l98jNTEblPTkXMwetpvnftA0LLHb4X8kiY9Kx6Q+W7wJtG0HR7fdrtYz+x7iya0vkEtUULIzCjC21wY+W/GYXusRH5kGytWTLxgEEhePPwhKYb7EK3BQuxWwTBuUkd3X8goUn6fMHLyTT+DCsQdAEXNzSMeVPAJHdF2DmH8poCREp3uwm7HsGq9J9q69iuunX6EgrwQVObjpBt8z6rdPfvE8kiiyhsvHnomrQx6BxYUyYiNS8f75H1w4/ISepDZLoDhNJ9cdNUquhRsv+6EP9oNH7Iff2A9g8h8CLt1gH0Qf9NMQAFnO60BJFQe0AAAAAElFTkSuQmCC" width="20" />
-                    </a>
-                </div>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-left">
-                        <li class="active"><a href="#">Project</a></li>
-                        <li><a href="#">Offers <span class="caret"></span></a></li>
-                    </ul>
-                    <button type="submit" class="btn btn-primary navbar-btn navbar-right">Signup</button>
-                </div>
-            </div>
-        </nav>
     </default-box>
 </template>
 
@@ -1960,49 +1937,33 @@
     </section>
 </template>
 
-<template id="default-input-checkbox">
-    <default-box :bindings.sync="bindings" :class="'wg wg-widget wg-default-input-checkbox'">
-        <div class="form-group">
-            <div class="checkbox" v-for="item in bindings.items">
-                <label>
-                    <input type="checkbox" :name="bindings.name" value="{{ item.value }}" v-model="bindings.model.value"> {{ item.label }}
-                </label>
+<template id="default-navbar">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-navbar">
+        <nav class="navbar" :class="{
+            'navbar-default': bindings.stereotype == 'default',
+            'navbar-inverse': bindings.stereotype == 'inverse',
+        }">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <img alt="Brand" height="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAB+0lEQVR4AcyYg5LkUBhG+1X2PdZGaW3btm3btm3bHttWrPomd1r/2Jn/VJ02TpxcH4CQ/dsuazWgzbIdrm9dZVd4pBz4zx2igTaFHrhvjneVXNHCSqIlFEjiwMyyyOBilRgGSqLNF1jnwNQdIvAt48C3IlBmHCiLQHC2zoHDu6zG1iXn6+y62ScxY9AODO6w0pvAqf23oSE4joOfH6OxfMoRnoGUm+de8wykbFt6wZtA07QwtNOqKh3ZbS3Wzz2F+1c/QJY0UCJ/J3kXWJfv7VhxCRRV1jGw7XI+gcO7rEFFRvdYxydwcPsVsC0bQdKScngt4iUTD4Fy/8p7PoHzRu1DclwmgmiqgUXjD3oTKHbAt869qdJ7l98jNTEblPTkXMwetpvnftA0LLHb4X8kiY9Kx6Q+W7wJtG0HR7fdrtYz+x7iya0vkEtUULIzCjC21wY+W/GYXusRH5kGytWTLxgEEhePPwhKYb7EK3BQuxWwTBuUkd3X8goUn6fMHLyTT+DCsQdAEXNzSMeVPAJHdF2DmH8poCREp3uwm7HsGq9J9q69iuunX6EgrwQVObjpBt8z6rdPfvE8kiiyhsvHnomrQx6BxYUyYiNS8f75H1w4/ISepDZLoDhNJ9cdNUquhRsv+6EP9oNH7Iff2A9g8h8CLt1gH0Qf9NMQAFnO60BJFQe0AAAAAElFTkSuQmCC" width="20" />
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="active"><a href="#">Project</a></li>
+                        <li><a href="#">Offers <span class="caret"></span></a></li>
+                    </ul>
+                    <button type="submit" class="btn btn-primary navbar-btn navbar-right">Signup</button>
+                </div>
             </div>
-        </div>
-
+        </nav>
     </default-box>
 </template>
 
-<template id="default-input-radio">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-radio">
-        <div class="form-group">
-            <div class="radio" v-for="item in bindings.items">
-                <label>
-                    <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
-                </label>
-            </div>
-        </div>
-
-    </default-box>
-</template>
-
-<template id="default-input-text">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-text">
-        <div class="form-group">
-            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
-            <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder }}" v-model="bindings.model.value" />
-        </div>
-    </default-box>
-</template>
-
-<template id="default-input-textarea">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-textarea">
-        <div class="form-group">
-            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
-            <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model.value" style="{
-                height: bindings.height
-            }"></textarea>
-        </div>
+<template id="default-image">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-image">
+        <img :src="bindings.src" />
     </default-box>
 </template>
 
@@ -2072,9 +2033,49 @@
     </default-box>
 </template>
 
-<template id="default-image">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-image">
-        <img :src="bindings.src" />
+<template id="default-input-checkbox">
+    <default-box :bindings.sync="bindings" :class="'wg wg-widget wg-default-input-checkbox'">
+        <div class="form-group">
+            <div class="checkbox" v-for="item in bindings.items">
+                <label>
+                    <input type="checkbox" :name="bindings.name" value="{{ item.value }}" v-model="bindings.model.value"> {{ item.label }}
+                </label>
+            </div>
+        </div>
+
+    </default-box>
+</template>
+
+<template id="default-input-radio">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-radio">
+        <div class="form-group">
+            <div class="radio" v-for="item in bindings.items">
+                <label>
+                    <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
+                </label>
+            </div>
+        </div>
+
+    </default-box>
+</template>
+
+<template id="default-input-text">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-text">
+        <div class="form-group">
+            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
+            <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder }}" v-model="bindings.model.value" />
+        </div>
+    </default-box>
+</template>
+
+<template id="default-input-textarea">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-textarea">
+        <div class="form-group">
+            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
+            <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model.value" style="{
+                height: bindings.height
+            }"></textarea>
+        </div>
     </default-box>
 </template>
 
@@ -2223,6 +2224,12 @@
     </div>
 </template>
 
+<template id="landing-benefits">
+    <div class="ld ld-section ld-benefits">
+        <h3>Benefits</h3>
+    </div>
+</template>
+
 
 <template id="landing-account-signin">
     <div class="ld ld-section ld-body ld-account ld-account-signin">
@@ -2307,12 +2314,6 @@
                 </validator>
             </div>
         </div>
-    </div>
-</template>
-
-<template id="landing-benefits">
-    <div class="ld ld-section ld-benefits">
-        <h3>Benefits</h3>
     </div>
 </template>
 
@@ -2409,6 +2410,38 @@
                         <div class="ld ld-copyright">
                             &copy; 2016 NTR, LLC. Archery Cloud Platform.
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-header">
+    <div class="ld ld-section ld-header">
+        <div class="ld ld-header-affix" v-affix="{ offset: { top: 25 } }">
+            <div class="ld ld-container">
+                <div class="container-fluid">
+                    <div class="row">
+                        <ul class="nav nav-pills pull-right">
+                            <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
+                            <li role="presentation"><a v-link="{ path: '/gallery' }">Gallery</a></li>
+                            <li role="presentation"><a v-link="{ path: '/storage' }">Storage</a></li>
+                            <li v-if="$root.principal == null" role="presentation"><a v-link="{ path: '/signup' }">Register</a></li>
+                            <li v-if="$root.principal == null" role="presentation"><a v-link="{ path: '/signin' }">Sign In</a></li>
+                            <li v-if="$root.principal != null" role="presentation"><a href="#" @click.prevent="signout()">Sign Out</a></li>
+                            <li v-if="$root.principal != null" role="presentation" class="primary"><a v-link="{ path: '/manage' }">Control Panel</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="ld ld-offer">
+                        <h1>Open your online universe!</h1>
+                        <h2>Archery is the Cloud platform to build business friendly online services.</h2>
                     </div>
                 </div>
             </div>
@@ -2680,38 +2713,6 @@
     </div>
 </template>
 
-<template id="landing-header">
-    <div class="ld ld-section ld-header">
-        <div class="ld ld-header-affix" v-affix="{ offset: { top: 25 } }">
-            <div class="ld ld-container">
-                <div class="container-fluid">
-                    <div class="row">
-                        <ul class="nav nav-pills pull-right">
-                            <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
-                            <li role="presentation"><a v-link="{ path: '/gallery' }">Gallery</a></li>
-                            <li role="presentation"><a v-link="{ path: '/storage' }">Storage</a></li>
-                            <li v-if="$root.principal == null" role="presentation"><a v-link="{ path: '/signup' }">Register</a></li>
-                            <li v-if="$root.principal == null" role="presentation"><a v-link="{ path: '/signin' }">Sign In</a></li>
-                            <li v-if="$root.principal != null" role="presentation"><a href="#" @click.prevent="signout()">Sign Out</a></li>
-                            <li v-if="$root.principal != null" role="presentation" class="primary"><a v-link="{ path: '/manage' }">Control Panel</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="ld ld-offer">
-                        <h1>Open your online universe!</h1>
-                        <h2>Archery is the Cloud platform to build business friendly online services.</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <template id="landing-manage-create">
     <div class="ld ld-section ld-body ld-manage ld-manage-create">
         <div class="ld ld-table">
@@ -2746,7 +2747,7 @@
         <div class="ld ld-table">
             <div class="ld ld-cell">
                 <validator name="validation">
-                    <form novalidate @submit.prevent="$validation.valid && publish()">
+                    <form v-if="form" novalidate @submit.prevent="$validation.valid && publish()">
                         <div class="form-group">
                             <h3>Publish Portal</h3>
                         </dif>
@@ -2762,18 +2763,18 @@
                         </div>
                         <div class="form-group">
                             <div class="ld ld-upload">
-                                <div class="thumbnail ld ld-thumbnail" v-if="image">
+                                <div class="thumbnail ld ld-thumbnail" v-if="form.image">
                                     <div class="ld ld-thumbnail-inner" :style="{
-                                        'background-image': 'url(' + image + ')'
+                                        'background-image': 'url(' + form.image + ')'
                                     }">
                                     </div>
                                 </div>
-                                <div class="btn btn-default btn-block" v-if="!image">Upload Thumbnail</div>
+                                <div class="btn btn-default btn-block" v-if="!form.image">Upload Thumbnail</div>
                                 <input type="file" name="thumbnail" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-lg" v-if="$validation.valid && image">Publish</button>
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="$validation.valid && form.image">Publish</button>
                         </div>
                     </form>
                 </validator>
@@ -2794,16 +2795,22 @@
                         <div class="ld ld-portals">
                             <div class="ld ld-portal" v-for="portal in portals">
                                 <div class="ld ld-portal-data">
-                                    <div class="ld ld-data-title">{{ portal.title }}</div>
-                                    <div class="ld ld-data-ref"><a :href="url + '/view/' + portal.id">{{ url }}/view/{{ portal.id }}</a></div>
+                                    <div class="ld ld-data-title">{{ portal.title }} <span class="label label-success" v-if="portal.publication">Published</span></div>
+                                    <div class="ld ld-data-ref"><a :href="'/view/' + portal.id">/view/{{ portal.id }}</a></div>
                                 </div>
                                 <div class="ld ld-portal-buttons">
-                                    <button class="btn btn-primary" v-link="{ path: '/manage/' + portal.id }">Edit</button>
-                                    <div class="btn-group">
+                                    <a class="btn btn-primary" v-if="!portal.publication" :href="'/edit/' + portal.id + '/'">Edit</a>
+                                    <button class="btn btn-default" v-if="portal.publication" v-link="{ path: '/manage-clone/' + portal.id }">Clone</button>
+                                    <div class="btn-group pull-right">
                                         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li><a v-link="{ path: '/manage-publish/' + portal.id }">Publish</a></li>
-                                            <li><a href="#">Clone</a></li>
+                                            <li><a v-link="{
+                                                path: (portal.publication
+                                                    ? '/publications/' + portal.publication.id + '/update'
+                                                    : '/publications-create')
+                                            }">Publish</a></li>
+                                            <li><a v-if="portal.publication" @click.prevent="unpublish(portal.id)">Unpublish</a></li>
+                                            <!--<li><a href="#">Clone</a></li>-->
                                             <li role="separator" class="divider"></li>
                                             <li><a href="#" @click.prevent="remove(portal.id)">Remove</a></li>
                                         </ul>
@@ -2980,44 +2987,6 @@
     </div>
 </template>
 
-<template id="landing-video">
-    <div class="ld ld-section ld-video">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-facetime-video"></span> Video Tutorial</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-6">
-                        <div class="ld ld-video">
-                            <iframe width="530" height="260" src="https://www.youtube.com/embed/aqRBN7qvyxs" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-6">
-                        <div class="ld ld-message">
-                            <p>
-                                Archery is made to be simple and agile.
-                                No extra skills required, you can start in several clicks.
-                            </p>
-                            <p>
-                                Create project from scratch or use any template from the gallery.
-                                With a little effort you will get a functional online service in a few minutes.
-                            </p>
-                            <p>
-                                You can publish your portal immediately and update it any time you want.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <template id="landing-usecases">
     <div class="ld ld-section ld-usecases">
         <div class="ld ld-container">
@@ -3067,6 +3036,44 @@
                                     a powerful dashboard.
                                 </p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-video">
+    <div class="ld ld-section ld-video">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-facetime-video"></span> Video Tutorial</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <div class="ld ld-video">
+                            <iframe width="530" height="260" src="https://www.youtube.com/embed/aqRBN7qvyxs" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="ld ld-message">
+                            <p>
+                                Archery is made to be simple and agile.
+                                No extra skills required, you can start in several clicks.
+                            </p>
+                            <p>
+                                Create project from scratch or use any template from the gallery.
+                                With a little effort you will get a functional online service in a few minutes.
+                            </p>
+                            <p>
+                                You can publish your portal immediately and update it any time you want.
+                            </p>
                         </div>
                     </div>
                 </div>
