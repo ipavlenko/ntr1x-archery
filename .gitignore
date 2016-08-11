@@ -3,6 +3,7 @@
 
 /web/assets/vendor
 /web/bundles/
+/web/uploads/
 /build/
 /phpunit.xml
 /var/*

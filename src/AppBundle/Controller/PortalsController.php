@@ -12,10 +12,14 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use JMS\Serializer\SerializationContext;
 
 use AppBundle\Entity\Portal;
+use AppBundle\Entity\Publication;
+use AppBundle\Entity\Upload;
 use AppBundle\Entity\Page;
 use AppBundle\Entity\Widget;
 use AppBundle\Entity\User;
 use AppBundle\Security\UserPrincipal;
+
+use \Eventviva\ImageResize;
 
 class PortalsController extends Controller {
 
@@ -419,4 +423,171 @@ class PortalsController extends Controller {
         return $this->render('public.html.twig', $view);
     }
 
+    /**
+     * @Route("/ws/portals/{id}/publication", name = "portals-unpublish")
+     * @Method({"DELETE"})
+     */
+    public function wsPortalsUnpublishAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $view = [];
+
+        $serializer = $this->container->get('jms_serializer');
+
+        $response = new Response();
+
+        $principal = $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')
+            ? $this->get('security.token_storage')->getToken()->getUser()
+            : null
+        ;
+
+        if (!empty($principal)) {
+
+            try {
+
+                $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$serializer, &$principal) {
+
+                    $user = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:User')
+                        ->find($principal->getId())
+                    ;
+
+                    $portal = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Portal')
+                        ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ])
+                    ;
+
+                    $em->remove($portal->getPublication());
+
+                    $em->flush();
+                });
+
+            } catch (\Exception $e) {
+
+                $view['error'] = [
+                    'message' => 'Internal server error',
+                    'message2' => $e->getMessage(),
+                ];
+
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $response->setStatusCode(Response::HTTP_OK);
+
+        } else {
+
+            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+        }
+
+        $response->setContent($serializer->serialize($view, 'json', $this->context));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/ws/portals/{id}/publication", name="portals-publish")
+     * @Method({"POST"})
+     */
+    public function wsPortalsPublishAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $view = [];
+
+        $serializer = $this->container->get('jms_serializer');
+
+        $response = new Response();
+
+        $principal = $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')
+            ? $this->get('security.token_storage')->getToken()->getUser()
+            : null
+        ;
+
+        if (!empty($principal)) {
+
+            try {
+
+                $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$serializer, &$principal, &$view) {
+
+                    $user = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:User')
+                        ->find($principal->getId())
+                    ;
+
+                    $portal = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Portal')
+                        ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ])
+                    ;
+
+                    $publication = $portal->getPublication();
+
+                    $upload = $request->files->get('thumbnail');
+
+                    if ($upload) {
+
+                        if ($publication != null) {
+                            $em->remove($publication->getThumbnail());
+                        }
+
+                        $image = new ImageResize($upload->getRealPath());
+                        $image->crop(360, 195);
+                        $image->save($upload->getRealPath());
+                    }
+
+                    $publication = ($publication == null ? new Publication() : $publication);
+                    $publication
+                        ->setPortal($portal)
+                        ->setTitle($request->request->get('title'))
+                        ->setUser($user)
+                    ;
+
+                    if ($upload) {
+
+                        $publication->setThumbnail(
+                            (new Upload())
+                                ->setDir('publications/thumbnails')
+                                ->setFile($upload)
+                        );
+                    }
+
+                    $em->persist($publication);
+                    $em->flush();
+
+                    $em->clear();
+
+                    $view['publication'] = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Publication')
+                        ->findOneBy([ 'id' => $publication->getId() ])
+                    ;
+
+                    $em->flush();
+                });
+
+            } catch (\Exception $e) {
+
+                $view['error'] = [
+                    'message' => 'Internal server error',
+                    'message2' => mb_convert_encoding($e->getMessage(), "UTF-8"),
+                ];
+
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $response->setStatusCode(Response::HTTP_OK);
+
+        } else {
+
+            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+        }
+
+        $response->setContent($serializer->serialize($view, 'json', $this->context));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }

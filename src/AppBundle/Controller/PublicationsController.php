@@ -215,13 +215,13 @@ class PublicationsController extends Controller {
                         ->find($principal->getId())
                     ;
 
-                    $publication = $this
+                    $portal = $this
                         ->getDoctrine()
-                        ->getRepository('AppBundle:Publication')
+                        ->getRepository('AppBundle:Portal')
                         ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ])
                     ;
 
-                    $em->remove($publication);
+                    $em->remove($portal->getPublication());
 
                     $em->flush();
                 });
