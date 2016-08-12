@@ -4,7 +4,10 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+
 use Symfony\Component\Validator\Constraints as Assert;
+
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Page
@@ -31,8 +34,9 @@ class Page
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Portal", inversedBy="pages")
+     * @ORM\ManyToOne(targetEntity="Portal")
      * @ORM\JoinColumn(name="portal_id", referencedColumnName="id", nullable=false)
+     * @JMS\Exclude
      */
     private $portal;
 

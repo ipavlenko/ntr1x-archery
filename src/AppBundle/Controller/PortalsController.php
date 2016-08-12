@@ -69,28 +69,53 @@ class PortalsController extends Controller {
                     $em->persist($portal);
                     $em->flush();
 
-                    $page = (new Page())
-                        ->setName('')
-                        ->setPortal($portal)
+                    if (isset($data['clone'])) {
+
+                        $clone = $data['clone'];
+
+                        $source = $this
+                            ->getDoctrine()
+                            ->getRepository('AppBundle:Portal')
+                            ->findOneBy([ 'id' => $clone->getId() ])
+                        ;
+
+                        if ($source->getPublication() != null || $user->getId() == $source->getUser()->getId()) {
+
+                            $this
+                                ->getDoctrine()
+                                ->getRepository('AppBundle:Portal')
+                                ->clonePages($source, $portal)
+                            ;
+                        }
+                    } else {
+
+                        $page = (new Page())
+                            ->setName('')
+                            ->setPortal($portal)
+                        ;
+
+                        $root = (new Widget())
+                            ->setName('default-container/default-container-stack/default-stack-canvas')
+                            ->setPage($page)
+                            ->setParent(null)
+                            ->setIndex(0)
+                            ->setParams([
+                                'width' => [ "value" => 1200 ],
+                                'height' => [ "value" => null ],
+                            ])
+                        ;
+
+                        $page->setRoot($root);
+
+                        $em->persist($page);
+                        $em->flush();
+                    }
+
+                    $view['portal'] = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Portal')
+                        ->findOneBy([ 'id' => $portal->getId() ])
                     ;
-
-                    $root = (new Widget())
-                        ->setName('default-container/default-container-stack/default-stack-canvas')
-                        ->setPage($page)
-                        ->setParent(null)
-                        ->setIndex(0)
-                        ->setParams([
-                            'width' => [ "value" => 1200 ],
-                            'height' => [ "value" => null ],
-                        ])
-                    ;
-
-                    $page->setRoot($root);
-
-                    $em->persist($page);
-                    $em->flush();
-
-                    $view['portal'] = $portal;
                 });
 
             } catch (\Exception $e) {
@@ -307,6 +332,15 @@ class PortalsController extends Controller {
                         ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ])
                     ;
 
+                    $em
+                        ->createQueryBuilder()
+                        ->delete('AppBundle:Page', 'p')
+                        ->where('p.portal = :portal')
+                        ->setParameter('portal', $portal)
+                        ->getQuery()
+                        ->execute()
+                    ;
+
                     $em->remove($portal);
 
                     $em->flush();
@@ -396,7 +430,7 @@ class PortalsController extends Controller {
                 if ($offset != null) {
                     $builder->setFirstResult($offset);
                 }
-                
+
                 $view['portals'] = $builder->getQuery()->getResult();
             });
 
