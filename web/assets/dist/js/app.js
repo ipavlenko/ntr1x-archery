@@ -1030,6 +1030,14 @@ window.Core =
 
 })(jQuery, Core);
 
+(function($, Core) {
+
+    Vue.validator('email', function (val) {
+      return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(val)
+    });
+
+})(jQuery, Core);
+
 (function($, Vue, Core) {
 
     Vue.use({
@@ -1045,14 +1053,6 @@ window.Core =
         }
     });
 })(jQuery, Vue, Core);
-
-(function($, Core) {
-
-    Vue.validator('email', function (val) {
-      return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(val)
-    });
-
-})(jQuery, Core);
 
 window.Shell =
 (function($, Vue, Core) {
@@ -1641,19 +1641,6 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
-    Vue.component('shell-container', {
-        template: '#shell-container',
-        props: {
-            globals: Object,
-            settings: Object,
-            page: Object,
-        },
-    });
-
-})(jQuery, Vue, Core, Shell);
-
-(function($, Vue, Core, Shell) {
-
     var runtime = Vue.service('runtime', {
 
         evaluate: function(self, b, v) {
@@ -2194,6 +2181,19 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
+    Vue.component('shell-container', {
+        template: '#shell-container',
+        props: {
+            globals: Object,
+            settings: Object,
+            page: Object,
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
     Vue.component('shell-domains', {
         template: '#shell-domains',
         props: {
@@ -2681,10 +2681,10 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
-    Vue.component('shell-sources', {
-        template: '#shell-sources',
+    Vue.component('shell-storages', {
+        template: '#shell-storages',
         props: {
-            sources: Array,
+            storages: Array,
             globals: Object,
         },
     });
@@ -2693,10 +2693,10 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
-    Vue.component('shell-storages', {
-        template: '#shell-storages',
+    Vue.component('shell-sources', {
+        template: '#shell-sources',
         props: {
-            storages: Array,
+            sources: Array,
             globals: Object,
         },
     });
@@ -3191,10 +3191,11 @@ window.Widgets =
 
 (function($, Vue, Core, Widgets) {
 
-    Widgets.ButtonsGroup = Widgets.Group(Widgets.FormCategory, 'default-form-buttons', 'Buttons');
-    Widgets.InputsGroup = Widgets.Group(Widgets.FormCategory, 'default-form-inputs', 'Inputs');
-    Widgets.RadiosGroup = Widgets.Group(Widgets.FormCategory, 'default-form-radios', 'Radios');
-    Widgets.ChecksGroup = Widgets.Group(Widgets.FormCategory, 'default-form-checks', 'Checkboxes');
+    Widgets.HeadersGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-headers', 'Headers');
+    Widgets.FootersGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-footers', 'Footers');
+    Widgets.OffersGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-offers', 'Offers');
+    Widgets.NavigationGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-navigation', 'Navigation');
+    Widgets.GalleryGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-gallery', 'Galleries');
 
 })(jQuery, Vue, Core, Widgets);
 
@@ -3206,11 +3207,10 @@ window.Widgets =
 
 (function($, Vue, Core, Widgets) {
 
-    Widgets.HeadersGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-headers', 'Headers');
-    Widgets.FootersGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-footers', 'Footers');
-    Widgets.OffersGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-offers', 'Offers');
-    Widgets.NavigationGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-navigation', 'Navigation');
-    Widgets.GalleryGroup = Widgets.Group(Widgets.CompositeCategory, 'default-composite-gallery', 'Galleries');
+    Widgets.ButtonsGroup = Widgets.Group(Widgets.FormCategory, 'default-form-buttons', 'Buttons');
+    Widgets.InputsGroup = Widgets.Group(Widgets.FormCategory, 'default-form-inputs', 'Inputs');
+    Widgets.RadiosGroup = Widgets.Group(Widgets.FormCategory, 'default-form-radios', 'Radios');
+    Widgets.ChecksGroup = Widgets.Group(Widgets.FormCategory, 'default-form-checks', 'Checkboxes');
 
 })(jQuery, Vue, Core, Widgets);
 
@@ -3227,12 +3227,6 @@ window.Widgets =
 
 (function($, Vue, Core, Widgets) {
 
-    Widgets.UtilGroup = Widgets.Group(Widgets.UtilCategory, 'default-util-group', 'Util Elements');
-
-})(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core, Widgets) {
-
     Widgets.HeadingsGroup = Widgets.Group(Widgets.TextCategory, 'default-text-headings', 'Headings');
     Widgets.BlocksGroup = Widgets.Group(Widgets.TextCategory, 'default-text-blocks', 'Blocks');
 
@@ -3240,612 +3234,9 @@ window.Widgets =
 
 (function($, Vue, Core, Widgets) {
 
-    Vue.component('default-button', {
-        template: '#default-button',
-        mixins: [ Core.WidgetMixin ],
-    });
+    Widgets.UtilGroup = Widgets.Group(Widgets.UtilCategory, 'default-util-group', 'Util Elements');
 
 })(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core, Widgets) {
-
-    Widgets.ButtonWidget =
-    Widgets.Widget(Widgets.ButtonsGroup, Widgets.create({
-        name: 'default-button',
-        tag: 'default-button',
-        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
-        props: [
-            { name: 'title', title: 'Title', type: 'string', tab: 'content' },
-            { name: 'type', title: 'Type', type: 'string', tab: 'data' },
-            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
-        ],
-    }));
-
-    Widgets.ButtonWidgetFactory = function(title, stereotype) {
-
-        var w = Widgets.build(Widgets.ButtonWidget, {
-            inner: {
-                value:  {
-                    margin: { value: '15px 15px' },
-                }
-            },
-            type: { value: 'button' },
-            title: { value: title },
-            stereotype: { value: stereotype },
-        });
-
-        return w;
-    }
-
-    Widgets.Item(Widgets.ButtonsGroup, {
-        name: 'button-default',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-default.png',
-        widget: Widgets.ButtonWidgetFactory('Default', 'default'),
-    });
-
-    Widgets.Item(Widgets.ButtonsGroup, {
-        name: 'button-primary',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-primary.png',
-        widget: Widgets.ButtonWidgetFactory('Primary', 'primary'),
-    });
-
-    Widgets.Item(Widgets.ButtonsGroup, {
-        name: 'button-success',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-success.png',
-        widget: Widgets.ButtonWidgetFactory('Success', 'success'),
-    });
-
-    Widgets.Item(Widgets.ButtonsGroup, {
-        name: 'button-info',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-info.png',
-        widget: Widgets.ButtonWidgetFactory('Info', 'info'),
-    });
-
-    Widgets.Item(Widgets.ButtonsGroup, {
-        name: 'button-warning',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-warning.png',
-        widget: Widgets.ButtonWidgetFactory('Warning', 'warning'),
-    });
-
-    Widgets.Item(Widgets.ButtonsGroup, {
-        name: 'button-danger',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-danger.png',
-        widget: Widgets.ButtonWidgetFactory('Danger', 'danger'),
-    });
-
-})(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core) {
-
-    Vue.component('default-check', {
-        template: '#default-check',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-})(jQuery, Vue, Core);
-
-(function($, Vue, Core, Widgets) {
-
-    Widgets.CheckWidget =
-    Widgets.Widget(Widgets.ChecksGroup, Widgets.create({
-        name: 'default-check',
-        tag: 'default-check',
-        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
-        props: [
-            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
-            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
-            {
-                name: 'items', type: 'multiple', title: 'Items', tab: 'data',
-                tabs: [
-                    { name: 'data', title: 'Data' },
-                ],
-                props: [
-                    { name: 'value', title: 'Value', type: 'string', tab: 'data' },
-                    { name: 'label', title: 'Label', type: 'string', tab: 'data' },
-                ]
-            },
-        ],
-    }));
-
-    Widgets.CheckWidgetFactory = function(stereotype, value, options) {
-
-        return Widgets.build(Widgets.CheckWidget, {
-            model: {
-                value: { value: value }
-            },
-            inner: {
-                value: {
-                    margin: { value: '15px 15px' },
-                }
-            },
-            stereotype: { value: stereotype },
-            items: {
-                value: options.map(function(option) {
-                    return {
-                        value: { value: option.value },
-                        label: { value: option.label },
-                    };
-                })
-            }
-        });
-    }
-
-    Widgets.Item(Widgets.ChecksGroup, {
-        name: 'check-default',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-default.png',
-        widget: Widgets.CheckWidgetFactory('default', [ 'A', 'B' ], [
-            { value: 'A', label: 'A' },
-            { value: 'B', label: 'B' },
-            { value: 'C', label: 'C' },
-        ]),
-    });
-
-    Widgets.Item(Widgets.ChecksGroup, {
-        name: 'check-primary',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-primary.png',
-        widget: Widgets.CheckWidgetFactory('primary', [ 'A', 'B' ], [
-            { value: 'A', label: 'A' },
-            { value: 'B', label: 'B' },
-            { value: 'C', label: 'C' },
-        ]),
-    });
-
-    Widgets.Item(Widgets.ChecksGroup, {
-        name: 'check-success',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-success.png',
-        widget: Widgets.CheckWidgetFactory('success', [ 'A', 'B' ], [
-            { value: 'A', label: 'A' },
-            { value: 'B', label: 'B' },
-            { value: 'C', label: 'C' },
-        ]),
-    });
-
-    Widgets.Item(Widgets.ChecksGroup, {
-        name: 'check-info',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-info.png',
-        widget: Widgets.CheckWidgetFactory('info', [ 'A', 'B' ], [
-            { value: 'A', label: 'A' },
-            { value: 'B', label: 'B' },
-            { value: 'C', label: 'C' },
-        ]),
-    });
-
-    Widgets.Item(Widgets.ChecksGroup, {
-        name: 'check-warning',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-warning.png',
-        widget: Widgets.CheckWidgetFactory('warning', [ 'A', 'B' ], [
-            { value: 'A', label: 'A' },
-            { value: 'B', label: 'B' },
-            { value: 'C', label: 'C' },
-        ]),
-    });
-
-    Widgets.Item(Widgets.ChecksGroup, {
-        name: 'check-danger',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-danger.png',
-        widget: Widgets.CheckWidgetFactory('danger', [ 'A', 'B' ], [
-            { value: 'A', label: 'A' },
-            { value: 'B', label: 'B' },
-            { value: 'C', label: 'C' },
-        ]),
-    });
-
-})(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core) {
-
-    Vue.component('default-input-text', {
-        template: '#default-input-text',
-        mixins: [ Core.WidgetMixin ],
-        created: function() {
-            // console.log('model', this.bindings);
-            // console.log('storage', this.storage.one);
-        }
-    });
-
-    Vue.component('default-input-textarea', {
-        template: '#default-input-textarea',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-    Vue.component('default-input-checkbox', {
-        template: '#default-input-checkbox',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-    Vue.component('default-input-radio', {
-        template: '#default-input-radio',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-})(jQuery, Vue, Core);
-
-(function($, Vue, Core, Widgets) {
-
-    Widgets.InputWidget =
-    Widgets.Widget(Widgets.InputsGroup, Widgets.create({
-        name: 'default-input-text',
-        tag: 'default-input-text',
-        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
-        props: [
-            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
-            { name: 'type', title: 'Type', type: 'string', tab: 'content' },
-            { name: 'label', title: 'Label', type: 'string', tab: 'content' },
-            { name: 'placeholder', title: 'Placeholder', type: 'string', tab: 'content' },
-        ],
-    }));
-
-    Widgets.InputWidgetFactory = function(label, type) {
-
-        return Widgets.build(Widgets.InputWidget, {
-            model: {
-                value: { value: '' }
-            },
-            inner: {
-                value: {
-                    margin: { value: '15px 15px' },
-                }
-            },
-            label: { value: label },
-            type: { value: type },
-        });
-    };
-
-    Widgets.Item(Widgets.InputsGroup, {
-        name: 'input-text',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/text.png',
-        widget: Widgets.InputWidgetFactory('Input', 'text'),
-    });
-
-    Widgets.TextareaWidget =
-    Widgets.Widget(Widgets.InputsGroup, Widgets.create({
-        name: 'default-input-textarea',
-        tag: 'default-input-textarea',
-        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
-        props: [
-            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
-            { name: 'label', title: 'Label', type: 'string', tab: 'data' },
-            { name: 'placeholder', title: 'Placeholder', type: 'string', tab: 'data' },
-        ],
-    }));
-
-    Widgets.TextareaWidgetFactory = function(label, placeholder) {
-
-        return Widgets.build(Widgets.TextareaWidget, {
-            model: {
-                value: { value: '' }
-            },
-            placeholder: { value: placeholder },
-            inner: {
-                value: {
-                    margin: { value: '15px 15px' },
-                }
-            },
-            label: { value: label },
-        });
-    };
-
-    Widgets.Item(Widgets.InputsGroup, {
-        name: 'input-textarea',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/textarea.png',
-        widget: Widgets.TextareaWidgetFactory('Textarea', 'Type message here'),
-    });
-
-    Widgets.RadioInputWidget =
-    Widgets.Widget(Widgets.InputsGroup, Widgets.create({
-        name: 'default-input-radio',
-        tag: 'default-input-radio',
-        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
-        props: [
-            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
-            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
-            {
-                name: 'items', type: 'multiple', title: 'Items', tab: 'data',
-                tabs: [
-                    { name: 'data', title: 'Data' },
-                ],
-                props: [
-                    { name: 'value', title: 'Value', type: 'string', tab: 'data' },
-                    { name: 'label', title: 'Label', type: 'string', tab: 'data' },
-                ]
-            },
-        ],
-    }));
-
-    Widgets.RadioInputWidgetFactory = function(value, options) {
-
-        return Widgets.build(Widgets.RadioInputWidget, {
-            model: {
-                value: { value: value }
-            },
-            inner: {
-                value: {
-                    margin: { value: '15px 15px' },
-                }
-            },
-            items: {
-                value: options.map(function(option) {
-                    return {
-                        value: Widgets.Param(option.value),
-                        label: Widgets.Param(option.label),
-                    };
-                })
-            }
-        });
-    };
-
-    Widgets.Item(Widgets.InputsGroup, {
-        name: 'input-radio',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/radio.png',
-        widget: Widgets.RadioInputWidgetFactory('1', [
-            { value: '1', label: 'First' },
-            { value: '2', label: 'Second' },
-        ]),
-    });
-
-    Widgets.CheckInputWidget =
-    Widgets.Widget(Widgets.InputsGroup, Widgets.create({
-        name: 'default-input-checkbox',
-        tag: 'default-input-checkbox',
-        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
-        props: [
-            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
-            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
-            {
-                name: 'items', type: 'multiple', title: 'Items', tab: 'data',
-                tabs: [
-                    { name: 'data', title: 'Data' },
-                ],
-                props: [
-                    { name: 'value', title: 'Value', type: 'string', tab: 'data' },
-                    { name: 'label', title: 'Label', type: 'string', tab: 'data' },
-                ]
-            },
-        ],
-    }));
-
-    Widgets.CheckInputWidgetFactory = function(value, options) {
-
-        return Widgets.build(Widgets.CheckInputWidget, {
-            model: {
-                value: { value: value }
-            },
-            inner: {
-                value: {
-                    margin: { value: '15px 15px' },
-                }
-            },
-            items: {
-                value: options.map(function(option) {
-                    return {
-                        value: Widgets.Param(option.value),
-                        label: Widgets.Param(option.label),
-                    };
-                })
-            }
-        });
-    };
-
-    Widgets.Item(Widgets.InputsGroup, {
-        name: 'input-check',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/checkbox.png',
-        widget: Widgets.CheckInputWidgetFactory([ '1' ], [
-            { value: '1', label: 'First' },
-            { value: '2', label: 'Second' },
-        ]),
-    });
-
-})(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core, Widgets) {
-
-    Widgets.RadioWidget =
-    Widgets.Widget(Widgets.RadiosGroup, Widgets.create({
-        name: 'default-radio',
-        tag: 'default-radio',
-        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
-        props: [
-            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
-            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
-            {
-                name: 'items', type: 'multiple', title: 'Items', tab: 'data',
-                tabs: [
-                    { name: 'data', title: 'Data' },
-                ],
-                props: [
-                    { name: 'value', title: 'Value', type: 'string', tab: 'data' },
-                    { name: 'label', title: 'Label', type: 'string', tab: 'data' },
-                ]
-            },
-        ],
-    }));
-
-    Widgets.RadioWidgetFactory = function(stereotype, value, options) {
-
-        return Widgets.build(Widgets.RadioWidget, {
-            model: {
-                value: { value: value }
-            },
-            inner: {
-                value: {
-                    margin: { value: '15px 15px' },
-                }
-            },
-            stereotype: { value: stereotype },
-            items: {
-                value: options.map(function(option) {
-                    return {
-                        value: { value: option.value },
-                        label: { value: option.label },
-                    };
-                })
-            }
-        });
-    };
-
-    Widgets.Item(Widgets.RadiosGroup, {
-        name: 'radio-default',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-default.png',
-        widget: Widgets.RadioWidgetFactory('default', '1', [
-            { value: '1', label: 'On' },
-            { value: '0', label: 'Off' },
-        ]),
-    });
-
-    Widgets.Item(Widgets.RadiosGroup, {
-        name: 'radio-primary',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-primary.png',
-        widget: Widgets.RadioWidgetFactory('primary', '1', [
-            { value: '1', label: 'On' },
-            { value: '0', label: 'Off' },
-        ]),
-    });
-
-    Widgets.Item(Widgets.RadiosGroup, {
-        name: 'radio-success',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-success.png',
-        widget: Widgets.RadioWidgetFactory('success', '1', [
-            { value: '1', label: 'On' },
-            { value: '0', label: 'Off' },
-        ]),
-    });
-
-    Widgets.Item(Widgets.RadiosGroup, {
-        name: 'radio-info',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-info.png',
-        widget: Widgets.RadioWidgetFactory('info', '1', [
-            { value: '1', label: 'On' },
-            { value: '0', label: 'Off' },
-        ]),
-    });
-
-    Widgets.Item(Widgets.RadiosGroup, {
-        name: 'radio-warning',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-warning.png',
-        widget: Widgets.RadioWidgetFactory('warning', '1', [
-            { value: '1', label: 'On' },
-            { value: '0', label: 'Off' },
-        ]),
-    });
-
-    Widgets.Item(Widgets.RadiosGroup, {
-        name: 'radio-danger',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-danger.png',
-        widget: Widgets.RadioWidgetFactory('danger', '1', [
-            { value: '1', label: 'On' },
-            { value: '0', label: 'Off' },
-        ]),
-    });
-
-})(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core) {
-
-    Vue.component('default-radio', {
-        template: '#default-radio',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-})(jQuery, Vue, Core);
-
-(function($, Vue, Core, Widgets) {
-
-    Widgets.StackCanvasWidget =
-    Widgets.Widget(Widgets.StackGroup, Widgets.create({
-        name: 'default-stack-canvas',
-        tag: 'default-stack-canvas',
-        mixins: [ Widgets.CanvasMixin, Widgets.SizeMixin ],
-        widgets: [],
-    }));
-
-    Widgets.Item(Widgets.StackGroup, {
-        hidden: true,
-        name: 'stack-canvas',
-        widget: Widgets.build(Widgets.StackCanvasWidget),
-    });
-
-    Widgets.StackHorizontalWidget =
-    Widgets.Widget(Widgets.StackGroup, Widgets.create({
-        name: 'default-stack-horizontal',
-        tag: 'default-stack-horizontal',
-        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
-        widgets: [],
-        props: [
-            { name: 'spacing', title: 'Border Spacing', type: 'string', tab: 'appearance' },
-            { name: 'collapse', title: 'Border Collapse', type: 'string', tab: 'appearance' },
-        ],
-    }));
-
-    Widgets.Item(Widgets.StackGroup, {
-        name: 'stack-horizontal',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-horizontal.png',
-        widget: Widgets.build(Widgets.StackHorizontalWidget),
-    });
-
-    Widgets.StackVerticalWidget =
-    Widgets.Widget(Widgets.StackGroup, Widgets.create({
-        name: 'default-stack-vertical',
-        tag: 'default-stack-vertical',
-        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
-        widgets: [],
-        props: [
-            { name: 'spacing', title: 'Border Spacing', type: 'string', tab: 'appearance' },
-            { name: 'collapse', title: 'Border Collapse', type: 'string', tab: 'appearance' },
-        ],
-    }));
-
-    Widgets.Item(Widgets.StackGroup, {
-        name: 'stack-vertical',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-vertical.png',
-        widget: Widgets.build(Widgets.StackVerticalWidget, {}),
-    });
-
-    Widgets.Item(Widgets.StackGroup, {
-        name: 'stack-2columns',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-2columns.png',
-        widget: Widgets.build(Widgets.StackVerticalWidget, {}),
-    });
-
-    Widgets.Item(Widgets.StackGroup, {
-        name: 'stack-3columns',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-3columns.png',
-        widget: Widgets.build(Widgets.StackVerticalWidget, {}),
-    });
-
-    Widgets.Item(Widgets.StackGroup, {
-        name: 'stack-left',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-left.png',
-        widget: Widgets.build(Widgets.StackHorizontalWidget),
-    });
-
-    Widgets.Item(Widgets.StackGroup, {
-        name: 'stack-right',
-        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-right.png',
-        widget: Widgets.build(Widgets.StackHorizontalWidget),
-    });
-
-})(jQuery, Vue, Core, Widgets);
-
-Shell = window.Shell || {};
-
-(function($, Vue, Core, Shell, undefined) {
-
-    Vue.component('default-stack-canvas', {
-        template: '#default-stack-canvas',
-        mixins: [ Core.WidgetMixin, Core.StackedMixin ],
-    });
-
-    Vue.component('default-stack-horizontal', {
-        template: '#default-stack-horizontal',
-        mixins: [ Core.WidgetMixin, Core.StackedMixin ],
-    });
-
-    Vue.component('default-stack-vertical', {
-        template: '#default-stack-vertical',
-        mixins: [ Core.WidgetMixin, Core.StackedMixin ],
-    });
-
-})(jQuery, Vue, Core, Shell);
 
 (function($, Vue, Core) {
 
@@ -4743,6 +4134,504 @@ Shell = window.Shell || {};
 
 (function($, Vue, Core, Widgets) {
 
+    Widgets.StackCanvasWidget =
+    Widgets.Widget(Widgets.StackGroup, Widgets.create({
+        name: 'default-stack-canvas',
+        tag: 'default-stack-canvas',
+        mixins: [ Widgets.CanvasMixin, Widgets.SizeMixin ],
+        widgets: [],
+    }));
+
+    Widgets.Item(Widgets.StackGroup, {
+        hidden: true,
+        name: 'stack-canvas',
+        widget: Widgets.build(Widgets.StackCanvasWidget),
+    });
+
+    Widgets.StackHorizontalWidget =
+    Widgets.Widget(Widgets.StackGroup, Widgets.create({
+        name: 'default-stack-horizontal',
+        tag: 'default-stack-horizontal',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        widgets: [],
+        props: [
+            { name: 'spacing', title: 'Border Spacing', type: 'string', tab: 'appearance' },
+            { name: 'collapse', title: 'Border Collapse', type: 'string', tab: 'appearance' },
+        ],
+    }));
+
+    Widgets.Item(Widgets.StackGroup, {
+        name: 'stack-horizontal',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-horizontal.png',
+        widget: Widgets.build(Widgets.StackHorizontalWidget),
+    });
+
+    Widgets.StackVerticalWidget =
+    Widgets.Widget(Widgets.StackGroup, Widgets.create({
+        name: 'default-stack-vertical',
+        tag: 'default-stack-vertical',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        widgets: [],
+        props: [
+            { name: 'spacing', title: 'Border Spacing', type: 'string', tab: 'appearance' },
+            { name: 'collapse', title: 'Border Collapse', type: 'string', tab: 'appearance' },
+        ],
+    }));
+
+    Widgets.Item(Widgets.StackGroup, {
+        name: 'stack-vertical',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-vertical.png',
+        widget: Widgets.build(Widgets.StackVerticalWidget, {}),
+    });
+
+    Widgets.Item(Widgets.StackGroup, {
+        name: 'stack-2columns',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-2columns.png',
+        widget: Widgets.build(Widgets.StackVerticalWidget, {}),
+    });
+
+    Widgets.Item(Widgets.StackGroup, {
+        name: 'stack-3columns',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-3columns.png',
+        widget: Widgets.build(Widgets.StackVerticalWidget, {}),
+    });
+
+    Widgets.Item(Widgets.StackGroup, {
+        name: 'stack-left',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-left.png',
+        widget: Widgets.build(Widgets.StackHorizontalWidget),
+    });
+
+    Widgets.Item(Widgets.StackGroup, {
+        name: 'stack-right',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/container/stack/stack-right.png',
+        widget: Widgets.build(Widgets.StackHorizontalWidget),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+Shell = window.Shell || {};
+
+(function($, Vue, Core, Shell, undefined) {
+
+    Vue.component('default-stack-canvas', {
+        template: '#default-stack-canvas',
+        mixins: [ Core.WidgetMixin, Core.StackedMixin ],
+    });
+
+    Vue.component('default-stack-horizontal', {
+        template: '#default-stack-horizontal',
+        mixins: [ Core.WidgetMixin, Core.StackedMixin ],
+    });
+
+    Vue.component('default-stack-vertical', {
+        template: '#default-stack-vertical',
+        mixins: [ Core.WidgetMixin, Core.StackedMixin ],
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Widgets) {
+
+    Vue.component('default-button', {
+        template: '#default-button',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.ButtonWidget =
+    Widgets.Widget(Widgets.ButtonsGroup, Widgets.create({
+        name: 'default-button',
+        tag: 'default-button',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'title', title: 'Title', type: 'string', tab: 'content' },
+            { name: 'type', title: 'Type', type: 'string', tab: 'data' },
+            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
+        ],
+    }));
+
+    Widgets.ButtonWidgetFactory = function(title, stereotype) {
+
+        var w = Widgets.build(Widgets.ButtonWidget, {
+            inner: {
+                value:  {
+                    margin: { value: '15px 15px' },
+                }
+            },
+            type: { value: 'button' },
+            title: { value: title },
+            stereotype: { value: stereotype },
+        });
+
+        return w;
+    }
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-default',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-default.png',
+        widget: Widgets.ButtonWidgetFactory('Default', 'default'),
+    });
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-primary',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-primary.png',
+        widget: Widgets.ButtonWidgetFactory('Primary', 'primary'),
+    });
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-success',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-success.png',
+        widget: Widgets.ButtonWidgetFactory('Success', 'success'),
+    });
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-info',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-info.png',
+        widget: Widgets.ButtonWidgetFactory('Info', 'info'),
+    });
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-warning',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-warning.png',
+        widget: Widgets.ButtonWidgetFactory('Warning', 'warning'),
+    });
+
+    Widgets.Item(Widgets.ButtonsGroup, {
+        name: 'button-danger',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/button/button-danger.png',
+        widget: Widgets.ButtonWidgetFactory('Danger', 'danger'),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-check', {
+        template: '#default-check',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.CheckWidget =
+    Widgets.Widget(Widgets.ChecksGroup, Widgets.create({
+        name: 'default-check',
+        tag: 'default-check',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
+            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
+            {
+                name: 'items', type: 'multiple', title: 'Items', tab: 'data',
+                tabs: [
+                    { name: 'data', title: 'Data' },
+                ],
+                props: [
+                    { name: 'value', title: 'Value', type: 'string', tab: 'data' },
+                    { name: 'label', title: 'Label', type: 'string', tab: 'data' },
+                ]
+            },
+        ],
+    }));
+
+    Widgets.CheckWidgetFactory = function(stereotype, value, options) {
+
+        return Widgets.build(Widgets.CheckWidget, {
+            model: {
+                value: { value: value }
+            },
+            inner: {
+                value: {
+                    margin: { value: '15px 15px' },
+                }
+            },
+            stereotype: { value: stereotype },
+            items: {
+                value: options.map(function(option) {
+                    return {
+                        value: { value: option.value },
+                        label: { value: option.label },
+                    };
+                })
+            }
+        });
+    }
+
+    Widgets.Item(Widgets.ChecksGroup, {
+        name: 'check-default',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-default.png',
+        widget: Widgets.CheckWidgetFactory('default', [ 'A', 'B' ], [
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+            { value: 'C', label: 'C' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.ChecksGroup, {
+        name: 'check-primary',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-primary.png',
+        widget: Widgets.CheckWidgetFactory('primary', [ 'A', 'B' ], [
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+            { value: 'C', label: 'C' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.ChecksGroup, {
+        name: 'check-success',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-success.png',
+        widget: Widgets.CheckWidgetFactory('success', [ 'A', 'B' ], [
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+            { value: 'C', label: 'C' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.ChecksGroup, {
+        name: 'check-info',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-info.png',
+        widget: Widgets.CheckWidgetFactory('info', [ 'A', 'B' ], [
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+            { value: 'C', label: 'C' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.ChecksGroup, {
+        name: 'check-warning',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-warning.png',
+        widget: Widgets.CheckWidgetFactory('warning', [ 'A', 'B' ], [
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+            { value: 'C', label: 'C' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.ChecksGroup, {
+        name: 'check-danger',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/check/check-danger.png',
+        widget: Widgets.CheckWidgetFactory('danger', [ 'A', 'B' ], [
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+            { value: 'C', label: 'C' },
+        ]),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-input-text', {
+        template: '#default-input-text',
+        mixins: [ Core.WidgetMixin ],
+        created: function() {
+            // console.log('model', this.bindings);
+            // console.log('storage', this.storage.one);
+        }
+    });
+
+    Vue.component('default-input-textarea', {
+        template: '#default-input-textarea',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+    Vue.component('default-input-checkbox', {
+        template: '#default-input-checkbox',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+    Vue.component('default-input-radio', {
+        template: '#default-input-radio',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.InputWidget =
+    Widgets.Widget(Widgets.InputsGroup, Widgets.create({
+        name: 'default-input-text',
+        tag: 'default-input-text',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
+            { name: 'type', title: 'Type', type: 'string', tab: 'content' },
+            { name: 'label', title: 'Label', type: 'string', tab: 'content' },
+            { name: 'placeholder', title: 'Placeholder', type: 'string', tab: 'content' },
+        ],
+    }));
+
+    Widgets.InputWidgetFactory = function(label, type) {
+
+        return Widgets.build(Widgets.InputWidget, {
+            model: {
+                value: { value: '' }
+            },
+            inner: {
+                value: {
+                    margin: { value: '15px 15px' },
+                }
+            },
+            label: { value: label },
+            type: { value: type },
+        });
+    };
+
+    Widgets.Item(Widgets.InputsGroup, {
+        name: 'input-text',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/text.png',
+        widget: Widgets.InputWidgetFactory('Input', 'text'),
+    });
+
+    Widgets.TextareaWidget =
+    Widgets.Widget(Widgets.InputsGroup, Widgets.create({
+        name: 'default-input-textarea',
+        tag: 'default-input-textarea',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
+            { name: 'label', title: 'Label', type: 'string', tab: 'data' },
+            { name: 'placeholder', title: 'Placeholder', type: 'string', tab: 'data' },
+        ],
+    }));
+
+    Widgets.TextareaWidgetFactory = function(label, placeholder) {
+
+        return Widgets.build(Widgets.TextareaWidget, {
+            model: {
+                value: { value: '' }
+            },
+            placeholder: { value: placeholder },
+            inner: {
+                value: {
+                    margin: { value: '15px 15px' },
+                }
+            },
+            label: { value: label },
+        });
+    };
+
+    Widgets.Item(Widgets.InputsGroup, {
+        name: 'input-textarea',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/textarea.png',
+        widget: Widgets.TextareaWidgetFactory('Textarea', 'Type message here'),
+    });
+
+    Widgets.RadioInputWidget =
+    Widgets.Widget(Widgets.InputsGroup, Widgets.create({
+        name: 'default-input-radio',
+        tag: 'default-input-radio',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
+            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
+            {
+                name: 'items', type: 'multiple', title: 'Items', tab: 'data',
+                tabs: [
+                    { name: 'data', title: 'Data' },
+                ],
+                props: [
+                    { name: 'value', title: 'Value', type: 'string', tab: 'data' },
+                    { name: 'label', title: 'Label', type: 'string', tab: 'data' },
+                ]
+            },
+        ],
+    }));
+
+    Widgets.RadioInputWidgetFactory = function(value, options) {
+
+        return Widgets.build(Widgets.RadioInputWidget, {
+            model: {
+                value: { value: value }
+            },
+            inner: {
+                value: {
+                    margin: { value: '15px 15px' },
+                }
+            },
+            items: {
+                value: options.map(function(option) {
+                    return {
+                        value: Widgets.Param(option.value),
+                        label: Widgets.Param(option.label),
+                    };
+                })
+            }
+        });
+    };
+
+    Widgets.Item(Widgets.InputsGroup, {
+        name: 'input-radio',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/radio.png',
+        widget: Widgets.RadioInputWidgetFactory('1', [
+            { value: '1', label: 'First' },
+            { value: '2', label: 'Second' },
+        ]),
+    });
+
+    Widgets.CheckInputWidget =
+    Widgets.Widget(Widgets.InputsGroup, Widgets.create({
+        name: 'default-input-checkbox',
+        tag: 'default-input-checkbox',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
+            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
+            {
+                name: 'items', type: 'multiple', title: 'Items', tab: 'data',
+                tabs: [
+                    { name: 'data', title: 'Data' },
+                ],
+                props: [
+                    { name: 'value', title: 'Value', type: 'string', tab: 'data' },
+                    { name: 'label', title: 'Label', type: 'string', tab: 'data' },
+                ]
+            },
+        ],
+    }));
+
+    Widgets.CheckInputWidgetFactory = function(value, options) {
+
+        return Widgets.build(Widgets.CheckInputWidget, {
+            model: {
+                value: { value: value }
+            },
+            inner: {
+                value: {
+                    margin: { value: '15px 15px' },
+                }
+            },
+            items: {
+                value: options.map(function(option) {
+                    return {
+                        value: Widgets.Param(option.value),
+                        label: Widgets.Param(option.label),
+                    };
+                })
+            }
+        });
+    };
+
+    Widgets.Item(Widgets.InputsGroup, {
+        name: 'input-check',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/input/checkbox.png',
+        widget: Widgets.CheckInputWidgetFactory([ '1' ], [
+            { value: '1', label: 'First' },
+            { value: '2', label: 'Second' },
+        ]),
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
     Vue.component('default-image', {
         template: '#default-image',
         mixins: [ Core.WidgetMixin ],
@@ -4797,54 +4686,113 @@ Shell = window.Shell || {};
 
 })(jQuery, Vue, Core, Widgets);
 
-(function($, Vue, Core) {
-
-    Vue.component('default-placeholder', {
-        template: '#default-placeholder',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-})(jQuery, Vue, Core);
-
 (function($, Vue, Core, Widgets) {
 
-    Widgets.StubWidget =
-    Widgets.Widget(Widgets.UtilGroup, Widgets.create({
-        _action: 'ignore',
-        name: 'default-stub',
-        tag: 'default-stub',
-        mixins: [ Widgets.BoxMixin ],
+    Widgets.RadioWidget =
+    Widgets.Widget(Widgets.RadiosGroup, Widgets.create({
+        name: 'default-radio',
+        tag: 'default-radio',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
         props: [
-            { name: 'content', type: 'rich' }
+            { name: 'model', title: 'Model', type: 'var', tab: 'data', variable: true },
+            { name: 'stereotype', title: 'Stereotype', type: 'string', tab: 'data' },
+            {
+                name: 'items', type: 'multiple', title: 'Items', tab: 'data',
+                tabs: [
+                    { name: 'data', title: 'Data' },
+                ],
+                props: [
+                    { name: 'value', title: 'Value', type: 'string', tab: 'data' },
+                    { name: 'label', title: 'Label', type: 'string', tab: 'data' },
+                ]
+            },
         ],
     }));
 
-    Widgets.StubWidgetFactory = function(content) {
+    Widgets.RadioWidgetFactory = function(stereotype, value, options) {
 
-        return Widgets.build(Widgets.StubWidget, {
-            content: { value: content },
+        return Widgets.build(Widgets.RadioWidget, {
+            model: {
+                value: { value: value }
+            },
+            inner: {
+                value: {
+                    margin: { value: '15px 15px' },
+                }
+            },
+            stereotype: { value: stereotype },
+            items: {
+                value: options.map(function(option) {
+                    return {
+                        value: { value: option.value },
+                        label: { value: option.label },
+                    };
+                })
+            }
         });
-    }
+    };
+
+    Widgets.Item(Widgets.RadiosGroup, {
+        name: 'radio-default',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-default.png',
+        widget: Widgets.RadioWidgetFactory('default', '1', [
+            { value: '1', label: 'On' },
+            { value: '0', label: 'Off' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.RadiosGroup, {
+        name: 'radio-primary',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-primary.png',
+        widget: Widgets.RadioWidgetFactory('primary', '1', [
+            { value: '1', label: 'On' },
+            { value: '0', label: 'Off' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.RadiosGroup, {
+        name: 'radio-success',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-success.png',
+        widget: Widgets.RadioWidgetFactory('success', '1', [
+            { value: '1', label: 'On' },
+            { value: '0', label: 'Off' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.RadiosGroup, {
+        name: 'radio-info',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-info.png',
+        widget: Widgets.RadioWidgetFactory('info', '1', [
+            { value: '1', label: 'On' },
+            { value: '0', label: 'Off' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.RadiosGroup, {
+        name: 'radio-warning',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-warning.png',
+        widget: Widgets.RadioWidgetFactory('warning', '1', [
+            { value: '1', label: 'On' },
+            { value: '0', label: 'Off' },
+        ]),
+    });
+
+    Widgets.Item(Widgets.RadiosGroup, {
+        name: 'radio-danger',
+        thumbnail: '/assets/vendor/ntr1x-archery-widgets/src/widgets/form/radio/radio-danger.png',
+        widget: Widgets.RadioWidgetFactory('danger', '1', [
+            { value: '1', label: 'On' },
+            { value: '0', label: 'Off' },
+        ]),
+    });
 
 })(jQuery, Vue, Core, Widgets);
 
 (function($, Vue, Core) {
 
-    Vue.component('default-stub', {
-        template: '#default-stub',
+    Vue.component('default-radio', {
+        template: '#default-radio',
         mixins: [ Core.WidgetMixin ],
-    });
-
-})(jQuery, Vue, Core);
-
-(function($, Vue, Core) {
-
-    Vue.component('default-box', {
-        template: '#default-box',
-        props: {
-            bindings: Object,
-            class: String,
-        }
     });
 
 })(jQuery, Vue, Core);
@@ -4988,6 +4936,58 @@ Shell = window.Shell || {};
 
 })(jQuery, Vue, Core);
 
+(function($, Vue, Core) {
+
+    Vue.component('default-box', {
+        template: '#default-box',
+        props: {
+            bindings: Object,
+            class: String,
+        }
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-placeholder', {
+        template: '#default-placeholder',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.StubWidget =
+    Widgets.Widget(Widgets.UtilGroup, Widgets.create({
+        _action: 'ignore',
+        name: 'default-stub',
+        tag: 'default-stub',
+        mixins: [ Widgets.BoxMixin ],
+        props: [
+            { name: 'content', type: 'rich' }
+        ],
+    }));
+
+    Widgets.StubWidgetFactory = function(content) {
+
+        return Widgets.build(Widgets.StubWidget, {
+            content: { value: content },
+        });
+    }
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core) {
+
+    Vue.component('default-stub', {
+        template: '#default-stub',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core);
+
 window.Landing =
 (function($, Vue, Core, Shell) {
 
@@ -5011,7 +5011,6 @@ window.Landing =
 
                     Vue.service('security', Core.SecurityFactory(this));
                     Vue.service('portals', Core.PortalsFactory(this));
-                    Vue.service('publications', Core.PublicationsFactory(this));
                 },
             });
 
@@ -5156,55 +5155,6 @@ window.Landing =
     return Landing;
 
 })(jQuery, Vue, Core, Shell);
-
-(function($, Vue, Core, Shell, Landing) {
-
-    Landing.LandingPage =
-    Vue.component('landing-page', {
-        template: '#landing-page',
-    });
-
-    Landing.LandingGalleryPage =
-    Vue.component('landing-gallery-page', {
-        template: '#landing-gallery-page',
-    });
-
-    Landing.LandingStoragePage =
-    Vue.component('landing-storage-page', {
-        template: '#landing-storage-page',
-    });
-
-    Landing.LandingSigninPage =
-    Vue.component('landing-signin-page', {
-        template: '#landing-signin-page',
-    });
-
-    Landing.LandingSignupPage =
-    Vue.component('landing-signup-page', {
-        template: '#landing-signup-page',
-    });
-
-    Landing.LandingProfilePage =
-    Vue.component('landing-profile-page', {
-        template: '#landing-profile-page',
-    });
-
-    Landing.LandingManagePage =
-    Vue.component('landing-manage-page', {
-        template: '#landing-manage-page',
-    });
-
-    Landing.LandingManageCreatePage =
-    Vue.component('landing-manage-create-page', {
-        template: '#landing-manage-create-page',
-    });
-
-    Landing.LandingManagePublishPage =
-    Vue.component('landing-manage-publish-page', {
-        template: '#landing-manage-publish-page',
-    });
-
-})(jQuery, Vue, Core, Shell, Landing);
 
 (function($, Vue, Core, Shell, Landing) {
 
@@ -5367,6 +5317,55 @@ window.Landing =
 
 (function($, Vue, Core, Shell, Landing) {
 
+    Landing.LandingPage =
+    Vue.component('landing-page', {
+        template: '#landing-page',
+    });
+
+    Landing.LandingGalleryPage =
+    Vue.component('landing-gallery-page', {
+        template: '#landing-gallery-page',
+    });
+
+    Landing.LandingStoragePage =
+    Vue.component('landing-storage-page', {
+        template: '#landing-storage-page',
+    });
+
+    Landing.LandingSigninPage =
+    Vue.component('landing-signin-page', {
+        template: '#landing-signin-page',
+    });
+
+    Landing.LandingSignupPage =
+    Vue.component('landing-signup-page', {
+        template: '#landing-signup-page',
+    });
+
+    Landing.LandingProfilePage =
+    Vue.component('landing-profile-page', {
+        template: '#landing-profile-page',
+    });
+
+    Landing.LandingManagePage =
+    Vue.component('landing-manage-page', {
+        template: '#landing-manage-page',
+    });
+
+    Landing.LandingManageCreatePage =
+    Vue.component('landing-manage-create-page', {
+        template: '#landing-manage-create-page',
+    });
+
+    Landing.LandingManagePublishPage =
+    Vue.component('landing-manage-publish-page', {
+        template: '#landing-manage-publish-page',
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
     var validation = {
         email: "/^([a-zA-Z0-9_\\.\\-]+)@([a-zA-Z0-9_\\.\\-]+)\\.([a-zA-Z0-9]{2,})$/g",
     };
@@ -5461,11 +5460,57 @@ window.Landing =
     Landing.Gallery =
     Vue.component('landing-gallery', {
         template: '#landing-gallery',
+        data: function() {
+            return {
+                portals: this.portals,
+            }
+        },
+        created: function() {
+
+            this.portals = [];
+
+            Vue.service('portals').load({
+                params: {
+                    published: 1,
+                    limit: 3,
+                }
+            }).then(
+                (d) => {
+                    this.portals = d.data.portals;
+                    console.log(this.portals);
+                },
+                (e) => {
+                    console.log(e);
+                }
+            )
+        }
     });
 
     Landing.GalleryFull =
     Vue.component('landing-gallery-full', {
         template: '#landing-gallery-full',
+        data: function() {
+            return {
+                portals: this.portals,
+            }
+        },
+        created: function() {
+
+            this.portals = [];
+
+            Vue.service('portals').load({
+                params: {
+                    published: 1,
+                }
+            }).then(
+                (d) => {
+                    this.portals = d.data.portals;
+                },
+                (e) => {
+                    console.log(e);
+                }
+            )
+        }
     });
 
 })(jQuery, Vue, Core, Shell, Landing);
@@ -5633,6 +5678,15 @@ window.Landing =
 
 (function($, Vue, Core, Shell, Landing) {
 
+    Landing.Super =
+    Vue.component('landing-super', {
+        template: '#landing-super',
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
     Landing.Storage =
     Vue.component('landing-storage', {
         template: '#landing-storage',
@@ -5641,15 +5695,6 @@ window.Landing =
     Landing.StorageFull =
     Vue.component('landing-storage-full', {
         template: '#landing-storage-full',
-    });
-
-})(jQuery, Vue, Core, Shell, Landing);
-
-(function($, Vue, Core, Shell, Landing) {
-
-    Landing.Super =
-    Vue.component('landing-super', {
-        template: '#landing-super',
     });
 
 })(jQuery, Vue, Core, Shell, Landing);

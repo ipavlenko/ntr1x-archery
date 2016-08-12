@@ -1,53 +1,3 @@
-<template id="shell-pages-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Настройки страницы</span>
-                        <span v-if="!original">Новая страница</span>
-                        <span>&gt;</span>
-                        <span v-if="isActive('main')">Основное</span>
-                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
-                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
-                                    <div class="form-group">
-                                        <label for="dialog-page-name">Имя</label>
-                                        <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
-                                    </div>
-                                </div>
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="bindings-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
@@ -254,6 +204,88 @@
 
     <domains-list :items.sync="items"></domains-list>
 
+</template>
+
+<template id="shell-pages-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Настройки страницы</span>
+                        <span v-if="!original">Новая страница</span>
+                        <span>&gt;</span>
+                        <span v-if="isActive('main')">Основное</span>
+                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
+                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
+                                    <div class="form-group">
+                                        <label for="dialog-page-name">Имя</label>
+                                        <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
+                                    </div>
+                                </div>
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="shell-publications-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span>Publish Portal</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="dialog-page-name">Имя</label>
+                                <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </template>
 
 <template id="params-bindings-dialog">
@@ -554,38 +586,6 @@
     </div>
 </template>
 
-<template id="shell-publications-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span>Publish Portal</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label for="dialog-page-name">Имя</label>
-                                <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="schemes-dialog">
 	<div class="ge ge-modal modal modal-center" role="dialog">
 		<div class="modal-dialog modal-lg">
@@ -805,62 +805,6 @@
     </div>
 </template>
 
-<template id="shell-actions">
-    <section class="ge ge-actions">
-        <div class="pull-left">
-            <button type="button" class="btn btn-default" @click="trigger('push')">
-                <span class="glyphicon glyphicon-cloud-upload"></span>
-                <span>Store Changes</span>
-            </button>
-            <button type="button" class="btn btn-default" @click="trigger('pull')">
-                <span class="glyphicon glyphicon-cloud-download"></span>
-                <span>Discard Changes</span>
-            </button>
-            <!--
-            <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ globals.selection.page.name }} - {{ globals.selection.page.title.value }} <span class="caret"></span>
-                </button>
-                <div class="dropdown-menu">
-                    <div class="ge ge-pages-selector">
-                        <div class="ge ge-selector-row" v-for="p in model.pages">
-                            <div class="ge ge-selector-cell ge-cell-page">
-                                <div><a href="">{{ p.name || 'default' }}</a></div>
-                                <div>{{ p.title.value }}</div>
-                            </div>
-                            <div class="ge ge-selector-cell ge-cell-actions">
-                                <button class="btn btn-primary" @click="update">Edit</button>
-                                <button class="btn btn-danger" @click="remove">Remove</button>
-                            </div>
-                        </div>
-                        <div class="ge ge-selector-row" v-for="p in model.pages">
-                            <button class="btn btn-block btn-default" @click="create">+</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            -->
-        </div>
-        <div class="pull-right">
-
-            <button type="button" class="btn btn-default" @click="trigger('zoomIn')">
-                <span class="glyphicon glyphicon-zoom-in"></span>
-                <span>Zoom in</span>
-            </button>
-            <button type="button" class="btn btn-default" @click="trigger('zoomOut')">
-                <span class="glyphicon glyphicon-zoom-out"></span>
-                <span>Zoom out</span>
-            </button>
-
-
-            <!--
-            <button type="button" class="btn btn-default">Page Settings</button>
-            <button type="button" class="btn btn-default">Add Source</button>
-            -->
-        </div>
-    </section>
-</template>
-
 <template id="storages-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
@@ -1008,22 +952,65 @@
 
 </template>
 
-<template id="shell-brand">
-    <section class="ge ge-brand">
-        <a href="#"></a>
+<template id="shell-actions">
+    <section class="ge ge-actions">
+        <div class="pull-left">
+            <button type="button" class="btn btn-default" @click="trigger('push')">
+                <span class="glyphicon glyphicon-cloud-upload"></span>
+                <span>Store Changes</span>
+            </button>
+            <button type="button" class="btn btn-default" @click="trigger('pull')">
+                <span class="glyphicon glyphicon-cloud-download"></span>
+                <span>Discard Changes</span>
+            </button>
+            <!--
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ globals.selection.page.name }} - {{ globals.selection.page.title.value }} <span class="caret"></span>
+                </button>
+                <div class="dropdown-menu">
+                    <div class="ge ge-pages-selector">
+                        <div class="ge ge-selector-row" v-for="p in model.pages">
+                            <div class="ge ge-selector-cell ge-cell-page">
+                                <div><a href="">{{ p.name || 'default' }}</a></div>
+                                <div>{{ p.title.value }}</div>
+                            </div>
+                            <div class="ge ge-selector-cell ge-cell-actions">
+                                <button class="btn btn-primary" @click="update">Edit</button>
+                                <button class="btn btn-danger" @click="remove">Remove</button>
+                            </div>
+                        </div>
+                        <div class="ge ge-selector-row" v-for="p in model.pages">
+                            <button class="btn btn-block btn-default" @click="create">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            -->
+        </div>
+        <div class="pull-right">
+
+            <button type="button" class="btn btn-default" @click="trigger('zoomIn')">
+                <span class="glyphicon glyphicon-zoom-in"></span>
+                <span>Zoom in</span>
+            </button>
+            <button type="button" class="btn btn-default" @click="trigger('zoomOut')">
+                <span class="glyphicon glyphicon-zoom-out"></span>
+                <span>Zoom out</span>
+            </button>
+
+
+            <!--
+            <button type="button" class="btn btn-default">Page Settings</button>
+            <button type="button" class="btn btn-default">Add Source</button>
+            -->
+        </div>
     </section>
 </template>
 
-<template id="shell-categories">
-    <section class="ge ge-categories">
-        <div v-for="category in categories">
-            <h5>
-                <span>{{ category.title }}</span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in category.categories" :class="{ 'active': item == globals.selection.category }"><a href="#" @click="trigger('selectCategory', item)">{{ item.title }}</a></li>
-            </ul>
-        </div>
+<template id="shell-brand">
+    <section class="ge ge-brand">
+        <a href="#"></a>
     </section>
 </template>
 
@@ -1040,27 +1027,16 @@
 
 </template>
 
-<template id="shell-domains">
-    <section class="ge ge-panel ge-domains">
-        <domains :items.sync="domains" :globals.sync="globals" inline-template>
+<template id="shell-categories">
+    <section class="ge ge-categories">
+        <div v-for="category in categories">
             <h5>
-                <span>Domains</span>
-                <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({ title: {} })"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                </span>
+                <span>{{ category.title }}</span>
             </h5>
             <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
-                    <a href="#" @click="trigger('selectDomain', item)">
-                        <span>{{ item.name }}</span>
-                        <span class="ge ge-overlays">
-                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                        </span>
-                    </a>
-                </li>
+                <li v-for="item in category.categories" :class="{ 'active': item == globals.selection.category }"><a href="#" @click="trigger('selectCategory', item)">{{ item.title }}</a></li>
             </ul>
-        </domains>
+        </div>
     </section>
 </template>
 
@@ -1171,6 +1147,30 @@
             </div>
         </div>
     </div>
+</template>
+
+<template id="shell-domains">
+    <section class="ge ge-panel ge-domains">
+        <domains :items.sync="domains" :globals.sync="globals" inline-template>
+            <h5>
+                <span>Domains</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ title: {} })"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
+                    <a href="#" @click="trigger('selectDomain', item)">
+                        <span>{{ item.name }}</span>
+                        <span class="ge ge-overlays">
+                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </domains>
+    </section>
 </template>
 
 <template id="shell-loader">
@@ -1378,6 +1378,12 @@
     </section>
 </template>
 
+<template id="shell-target">
+    <div class="ge ge-target">
+        <span>Drop Here</span>
+    </div>
+</template>
+
 <template id="shell-widget">
     <div class="ge ge-decorator">
         <div
@@ -1392,54 +1398,6 @@
             :editable.sync="editable"
             :items.sync="model.widgets"
         ></div>
-    </div>
-</template>
-
-<template id="shell-target">
-    <div class="ge ge-target">
-        <span>Drop Here</span>
-    </div>
-</template>
-
-<template id="shell-widgets-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                  @submit.prevent="submit"
-                  @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Редактирование виджета</span>
-                        <span v-if="!original">Новый виджет</span>
-                        <span>&gt;</span>
-                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
     </div>
 </template>
 
@@ -1664,6 +1622,48 @@
 
     <pages-sources-list :items.sync="items"></pages-sources-list>
 
+</template>
+
+<template id="shell-widgets-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                  @submit.prevent="submit"
+                  @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Редактирование виджета</span>
+                        <span v-if="!original">Новый виджет</span>
+                        <span>&gt;</span>
+                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </template>
 
 <template id="default-carousel">
@@ -2089,22 +2089,22 @@
     </section>
 </template>
 
-<template id="default-stub">
-    <default-box :bindings.sync="bindings" class="wg wg-default-stub">
-        <div class="wg wg-table">
-            <span class="wg wg-cell">
-                {{{ bindings.content }}}
-            </span>
-        </div>
-    </default-box>
-</template>
-
 <template id="default-placeholder">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
         <div class="wg wg-table" :style="{
             height: bindings.height,
         }">
             <span class="wg wg-cell">{{{ bindings.content }}}</span>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-stub">
+    <default-box :bindings.sync="bindings" class="wg wg-default-stub">
+        <div class="wg wg-table">
+            <span class="wg wg-cell">
+                {{{ bindings.content }}}
+            </span>
         </div>
     </default-box>
 </template>
@@ -2384,196 +2384,16 @@
         <div class="ld ld-container">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-xs-12 col-md-4">
+                    <div class="col-xs-12 col-md-4" v-for="portal in portals">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-inner" :style="{
+                                'background-image': 'url(/uploads/' + portal.publication.thumbnail.dir + '/' + portal.publication.thumbnail.path + ')'
+                            }"></div>
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default btn-lg">Preview</a>
                                         <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default btn-lg">Preview</a>
-                                        <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default btn-lg">Preview</a>
-                                        <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -2598,35 +2418,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12 col-md-4">
+                    <div class="col-xs-12 col-md-4" v-for="portal in portals">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default btn-lg">Preview</a>
-                                        <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default btn-lg">Preview</a>
-                                        <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-inner" :style="{
+                                'background-image': 'url(/uploads/' + portal.publication.thumbnail.dir + '/' + portal.publication.thumbnail.path + ')'
+                            }"></div>
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2668,84 +2464,6 @@
                     <div class="ld ld-offer">
                         <h1>Open your online universe!</h1>
                         <h2>Archery is the Cloud platform to build business friendly online services.</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-<template id="landing-pricing">
-    <div class="ld ld-section ld-pricing">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-hdd"></span> Pricing</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-pricing-offers">
-                            <div class="ld ld-pricing-offer">
-                                <h4>Starter</h4>
-                                <div class="ld ld-offer-price">$10 / month</div>
-                                <div class="ld ld-offer-discount">30% discount for 1 year subscription</div>
-                                <ul class="ld ld-offer-options">
-                                    <li>One portal</li>
-                                    <li>Unlimited number of pages</li>
-                                    <li>500 Mb Storage</li>
-                                </ul>
-                                <div class="ld ld-offer-promo">
-                                    <p>Better suited for personal, event and product pages.</p>
-                                    <a href="#" class="btn btn-primary">Create Portal</a>
-                                </div>
-                            </div>
-                            <div class="ld ld-pricing-offer">
-                                <h4>Business</h4>
-                                <div class="ld ld-offer-price">$100 / month</div>
-                                <div class="ld ld-offer-discount">30% discount for 1 year subscription</div>
-                                <ul class="ld ld-offer-options">
-                                    <li>Up to 10 portals</li>
-                                    <li>Unlimited number of pages</li>
-                                    <li>2 Gb Storage per each portal</li>
-                                </ul>
-                                <div class="ld ld-offer-promo">
-                                    <p>Better suited for small campanies and startups.</p>
-                                    <a href="#" class="btn btn-primary">Create Portal</a>
-                                </div>
-                            </div>
-                            <div class="ld ld-pricing-offer">
-                                <h4>Server</h4>
-                                <div class="ld ld-offer-price">$5000</div>
-                                <div class="ld ld-offer-discount">30% discount for each additional server licence</div>
-                                <ul class="ld ld-offer-options">
-                                    <li>Up to 100 portals</li>
-                                    <li>1 year subscription for updates</li>
-                                    <li>Deploy to your own hardrare</li>
-                                </ul>
-                                <div class="ld ld-offer-promo">
-                                    <p>Better suited for web-developers and service providers.</p>
-                                    <a href="#" class="btn btn-primary">Apply</a>
-                                </div>
-                            </div>
-                            <div class="ld ld-pricing-offer">
-                                <h4>Advanced</h4>
-                                <div class="ld ld-offer-price">Price on request</div>
-                                <div class="ld ld-offer-discount">Do not see a suitable plan? Need a special offer?</div>
-                                <ul class="ld ld-offer-options">
-                                    <li>Branding</li>
-                                    <li>Integrations</li>
-                                    <li>Custom setup</li>
-                                </ul>
-                                <div class="ld ld-offer-promo">
-                                    <p>We are welcome you as a partner. Please mail us.</p>
-                                    <a href="#" class="btn btn-primary">Apply</a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -2867,6 +2585,84 @@
     </div>
 </template>
 
+<template id="landing-pricing">
+    <div class="ld ld-section ld-pricing">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-hdd"></span> Pricing</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-pricing-offers">
+                            <div class="ld ld-pricing-offer">
+                                <h4>Starter</h4>
+                                <div class="ld ld-offer-price">$10 / month</div>
+                                <div class="ld ld-offer-discount">30% discount for 1 year subscription</div>
+                                <ul class="ld ld-offer-options">
+                                    <li>One portal</li>
+                                    <li>Unlimited number of pages</li>
+                                    <li>500 Mb Storage</li>
+                                </ul>
+                                <div class="ld ld-offer-promo">
+                                    <p>Better suited for personal, event and product pages.</p>
+                                    <a href="#" class="btn btn-primary">Create Portal</a>
+                                </div>
+                            </div>
+                            <div class="ld ld-pricing-offer">
+                                <h4>Business</h4>
+                                <div class="ld ld-offer-price">$100 / month</div>
+                                <div class="ld ld-offer-discount">30% discount for 1 year subscription</div>
+                                <ul class="ld ld-offer-options">
+                                    <li>Up to 10 portals</li>
+                                    <li>Unlimited number of pages</li>
+                                    <li>2 Gb Storage per each portal</li>
+                                </ul>
+                                <div class="ld ld-offer-promo">
+                                    <p>Better suited for small campanies and startups.</p>
+                                    <a href="#" class="btn btn-primary">Create Portal</a>
+                                </div>
+                            </div>
+                            <div class="ld ld-pricing-offer">
+                                <h4>Server</h4>
+                                <div class="ld ld-offer-price">$5000</div>
+                                <div class="ld ld-offer-discount">30% discount for each additional server licence</div>
+                                <ul class="ld ld-offer-options">
+                                    <li>Up to 100 portals</li>
+                                    <li>1 year subscription for updates</li>
+                                    <li>Deploy to your own hardrare</li>
+                                </ul>
+                                <div class="ld ld-offer-promo">
+                                    <p>Better suited for web-developers and service providers.</p>
+                                    <a href="#" class="btn btn-primary">Apply</a>
+                                </div>
+                            </div>
+                            <div class="ld ld-pricing-offer">
+                                <h4>Advanced</h4>
+                                <div class="ld ld-offer-price">Price on request</div>
+                                <div class="ld ld-offer-discount">Do not see a suitable plan? Need a special offer?</div>
+                                <ul class="ld ld-offer-options">
+                                    <li>Branding</li>
+                                    <li>Integrations</li>
+                                    <li>Custom setup</li>
+                                </ul>
+                                <div class="ld ld-offer-promo">
+                                    <p>We are welcome you as a partner. Please mail us.</p>
+                                    <a href="#" class="btn btn-primary">Apply</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="landing-storage-full">
     <div class="ld ld-section ld-storage ld-storage-full">
         <div class="ld ld-container">
@@ -2945,6 +2741,44 @@
     </div>
 </template>
 
+<template id="landing-video">
+    <div class="ld ld-section ld-video">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-facetime-video"></span> Video Tutorial</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <div class="ld ld-video">
+                            <iframe width="530" height="260" src="https://www.youtube.com/embed/aqRBN7qvyxs" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="ld ld-message">
+                            <p>
+                                Archery is made to be simple and agile.
+                                No extra skills required, you can start in several clicks.
+                            </p>
+                            <p>
+                                Create project from scratch or use any template from the gallery.
+                                With a little effort you will get a functional online service in a few minutes.
+                            </p>
+                            <p>
+                                You can publish your portal immediately and update it any time you want.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="landing-usecases">
     <div class="ld ld-section ld-usecases">
         <div class="ld ld-container">
@@ -3002,43 +2836,6 @@
     </div>
 </template>
 
-<template id="landing-video">
-    <div class="ld ld-section ld-video">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-facetime-video"></span> Video Tutorial</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-6">
-                        <div class="ld ld-video">
-                            <iframe width="530" height="260" src="https://www.youtube.com/embed/aqRBN7qvyxs" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-6">
-                        <div class="ld ld-message">
-                            <p>
-                                Archery is made to be simple and agile.
-                                No extra skills required, you can start in several clicks.
-                            </p>
-                            <p>
-                                Create project from scratch or use any template from the gallery.
-                                With a little effort you will get a functional online service in a few minutes.
-                            </p>
-                            <p>
-                                You can publish your portal immediately and update it any time you want.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
 
 <template id="academy-footer">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-footer">
@@ -3063,7 +2860,6 @@
         </div>
     </default-box>
 </template>
-
 
 <template id="academy-menu">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-menu">

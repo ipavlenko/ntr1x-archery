@@ -349,51 +349,65 @@ class PortalsController extends Controller {
 
         $view = [];
 
-        if (!empty($principal)) {
+        try {
 
-            $view['principal'] = $principal;
+            $em = $this->getDoctrine()->getManager();
 
-            try {
+            $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$view) {
 
-                $em = $this->getDoctrine()->getManager();
+                $owner = $request->query->get('user');
+                $published = $request->query->get('published');
+                $limit = $request->query->get('limit');
+                $offset = $request->query->get('offset');
 
-                $em->getConnection()->transactional(function($conn) use (&$em, &$principal, &$view) {
+                $builder = $em
+                    ->createQueryBuilder()
+                    ->select('p')
+                    ->from('AppBundle:Portal', 'p')
+                    ->leftJoin('p.publication', 'pb', 'WITH', 'pb.portal = p.id')
+                    ->where('(:user IS NULL OR p.user = :user)')
+                    ->andWhere('(:published IS NULL OR (:published = 1 AND pb.portal IS NOT NULL) OR (:published = 0 AND pb.portal IS NULL))')
+                ;
 
+                $selector = [];
+                if ($owner != null) {
                     $user = $this
                         ->getDoctrine()
                         ->getRepository('AppBundle:User')
                         ->findById($principal->getId())
                     ;
+                }
 
-                    $view['portals'] = $em
-                        ->createQuery('
-                            select partial p.{id, title, user}
-                            FROM AppBundle:Portal p
-                            WHERE p.user = :user
-                        ')
-                        // ->select('p.id', 'p.title', 'IDENTITY(p.user)', 'p.publication')
-                        // ->from('AppBundle:Portal', 'p')
-                        // ->leftJoin('AppBundle:Publication', 'pb')
-                        // ->where('p.user = :user')
-                        // ->orderBy('p.title', 'ASC')
-                        ->setParameter('user', $user)
-                        // ->getQuery()
-                        ->getResult()
-                    ;
-                });
+                $builder->setParameter(':user', $owner == null
+                    ? null
+                    : $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:User')
+                        ->findById($owner)
+                );
 
-                $response->setStatusCode(Response::HTTP_OK);
+                $published = $published == null ? null : (int) $published;
+                $builder->setParameter(':published', $published);
 
-            } catch (\Exception $e) {
-                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-                $view['error'] = [
-                    'message' => 'Internal server error',
-                    'message2' => $e->getMessage(),
-                ];
-            }
+                if ($limit != null) {
+                    $builder->setMaxResults($limit);
+                }
 
-        } else {
-            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+                if ($offset != null) {
+                    $builder->setFirstResult($offset);
+                }
+                
+                $view['portals'] = $builder->getQuery()->getResult();
+            });
+
+            $response->setStatusCode(Response::HTTP_OK);
+
+        } catch (\Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $view['error'] = [
+                'message' => 'Internal server error',
+                'message2' => $e->getMessage(),
+            ];
         }
 
         $serializer = $this->container->get('jms_serializer');
