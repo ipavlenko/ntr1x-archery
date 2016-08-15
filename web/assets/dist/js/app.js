@@ -1030,14 +1030,6 @@ window.Core =
 
 })(jQuery, Core);
 
-(function($, Core) {
-
-    Vue.validator('email', function (val) {
-      return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(val)
-    });
-
-})(jQuery, Core);
-
 (function($, Vue, Core) {
 
     Vue.use({
@@ -1053,6 +1045,14 @@ window.Core =
         }
     });
 })(jQuery, Vue, Core);
+
+(function($, Core) {
+
+    Vue.validator('email', function (val) {
+      return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(val)
+    });
+
+})(jQuery, Core);
 
 window.Shell =
 (function($, Vue, Core) {
@@ -1133,53 +1133,6 @@ window.Shell =
     });
 
 })(Vue, jQuery, Core, Shell);
-
-(function($, Vue, Core, Shell) {
-
-    var PagesModalEditor = Shell.Pages.ModalEditor =
-    Vue.component('shell-pages-dialog', {
-        template: '#shell-pages-dialog',
-        mixins: [ Core.ModalEditorMixin, Core.TabsMixin('main') ],
-        created: function() {
-
-            var items = [];
-
-            for (var i = 0; i < this.context.widget.props.length; i++) {
-
-                var prop = this.context.widget.props[i];
-                var param = this.current.root.params[prop.name];
-
-                var item = {
-                    prop: prop,
-                    param: param,
-                };
-
-                items.push(item);
-            }
-
-            this.items = items;
-        },
-        data: function() {
-            return {
-                context: this.context,
-                items: this.items,
-            };
-        },
-        methods: {
-
-            hasProps: function(tab) {
-                if (this.context.widget && this.context.widget.props) {
-                    for (var i = 0; i < this.context.widget.props.length; i++) {
-                        var prop = this.context.widget.props[i];
-                        if (prop.tab == tab) return true;
-                    }
-                }
-                return false;
-            }
-        },
-    });
-
-})(jQuery, Vue, Core, Shell);
 
 (function(Vue, $, Core, Shell) {
 
@@ -1466,6 +1419,94 @@ window.Shell =
 
 })(jQuery, Vue, Core, Shell);
 
+(function($, Vue, Core, Shell) {
+
+    var PagesModalEditor = Shell.Pages.ModalEditor =
+    Vue.component('shell-pages-dialog', {
+        template: '#shell-pages-dialog',
+        mixins: [ Core.ModalEditorMixin, Core.TabsMixin('main') ],
+        created: function() {
+
+            var items = [];
+
+            for (var i = 0; i < this.context.widget.props.length; i++) {
+
+                var prop = this.context.widget.props[i];
+                var param = this.current.root.params[prop.name];
+
+                var item = {
+                    prop: prop,
+                    param: param,
+                };
+
+                items.push(item);
+            }
+
+            this.items = items;
+        },
+        data: function() {
+            return {
+                context: this.context,
+                items: this.items,
+            };
+        },
+        methods: {
+
+            hasProps: function(tab) {
+                if (this.context.widget && this.context.widget.props) {
+                    for (var i = 0; i < this.context.widget.props.length; i++) {
+                        var prop = this.context.widget.props[i];
+                        if (prop.tab == tab) return true;
+                    }
+                }
+                return false;
+            }
+        },
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function(Vue, $, Core, Shell) {
+
+    var ListViewer =
+    Vue.component('schemes-list', {
+        template: '#schemes-list',
+        mixins: [Core.ListViewerMixin],
+    });
+
+    var ModalEditor =
+    Vue.component('schemes-dialog', {
+        template: '#schemes-dialog',
+        mixins: [Core.ModalEditorMixin, Core.TabsMixin('main')],
+    });
+
+    var Editor =
+    Vue.component('schemes', {
+        mixins: [Core.EditorMixin(ListViewer, ModalEditor)],
+        template: '#schemes',
+    });
+
+
+    var SettingsListViewer =
+    Vue.component('schemes-settings-list', {
+        template: '#schemes-settings-list',
+        mixins: [Core.ListViewerMixin],
+    });
+
+    var SettingsModalEditor =
+    Vue.component('schemes-settings-dialog', {
+        template: '#schemes-settings-dialog',
+        mixins: [Core.ModalEditorMixin],
+    });
+
+    var SettingsEditor =
+    Vue.component('schemes-settings', {
+        mixins: [Core.EditorMixin(SettingsListViewer, SettingsModalEditor)],
+        template: '#schemes-settings',
+    });
+
+})(Vue, jQuery, Core, Shell);
+
 (function(Vue, $, Core, Shell) {
 
     var ModalEditor =
@@ -1508,46 +1549,25 @@ window.Shell =
 
 })(Vue, jQuery, Core, Shell);
 
-(function(Vue, $, Core, Shell) {
+(function($, Vue, Core, Shell) {
 
-    var ListViewer =
-    Vue.component('schemes-list', {
-        template: '#schemes-list',
-        mixins: [Core.ListViewerMixin],
+    Vue.component('shell-actions', {
+        template: '#shell-actions',
+        props: {
+            model: Object,
+            globals: Object,
+            // category: Object,
+            // domain: Object,
+            // page: Object
+        },
+        methods: {
+            trigger: function(event, item, context) {
+                this.$dispatch(event, { item: item, context: context });
+            },
+        }
     });
 
-    var ModalEditor =
-    Vue.component('schemes-dialog', {
-        template: '#schemes-dialog',
-        mixins: [Core.ModalEditorMixin, Core.TabsMixin('main')],
-    });
-
-    var Editor =
-    Vue.component('schemes', {
-        mixins: [Core.EditorMixin(ListViewer, ModalEditor)],
-        template: '#schemes',
-    });
-
-
-    var SettingsListViewer =
-    Vue.component('schemes-settings-list', {
-        template: '#schemes-settings-list',
-        mixins: [Core.ListViewerMixin],
-    });
-
-    var SettingsModalEditor =
-    Vue.component('schemes-settings-dialog', {
-        template: '#schemes-settings-dialog',
-        mixins: [Core.ModalEditorMixin],
-    });
-
-    var SettingsEditor =
-    Vue.component('schemes-settings', {
-        mixins: [Core.EditorMixin(SettingsListViewer, SettingsModalEditor)],
-        template: '#schemes-settings',
-    });
-
-})(Vue, jQuery, Core, Shell);
+})(jQuery, Vue, Core, Shell);
 
 (function(Vue, $, Core, Shell) {
 
@@ -1596,26 +1616,6 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
-    Vue.component('shell-actions', {
-        template: '#shell-actions',
-        props: {
-            model: Object,
-            globals: Object,
-            // category: Object,
-            // domain: Object,
-            // page: Object
-        },
-        methods: {
-            trigger: function(event, item, context) {
-                this.$dispatch(event, { item: item, context: context });
-            },
-        }
-    });
-
-})(jQuery, Vue, Core, Shell);
-
-(function($, Vue, Core, Shell) {
-
     Vue.component('shell-brand', {
         template: '#shell-brand',
     });
@@ -1635,6 +1635,19 @@ window.Shell =
                 this.$dispatch(event, { item: item, context: context });
             },
         }
+    });
+
+})(jQuery, Vue, Core, Shell);
+
+(function($, Vue, Core, Shell) {
+
+    Vue.component('shell-container', {
+        template: '#shell-container',
+        props: {
+            globals: Object,
+            settings: Object,
+            page: Object,
+        },
     });
 
 })(jQuery, Vue, Core, Shell);
@@ -2181,19 +2194,6 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
-    Vue.component('shell-container', {
-        template: '#shell-container',
-        props: {
-            globals: Object,
-            settings: Object,
-            page: Object,
-        },
-    });
-
-})(jQuery, Vue, Core, Shell);
-
-(function($, Vue, Core, Shell) {
-
     Vue.component('shell-domains', {
         template: '#shell-domains',
         props: {
@@ -2681,10 +2681,10 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
-    Vue.component('shell-storages', {
-        template: '#shell-storages',
+    Vue.component('shell-sources', {
+        template: '#shell-sources',
         props: {
-            storages: Array,
+            sources: Array,
             globals: Object,
         },
     });
@@ -2693,10 +2693,10 @@ window.Shell =
 
 (function($, Vue, Core, Shell) {
 
-    Vue.component('shell-sources', {
-        template: '#shell-sources',
+    Vue.component('shell-storages', {
+        template: '#shell-storages',
         props: {
-            sources: Array,
+            storages: Array,
             globals: Object,
         },
     });
@@ -4632,62 +4632,6 @@ Shell = window.Shell || {};
 
 (function($, Vue, Core, Widgets) {
 
-    Vue.component('default-image', {
-        template: '#default-image',
-        mixins: [ Core.WidgetMixin ],
-    });
-
-})(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core, Widgets) {
-
-    Widgets.ImageWidget =
-    Widgets.Widget(Widgets.ImagesGroup, Widgets.create({
-        name: 'default-image',
-        tag: 'default-image',
-        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
-        props: [
-            { name: 'src', title: 'Source', type: 'string', tab: 'appearance' },
-        ],
-    }));
-
-    Widgets.ImageWidgetFactory = function(url) {
-
-        var w = Widgets.build(Widgets.ImageWidget, {
-            height: { value: '300px' },
-            src: { value: url },
-        });
-
-        return w;
-    }
-
-    var images = [
-        { group: Widgets.AbstractGroup, names: [ 'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8' ] },
-        { group: Widgets.CityGroup, names: [ 'c1', 'c2', 'c3', 'c4', 'c5', 'c6' ] },
-        { group: Widgets.NatureGroup, names: [ 'n1', 'n2', 'n3', 'n4', 'n5', 'n6' ] },
-        { group: Widgets.SpaceGroup, names: [ 's1', 's2', 's3', 's4', 's5', 's6' ] },
-    ];
-
-    for (var i = 0; i < images.length; i++) {
-
-        var settings = images[i];
-
-        for (var j = 0; j < settings.names.length; j++) {
-
-            var name = settings.names[j];
-
-            Widgets.Item(settings.group, {
-                name: name,
-                thumbnail: `/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/120x80/${name}.jpg`,
-                widget: Widgets.ImageWidgetFactory(`/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/1920x1280/${name}.jpg`),
-            });
-        }
-    }
-
-})(jQuery, Vue, Core, Widgets);
-
-(function($, Vue, Core, Widgets) {
-
     Widgets.RadioWidget =
     Widgets.Widget(Widgets.RadiosGroup, Widgets.create({
         name: 'default-radio',
@@ -4796,6 +4740,62 @@ Shell = window.Shell || {};
     });
 
 })(jQuery, Vue, Core);
+
+(function($, Vue, Core, Widgets) {
+
+    Vue.component('default-image', {
+        template: '#default-image',
+        mixins: [ Core.WidgetMixin ],
+    });
+
+})(jQuery, Vue, Core, Widgets);
+
+(function($, Vue, Core, Widgets) {
+
+    Widgets.ImageWidget =
+    Widgets.Widget(Widgets.ImagesGroup, Widgets.create({
+        name: 'default-image',
+        tag: 'default-image',
+        mixins: [ Widgets.WidgetMixin, Widgets.BoxMixin, Widgets.SizeMixin ],
+        props: [
+            { name: 'src', title: 'Source', type: 'string', tab: 'appearance' },
+        ],
+    }));
+
+    Widgets.ImageWidgetFactory = function(url) {
+
+        var w = Widgets.build(Widgets.ImageWidget, {
+            height: { value: '300px' },
+            src: { value: url },
+        });
+
+        return w;
+    }
+
+    var images = [
+        { group: Widgets.AbstractGroup, names: [ 'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8' ] },
+        { group: Widgets.CityGroup, names: [ 'c1', 'c2', 'c3', 'c4', 'c5', 'c6' ] },
+        { group: Widgets.NatureGroup, names: [ 'n1', 'n2', 'n3', 'n4', 'n5', 'n6' ] },
+        { group: Widgets.SpaceGroup, names: [ 's1', 's2', 's3', 's4', 's5', 's6' ] },
+    ];
+
+    for (var i = 0; i < images.length; i++) {
+
+        var settings = images[i];
+
+        for (var j = 0; j < settings.names.length; j++) {
+
+            var name = settings.names[j];
+
+            Widgets.Item(settings.group, {
+                name: name,
+                thumbnail: `/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/120x80/${name}.jpg`,
+                widget: Widgets.ImageWidgetFactory(`/assets/vendor/ntr1x-archery-widgets/src/widgets/images/images/1920x1280/${name}.jpg`),
+            });
+        }
+    }
+
+})(jQuery, Vue, Core, Widgets);
 
 (function($, Vue, Core, Widgets) {
 
@@ -5140,6 +5140,10 @@ window.Landing =
                     component: Landing.LandingManageCreatePage,
                     auth: true,
                 },
+                '/manage/i/:portal/clone': {
+                    component: Landing.LandingManageClonePage,
+                    auth: true,
+                },
                 '/manage/i/:portal/publish': {
                     component: Landing.LandingManagePublishPage,
                     auth: true,
@@ -5355,6 +5359,11 @@ window.Landing =
     Landing.LandingManageCreatePage =
     Vue.component('landing-manage-create-page', {
         template: '#landing-manage-create-page',
+    });
+
+    Landing.LandingManageClonePage =
+    Vue.component('landing-manage-clone-page', {
+        template: '#landing-manage-clone-page',
     });
 
     Landing.LandingManagePublishPage =
@@ -5587,6 +5596,7 @@ window.Landing =
             }
         },
         created: function() {
+
             this.$set('form', {
                 title: null,
             });
@@ -5600,6 +5610,51 @@ window.Landing =
                 .then(
                     (d) => { this.$router.go('/manage')},
                     (e) => { }
+                );
+            },
+        }
+    });
+
+    Landing.ManageClone =
+    Vue.component('landing-manage-clone', {
+        template: '#landing-manage-clone',
+        data: function() {
+            return {
+                form: this.form,
+            }
+        },
+        created: function() {
+
+            Vue.service('portals').get({
+                id: this.$route.params.portal
+            })
+            .then(
+                (d) => {
+
+                    var portal = d.data.portal;
+                    var publication = portal.publication;
+
+                    this.$set('form', {
+                        id: d.data.portal.id,
+                        title: null,
+                        image: publication ? `/uploads/${publication.thumbnail.dir}/${publication.thumbnail.path}` : null,
+                    });
+                },
+                (e) => {
+
+                }
+            );
+        },
+        methods: {
+
+            clone: function() {
+                Vue.service('portals').create({
+                    clone: this.form.id,
+                    title: this.form.title,
+                })
+                .then(
+                    (d) => { this.$router.go('/manage')},
+                    (e) => { console.log(e); }
                 );
             },
         }
@@ -5678,15 +5733,6 @@ window.Landing =
 
 (function($, Vue, Core, Shell, Landing) {
 
-    Landing.Super =
-    Vue.component('landing-super', {
-        template: '#landing-super',
-    });
-
-})(jQuery, Vue, Core, Shell, Landing);
-
-(function($, Vue, Core, Shell, Landing) {
-
     Landing.Storage =
     Vue.component('landing-storage', {
         template: '#landing-storage',
@@ -5695,6 +5741,15 @@ window.Landing =
     Landing.StorageFull =
     Vue.component('landing-storage-full', {
         template: '#landing-storage-full',
+    });
+
+})(jQuery, Vue, Core, Shell, Landing);
+
+(function($, Vue, Core, Shell, Landing) {
+
+    Landing.Super =
+    Vue.component('landing-super', {
+        template: '#landing-super',
     });
 
 })(jQuery, Vue, Core, Shell, Landing);

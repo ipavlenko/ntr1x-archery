@@ -24,12 +24,11 @@ class PortalRepository extends \Doctrine\ORM\EntityRepository
         }
     }
 
-    private function clonePages($source, $target) {
+    public function clonePages($source, $target) {
 
         $em = $this->getEntityManager();
 
-        $pages = $this
-            ->getDoctrine()
+        $pages = $em
             ->getRepository('AppBundle:Page')
             ->findBy([ 'portal' => $source ], [])
         ;
@@ -46,8 +45,8 @@ class PortalRepository extends \Doctrine\ORM\EntityRepository
                 ->setName($rs->getName())
                 ->setPage($pt)
                 ->setParent(null)
-                ->setIndex($ps->getIndex())
-                ->setParams($ps->getParams())
+                ->setIndex($rs->getIndex())
+                ->setParams($rs->getParams())
             ;
 
             $pt->setRoot($rt);

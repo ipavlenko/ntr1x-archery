@@ -36,49 +36,6 @@
 
 {% block templates %}
 {% verbatim %}
-<template id="bindings-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Edit Param</span>
-                        <span v-if="!original">New Param</span>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="bindings-dialog-binding">Binding</label>
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span v-if="getStrategy() == 'eval'">Eval </span>
-                                    <span v-if="getStrategy() != 'eval'">Interpolate </span>
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li :class="{ 'active': getStrategy() == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
-                                    <li :class="{ 'active': getStrategy() != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
-                                </ul>
-                            </div>
-                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding.expression" />
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="domains-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -244,6 +201,49 @@
 
 </template>
 
+<template id="bindings-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Edit Param</span>
+                        <span v-if="!original">New Param</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="bindings-dialog-binding">Binding</label>
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span v-if="getStrategy() == 'eval'">Eval </span>
+                                    <span v-if="getStrategy() != 'eval'">Interpolate </span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li :class="{ 'active': getStrategy() == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
+                                    <li :class="{ 'active': getStrategy() != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
+                                </ul>
+                            </div>
+                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding.expression" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
 <template id="shell-pages-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -281,38 +281,6 @@
                                 <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
                                     <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
-<template id="shell-publications-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span>Publish Portal</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label for="dialog-page-name">Имя</label>
-                                <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
                             </div>
                         </div>
                     </div>
@@ -624,6 +592,92 @@
     </div>
 </template>
 
+<template id="shell-publications-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span>Publish Portal</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="dialog-page-name">Имя</label>
+                                <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="settings-dialog">
+    <div class="ge ge-modal modal modal-center">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span>Настройки сайта</span>
+                        <span>&gt;</span>
+                        <span v-if="isActive('domains')">Домены</span>
+                        <span v-if="isActive('pages')">Страницы</span>
+                        <span v-if="isActive('schemes')">Схемы</span>
+                        <span v-if="isActive('widgets')">Виджеты</span>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li :class="{ 'active': isActive('domains') }"><a href="#" @click="activate('domains')">Домены</a></li>
+                                <li :class="{ 'active': isActive('pages') }"><a href="#" @click="activate('pages')">Страницы</a></li>
+                                <li :class="{ 'active': isActive('schemes') }"><a href="#" @click="activate('schemes')">Схемы</a></li>
+                                <li :class="{ 'active': isActive('widgets') }"><a href="#" @click="activate('widgets')">Виджеты</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="overflow: auto">
+                                <div class="tab-pane" :class="{ 'active': isActive('domains') }">
+                                    <domains :items.sync="current.domains" :globals.sync="globals"></domains>
+                                </div>
+                                <div class="tab-pane" :class="{ 'active': isActive('pages') }">
+                                    <pages :items.sync="current.pages" :globals.sync="globals"></pages>
+                                </div>
+                                <div class="tab-pane" :class="{ 'active': isActive('schemes') }">
+                                    <schemes :items.sync="current.schemes" :globals.sync="globals"></schemes>
+                                </div>
+                                <div class="tab-pane" :class="{ 'active': isActive('widgets') }">
+                                    <widgets :items.sync="current.widgets" :globals.sync="globals"></widgets>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
 <template id="schemes-dialog">
 	<div class="ge ge-modal modal modal-center" role="dialog">
 		<div class="modal-dialog modal-lg">
@@ -789,60 +843,6 @@
 
 </template>
 
-<template id="settings-dialog">
-    <div class="ge ge-modal modal modal-center">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span>Настройки сайта</span>
-                        <span>&gt;</span>
-                        <span v-if="isActive('domains')">Домены</span>
-                        <span v-if="isActive('pages')">Страницы</span>
-                        <span v-if="isActive('schemes')">Схемы</span>
-                        <span v-if="isActive('widgets')">Виджеты</span>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li :class="{ 'active': isActive('domains') }"><a href="#" @click="activate('domains')">Домены</a></li>
-                                <li :class="{ 'active': isActive('pages') }"><a href="#" @click="activate('pages')">Страницы</a></li>
-                                <li :class="{ 'active': isActive('schemes') }"><a href="#" @click="activate('schemes')">Схемы</a></li>
-                                <li :class="{ 'active': isActive('widgets') }"><a href="#" @click="activate('widgets')">Виджеты</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="overflow: auto">
-                                <div class="tab-pane" :class="{ 'active': isActive('domains') }">
-                                    <domains :items.sync="current.domains" :globals.sync="globals"></domains>
-                                </div>
-                                <div class="tab-pane" :class="{ 'active': isActive('pages') }">
-                                    <pages :items.sync="current.pages" :globals.sync="globals"></pages>
-                                </div>
-                                <div class="tab-pane" :class="{ 'active': isActive('schemes') }">
-                                    <schemes :items.sync="current.schemes" :globals.sync="globals"></schemes>
-                                </div>
-                                <div class="tab-pane" :class="{ 'active': isActive('widgets') }">
-                                    <widgets :items.sync="current.widgets" :globals.sync="globals"></widgets>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="storages-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
@@ -990,6 +990,12 @@
 
 </template>
 
+<template id="shell-brand">
+    <section class="ge ge-brand">
+        <a href="#"></a>
+    </section>
+</template>
+
 <template id="shell-actions">
     <section class="ge ge-actions">
         <div class="pull-left">
@@ -1046,9 +1052,16 @@
     </section>
 </template>
 
-<template id="shell-brand">
-    <section class="ge ge-brand">
-        <a href="#"></a>
+<template id="shell-categories">
+    <section class="ge ge-categories">
+        <div v-for="category in categories">
+            <h5>
+                <span>{{ category.title }}</span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in category.categories" :class="{ 'active': item == globals.selection.category }"><a href="#" @click="trigger('selectCategory', item)">{{ item.title }}</a></li>
+            </ul>
+        </div>
     </section>
 </template>
 
@@ -1063,19 +1076,6 @@
         ></shell-page>
     </section>
 
-</template>
-
-<template id="shell-categories">
-    <section class="ge ge-categories">
-        <div v-for="category in categories">
-            <h5>
-                <span>{{ category.title }}</span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in category.categories" :class="{ 'active': item == globals.selection.category }"><a href="#" @click="trigger('selectCategory', item)">{{ item.title }}</a></li>
-            </ul>
-        </div>
-    </section>
 </template>
 
 <template id="shell-decorator-canvas">
@@ -1368,30 +1368,6 @@
     </div>
 </template>
 
-<template id="shell-sources">
-    <section class="ge ge-panel ge-sources">
-        <pages-sources :items.sync="sources" :globals.sync="globals" inline-template>
-            <h5>
-                <span>Sources</span>
-                <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({ schema: 'petstore', method: 'GET', params: [] })"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                </span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.source }">
-                    <a href="#" @click="trigger('selectSource', item)">
-                        <span>{{ item.name }}</span>
-                        <span class="ge ge-overlays">
-                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </pages-sources>
-    </section>
-</template>
-
 <template id="shell-storages">
     <section class="ge ge-panel ge-storages">
         <storages :items.sync="storages" :globals.sync="globals" inline-template>
@@ -1413,6 +1389,30 @@
                 </li>
             </ul>
         </storages>
+    </section>
+</template>
+
+<template id="shell-sources">
+    <section class="ge ge-panel ge-sources">
+        <pages-sources :items.sync="sources" :globals.sync="globals" inline-template>
+            <h5>
+                <span>Sources</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ schema: 'petstore', method: 'GET', params: [] })"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.source }">
+                    <a href="#" @click="trigger('selectSource', item)">
+                        <span>{{ item.name }}</span>
+                        <span class="ge ge-overlays">
+                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </pages-sources>
     </section>
 </template>
 
@@ -1704,6 +1704,118 @@
     </div>
 </template>
 
+<template id="default-button">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
+        <div class="form-group">
+            <button type="{{ bindings.type }}" class="btn btn-block" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                }"
+                :style="{
+                    height: bindings.height
+                }"
+            >{{ bindings.title }}</button>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-check">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-check">
+        <div class="btn-group">
+            <label class="btn" v-for="item in bindings.items" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                    'active': bindings.model.value.indexOf(item.value) > -1,
+                }"
+                :style="{
+                    height: bindings.height
+                }"
+            >
+                <input type="checkbox" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
+            </label>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-input-checkbox">
+    <default-box :bindings.sync="bindings" :class="'wg wg-widget wg-default-input-checkbox'">
+        <div class="form-group">
+            <div class="checkbox" v-for="item in bindings.items">
+                <label>
+                    <input type="checkbox" :name="bindings.name" value="{{ item.value }}" v-model="bindings.model.value"> {{ item.label }}
+                </label>
+            </div>
+        </div>
+
+    </default-box>
+</template>
+
+<template id="default-input-radio">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-radio">
+        <div class="form-group">
+            <div class="radio" v-for="item in bindings.items">
+                <label>
+                    <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
+                </label>
+            </div>
+        </div>
+
+    </default-box>
+</template>
+
+<template id="default-input-text">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-text">
+        <div class="form-group">
+            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
+            <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder }}" v-model="bindings.model.value" />
+        </div>
+    </default-box>
+</template>
+
+<template id="default-input-textarea">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-textarea">
+        <div class="form-group">
+            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
+            <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model.value" style="{
+                height: bindings.height
+            }"></textarea>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-radio">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-radio">
+        <div class="btn-group">
+            <label class="btn" v-for="item in bindings.items" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                    'active': bindings.model.value == item.value,
+                }"
+                :style="{
+                    height: bindings.height
+                }"
+            >
+                <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
+            </label>
+        </div>
+    </default-box>
+</template>
+
 <template id="default-carousel">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-carousel'">
             <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
@@ -1961,122 +2073,28 @@
     </section>
 </template>
 
-<template id="default-button">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
-        <div class="form-group">
-            <button type="{{ bindings.type }}" class="btn btn-block" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                }"
-                :style="{
-                    height: bindings.height
-                }"
-            >{{ bindings.title }}</button>
-        </div>
-    </default-box>
-</template>
-
-<template id="default-check">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-check">
-        <div class="btn-group">
-            <label class="btn" v-for="item in bindings.items" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                    'active': bindings.model.value.indexOf(item.value) > -1,
-                }"
-                :style="{
-                    height: bindings.height
-                }"
-            >
-                <input type="checkbox" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
-            </label>
-        </div>
-    </default-box>
-</template>
-
-<template id="default-input-checkbox">
-    <default-box :bindings.sync="bindings" :class="'wg wg-widget wg-default-input-checkbox'">
-        <div class="form-group">
-            <div class="checkbox" v-for="item in bindings.items">
-                <label>
-                    <input type="checkbox" :name="bindings.name" value="{{ item.value }}" v-model="bindings.model.value"> {{ item.label }}
-                </label>
-            </div>
-        </div>
-
-    </default-box>
-</template>
-
-<template id="default-input-radio">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-radio">
-        <div class="form-group">
-            <div class="radio" v-for="item in bindings.items">
-                <label>
-                    <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
-                </label>
-            </div>
-        </div>
-
-    </default-box>
-</template>
-
-<template id="default-input-text">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-text">
-        <div class="form-group">
-            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
-            <input type="{{ bindings.type }}" id="{{ systemId }}-input" class="form-control" placeholder="{{ bindings.placeholder }}" v-model="bindings.model.value" />
-        </div>
-    </default-box>
-</template>
-
-<template id="default-input-textarea">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-textarea">
-        <div class="form-group">
-            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
-            <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model.value" style="{
-                height: bindings.height
-            }"></textarea>
-        </div>
-    </default-box>
-</template>
-
-<template id="default-radio">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-radio">
-        <div class="btn-group">
-            <label class="btn" v-for="item in bindings.items" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                    'active': bindings.model.value == item.value,
-                }"
-                :style="{
-                    height: bindings.height
-                }"
-            >
-                <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
-            </label>
-        </div>
-    </default-box>
-</template>
-
 <template id="default-image">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-image">
         <img :src="bindings.src" />
     </default-box>
+</template>
+
+<template id="default-box">
+    <section :class="class" :id="bindings.id" :style="{
+        'border': bindings.outer.border,
+        'background': bindings.outer.background,
+        'margin': bindings.outer.margin,
+        'padding': bindings.outer.padding,
+    }">
+        <div class="wg wg-content" :style="{
+            'height': bindings.height,
+            'width': bindings.width,
+            'margin': bindings.inner.margin,
+            'padding': bindings.inner.padding,
+            'border': bindings.inner.border,
+            'background': bindings.inner.background,
+        }"><slot>Empty</slot></div>
+    </section>
 </template>
 
 <template id="default-text">
@@ -2109,24 +2127,6 @@
     </section>
 </template>
 
-<template id="default-box">
-    <section :class="class" :id="bindings.id" :style="{
-        'border': bindings.outer.border,
-        'background': bindings.outer.background,
-        'margin': bindings.outer.margin,
-        'padding': bindings.outer.padding,
-    }">
-        <div class="wg wg-content" :style="{
-            'height': bindings.height,
-            'width': bindings.width,
-            'margin': bindings.inner.margin,
-            'padding': bindings.inner.padding,
-            'border': bindings.inner.border,
-            'background': bindings.inner.background,
-        }"><slot>Empty</slot></div>
-    </section>
-</template>
-
 <template id="default-placeholder">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
         <div class="wg wg-table" :style="{
@@ -2152,6 +2152,15 @@
         <landing-super></landing-super>
         <landing-header></landing-header>
         <landing-gallery-full></landing-gallery-full>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-manage-clone-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-manage-clone></landing-manage-clone>
         <landing-footer></landing-footer>
     </div>
 </template>
@@ -2311,18 +2320,6 @@
     </div>
 </template>
 
-<template id="landing-benefits">
-    <div class="ld ld-section ld-benefits">
-        <h3>Benefits</h3>
-    </div>
-</template>
-
-<template id="landing-contacts">
-    <div class="ld ld-section ld-contacts">
-        <h3>Contacts</h3>
-    </div>
-</template>
-
 <template id="landing-feedback">
     <div class="ld ld-section ld-feedback">
         <div class="ld ld-container">
@@ -2401,19 +2398,15 @@
     </div>
 </template>
 
-<template id="landing-footer">
-    <div class="ld ld-section ld-footer">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-copyright">
-                            &copy; 2016 NTR, LLC. Archery Cloud Platform.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<template id="landing-benefits">
+    <div class="ld ld-section ld-benefits">
+        <h3>Benefits</h3>
+    </div>
+</template>
+
+<template id="landing-contacts">
+    <div class="ld ld-section ld-contacts">
+        <h3>Contacts</h3>
     </div>
 </template>
 
@@ -2477,33 +2470,59 @@
     </div>
 </template>
 
-<template id="landing-header">
-    <div class="ld ld-section ld-header">
-        <div class="ld ld-header-affix" v-affix="{ offset: { top: 25 } }">
-            <div class="ld ld-container">
-                <div class="container-fluid">
-                    <div class="row">
-                        <ul class="nav nav-pills pull-right">
-                            <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
-                            <li role="presentation"><a v-link="{ path: '/gallery' }">Gallery</a></li>
-                            <li role="presentation"><a v-link="{ path: '/storage' }">Storage</a></li>
-                            <li v-if="$root.principal == null" role="presentation"><a v-link="{ path: '/signup' }">Register</a></li>
-                            <li v-if="$root.principal == null" role="presentation"><a v-link="{ path: '/signin' }">Sign In</a></li>
-                            <li v-if="$root.principal != null" role="presentation"><a href="#" @click.prevent="signout()">Sign Out</a></li>
-                            <li v-if="$root.principal != null" role="presentation" class="primary"><a v-link="{ path: '/manage' }">Control Panel</a></li>
-                        </ul>
+<template id="landing-footer">
+    <div class="ld ld-section ld-footer">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-copyright">
+                            &copy; 2016 NTR, LLC. Archery Cloud Platform.
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="ld ld-offer">
-                        <h1>Open your online universe!</h1>
-                        <h2>Archery is the Cloud platform to build business friendly online services.</h2>
-                    </div>
-                </div>
+    </div>
+</template>
+
+<template id="landing-manage-clone">
+    <div class="ld ld-section ld-body ld-manage ld-manage-clone">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <validator name="validation">
+                    <form v-if="form" novalidate @submit.prevent="$validation.valid && clone()">
+                        <div class="form-group">
+                            <h3>Create Portal</h3>
+                        </dif>
+                        <div class="form-group" :class="{
+                            'has-error': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
+                            'has-feedback': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="Title" v-model="form.title" v-validate:title="{
+                                required: { rule: true, message: 'Title is a required field' },
+                            }">
+                            <span v-if="$validation.title.dirty && $validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="$validation.title.dirty && $validation.title.required">{{ $validation.title.required }}</div>
+                        </div>
+                        <div class="form-group">
+                            <h4>Template</h4>
+                        </dif>
+                        <div class="form-group">
+                            <div class="ld ld-upload">
+                                <div class="thumbnail ld ld-thumbnail" v-if="form.image">
+                                    <div class="ld ld-thumbnail-inner" :style="{
+                                        'background-image': 'url(' + form.image + ')'
+                                    }">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="$validation.valid" :disabled="">Create</button>
+                        </div>
+                    </form>
+                </validator>
             </div>
         </div>
     </div>
@@ -2596,13 +2615,13 @@
                                 </div>
                                 <div class="ld ld-portal-buttons">
                                     <a class="btn btn-primary" v-if="!portal.publication" :href="'/edit/' + portal.id + '/'">Edit</a>
-                                    <button class="btn btn-default" v-if="portal.publication" v-link="{ path: '/manage/i/' + portal.id + '/clone' }">Clone</button>
+                                    <button class="btn btn-default" v-if="portal.publication" :href="'/view/' + portal.id + '/'">View</button>
                                     <div class="btn-group pull-right">
                                         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
                                             <li><a v-link="{ path: '/manage/i/' + portal.id + '/publish' }">Publish</a></li>
                                             <li><a v-if="portal.publication" @click.prevent="unpublish(portal.id)">Unpublish</a></li>
-                                            <!--<li><a href="#">Clone</a></li>-->
+                                            <li><a v-if="portal.publication" v-link="{ path: '/manage/i/' + portal.id + '/clone' }">Clone</a></li>
                                             <li role="separator" class="divider"></li>
                                             <li><a href="#" @click.prevent="remove(portal.id)">Remove</a></li>
                                         </ul>
@@ -2616,6 +2635,38 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-header">
+    <div class="ld ld-section ld-header">
+        <div class="ld ld-header-affix" v-affix="{ offset: { top: 25 } }">
+            <div class="ld ld-container">
+                <div class="container-fluid">
+                    <div class="row">
+                        <ul class="nav nav-pills pull-right">
+                            <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
+                            <li role="presentation"><a v-link="{ path: '/gallery' }">Gallery</a></li>
+                            <li role="presentation"><a v-link="{ path: '/storage' }">Storage</a></li>
+                            <li v-if="$root.principal == null" role="presentation"><a v-link="{ path: '/signup' }">Register</a></li>
+                            <li v-if="$root.principal == null" role="presentation"><a v-link="{ path: '/signin' }">Sign In</a></li>
+                            <li v-if="$root.principal != null" role="presentation"><a href="#" @click.prevent="signout()">Sign Out</a></li>
+                            <li v-if="$root.principal != null" role="presentation" class="primary"><a v-link="{ path: '/manage' }">Control Panel</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="ld ld-offer">
+                        <h1>Open your online universe!</h1>
+                        <h2>Archery is the Cloud platform to build business friendly online services.</h2>
                     </div>
                 </div>
             </div>
@@ -2761,24 +2812,6 @@
     </div>
 </template>
 
-<template id="landing-super">
-    <div class="ld ld-section ld-super">
-        <div class="ld ld-container">
-            <ul class="nav nav-pills pull-left">
-                <li role="presentation"><a href="#">NTR1X</a></li>
-                <li role="presentation"><a v-link="{ path: '/' }">Archery</a></li>
-                <li role="presentation"><a href="#">Blog</a></li>
-            </ul>
-            <ul class="nav nav-pills pull-right">
-                <li role="presentation"><a href="#">FAQ</a></li>
-                <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
-                <li role="presentation"><a href="#">Contacts</a></li>
-                <li role="presentation"><a href="#">Documentation</a></li>
-            </ul>
-        </div>
-    </div>
-</template>
-
 <template id="landing-video">
     <div class="ld ld-section ld-video">
         <div class="ld ld-container">
@@ -2813,6 +2846,24 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-super">
+    <div class="ld ld-section ld-super">
+        <div class="ld ld-container">
+            <ul class="nav nav-pills pull-left">
+                <li role="presentation"><a href="#">NTR1X</a></li>
+                <li role="presentation"><a v-link="{ path: '/' }">Archery</a></li>
+                <li role="presentation"><a href="#">Blog</a></li>
+            </ul>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation"><a href="#">FAQ</a></li>
+                <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
+                <li role="presentation"><a href="#">Contacts</a></li>
+                <li role="presentation"><a href="#">Documentation</a></li>
+            </ul>
         </div>
     </div>
 </template>
@@ -2874,7 +2925,6 @@
     </div>
 </template>
 
-
 <template id="academy-footer">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-footer">
         <div class="wg wg-footer-table">
@@ -2899,25 +2949,6 @@
     </default-box>
 </template>
 
-<template id="academy-menu">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-menu">
-        <ul class="wg wg-menu-table">
-            <li v-for="item in bindings.items.collection" class="wg wg-table-item" :class="{ 'active': item.active }">
-                <a v-if="item.vlink" v-link="{ path: item.vlink }" :style="{
-                    'margin': item.margin || bindings.items.style.margin,
-                    'padding': item.padding || bindings.items.style.padding,
-                    'background': item.background || bindings.items.style.background,
-                }">{{ item.title }}</a>
-                <a v-if="!item.vlink" :href="item.href" :style="{
-                    'margin': item.margin || bindings.items.style.margin,
-                    'padding': item.padding || bindings.items.style.padding,
-                    'background': item.background || bindings.items.style.background,
-                }"
-                >{{ item.title }}</a>
-            </li>
-        </ul>
-    </default-box>
-</template>
 
 <template id="academy-header">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-header">
@@ -2949,6 +2980,26 @@
                 </div>
             </div>
         </div>
+    </default-box>
+</template>
+
+<template id="academy-menu">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-menu">
+        <ul class="wg wg-menu-table">
+            <li v-for="item in bindings.items.collection" class="wg wg-table-item" :class="{ 'active': item.active }">
+                <a v-if="item.vlink" v-link="{ path: item.vlink }" :style="{
+                    'margin': item.margin || bindings.items.style.margin,
+                    'padding': item.padding || bindings.items.style.padding,
+                    'background': item.background || bindings.items.style.background,
+                }">{{ item.title }}</a>
+                <a v-if="!item.vlink" :href="item.href" :style="{
+                    'margin': item.margin || bindings.items.style.margin,
+                    'padding': item.padding || bindings.items.style.padding,
+                    'background': item.background || bindings.items.style.background,
+                }"
+                >{{ item.title }}</a>
+            </li>
+        </ul>
     </default-box>
 </template>
 

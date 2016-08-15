@@ -76,7 +76,7 @@ class PortalsController extends Controller {
                         $source = $this
                             ->getDoctrine()
                             ->getRepository('AppBundle:Portal')
-                            ->findOneBy([ 'id' => $clone->getId() ])
+                            ->findOneBy([ 'id' => $clone ])
                         ;
 
                         if ($source->getPublication() != null || $user->getId() == $source->getUser()->getId()) {
