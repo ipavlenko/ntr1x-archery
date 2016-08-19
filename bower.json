@@ -15,22 +15,52 @@
     "tests"
   ],
   "dependencies": {
+    "jquery": "^3.1.0",
     "bootstrap": "^3.3.6",
-    "eonasdan-bootstrap-datetimepicker": "latest",
-    "moment": "latest",
+    "font-awesome": "^4.6.3",
     "bootstrap-combobox": "latest",
-    "ckeditor": "#full/4.5.7",
     "bootstrap-tagsinput": "^0.8.0",
-    "seiyria-bootstrap-slider": "latest",
-    "vue": "^1.0.21",
+    "ckeditor": "#full/4.5.7",
     "select2": "^4.0.2",
-    "select2-bootstrap-theme": "^0.1.0-beta.4",
-    "requirejs": "^2.2.0",
-    "text": "requirejs-text#^2.0.14",
-    "lodash": "^4.8.2",
+    "select2-bootstrap-theme": "^0.1.0-beta.8",
+    "perfect-scrollbar": "^0.6.11",
     "jsonpath-plus": "*",
-    "jquery-ui": "^1.11.4",
-    "Sortable": "^1.4.2",
-    "axios": "^0.11.0"
+    "vue": "latest",
+    "vue-validator": "latest",
+    "vue-resource": "latest",
+    "vue-router": "latest"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/js/bootstrap.js",
+        "dist/css/bootstrap.css",
+        "dist/css/bootstrap-theme.css"
+      ]
+    },
+    "ckeditor": {
+      "main": []
+    },
+    "font-awesome": {
+      "main": [
+        "css/font-awesome.css"
+      ]
+    },
+    "jsonpath-plus": {
+      "main": [
+        "lib/jsonpath.js"
+      ]
+    },
+    "perfect-scrollbar": {
+      "main": [
+        "js/perfect-scrollbar.jquery.js",
+        "css/perfect-scrollbar.css"
+      ]
+    },
+    "vue-validator": {
+      "main": [
+        "dist/vue-validator.js"
+      ]
+    }
   }
 }

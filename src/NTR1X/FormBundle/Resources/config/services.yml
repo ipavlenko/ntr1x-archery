@@ -1,4 +1,0 @@
-services:
-#    ntr1_x_form.example:
-#        class: NTR1X\FormBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]

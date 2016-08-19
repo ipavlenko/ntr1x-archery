@@ -1,9 +1,0 @@
-<template id="default-nav-vertical">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-nav wg-default-nav-vertical', bindings.stereotype">
-        <ul class="nav nav-pills nav-stacked wg-default-nav wg-default-nav-vertical wg-default-nav-vertical-nav">
-            <li v-for="item in bindings.items" role="presentation" :class="{ 'active': item.value == bindings.active }">
-                <a href="#" href="{{ item.url }}" @click="setActive(item.value)">{{{ item.title }}}</a>
-            </li>
-        </ul>
-    </default-box>
-</template>

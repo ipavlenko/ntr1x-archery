@@ -1,8 +1,0 @@
-all:
-    level: 2
-    scripts:
-        - 'dist/scripts.js'
-    styles:
-        - 'dist/styles.css'
-    templates:
-        - 'dist/templates.htm'

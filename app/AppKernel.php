@@ -18,16 +18,6 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new AppBundle\AppBundle(),
-            new NTR1X\MediaBundle\NTR1XMediaBundle(),
-            new NTR1X\OfferBundle\NTR1XOfferBundle(),
-            new NTR1X\FormBundle\NTR1XFormBundle(),
-            new NTR1X\UploadBundle\NTR1XUploadBundle(),
-            new NTR1X\SearchBundle\NTR1XSearchBundle(),
-            new NTR1X\ApplyBundle\NTR1XApplyBundle(),
-            new NTR1X\LayoutBundle\NTR1XLayoutBundle(),
-            new NTR1X\ControlsBundle\NTR1XControlsBundle(),
-            new NTR1X\DefaultBundle\NTR1XDefaultBundle(),
-            new NTR1X\MgaBundle\NTR1XMgaBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
