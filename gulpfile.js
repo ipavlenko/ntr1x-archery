@@ -110,13 +110,24 @@ gulp.task('dev-images', function(cb) {
 })
 
 gulp.task('build', function(cb) {
-    streamqueue(
-        { objectMode: true },
-        gulp.src(['app/Resources/views-src/landing.html.twig']).pipe(fileinclude({ prefix: '@@', basepath: '@file' })).pipe(gulp.dest('app/Resources/views/')),
-        gulp.src(['app/Resources/views-src/designer.html.twig']).pipe(fileinclude({ prefix: '@@', basepath: '@file' })).pipe(gulp.dest('app/Resources/views/'))
-    )
+
+    gulp
+        .src([
+            'app/Resources/views-src/designer.html.twig',
+            'app/Resources/views-src/landing.html.twig'
+        ])
+        .pipe(fileinclude({ prefix: '@@', basepath: '@file' }))
+        .pipe(gulp.dest('app/Resources/views/'))
         .on('end', cb)
     ;
+
+    // streamqueue(
+    //     { objectMode: true },
+    //     // gulp.src(['app/Resources/views-src/landing.html.twig']).pipe(fileinclude({ prefix: '@@', basepath: '@file' })).pipe(gulp.dest('app/Resources/views/')),
+    //
+    // )
+    //     .on('end', cb)
+    // ;
 })
 
 gulp.task('default', [

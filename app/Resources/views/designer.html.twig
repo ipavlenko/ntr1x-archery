@@ -79,56 +79,6 @@
     </div>
 </template>
 
-<template id="shell-pages-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Настройки страницы</span>
-                        <span v-if="!original">Новая страница</span>
-                        <span>&gt;</span>
-                        <span v-if="isActive('main')">Основное</span>
-                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
-                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
-                                    <div class="form-group">
-                                        <label for="dialog-page-name">Имя</label>
-                                        <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
-                                    </div>
-                                </div>
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="domains-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -292,6 +242,56 @@
 
     <domains-list :items.sync="items"></domains-list>
 
+</template>
+
+<template id="shell-pages-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Настройки страницы</span>
+                        <span v-if="!original">Новая страница</span>
+                        <span>&gt;</span>
+                        <span v-if="isActive('main')">Основное</span>
+                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
+                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
+                                    <div class="form-group">
+                                        <label for="dialog-page-name">Имя</label>
+                                        <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
+                                    </div>
+                                </div>
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </template>
 
 <template id="params-bindings-dialog">
@@ -1213,9 +1213,8 @@
 
 <template id="shell-loader">
     <div class="ge ge-shell-loader">
-        <shell-private v-if="portal != null"
-            :settings="settings"
-            :model="portal"
+        <shell-private v-if="model != null"
+            :model="model"
         ></shell-private>
     </div>
 </template>
@@ -2072,26 +2071,6 @@
     </section>
 </template>
 
-<template id="default-button">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
-        <div class="form-group">
-            <button type="{{ bindings.type }}" class="btn btn-block" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                }"
-                :style="{
-                    height: bindings.height
-                }"
-            >{{ bindings.title }}</button>
-        </div>
-    </default-box>
-</template>
-
 <template id="default-check">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-check">
         <div class="btn-group">
@@ -2111,6 +2090,26 @@
             >
                 <input type="checkbox" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
             </label>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-button">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
+        <div class="form-group">
+            <button type="{{ bindings.type }}" class="btn btn-block" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                }"
+                :style="{
+                    height: bindings.height
+                }"
+            >{{ bindings.title }}</button>
         </div>
     </default-box>
 </template>
@@ -2161,12 +2160,6 @@
     </default-box>
 </template>
 
-<template id="default-image">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-image">
-        <img :src="bindings.src" />
-    </default-box>
-</template>
-
 <template id="default-radio">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-radio">
         <div class="btn-group">
@@ -2187,6 +2180,12 @@
                 <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
             </label>
         </div>
+    </default-box>
+</template>
+
+<template id="default-image">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-image">
+        <img :src="bindings.src" />
     </default-box>
 </template>
 
@@ -2263,6 +2262,15 @@
         <landing-super></landing-super>
         <landing-header></landing-header>
         <landing-gallery-full></landing-gallery-full>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-manage-clone-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <landing-manage-clone></landing-manage-clone>
         <landing-footer></landing-footer>
     </div>
 </template>
@@ -2533,196 +2541,16 @@
         <div class="ld ld-container">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-xs-12 col-md-4">
+                    <div class="col-xs-12 col-md-4" v-for="portal in portals">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-inner" :style="{
+                                'background-image': 'url(/uploads/' + portal.publication.thumbnail.dir + '/' + portal.publication.thumbnail.path + ')'
+                            }"></div>
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a href="#" class="btn btn-default btn-lg">Preview</a>
                                         <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default btn-lg">Preview</a>
-                                        <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default btn-lg">Preview</a>
-                                        <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
                                     </div>
                                 </div>
                             </div>
@@ -2747,35 +2575,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12 col-md-4">
+                    <div class="col-xs-12 col-md-4" v-for="portal in portals">
                         <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/1/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default btn-lg">Preview</a>
-                                        <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/2/thumbnail.jpg" />
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a href="#" class="btn btn-default btn-lg">Preview</a>
-                                        <a href="#" class="btn btn-primary btn-lg">Start Editing</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <img src="/assets/vendor/ntr1x-archery-landing/src/landing/gallery/portals/3/thumbnail.jpg" />
+                            <div class="ld ld-thumbnail-inner" :style="{
+                                'background-image': 'url(/uploads/' + portal.publication.thumbnail.dir + '/' + portal.publication.thumbnail.path + ')'
+                            }"></div>
                             <div class="ld ld-thumbnail-overlay">
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
@@ -2824,6 +2628,48 @@
     </div>
 </template>
 
+<template id="landing-manage-clone">
+    <div class="ld ld-section ld-body ld-manage ld-manage-clone">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <validator name="validation">
+                    <form v-if="form" novalidate @submit.prevent="$validation.valid && clone()">
+                        <div class="form-group">
+                            <h3>Create Portal</h3>
+                        </dif>
+                        <div class="form-group" :class="{
+                            'has-error': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
+                            'has-feedback': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="Title" v-model="form.title" v-validate:title="{
+                                required: { rule: true, message: 'Title is a required field' },
+                            }">
+                            <span v-if="$validation.title.dirty && $validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="$validation.title.dirty && $validation.title.required">{{ $validation.title.required }}</div>
+                        </div>
+                        <div class="form-group">
+                            <h4>Template</h4>
+                        </dif>
+                        <div class="form-group">
+                            <div class="ld ld-upload">
+                                <div class="thumbnail ld ld-thumbnail" v-if="form.image">
+                                    <div class="ld ld-thumbnail-inner" :style="{
+                                        'background-image': 'url(' + form.image + ')'
+                                    }">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="$validation.valid" :disabled="">Create</button>
+                        </div>
+                    </form>
+                </validator>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="landing-manage-create">
     <div class="ld ld-section ld-body ld-manage ld-manage-create">
         <div class="ld ld-table">
@@ -2858,7 +2704,7 @@
         <div class="ld ld-table">
             <div class="ld ld-cell">
                 <validator name="validation">
-                    <form novalidate @submit.prevent="$validation.valid && publish()">
+                    <form v-if="form" novalidate @submit.prevent="$validation.valid && publish()">
                         <div class="form-group">
                             <h3>Publish Portal</h3>
                         </dif>
@@ -2874,18 +2720,18 @@
                         </div>
                         <div class="form-group">
                             <div class="ld ld-upload">
-                                <div class="thumbnail ld ld-thumbnail" v-if="image">
+                                <div class="thumbnail ld ld-thumbnail" v-if="form.image">
                                     <div class="ld ld-thumbnail-inner" :style="{
-                                        'background-image': 'url(' + image + ')'
+                                        'background-image': 'url(' + form.image + ')'
                                     }">
                                     </div>
                                 </div>
-                                <div class="btn btn-default btn-block" v-if="!image">Upload Thumbnail</div>
+                                <div class="btn btn-default btn-block" v-if="!form.image">Upload Thumbnail</div>
                                 <input type="file" name="thumbnail" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-lg" v-if="$validation.valid && image">Publish</button>
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="$validation.valid && form.image">Publish</button>
                         </div>
                     </form>
                 </validator>
@@ -2906,16 +2752,18 @@
                         <div class="ld ld-portals">
                             <div class="ld ld-portal" v-for="portal in portals">
                                 <div class="ld ld-portal-data">
-                                    <div class="ld ld-data-title">{{ portal.title }}</div>
-                                    <div class="ld ld-data-ref"><a :href="url + '/view/' + portal.id">{{ url }}/view/{{ portal.id }}</a></div>
+                                    <div class="ld ld-data-title">{{ portal.title }} <span class="label label-success" v-if="portal.publication">Published</span></div>
+                                    <div class="ld ld-data-ref"><a :href="'/view/' + portal.id">/view/{{ portal.id }}</a></div>
                                 </div>
                                 <div class="ld ld-portal-buttons">
-                                    <button class="btn btn-primary" v-link="{ path: '/manage/' + portal.id }">Edit</button>
-                                    <div class="btn-group">
+                                    <a class="btn btn-primary" v-if="!portal.publication" :href="'/edit/' + portal.id + '/'">Edit</a>
+                                    <button class="btn btn-default" v-if="portal.publication" :href="'/view/' + portal.id + '/'">View</button>
+                                    <div class="btn-group pull-right">
                                         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li><a v-link="{ path: '/manage-publish/' + portal.id }">Publish</a></li>
-                                            <li><a href="#">Clone</a></li>
+                                            <li><a v-link="{ path: '/manage/i/' + portal.id + '/publish' }">Publish</a></li>
+                                            <li><a v-if="portal.publication" @click.prevent="unpublish(portal.id)">Unpublish</a></li>
+                                            <li><a v-if="portal.publication" v-link="{ path: '/manage/i/' + portal.id + '/clone' }">Clone</a></li>
                                             <li role="separator" class="divider"></li>
                                             <li><a href="#" @click.prevent="remove(portal.id)">Remove</a></li>
                                         </ul>
@@ -2925,7 +2773,7 @@
                             <div class="ld ld-portal">
                                 <div class="ld ld-portal-buttons">
                                     <a v-link="{ path: '/gallery' }" class="btn btn-primary">Browse Gallery</a>
-                                    <a v-link="{ path: '/manage-create' }" class="btn btn-default">Create Blank</a>
+                                    <a v-link="{ path: '/manage/create' }" class="btn btn-default">Create Blank</a>
                                 </div>
                             </div>
                         </div>
