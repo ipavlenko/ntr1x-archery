@@ -49,11 +49,6 @@ class Portal
      */
     private $settings;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Page", mappedBy="portal", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    private $pages;
-
     public function __construct() {
     }
 
@@ -113,40 +108,6 @@ class Portal
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * Add page
-     *
-     * @param \AppBundle\Entity\Page $page
-     *
-     * @return Portal
-     */
-    public function addPage(\AppBundle\Entity\Page $page)
-    {
-        $this->pages[] = $page;
-
-        return $this;
-    }
-
-    /**
-     * Remove page
-     *
-     * @param \AppBundle\Entity\Page $page
-     */
-    public function removePage(\AppBundle\Entity\Page $page)
-    {
-        $this->pages->removeElement($page);
-    }
-
-    /**
-     * Get pages
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getPages()
-    {
-        return $this->pages;
     }
 
     /**

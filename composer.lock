@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1ed39c3008cb4497f7f754ab50f3d3d9",
-    "content-hash": "692211de518ba4bff0dc752df6a704b1",
+    "hash": "cea8d638755d72913f5a381a1d1339fd",
+    "content-hash": "34da35644f9cb2e06fd9e6da4a0279f6",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -773,6 +773,50 @@
                 "orm"
             ],
             "time": "2016-01-05 21:34:58"
+        },
+        {
+            "name": "eventviva/php-image-resize",
+            "version": "1.5.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eventviva/php-image-resize.git",
+                "reference": "41e2bbc8dbbf43b9a78bf56095e33d5398eeb056"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eventviva/php-image-resize/zipball/41e2bbc8dbbf43b9a78bf56095e33d5398eeb056",
+                "reference": "41e2bbc8dbbf43b9a78bf56095e33d5398eeb056",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aditya Patadia",
+                    "homepage": "http://aditya.patadia.org/"
+                }
+            ],
+            "description": "PHP class to re-size and scale images",
+            "homepage": "https://github.com/eventviva/php-image-resize",
+            "keywords": [
+                "image",
+                "php",
+                "resize",
+                "scale"
+            ],
+            "time": "2016-05-06 08:00:50"
         },
         {
             "name": "incenteev/composer-parameter-handler",

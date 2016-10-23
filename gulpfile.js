@@ -110,12 +110,11 @@ gulp.task('dev-images', function(cb) {
 })
 
 gulp.task('build', function(cb) {
-    gulp.src(['app/Resources/views-src/public.html.twig'])
-        .pipe(fileinclude({
-            prefix: '@@',
-            basepath: '@file'
-        }))
-        .pipe(gulp.dest('app/Resources/views/'))
+    streamqueue(
+        { objectMode: true },
+        gulp.src(['app/Resources/views-src/landing.html.twig']).pipe(fileinclude({ prefix: '@@', basepath: '@file' })).pipe(gulp.dest('app/Resources/views/')),
+        gulp.src(['app/Resources/views-src/designer.html.twig']).pipe(fileinclude({ prefix: '@@', basepath: '@file' })).pipe(gulp.dest('app/Resources/views/'))
+    )
         .on('end', cb)
     ;
 })
@@ -162,6 +161,7 @@ gulp.task('watch', function() {
     gulp.watch('../ntr1x-archery-widgets/src/**/*.{jpg,png}', [ 'dev-images' ])
     gulp.watch('../ntr1x-archery-widgets-academy/src/**/*.{jpg,png}', [ 'dev-images' ])
 
-    gulp.watch('app/Resources/views-src/public.html.twig', [ 'build' ])
+    gulp.watch('app/Resources/views-src/landing.html.twig', [ 'build' ])
+    gulp.watch('app/Resources/views-src/designer.html.twig', [ 'build' ])
     gulp.watch('web/assets/dist/htm/app.htm', [ 'build' ])
 })

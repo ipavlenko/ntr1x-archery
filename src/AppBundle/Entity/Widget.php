@@ -31,14 +31,14 @@ class Widget
 	private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Page", inversedBy="widgets")
-     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=true)
+     * @ORM\OneToOne(targetEntity="Page", inversedBy="root")
+     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $page;
 
     /**
      * @ORM\ManyToOne(targetEntity="Widget", inversedBy="widgets")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $parent;
 

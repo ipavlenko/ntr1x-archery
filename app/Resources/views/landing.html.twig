@@ -1,3 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}NTR1X Archery{% endblock %}</title>
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic,100,100italic,900,900italic&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic" rel="stylesheet" />
+
+    {% block stylesheets %}
+        <link href="{{ asset('assets/dist/css/vendor.css') }}" rel="stylesheet" />
+        <link href="{{ asset('assets/dist/css/app.css') }}" rel="stylesheet" />
+    {% endblock %}
+
+    {% block javascripts %}
+        <script src="{{ asset('assets/dist/js/vendor.js') }}"></script>
+        <script src="{{ asset('assets/dist/js/app.js') }}"></script>
+        <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}" async></script>
+    {% endblock %}
+</head>
+<body
+    data-vue-landing
+    data-principal="{{ principal | serialize('json') }}"
+>
+
+{% verbatim %}
+    <div data-vue-body>
+        <router-view
+            :principal.sync="principal"
+        ></router-view>
+    </div>
+{% endverbatim %}
+
+{% block templates %}
+{% verbatim %}
 <template id="bindings-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
@@ -3299,3 +3335,9 @@
         </ul>
     </default-box>
 </template>
+
+{% endverbatim %}
+{% endblock %}
+
+</body>
+</html>

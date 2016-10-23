@@ -35,7 +35,7 @@ class Publication
     /**
      * @var integer
      *
-     * @ORM\Column(name="order", type="integer", nullable=true)
+     * @ORM\Column(name="`order`", type="integer", nullable=true)
      */
     private $order;
 
@@ -47,8 +47,9 @@ class Publication
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="Portal", inversedBy="publication")
+     * @ORM\OneToOne(targetEntity="Portal", inversedBy="publication", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="portal_id", referencedColumnName="id", nullable=false)
+     * @JMS\Exclude
      */
     private $portal;
 
@@ -63,4 +64,133 @@ class Publication
     public function __construct() {
     }
 
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Publication
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set order
+     *
+     * @param integer $order
+     *
+     * @return Publication
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Publication
+     */
+    public function setUser(\AppBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set portal
+     *
+     * @param \AppBundle\Entity\Portal $portal
+     *
+     * @return Publication
+     */
+    public function setPortal(\AppBundle\Entity\Portal $portal)
+    {
+        $this->portal = $portal;
+
+        return $this;
+    }
+
+    /**
+     * Get portal
+     *
+     * @return \AppBundle\Entity\Portal
+     */
+    public function getPortal()
+    {
+        return $this->portal;
+    }
+
+    /**
+     * Set thumbnail
+     *
+     * @param \AppBundle\Entity\Upload $thumbnail
+     *
+     * @return Publication
+     */
+    public function setThumbnail(\AppBundle\Entity\Upload $thumbnail = null)
+    {
+        $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    /**
+     * Get thumbnail
+     *
+     * @return \AppBundle\Entity\Upload
+     */
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
+    }
 }

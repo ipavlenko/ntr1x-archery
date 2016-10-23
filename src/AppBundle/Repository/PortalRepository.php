@@ -3,6 +3,10 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Portal;
+use AppBundle\Entity\Page;
+use AppBundle\Entity\Widget;
+use AppBundle\Entity\Source;
+use AppBundle\Entity\Storage;
 
 /**
  * PortalRepository
@@ -18,6 +22,71 @@ class PortalRepository extends \Doctrine\ORM\EntityRepository
         foreach ($portals as $data) {
             $this->handlePortal($em, $data);
         }
+    }
+
+    public function clonePages($source, $target) {
+
+        $em = $this->getEntityManager();
+
+        $pages = $em
+            ->getRepository('AppBundle:Page')
+            ->findBy([ 'portal' => $source ], [])
+        ;
+
+        foreach ($pages as $ps) {
+
+            $pt = (new Page())
+                ->setName($ps->getName())
+                ->setPortal($target)
+            ;
+
+            $rs = $ps->getRoot();
+            $rt = (new Widget())
+                ->setName($rs->getName())
+                ->setPage($pt)
+                ->setParent(null)
+                ->setIndex($rs->getIndex())
+                ->setParams($rs->getParams())
+            ;
+
+            $pt->setRoot($rt);
+
+            $em->persist($pt);
+            $em->flush();
+
+            $this->cloneWidgets($em, $rs, $rt);
+            $this->cloneSources($em, $ps, $pt);
+            $this->cloneStorages($em, $ps, $pt);
+
+            $em->flush();
+        }
+
+        $em->flush();
+    }
+
+    private function cloneWidgets($em, $source, $target) {
+
+        foreach($source->getWidgets() as $ws) {
+
+            $wt = (new Widget())
+                ->setName($ws->getName())
+                ->setPage(null)
+                ->setParent($target)
+                ->setIndex($ws->getIndex())
+                ->setParams($ws->getParams())
+            ;
+
+            $em->persist($wt);
+            $em->flush();
+
+            $this->cloneWidgets($em, $ws, $wt);
+        }
+    }
+
+    private function cloneSources($em, $source, $target) {
+    }
+
+    private function cloneStorages($em, $source, $target) {
     }
 
     private function handlePortal($em, $data) {

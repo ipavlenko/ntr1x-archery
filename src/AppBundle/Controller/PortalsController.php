@@ -12,10 +12,14 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use JMS\Serializer\SerializationContext;
 
 use AppBundle\Entity\Portal;
+use AppBundle\Entity\Publication;
+use AppBundle\Entity\Upload;
 use AppBundle\Entity\Page;
 use AppBundle\Entity\Widget;
 use AppBundle\Entity\User;
 use AppBundle\Security\UserPrincipal;
+
+use \Eventviva\ImageResize;
 
 class PortalsController extends Controller {
 
@@ -65,28 +69,53 @@ class PortalsController extends Controller {
                     $em->persist($portal);
                     $em->flush();
 
-                    $page = (new Page())
-                        ->setName('')
-                        ->setPortal($portal)
+                    if (isset($data['clone'])) {
+
+                        $clone = $data['clone'];
+
+                        $source = $this
+                            ->getDoctrine()
+                            ->getRepository('AppBundle:Portal')
+                            ->findOneBy([ 'id' => $clone ])
+                        ;
+
+                        if ($source->getPublication() != null || $user->getId() == $source->getUser()->getId()) {
+
+                            $this
+                                ->getDoctrine()
+                                ->getRepository('AppBundle:Portal')
+                                ->clonePages($source, $portal)
+                            ;
+                        }
+                    } else {
+
+                        $page = (new Page())
+                            ->setName('')
+                            ->setPortal($portal)
+                        ;
+
+                        $root = (new Widget())
+                            ->setName('default-container/default-container-stack/default-stack-canvas')
+                            ->setPage($page)
+                            ->setParent(null)
+                            ->setIndex(0)
+                            ->setParams([
+                                'width' => [ "value" => 1200 ],
+                                'height' => [ "value" => null ],
+                            ])
+                        ;
+
+                        $page->setRoot($root);
+
+                        $em->persist($page);
+                        $em->flush();
+                    }
+
+                    $view['portal'] = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Portal')
+                        ->findOneBy([ 'id' => $portal->getId() ])
                     ;
-
-                    $root = (new Widget())
-                        ->setName('default-container/default-container-stack/default-stack-canvas')
-                        ->setPage($page)
-                        ->setParent(null)
-                        ->setIndex(0)
-                        ->setParams([
-                            'width' => [ "value" => 1200 ],
-                            'height' => [ "value" => null ],
-                        ])
-                    ;
-
-                    $page->setRoot($root);
-
-                    $em->persist($page);
-                    $em->flush();
-
-                    $view['portal'] = $portal;
                 });
 
             } catch (\Exception $e) {
@@ -157,11 +186,20 @@ class PortalsController extends Controller {
 
                     $em->clear();
 
-                    $view['portal'] = $this
+                    $portal = $this
                         ->getDoctrine()
                         ->getRepository('AppBundle:Portal')
                         ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ])
                     ;
+
+                    $pages = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Page')
+                        ->findBy([ 'portal' => $portal ], [])
+                    ;
+
+                    $view['portal'] = $portal;
+                    $view['pages'] = $pages;
 
                     $em->flush();
                 });
@@ -225,7 +263,14 @@ class PortalsController extends Controller {
                         ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ], [])
                     ;
 
+                    $pages = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Page')
+                        ->findBy([ 'portal' => $portal ], [])
+                    ;
+
                     $view['portal'] = $portal;
+                    $view['pages'] = $pages;
                 });
 
             } catch (\Exception $e) {
@@ -287,6 +332,15 @@ class PortalsController extends Controller {
                         ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ])
                     ;
 
+                    $em
+                        ->createQueryBuilder()
+                        ->delete('AppBundle:Page', 'p')
+                        ->where('p.portal = :portal')
+                        ->setParameter('portal', $portal)
+                        ->getQuery()
+                        ->execute()
+                    ;
+
                     $em->remove($portal);
 
                     $em->flush();
@@ -329,40 +383,65 @@ class PortalsController extends Controller {
 
         $view = [];
 
-        if (!empty($principal)) {
+        try {
 
-            $view['principal'] = $principal;
+            $em = $this->getDoctrine()->getManager();
 
-            try {
+            $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$view) {
 
-                $em = $this->getDoctrine()->getManager();
+                $owner = $request->query->get('user');
+                $published = $request->query->get('published');
+                $limit = $request->query->get('limit');
+                $offset = $request->query->get('offset');
 
-                $em->getConnection()->transactional(function($conn) use (&$em, &$principal, &$view) {
+                $builder = $em
+                    ->createQueryBuilder()
+                    ->select('p')
+                    ->from('AppBundle:Portal', 'p')
+                    ->leftJoin('p.publication', 'pb', 'WITH', 'pb.portal = p.id')
+                    ->where('(:user IS NULL OR p.user = :user)')
+                    ->andWhere('(:published IS NULL OR (:published = 1 AND pb.portal IS NOT NULL) OR (:published = 0 AND pb.portal IS NULL))')
+                ;
 
+                $selector = [];
+                if ($owner != null) {
                     $user = $this
                         ->getDoctrine()
                         ->getRepository('AppBundle:User')
                         ->findById($principal->getId())
                     ;
+                }
 
-                    $view['portals'] = $this
+                $builder->setParameter(':user', $owner == null
+                    ? null
+                    : $this
                         ->getDoctrine()
-                        ->getRepository('AppBundle:Portal')
-                        ->findBy([ 'user' => $user ], ['title' => 'asc'])
-                    ;
-                });
+                        ->getRepository('AppBundle:User')
+                        ->findById($owner)
+                );
 
-                $response->setStatusCode(Response::HTTP_OK);
+                $published = $published == null ? null : (int) $published;
+                $builder->setParameter(':published', $published);
 
-            } catch (\Exception $e) {
-                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-                $view['error'] = [
-                    'message' => 'Internal server error',
-                ];
-            }
+                if ($limit != null) {
+                    $builder->setMaxResults($limit);
+                }
 
-        } else {
-            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+                if ($offset != null) {
+                    $builder->setFirstResult($offset);
+                }
+
+                $view['portals'] = $builder->getQuery()->getResult();
+            });
+
+            $response->setStatusCode(Response::HTTP_OK);
+
+        } catch (\Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $view['error'] = [
+                'message' => 'Internal server error',
+                'message2' => $e->getMessage(),
+            ];
         }
 
         $serializer = $this->container->get('jms_serializer');
@@ -392,4 +471,171 @@ class PortalsController extends Controller {
         return $this->render('public.html.twig', $view);
     }
 
+    /**
+     * @Route("/ws/portals/{id}/publication", name = "portals-unpublish")
+     * @Method({"DELETE"})
+     */
+    public function wsPortalsUnpublishAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $view = [];
+
+        $serializer = $this->container->get('jms_serializer');
+
+        $response = new Response();
+
+        $principal = $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')
+            ? $this->get('security.token_storage')->getToken()->getUser()
+            : null
+        ;
+
+        if (!empty($principal)) {
+
+            try {
+
+                $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$serializer, &$principal) {
+
+                    $user = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:User')
+                        ->find($principal->getId())
+                    ;
+
+                    $portal = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Portal')
+                        ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ])
+                    ;
+
+                    $em->remove($portal->getPublication());
+
+                    $em->flush();
+                });
+
+            } catch (\Exception $e) {
+
+                $view['error'] = [
+                    'message' => 'Internal server error',
+                    'message2' => $e->getMessage(),
+                ];
+
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $response->setStatusCode(Response::HTTP_OK);
+
+        } else {
+
+            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+        }
+
+        $response->setContent($serializer->serialize($view, 'json', $this->context));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/ws/portals/{id}/publication", name="portals-publish")
+     * @Method({"POST"})
+     */
+    public function wsPortalsPublishAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $view = [];
+
+        $serializer = $this->container->get('jms_serializer');
+
+        $response = new Response();
+
+        $principal = $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')
+            ? $this->get('security.token_storage')->getToken()->getUser()
+            : null
+        ;
+
+        if (!empty($principal)) {
+
+            try {
+
+                $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$serializer, &$principal, &$view) {
+
+                    $user = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:User')
+                        ->find($principal->getId())
+                    ;
+
+                    $portal = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Portal')
+                        ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ])
+                    ;
+
+                    $publication = $portal->getPublication();
+
+                    $upload = $request->files->get('thumbnail');
+
+                    if ($upload) {
+
+                        if ($publication != null) {
+                            $em->remove($publication->getThumbnail());
+                        }
+
+                        $image = new ImageResize($upload->getRealPath());
+                        $image->crop(360, 195);
+                        $image->save($upload->getRealPath());
+                    }
+
+                    $publication = ($publication == null ? new Publication() : $publication);
+                    $publication
+                        ->setPortal($portal)
+                        ->setTitle($request->request->get('title'))
+                        ->setUser($user)
+                    ;
+
+                    if ($upload) {
+
+                        $publication->setThumbnail(
+                            (new Upload())
+                                ->setDir('publications/thumbnails')
+                                ->setFile($upload)
+                        );
+                    }
+
+                    $em->persist($publication);
+                    $em->flush();
+
+                    $em->clear();
+
+                    $view['publication'] = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Publication')
+                        ->findOneBy([ 'id' => $publication->getId() ])
+                    ;
+
+                    $em->flush();
+                });
+
+            } catch (\Exception $e) {
+
+                $view['error'] = [
+                    'message' => 'Internal server error',
+                    'message2' => mb_convert_encoding($e->getMessage(), "UTF-8"),
+                ];
+
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $response->setStatusCode(Response::HTTP_OK);
+
+        } else {
+
+            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+        }
+
+        $response->setContent($serializer->serialize($view, 'json', $this->context));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }

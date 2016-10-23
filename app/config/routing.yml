@@ -8,11 +8,6 @@ portals:
     type:       annotation
     prefix:     /
 
-publications:
-    resource:   "@AppBundle/Controller/PublicationsController.php"
-    type:       annotation
-    prefix:     /
-
 default:
     resource:   "@AppBundle/Controller/DefaultController.php"
     type:       annotation
