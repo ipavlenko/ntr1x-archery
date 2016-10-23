@@ -28,7 +28,9 @@
     "vue": "latest",
     "vue-validator": "latest",
     "vue-resource": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "url-template": "^2.0.8",
+    "urijs": "uri.js#^1.18.2"
   },
   "overrides": {
     "bootstrap": {
@@ -60,6 +62,11 @@
     "vue-validator": {
       "main": [
         "dist/vue-validator.js"
+      ]
+    },
+    "url-template": {
+      "main": [
+        "lib/url-template.js"
       ]
     }
   }

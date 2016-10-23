@@ -11,35 +11,40 @@ var lib = require('bower-files')();
 
 var debug = false;
 
-gulp.task('vendor-scripts', function() {
-    return gulp.src(lib.ext('js').files)
+gulp.task('vendor-scripts', function(cb) {
+    gulp.src(lib.ext('js').files)
         .pipe(sourcemaps.init())
         .pipe(concat('vendor.js'))
         .pipe(gulpif(!debug, uglify()))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('web/assets/dist/js/'))
+        .on('end', cb)
+    ;
 })
 
-gulp.task('vendor-styles', function() {
-    return gulp.src(lib.ext('css').files)
+gulp.task('vendor-styles', function(cb) {
+    gulp.src(lib.ext('css').files)
         .pipe(sourcemaps.init())
         .pipe(cleancss())
         .pipe(concat('vendor.css'))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('web/assets/dist/css/'));
-})
-
-gulp.task('vendor-fonts', function() {
-    return gulp.src([
-        'web/assets/vendor/bootstrap/dist/fonts/**/*',
-        'web/assets/vendor/font-awesome/fonts/**/*'
-    ])
-        .pipe(gulp.dest('web/assets/dist/fonts/'));
+        .pipe(gulp.dest('web/assets/dist/css/'))
+        .on('end', cb)
     ;
 })
 
-gulp.task('dev-scripts', function() {
-    return streamqueue(
+gulp.task('vendor-fonts', function(cb) {
+    gulp.src([
+        'web/assets/vendor/bootstrap/dist/fonts/**/*',
+        'web/assets/vendor/font-awesome/fonts/**/*'
+    ])
+        .pipe(gulp.dest('web/assets/dist/fonts/'))
+        .on('end', cb)
+    ;
+})
+
+gulp.task('dev-scripts', function(cb) {
+    streamqueue(
         { objectMode: true },
         gulp.src([ '../ntr1x-archery-core/src/**/*.js' ]),
         gulp.src([ '../ntr1x-archery-shell/src/**/*.js' ]),
@@ -49,14 +54,15 @@ gulp.task('dev-scripts', function() {
     )
         .pipe(sourcemaps.init())
         .pipe(concat('app.js'))
-        .pipe(gulpif(!debug, babel()))
+        .pipe(babel())
         .pipe(gulpif(!debug, uglify()))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('web/assets/dist/js/'))
+        .on('end', cb)
 })
 
-gulp.task('dev-styles', function() {
-    return streamqueue(
+gulp.task('dev-styles', function(cb) {
+    streamqueue(
         { objectMode: true },
         gulp.src([ '../ntr1x-archery-core/src/**/*.css' ]),
         gulp.src([ '../ntr1x-archery-shell/src/**/*.css' ]),
@@ -68,11 +74,13 @@ gulp.task('dev-styles', function() {
         .pipe(cleancss())
         .pipe(concat('app.css'))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('web/assets/dist/css/'));
+        .pipe(gulp.dest('web/assets/dist/css/'))
+        .on('end', cb)
+    ;
 })
 
-gulp.task('dev-templates', function() {
-    return streamqueue(
+gulp.task('dev-templates', function(cb) {
+    streamqueue(
         { objectMode: true },
         gulp.src([ '../ntr1x-archery-core/src/**/*.htm' ]),
         gulp.src([ '../ntr1x-archery-shell/src/**/*.htm' ]),
@@ -83,27 +91,33 @@ gulp.task('dev-templates', function() {
         .pipe(sourcemaps.init())
         .pipe(concat('app.htm'))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('web/assets/dist/htm/'));
+        .pipe(gulp.dest('web/assets/dist/htm/'))
+        .on('end', cb)
+    ;
 })
 
-gulp.task('dev-images', function() {
-    return streamqueue(
+gulp.task('dev-images', function(cb) {
+    streamqueue(
         { objectMode: true },
         gulp.src([ '../ntr1x-archery-core/src/**/*.{jpg,png}' ]).pipe(gulp.dest('web/assets/vendor/ntr1x-archery-core/src/')),
         gulp.src([ '../ntr1x-archery-shell/src/**/*.{jpg,png}' ]).pipe(gulp.dest('web/assets/vendor/ntr1x-archery-shell/src/')),
         gulp.src([ '../ntr1x-archery-widgets/src/**/*.{jpg,png}' ]).pipe(gulp.dest('web/assets/vendor/ntr1x-archery-widgets/src/')),
         gulp.src([ '../ntr1x-archery-landing/src/**/*.{jpg,png}' ]).pipe(gulp.dest('web/assets/vendor/ntr1x-archery-landing/src/')),
         gulp.src([ '../ntr1x-archery-widgets-academy/src/**/*.{jpg,png}' ]).pipe(gulp.dest('web/assets/vendor/ntr1x-archery-widgets-academy/src/'))
-    );
+    )
+        .on('end', cb)
+    ;
 })
 
-gulp.task('build', function() {
-    return gulp.src(['app/Resources/views-src/public.html.twig'])
+gulp.task('build', function(cb) {
+    gulp.src(['app/Resources/views-src/public.html.twig'])
         .pipe(fileinclude({
             prefix: '@@',
             basepath: '@file'
         }))
-        .pipe(gulp.dest('app/Resources/views/'));
+        .pipe(gulp.dest('app/Resources/views/'))
+        .on('end', cb)
+    ;
 })
 
 gulp.task('default', [
@@ -114,7 +128,7 @@ gulp.task('default', [
     'dev-styles',
     'dev-templates',
     'dev-images',
-], function() {
+], function(cb) {
     gulp.start('build')
 })
 
