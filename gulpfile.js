@@ -120,14 +120,6 @@ gulp.task('build', function(cb) {
         .pipe(gulp.dest('app/Resources/views/'))
         .on('end', cb)
     ;
-
-    // streamqueue(
-    //     { objectMode: true },
-    //     // gulp.src(['app/Resources/views-src/landing.html.twig']).pipe(fileinclude({ prefix: '@@', basepath: '@file' })).pipe(gulp.dest('app/Resources/views/')),
-    //
-    // )
-    //     .on('end', cb)
-    // ;
 })
 
 gulp.task('default', [
