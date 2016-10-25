@@ -30,7 +30,8 @@
     "vue-resource": "latest",
     "vue-router": "latest",
     "url-template": "^2.0.8",
-    "urijs": "uri.js#^1.18.2"
+    "urijs": "uri.js#^1.18.2",
+    "lodash": "^4.16.4"
   },
   "overrides": {
     "bootstrap": {
@@ -67,6 +68,11 @@
     "url-template": {
       "main": [
         "lib/url-template.js"
+      ]
+    },
+    "lodash": {
+      "main": [
+        "dist/lodash.min.js"
       ]
     }
   }

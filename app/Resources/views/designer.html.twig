@@ -294,6 +294,21 @@
     </div>
 </template>
 
+<template id="params-asis">
+    <div class="ge ge-param form-group" :class="{ 'has-error': this.error }">
+        <div class="ge ge-param-label">
+            <label class="pull-left" for="{{ id }}">{{ item.prop.title }}</label>
+            <div class="pull-right">
+                <params-bindings :model.sync="item.param" :context="{ prop: item.prop }" inline-template>
+                    <button type="button" class="btn btn-xs btn-default" @click="open()">Advanced</button>
+                </params-bindings>
+            </div>
+        </div>
+        <textarea class="form-control" id="{{ id }}" v-model="value"></textarea>
+        <div class="help-block" v-if="error"><b>Error: Cannot parse as JSON</b></div>
+    </div>
+</template>
+
 <template id="params-bindings-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -362,6 +377,10 @@
 <template id="params-list">
     <div>
         <div v-for="item in items" v-if="item.prop.tab == tab">
+            <params-asis v-if="item.prop.type == 'asis'" :id="'pages-widgets-dialog-props-' + $index"
+                :item.sync="item"
+                :globals.sync="globals"
+            ></params-asis>
             <params-variable v-if="item.prop.type == 'var'" :id="'pages-widgets-dialog-props-' + $index"
                 :item.sync="item"
                 :globals.sync="globals"
@@ -456,9 +475,9 @@
                     <th>
                         <div class="pull-right">
                             <a class="btn btn-xs btn-primary" @click="create({}, { prop: prop })">Add</a>
-                            <params-bindings :model.sync="param" :context="{ prop: prop }" inline-template>
+                            <params-proto :model.sync="param" :context="{ prop: prop }" inline-template>
                                 <a class="btn btn-xs btn-default" @click="open()">Advanced</a>
-                            </params-bindings>
+                            </params-proto>
                         </div>
                     </th>
                 </tr>
@@ -499,6 +518,71 @@
             </div>
         </div>
         <div class="form-control"><span class="label label-success">Object</span></div>
+    </div>
+</template>
+
+<template id="params-proto-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Edit Param</span>
+                        <span v-if="!original">New Param</span>
+                        <span>&gt;</span>
+                        <span v-for="tab in context.prop.tabs" v-if="isActive(tab.name)">{{ tab.title }}</span>
+                        <span v-if="isActive('binding')">Binding</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li v-for="tab in context.prop.tabs" :class="{ 'active': isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                                <li :class="{ 'active': isActive('binding') }"><a href="#" @click="activate('binding')">Binding</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div class="tab-pane" :class="{ 'active': isActive('binding') }">
+                                    <div class="form-group">
+                                        <label for="proto-dialog-binding">Биндинг</label>
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                    <span v-if="getStrategy() == 'eval'">Eval </span>
+                                                    <span v-if="getStrategy() == 'interpolate'">Interpolate </span>
+                                                    <span v-if="getStrategy() == 'wire'">Wire </span>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li :class="{ 'active': getStrategy() == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
+                                                    <li :class="{ 'active': getStrategy() == 'interpolate' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
+                                                    <li v-if="context.prop.variable" :class="{ 'active': getStrategy() == 'wire' }"><a href="#" @click="setStrategy('wire')">Wire</a></li>
+                                                </ul>
+                                            </div>
+                                            <input class="form-control" type="text" id="proto-dialog-binding" v-model="current.binding.expression" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-for="tab in context.prop.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.prop" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -1957,24 +2041,22 @@
 
 <template id="default-table">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-table">
-        <table class="table table-striped">
+        <table class="table table-striped" v-if="
+               bindings.columns
+            && bindings.columns.collection
+            && bindings.columns.collection.length
+            && bindings.rows
+            && bindings.rows.collection
+            && bindings.rows.collection.length"
+        >
             <thead>
                 <tr>
                     <th v-for="column in bindings.columns.collection">{{ column.title }}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td v-for="column in bindings.columns.collection">Cell</td>
-                </tr>
-                <tr>
-                    <td v-for="column in bindings.columns.collection">Cell</td>
-                </tr>
-                <tr>
-                    <td v-for="column in bindings.columns.collection">Cell</td>
-                </tr>
-                <tr>
-                    <td v-for="column in bindings.columns.collection">Cell</td>
+                <tr v-for="row in bindings.rows.collection">
+                    <td v-for="column in bindings.columns.collection">{{ row | get column.name }}</td>
                 </tr>
             </tbody>
         </table>
@@ -2215,24 +2297,6 @@
     </default-box>
 </template>
 
-<template id="default-box">
-    <section :class="class" :id="bindings.id" :style="{
-        'border': bindings.outer.border,
-        'background': bindings.outer.background,
-        'margin': bindings.outer.margin,
-        'padding': bindings.outer.padding,
-    }">
-        <div class="wg wg-content" :style="{
-            'height': bindings.height,
-            'width': bindings.width,
-            'margin': bindings.inner.margin,
-            'padding': bindings.inner.padding,
-            'border': bindings.inner.border,
-            'background': bindings.inner.background,
-        }"><slot>Empty</slot></div>
-    </section>
-</template>
-
 <template id="default-text">
     <section class="wg wg-default-text" :id="bindings.id"
         :class="{
@@ -2260,6 +2324,24 @@
                 'background': bindings.inner.background,
             }"
         >{{{ bindings.content }}}</div>
+    </section>
+</template>
+
+<template id="default-box">
+    <section :class="class" :id="bindings.id" :style="{
+        'border': bindings.outer.border,
+        'background': bindings.outer.background,
+        'margin': bindings.outer.margin,
+        'padding': bindings.outer.padding,
+    }">
+        <div class="wg wg-content" :style="{
+            'height': bindings.height,
+            'width': bindings.width,
+            'margin': bindings.inner.margin,
+            'padding': bindings.inner.padding,
+            'border': bindings.inner.border,
+            'background': bindings.inner.background,
+        }"><slot>Empty</slot></div>
     </section>
 </template>
 
@@ -3121,7 +3203,7 @@
 
 <template id="academy-menu">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-menu">
-        <ul class="wg wg-menu-table">
+        <ul class="wg wg-menu-table" v-if="bindings.items.collection">
             <li v-for="item in bindings.items.collection" class="wg wg-table-item" :class="{ 'active': item.active }">
                 <a v-if="item.vlink" v-link="{ path: item.vlink }" :style="{
                     'margin': item.margin || bindings.items.style.margin,
