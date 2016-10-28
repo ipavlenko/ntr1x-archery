@@ -1456,7 +1456,7 @@
             <h5>
                 <span>Sources</span>
                 <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({ method: 'GET', params: [] })"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                    <span class="ge ge-overlay" @click="create({ method: 'GET', params: [], url: '', name: '' })"><span class="glyphicon glyphicon-plus-sign"></span></span>
                 </span>
             </h5>
             <ul class="nav nav-pills nav-stacked">
@@ -1562,7 +1562,7 @@
                                     <li><a href="#" @click="current.method = 'DELETE'"><span class="label label-danger">DELETE</span></a></li>
                                 </ul>
                             </div>
-                            <input class="form-control" type="text" id="pages-sources-dialog-url" v-model="url" />
+                            <input class="form-control" type="text" id="pages-sources-dialog-url" v-model="current.url" />
                             <div class="input-group-btn">
                                 <pages-sources-setup :model.sync="current" inline-template>-
                                     <button type="button" class="btn btn-default" @click="open({})">...</button>
@@ -1595,7 +1595,7 @@
                 <tr>
                     <th></th>
                     <th style="width: 20%">Имя</th>
-                    <th><a class="btn btn-xs btn-primary" @click="create({ method: 'GET', params: [] })">Добавить</a></th>
+                    <th><a class="btn btn-xs btn-primary" @click="create({ method: 'GET', url: '', name: '', params: [] })">Добавить</a></th>
                 </tr>
             </thead>
             <tbody>
@@ -2238,11 +2238,10 @@
         <div class="form-group">
             <div class="radio" v-for="item in bindings.items">
                 <label>
-                    <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
+                    <input type="radio" :name="bindings.name" value="{{ item.value }}" v-model="bindings.model.value"> {{ item.label }}
                 </label>
             </div>
         </div>
-
     </default-box>
 </template>
 
@@ -3165,7 +3164,6 @@
     </default-box>
 </template>
 
-
 <template id="academy-header">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-header">
         <div class="wg wg-header-table">
@@ -3198,6 +3196,7 @@
         </div>
     </default-box>
 </template>
+
 
 <template id="academy-menu">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-menu">
