@@ -1136,19 +1136,6 @@
     </section>
 </template>
 
-<template id="shell-categories">
-    <section class="ge ge-categories">
-        <div v-for="category in categories">
-            <h5>
-                <span>{{ category.title }}</span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in category.categories" :class="{ 'active': item == globals.selection.category }"><a href="#" @click="trigger('selectCategory', item)">{{ item.title }}</a></li>
-            </ul>
-        </div>
-    </section>
-</template>
-
 <template id="shell-container">
 
     <section class="ge ge-container" v-scrollable>
@@ -1160,6 +1147,19 @@
         ></shell-page>
     </section>
 
+</template>
+
+<template id="shell-categories">
+    <section class="ge ge-categories">
+        <div v-for="category in categories">
+            <h5>
+                <span>{{ category.title }}</span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in category.categories" :class="{ 'active': item == globals.selection.category }"><a href="#" @click="trigger('selectCategory', item)">{{ item.title }}</a></li>
+            </ul>
+        </div>
+    </section>
 </template>
 
 <template id="shell-decorator-canvas">
@@ -1295,11 +1295,19 @@
     </section>
 </template>
 
-<template id="shell-loader">
+<template id="shell-loader-private">
     <div class="ge ge-shell-loader">
         <shell-private v-if="model != null"
             :model="model"
         ></shell-private>
+    </div>
+</template>
+
+<template id="shell-loader-public">
+    <div class="ge ge-shell-loader">
+        <shell-public v-if="model != null"
+            :model="model"
+        ></shell-public>
     </div>
 </template>
 

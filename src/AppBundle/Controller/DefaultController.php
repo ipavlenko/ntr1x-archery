@@ -48,6 +48,31 @@ class DefaultController extends Controller {
     }
 
     /**
+     * @Route("/view/{id}{any}", name = "view", requirements = { "id"="([0-9]+)", "any"="(.*)" })
+     */
+    public function viewAction(Request $request) {
+
+        // TODO $domain = ... Взять его нужно по имени домена, с которого открыт ресурс
+
+        $em = $this->getDoctrine()->getManager();
+
+        $portal = $this
+            ->getDoctrine()
+            ->getRepository('AppBundle:Portal')
+            ->findOneBy([ 'id' => $request->attributes->get('id') ], [])
+        ;
+
+        $view = [
+            'principal' => $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')
+                ? $this->get('security.token_storage')->getToken()->getUser()
+                : null,
+            'portal' => $portal,
+        ];
+
+        return $this->render('viewer.html.twig', $view);
+    }
+
+    /**
      * @Route("{any}", name = "home", requirements = { "any"="(.*)" })
      */
     public function defaultAction(Request $request) {

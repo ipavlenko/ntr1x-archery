@@ -114,7 +114,8 @@ gulp.task('build', function(cb) {
     gulp
         .src([
             'app/Resources/views-src/designer.html.twig',
-            'app/Resources/views-src/landing.html.twig'
+            'app/Resources/views-src/viewer.html.twig',
+            'app/Resources/views-src/landing.html.twig',
         ])
         .pipe(fileinclude({ prefix: '@@', basepath: '@file' }))
         .pipe(gulp.dest('app/Resources/views/'))
@@ -166,5 +167,6 @@ gulp.task('watch', function() {
 
     gulp.watch('app/Resources/views-src/landing.html.twig', [ 'build' ])
     gulp.watch('app/Resources/views-src/designer.html.twig', [ 'build' ])
+    gulp.watch('app/Resources/views-src/viewer.html.twig', [ 'build' ])
     gulp.watch('web/assets/dist/htm/app.htm', [ 'build' ])
 })
