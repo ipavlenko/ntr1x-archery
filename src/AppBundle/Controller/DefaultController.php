@@ -56,18 +56,50 @@ class DefaultController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $portal = $this
-            ->getDoctrine()
-            ->getRepository('AppBundle:Portal')
-            ->findOneBy([ 'id' => $request->attributes->get('id') ], [])
+        $view = [];
+
+        $principal = $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')
+            ? $this->get('security.token_storage')->getToken()->getUser()
+            : null
         ;
 
-        $view = [
-            'principal' => $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')
-                ? $this->get('security.token_storage')->getToken()->getUser()
-                : null,
-            'portal' => $portal,
-        ];
+        if (!empty($principal)) {
+
+            try {
+
+                $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$view, &$serializer, &$principal) {
+
+                    $user = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:User')
+                        ->find($principal->getId())
+                    ;
+
+                    $portal = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Portal')
+                        ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ], [])
+                    ;
+
+                    $pages = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Page')
+                        ->findBy([ 'portal' => $portal ], [])
+                    ;
+
+                    $view['principal'] =
+                    $view['portal'] = $portal;
+                    $view['pages'] = $pages;
+                });
+
+            } catch (\Exception $e) {
+
+                $view['error'] = [
+                    'message' => 'Internal server error',
+                    'message2' => $e->getMessage(),
+                ];
+            }
+        }
 
         return $this->render('viewer.html.twig', $view);
     }

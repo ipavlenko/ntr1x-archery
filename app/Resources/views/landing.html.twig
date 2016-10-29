@@ -1134,19 +1134,6 @@
     </section>
 </template>
 
-<template id="shell-container">
-
-    <section class="ge ge-container" v-scrollable>
-        <shell-page
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :items.sync="page.widgets"
-        ></shell-page>
-    </section>
-
-</template>
-
 <template id="shell-categories">
     <section class="ge ge-categories">
         <div v-for="category in categories">
@@ -1158,6 +1145,19 @@
             </ul>
         </div>
     </section>
+</template>
+
+<template id="shell-container">
+
+    <section class="ge ge-container" v-scrollable>
+        <shell-page
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :items.sync="page.widgets"
+        ></shell-page>
+    </section>
+
 </template>
 
 <template id="shell-decorator-canvas">
@@ -1303,8 +1303,8 @@
 
 <template id="shell-loader-public">
     <div class="ge ge-shell-loader">
-        <shell-public v-if="model != null"
-            :model="model"
+        <shell-public v-if="page != null"
+            :page="page"
         ></shell-public>
     </div>
 </template>
@@ -1450,8 +1450,6 @@
 <template id="shell-public">
     <div class="ge ge-shell ge-shell-public">
         <shell-page
-            :globals.sync="globals"
-            :settings.sync="settings"
             :page.sync="page"
             :items.sync="page.widgets"
         ></shell-page>
@@ -2301,6 +2299,24 @@
     </default-box>
 </template>
 
+<template id="default-box">
+    <section :class="class" :id="bindings.id" :style="{
+        'border': bindings.outer.border,
+        'background': bindings.outer.background,
+        'margin': bindings.outer.margin,
+        'padding': bindings.outer.padding,
+    }">
+        <div class="wg wg-content" :style="{
+            'height': bindings.height,
+            'width': bindings.width,
+            'margin': bindings.inner.margin,
+            'padding': bindings.inner.padding,
+            'border': bindings.inner.border,
+            'background': bindings.inner.background,
+        }"><slot>Empty</slot></div>
+    </section>
+</template>
+
 <template id="default-text">
     <section class="wg wg-default-text" :id="bindings.id"
         :class="{
@@ -2328,24 +2344,6 @@
                 'background': bindings.inner.background,
             }"
         >{{{ bindings.content }}}</div>
-    </section>
-</template>
-
-<template id="default-box">
-    <section :class="class" :id="bindings.id" :style="{
-        'border': bindings.outer.border,
-        'background': bindings.outer.background,
-        'margin': bindings.outer.margin,
-        'padding': bindings.outer.padding,
-    }">
-        <div class="wg wg-content" :style="{
-            'height': bindings.height,
-            'width': bindings.width,
-            'margin': bindings.inner.margin,
-            'padding': bindings.inner.padding,
-            'border': bindings.inner.border,
-            'background': bindings.inner.background,
-        }"><slot>Empty</slot></div>
     </section>
 </template>
 
