@@ -63,22 +63,22 @@ class DefaultController extends Controller {
             : null
         ;
 
-        if (!empty($principal)) {
+        // if (!empty($principal)) {
 
             try {
 
                 $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$view, &$serializer, &$principal) {
 
-                    $user = $this
-                        ->getDoctrine()
-                        ->getRepository('AppBundle:User')
-                        ->find($principal->getId())
-                    ;
+                    // $user = $this
+                    //     ->getDoctrine()
+                    //     ->getRepository('AppBundle:User')
+                    //     ->find($principal->getId())
+                    // ;
 
                     $portal = $this
                         ->getDoctrine()
                         ->getRepository('AppBundle:Portal')
-                        ->findOneBy([ 'id' => $request->attributes->get('id'), 'user' => $user ], [])
+                        ->findOneBy([ 'id' => $request->attributes->get('id') /*, 'user' => $user */ ], [])
                     ;
 
                     $pages = $this
@@ -87,7 +87,7 @@ class DefaultController extends Controller {
                         ->findBy([ 'portal' => $portal ], [])
                     ;
 
-                    $view['principal'] =
+                    // $view['principal'] = $principal;
                     $view['portal'] = $portal;
                     $view['pages'] = $pages;
                 });
@@ -99,7 +99,7 @@ class DefaultController extends Controller {
                     'message2' => $e->getMessage(),
                 ];
             }
-        }
+        // }
 
         return $this->render('viewer.html.twig', $view);
     }
