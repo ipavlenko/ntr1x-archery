@@ -51,6 +51,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
 
         $page = (new Page())
             ->setName($data['name'])
+            ->setType($data['type'])
             ->setPortal($portal)
         ;
 

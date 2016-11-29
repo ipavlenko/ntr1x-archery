@@ -23,10 +23,11 @@
     data-vue-viewer
     data-portal="{{ portal | serialize('json') }}"
     data-pages="{{ pages | serialize('json') }}"
+    style="overflow: none"
 >
 
 {% verbatim %}
-    <div data-vue-body>
+    <div data-vue-body style="overflow: auto">
         <router-view
             :principal.sync="principal"
             :portal.sync="portal"

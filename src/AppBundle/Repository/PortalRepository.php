@@ -37,6 +37,7 @@ class PortalRepository extends \Doctrine\ORM\EntityRepository
 
             $pt = (new Page())
                 ->setName($ps->getName())
+                ->setType($ps->getType())
                 ->setPortal($target)
             ;
 

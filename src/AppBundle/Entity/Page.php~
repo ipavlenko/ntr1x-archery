@@ -34,6 +34,13 @@ class Page
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=511)
+     */
+    private $type;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Portal")
      * @ORM\JoinColumn(name="portal_id", referencedColumnName="id", nullable=false)
      * @JMS\Exclude
