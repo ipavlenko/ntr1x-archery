@@ -130,6 +130,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
 
         $source = (new Source())
             ->setName($data['name'])
+            ->setType($data['type'])
             ->setPage($page)
             ->setUrl($data['url'])
             ->setMethod($data['method'])
@@ -196,6 +197,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
 
         $storage = (new Storage())
             ->setName($data['name'])
+            ->setType($data['type'])
             ->setPage($page)
             ->setVariables($this->clearParams($data['variables']))
         ;
