@@ -1170,20 +1170,6 @@
     </section>
 </template>
 
-<template id="shell-container">
-
-    <section class="ge ge-container" v-scrollable>
-        <shell-page
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :items.sync="page.widgets"
-            :editable="true"
-        ></shell-page>
-    </section>
-
-</template>
-
 <template id="shell-decorator-canvas">
     <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
         <div class="ge ge-content">
@@ -1293,6 +1279,20 @@
     </div>
 </template>
 
+<template id="shell-container">
+
+    <section class="ge ge-container" v-scrollable>
+        <shell-page
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :items.sync="page.widgets"
+            :editable="true"
+        ></shell-page>
+    </section>
+
+</template>
+
 <template id="shell-domains">
     <section class="ge ge-panel ge-domains">
         <domains :items.sync="domains" :globals.sync="globals" inline-template>
@@ -1341,23 +1341,6 @@
     </div>
 </template>
 
-<template id="shell-page">
-    <div class="ge ge-page">
-        <div
-            :is="decorator"
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :data.sync="data"
-            :storage.sync="storage"
-            :model.sync="page.root"
-            :widget.sync="widget"
-            :items.sync="page.root.widgets"
-            :editable="editable"
-        ></div>
-    </div>
-</template>
-
 <template id="shell-pages">
     <section class="ge ge-panel ge-shell-block ge-pages">
         <div class="ge ge-block-selector">
@@ -1392,6 +1375,23 @@
             </ul>
         </div>
     </section>
+</template>
+
+<template id="shell-page">
+    <div class="ge ge-page">
+        <div
+            :is="decorator"
+            :globals.sync="globals"
+            :settings.sync="settings"
+            :page.sync="page"
+            :data.sync="data"
+            :storage.sync="storage"
+            :model.sync="page.root"
+            :widget.sync="widget"
+            :items.sync="page.root.widgets"
+            :editable="editable"
+        ></div>
+    </div>
 </template>
 
 <template id="shell-palette-item">
@@ -1549,27 +1549,26 @@
 </template>
 
 <template id="shell-storages">
-    <storages :items.sync="storages" :globals.sync="globals" inline-template>
-        <section class="ge ge-panel ge-shell-block ge-storages">
-            <div class="ge ge-block-selector">
-                <div class="btn-toolbar">
-                    <div class="btn-group">
-                        <button class="btn btn-shell dropdown-toggle" type="button" data-toggle="dropdown" style="width: 204px">
-                            Storages <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a>Storages</a></li>
-                            <li><a>Variables</a></li>
-                        </ul>
-                    </div>
-                    <div class="btn-group pull-right">
-                        <button class="btn btn-shell" @click="create({ variables: [] })"><span class="glyphicon glyphicon-plus-sign"></span></button>
-                    </div>
+    <section class="ge ge-panel ge-shell-block ge-storages">
+        <div class="ge ge-block-selector">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <button class="btn btn-shell dropdown-toggle" type="button" data-toggle="dropdown" style="width: 204px">
+                        {{ type.title }} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li v-for="t in types" :class="{ 'active': type == t }"><a @click="type = t">{{ t.title }}</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group pull-right">
+                    <button class="btn btn-shell" @click="create({ type: 'storage', variables: [] })"><span class="glyphicon glyphicon-plus-sign"></span></button>
                 </div>
             </div>
-            <div class="ge ge-block-content">
-                <ul class="nav nav-pills nav-stacked">
-                    <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.storage }">
+        </div>
+        <div class="ge ge-block-content">
+            <ul class="nav nav-pills nav-stacked">
+                <host v-for="item in items">
+                    <li v-if="item.type == type.name" :class="{ 'active': item == globals.selection.storage }">
                         <a href="#" @click="trigger('selectStorage', item)">
                             <span>{{ item.name }}</span>
                             <span class="ge ge-overlays">
@@ -1578,10 +1577,10 @@
                             </span>
                         </a>
                     </li>
-                </ul>
-            </div>
-        </section>
-    </storages>
+                </host>
+            </ul>
+        </div>
+    </section>
 </template>
 
 <template id="shell-target">
@@ -2438,6 +2437,24 @@
     </default-box>
 </template>
 
+<template id="default-box">
+    <section :class="class" :id="bindings.id" :style="{
+        'border': bindings.outer.border,
+        'background': bindings.outer.background,
+        'margin': bindings.outer.margin,
+        'padding': bindings.outer.padding,
+    }">
+        <div class="wg wg-content" :style="{
+            'height': bindings.height,
+            'width': bindings.width,
+            'margin': bindings.inner.margin,
+            'padding': bindings.inner.padding,
+            'border': bindings.inner.border,
+            'background': bindings.inner.background,
+        }"><slot>Empty</slot></div>
+    </section>
+</template>
+
 <template id="default-text">
     <section class="wg wg-default-text" :id="bindings.id"
         :class="{
@@ -2465,24 +2482,6 @@
                 'background': bindings.inner.background,
             }"
         >{{{ bindings.content }}}</div>
-    </section>
-</template>
-
-<template id="default-box">
-    <section :class="class" :id="bindings.id" :style="{
-        'border': bindings.outer.border,
-        'background': bindings.outer.background,
-        'margin': bindings.outer.margin,
-        'padding': bindings.outer.padding,
-    }">
-        <div class="wg wg-content" :style="{
-            'height': bindings.height,
-            'width': bindings.width,
-            'margin': bindings.inner.margin,
-            'padding': bindings.inner.padding,
-            'border': bindings.inner.border,
-            'background': bindings.inner.background,
-        }"><slot>Empty</slot></div>
     </section>
 </template>
 
@@ -2877,6 +2876,96 @@
     </div>
 </template>
 
+<template id="landing-pricing">
+    <div class="ld ld-section ld-pricing">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-hdd"></span> Pricing</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-pricing-offers">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                                        <div class="ld ld-pricing-offer">
+                                            <h4>Starter</h4>
+                                            <div class="ld ld-offer-price">$10 / month</div>
+                                            <div class="ld ld-offer-discount">30% discount for 1 year subscription</div>
+                                            <ul class="ld ld-offer-options">
+                                                <li>One portal</li>
+                                                <li>Unlimited number of pages</li>
+                                                <li>500 Mb Storage</li>
+                                            </ul>
+                                            <div class="ld ld-offer-promo">
+                                                <p>Better suited for personal, event and product pages.</p>
+                                                <a href="#" class="btn btn-primary">Create Portal</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                                        <div class="ld ld-pricing-offer">
+                                            <h4>Business</h4>
+                                            <div class="ld ld-offer-price">$100 / month</div>
+                                            <div class="ld ld-offer-discount">30% discount for 1 year subscription</div>
+                                            <ul class="ld ld-offer-options">
+                                                <li>Up to 10 portals</li>
+                                                <li>Unlimited number of pages</li>
+                                                <li>2 Gb Storage per each portal</li>
+                                            </ul>
+                                            <div class="ld ld-offer-promo">
+                                                <p>Better suited for small campanies and startups.</p>
+                                                <a href="#" class="btn btn-primary">Create Portal</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                                        <div class="ld ld-pricing-offer">
+                                            <h4>Server</h4>
+                                            <div class="ld ld-offer-price">$5000</div>
+                                            <div class="ld ld-offer-discount">30% discount for each additional server licence</div>
+                                            <ul class="ld ld-offer-options">
+                                                <li>Up to 100 portals</li>
+                                                <li>1 year subscription for updates</li>
+                                                <li>Deploy to your own hardrare</li>
+                                            </ul>
+                                            <div class="ld ld-offer-promo">
+                                                <p>Better suited for web-developers and service providers.</p>
+                                                <a href="#" class="btn btn-primary">Apply</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                                        <div class="ld ld-pricing-offer">
+                                            <h4>Advanced</h4>
+                                            <div class="ld ld-offer-price">Price on request</div>
+                                            <div class="ld ld-offer-discount">Do not see a suitable plan? Need a special offer?</div>
+                                            <ul class="ld ld-offer-options">
+                                                <li>Branding</li>
+                                                <li>Integrations</li>
+                                                <li>Custom setup</li>
+                                            </ul>
+                                            <div class="ld ld-offer-promo">
+                                                <p>We are welcome you as a partner. Please mail us.</p>
+                                                <a href="#" class="btn btn-primary">Apply</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="landing-manage-clone">
     <div class="ld ld-section ld-body ld-manage ld-manage-clone">
         <div class="ld ld-table">
@@ -3033,96 +3122,6 @@
     </div>
 </template>
 
-<template id="landing-pricing">
-    <div class="ld ld-section ld-pricing">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-hdd"></span> Pricing</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-pricing-offers">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                                        <div class="ld ld-pricing-offer">
-                                            <h4>Starter</h4>
-                                            <div class="ld ld-offer-price">$10 / month</div>
-                                            <div class="ld ld-offer-discount">30% discount for 1 year subscription</div>
-                                            <ul class="ld ld-offer-options">
-                                                <li>One portal</li>
-                                                <li>Unlimited number of pages</li>
-                                                <li>500 Mb Storage</li>
-                                            </ul>
-                                            <div class="ld ld-offer-promo">
-                                                <p>Better suited for personal, event and product pages.</p>
-                                                <a href="#" class="btn btn-primary">Create Portal</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                                        <div class="ld ld-pricing-offer">
-                                            <h4>Business</h4>
-                                            <div class="ld ld-offer-price">$100 / month</div>
-                                            <div class="ld ld-offer-discount">30% discount for 1 year subscription</div>
-                                            <ul class="ld ld-offer-options">
-                                                <li>Up to 10 portals</li>
-                                                <li>Unlimited number of pages</li>
-                                                <li>2 Gb Storage per each portal</li>
-                                            </ul>
-                                            <div class="ld ld-offer-promo">
-                                                <p>Better suited for small campanies and startups.</p>
-                                                <a href="#" class="btn btn-primary">Create Portal</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                                        <div class="ld ld-pricing-offer">
-                                            <h4>Server</h4>
-                                            <div class="ld ld-offer-price">$5000</div>
-                                            <div class="ld ld-offer-discount">30% discount for each additional server licence</div>
-                                            <ul class="ld ld-offer-options">
-                                                <li>Up to 100 portals</li>
-                                                <li>1 year subscription for updates</li>
-                                                <li>Deploy to your own hardrare</li>
-                                            </ul>
-                                            <div class="ld ld-offer-promo">
-                                                <p>Better suited for web-developers and service providers.</p>
-                                                <a href="#" class="btn btn-primary">Apply</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                                        <div class="ld ld-pricing-offer">
-                                            <h4>Advanced</h4>
-                                            <div class="ld ld-offer-price">Price on request</div>
-                                            <div class="ld ld-offer-discount">Do not see a suitable plan? Need a special offer?</div>
-                                            <ul class="ld ld-offer-options">
-                                                <li>Branding</li>
-                                                <li>Integrations</li>
-                                                <li>Custom setup</li>
-                                            </ul>
-                                            <div class="ld ld-offer-promo">
-                                                <p>We are welcome you as a partner. Please mail us.</p>
-                                                <a href="#" class="btn btn-primary">Apply</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <template id="landing-storage-full">
     <div class="ld ld-section ld-storage ld-storage-full">
         <div class="ld ld-container">
@@ -3203,24 +3202,6 @@
     </div>
 </template>
 
-<template id="landing-super">
-    <div class="ld ld-section ld-super">
-        <div class="ld ld-container">
-            <ul class="nav nav-pills pull-left">
-                <li role="presentation"><a href="#">NTR1X</a></li>
-                <li role="presentation"><a v-link="{ path: '/' }">Archery</a></li>
-                <li role="presentation"><a href="#">Blog</a></li>
-            </ul>
-            <ul class="nav nav-pills pull-right">
-                <li role="presentation"><a href="#">FAQ</a></li>
-                <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
-                <li role="presentation"><a href="#">Contacts</a></li>
-                <li role="presentation"><a href="#">Documentation</a></li>
-            </ul>
-        </div>
-    </div>
-</template>
-
 <template id="landing-usecases">
     <div class="ld ld-section ld-usecases">
         <div class="ld ld-container">
@@ -3274,6 +3255,24 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-super">
+    <div class="ld ld-section ld-super">
+        <div class="ld ld-container">
+            <ul class="nav nav-pills pull-left">
+                <li role="presentation"><a href="#">NTR1X</a></li>
+                <li role="presentation"><a v-link="{ path: '/' }">Archery</a></li>
+                <li role="presentation"><a href="#">Blog</a></li>
+            </ul>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation"><a href="#">FAQ</a></li>
+                <li role="presentation"><a v-link="{ path: '/' }">About</a></li>
+                <li role="presentation"><a href="#">Contacts</a></li>
+                <li role="presentation"><a href="#">Documentation</a></li>
+            </ul>
         </div>
     </div>
 </template>
