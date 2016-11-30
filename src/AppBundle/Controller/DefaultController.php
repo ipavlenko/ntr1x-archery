@@ -48,6 +48,63 @@ class DefaultController extends Controller {
     }
 
     /**
+     * @Route("/view/{id}{any}", name = "view", requirements = { "id"="([0-9]+)", "any"="(.*)" })
+     */
+    public function viewAction(Request $request) {
+
+        // TODO $domain = ... Взять его нужно по имени домена, с которого открыт ресурс
+
+        $em = $this->getDoctrine()->getManager();
+
+        $view = [];
+
+        $principal = $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')
+            ? $this->get('security.token_storage')->getToken()->getUser()
+            : null
+        ;
+
+        // if (!empty($principal)) {
+
+            try {
+
+                $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$view, &$serializer, &$principal) {
+
+                    // $user = $this
+                    //     ->getDoctrine()
+                    //     ->getRepository('AppBundle:User')
+                    //     ->find($principal->getId())
+                    // ;
+
+                    $portal = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Portal')
+                        ->findOneBy([ 'id' => $request->attributes->get('id') /*, 'user' => $user */ ], [])
+                    ;
+
+                    $pages = $this
+                        ->getDoctrine()
+                        ->getRepository('AppBundle:Page')
+                        ->findBy([ 'portal' => $portal ], [])
+                    ;
+
+                    // $view['principal'] = $principal;
+                    $view['portal'] = $portal;
+                    $view['pages'] = $pages;
+                });
+
+            } catch (\Exception $e) {
+
+                $view['error'] = [
+                    'message' => 'Internal server error',
+                    'message2' => $e->getMessage(),
+                ];
+            }
+        // }
+
+        return $this->render('viewer.html.twig', $view);
+    }
+
+    /**
      * @Route("{any}", name = "home", requirements = { "any"="(.*)" })
      */
     public function defaultAction(Request $request) {

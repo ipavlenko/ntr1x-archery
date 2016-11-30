@@ -37,6 +37,7 @@ class PortalRepository extends \Doctrine\ORM\EntityRepository
 
             $pt = (new Page())
                 ->setName($ps->getName())
+                ->setType($ps->getType())
                 ->setPortal($target)
             ;
 
@@ -84,9 +85,37 @@ class PortalRepository extends \Doctrine\ORM\EntityRepository
     }
 
     private function cloneSources($em, $source, $target) {
+
+        foreach($source->getSources() as $ss) {
+
+            $st = (new Source())
+                ->setName($ss->getName())
+                ->setType($ss->getType())
+                ->setPage($target)
+                ->setUrl($ss->getUrl())
+                ->setMethod($ss->getMethod())
+                ->setParams($ss->getParams())
+            ;
+
+            $em->persist($st);
+            $em->flush();
+        }
     }
 
     private function cloneStorages($em, $source, $target) {
+
+        foreach($source->getStorages() as $ss) {
+
+            $st = (new Storage())
+                ->setName($ss->getName())
+                ->setType($ss->getType())
+                ->setPage($target)
+                ->setVariables($ss->getVariables())
+            ;
+
+            $em->persist($st);
+            $em->flush();
+        }
     }
 
     private function handlePortal($em, $data) {

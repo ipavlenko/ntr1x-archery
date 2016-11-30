@@ -31,6 +31,13 @@ class Storage
 	private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=511)
+     */
+    private $type;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Page", inversedBy="sources")
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=false)
      */

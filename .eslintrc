@@ -1,0 +1,30 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "globals": {
+        "_": false,
+        "jQuery": false,
+        "require": false,
+        "Vue": false,
+        "Core": true,
+        "Shell": true,
+        "Landing": true,
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ]
+    }
+}

@@ -91,6 +91,7 @@ class PortalsController extends Controller {
 
                         $page = (new Page())
                             ->setName('')
+                            ->setType('page')
                             ->setPortal($portal)
                         ;
 

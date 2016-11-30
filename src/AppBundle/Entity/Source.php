@@ -31,6 +31,13 @@ class Source
 	private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=511)
+     */
+    private $type;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Page", inversedBy="sources")
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=false)
      */
@@ -234,5 +241,29 @@ class Source
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Source
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }
