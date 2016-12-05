@@ -28,11 +28,6 @@ class Settings
     public $pages;
 
     /**
-     * @Type("array<AppBundle\Entity\Schema>")
-     */
-    public $schemes;
-
-    /**
      * @Type("array<AppBundle\Entity\Widget>")
      */
     public $widgets;

@@ -39,7 +39,7 @@ class Storage
 
     /**
      * @ORM\ManyToOne(targetEntity="Page", inversedBy="sources")
-     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $page;
 
@@ -128,5 +128,29 @@ class Storage
     public function getPage()
     {
         return $this->page;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Storage
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

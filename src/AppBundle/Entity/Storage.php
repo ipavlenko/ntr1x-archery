@@ -39,7 +39,7 @@ class Storage
 
     /**
      * @ORM\ManyToOne(targetEntity="Page", inversedBy="sources")
-     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $page;
 

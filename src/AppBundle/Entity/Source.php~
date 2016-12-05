@@ -39,7 +39,7 @@ class Source
 
     /**
      * @ORM\ManyToOne(targetEntity="Page", inversedBy="sources")
-     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $page;
 
@@ -169,30 +169,6 @@ class Source
     public function getParams()
     {
         return $this->params;
-    }
-
-    /**
-     * Set schema
-     *
-     * @param \AppBundle\Entity\Schema $schema
-     *
-     * @return Source
-     */
-    public function setSchema(\AppBundle\Entity\Schema $schema)
-    {
-        $this->schema = $schema;
-
-        return $this;
-    }
-
-    /**
-     * Get schema
-     *
-     * @return \AppBundle\Entity\Schema
-     */
-    public function getSchema()
-    {
-        return $this->schema;
     }
 
     /**

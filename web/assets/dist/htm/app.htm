@@ -60,6 +60,56 @@
     </div>
 </template>
 
+<template id="shell-pages-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Настройки страницы</span>
+                        <span v-if="!original">Новая страница</span>
+                        <span>&gt;</span>
+                        <span v-if="isActive('main')">Основное</span>
+                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
+                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
+                                    <div class="form-group">
+                                        <label for="dialog-page-name">Имя</label>
+                                        <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
+                                    </div>
+                                </div>
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
 <template id="domains-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -223,56 +273,6 @@
 
     <domains-list :items.sync="items"></domains-list>
 
-</template>
-
-<template id="shell-pages-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Настройки страницы</span>
-                        <span v-if="!original">Новая страница</span>
-                        <span>&gt;</span>
-                        <span v-if="isActive('main')">Основное</span>
-                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
-                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
-                                    <div class="form-group">
-                                        <label for="dialog-page-name">Имя</label>
-                                        <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
-                                    </div>
-                                </div>
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
 </template>
 
 <template id="params-asis">
@@ -1474,41 +1474,6 @@
     </div>
 </template>
 
-<template id="shell-storages">
-    <section class="ge ge-panel ge-shell-block ge-storages">
-        <div class="ge ge-block-selector">
-            <div class="btn-toolbar">
-                <div class="btn-group">
-                    <button class="btn btn-shell dropdown-toggle" type="button" data-toggle="dropdown" style="width: 204px">
-                        {{ type.title }} <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li v-for="t in types" :class="{ 'active': type == t }"><a @click="type = t">{{ t.title }}</a></li>
-                    </ul>
-                </div>
-                <div class="btn-group pull-right">
-                    <button class="btn btn-shell" @click="create({ type: 'storage', variables: [] })"><span class="glyphicon glyphicon-plus-sign"></span></button>
-                </div>
-            </div>
-        </div>
-        <div class="ge ge-block-content">
-            <ul class="nav nav-pills nav-stacked">
-                <template v-for="item in items">
-                    <li v-if="item.type == type.name" :class="{ 'active': item == globals.selection.storage }">
-                        <a href="#" @click="trigger('selectStorage', item)">
-                            <span>{{ item.name }}</span>
-                            <span class="ge ge-overlays">
-                                <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                                <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                            </span>
-                        </a>
-                    </li>
-                </template>
-            </ul>
-        </div>
-    </section>
-</template>
-
 <template id="shell-sources">
     <section class="ge ge-panel ge-shell-block ge-sources">
         <div class="ge ge-block-selector">
@@ -1531,6 +1496,41 @@
                 <template v-for="item in items">
                     <li v-if="item.type == type.name" :class="{ 'active': item == globals.selection.source }">
                         <a href="#" @click="trigger('selectSource', item)">
+                            <span>{{ item.name }}</span>
+                            <span class="ge ge-overlays">
+                                <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                                <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                            </span>
+                        </a>
+                    </li>
+                </template>
+            </ul>
+        </div>
+    </section>
+</template>
+
+<template id="shell-storages">
+    <section class="ge ge-panel ge-shell-block ge-storages">
+        <div class="ge ge-block-selector">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <button class="btn btn-shell dropdown-toggle" type="button" data-toggle="dropdown" style="width: 204px">
+                        {{ type.title }} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li v-for="t in types" :class="{ 'active': type == t }"><a @click="type = t">{{ t.title }}</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group pull-right">
+                    <button class="btn btn-shell" @click="create({ type: 'storage', variables: [] })"><span class="glyphicon glyphicon-plus-sign"></span></button>
+                </div>
+            </div>
+        </div>
+        <div class="ge ge-block-content">
+            <ul class="nav nav-pills nav-stacked">
+                <template v-for="item in items">
+                    <li v-if="item.type == type.name" :class="{ 'active': item == globals.selection.storage }">
+                        <a href="#" @click="trigger('selectStorage', item)">
                             <span>{{ item.name }}</span>
                             <span class="ge ge-overlays">
                                 <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
@@ -2400,6 +2400,24 @@
     </default-box>
 </template>
 
+<template id="default-box">
+    <section :class="clazz" :id="bindings.id" :style="{
+        'border': bindings.outer.border,
+        'background': bindings.outer.background,
+        'margin': bindings.outer.margin,
+        'padding': bindings.outer.padding,
+    }">
+        <div class="wg wg-content" :style="{
+            'height': bindings.height,
+            'width': bindings.width,
+            'margin': bindings.inner.margin,
+            'padding': bindings.inner.padding,
+            'border': bindings.inner.border,
+            'background': bindings.inner.background,
+        }"><slot>Empty</slot></div>
+    </section>
+</template>
+
 <template id="default-text">
     <section class="wg wg-default-text" :id="bindings.id"
         :class="{
@@ -2428,24 +2446,6 @@
             }"
             v-html="bindings.content"
         ></div>
-    </section>
-</template>
-
-<template id="default-box">
-    <section :class="clazz" :id="bindings.id" :style="{
-        'border': bindings.outer.border,
-        'background': bindings.outer.background,
-        'margin': bindings.outer.margin,
-        'padding': bindings.outer.padding,
-    }">
-        <div class="wg wg-content" :style="{
-            'height': bindings.height,
-            'width': bindings.width,
-            'margin': bindings.inner.margin,
-            'padding': bindings.inner.padding,
-            'border': bindings.inner.border,
-            'background': bindings.inner.background,
-        }"><slot>Empty</slot></div>
     </section>
 </template>
 
@@ -2480,7 +2480,9 @@
     <div class="ld ld-page ld-fullscreen-page">
         <landing-super></landing-super>
         <landing-header></landing-header>
-        <landing-manage-clone></landing-manage-clone>
+        <transition appear name="fade">
+            <landing-manage-clone></landing-manage-clone>
+        </transition>
         <landing-footer></landing-footer>
     </div>
 </template>
@@ -2489,7 +2491,9 @@
     <div class="ld ld-page ld-fullscreen-page">
         <landing-super></landing-super>
         <landing-header></landing-header>
-        <landing-manage-create></landing-manage-create>
+        <transition appear name="fade">
+            <landing-manage-create></landing-manage-create>
+        </transition>
         <landing-footer></landing-footer>
     </div>
 </template>
@@ -2498,7 +2502,9 @@
     <div class="ld ld-page ld-fullscreen-page">
         <landing-super></landing-super>
         <landing-header></landing-header>
-        <landing-manage-publish></landing-manage-publish>
+        <transition appear name="fade">
+            <landing-manage-publish></landing-manage-publish>
+        </transition>
         <landing-footer></landing-footer>
     </div>
 </template>
@@ -2507,7 +2513,9 @@
     <div class="ld ld-page ld-fullscreen-page">
         <landing-super></landing-super>
         <landing-header></landing-header>
-        <landing-manage></landing-manage>
+        <transition appear name="fade">
+            <landing-manage></landing-manage>
+        </transition>
         <landing-footer></landing-footer>
     </div>
 </template>
@@ -2516,7 +2524,9 @@
     <div class="ld ld-page ld-fullscreen-page">
         <landing-super></landing-super>
         <landing-header></landing-header>
-        <landing-account-signin></landing-account-signin>
+        <transition appear name="fade">
+            <landing-account-signin></landing-account-signin>
+        </transition>
         <landing-footer></landing-footer>
     </div>
 </template>
@@ -2525,7 +2535,9 @@
     <div class="ld ld-page ld-fullscreen-page">
         <landing-super></landing-super>
         <landing-header></landing-header>
-        <landing-account-signup></landing-account-signup>
+        <transition appear name="fade">
+            <landing-account-signup></landing-account-signup>
+        </transition>
         <landing-footer></landing-footer>
     </div>
 </template>
@@ -2534,7 +2546,9 @@
     <div class="ld ld-page ld-secondary-page">
         <landing-super></landing-super>
         <landing-header></landing-header>
-        <landing-storage-full></landing-storage-full>
+        <transition appear name="fade">
+            <landing-storage-full></landing-storage-full>
+        </transition>
         <landing-footer></landing-footer>
     </div>
 </template>
@@ -2544,7 +2558,7 @@
         <landing-super></landing-super>
         <landing-header></landing-header>
         <landing-gallery></landing-gallery>
-        <landing-video></landing-video>
+        <landing-video v-if="false"></landing-video>
         <landing-storage></landing-storage>
         <landing-usecases></landing-usecases>
         <landing-pricing></landing-pricing>
@@ -2566,7 +2580,7 @@
                         'has-error': validation.email.dirty && (validation.email.required || validation.email.illegal),
                         'has-feedback': validation.email.dirty && (validation.email.required || validation.email.pattern),
                     }">
-                        <input type="text" class="form-control input-lg" placeholder="Email" v-model="form.email">
+                        <input type="text" class="form-control input-lg" placeholder="Email" autofocus v-model="form.email">
                         <span v-if="validation.email.dirty && (validation.email.required || validation.email.illegal)" class="glyphicon glyphicon-remove form-control-feedback"></span>
                         <div v-if="validation.email.dirty && validation.email.required">Email is a required field</div>
                         <div v-if="validation.email.dirty && !validation.email.required && validation.email.illegal">Invalid email address</div>
@@ -2601,7 +2615,7 @@
                         'has-error': validation.email.dirty && (validation.email.required || validation.email.illegal),
                         'has-feedback': validation.email.dirty && (validation.email.required || validation.email.illegal),
                     }">
-                        <input type="text" class="form-control input-lg" placeholder="Email" v-model="form.email">
+                        <input type="text" class="form-control input-lg" placeholder="Email" autofocus v-model="form.email">
                         <span v-if="validation.email.dirty && (validation.email.required || validation.email.illegal)" class="glyphicon glyphicon-remove form-control-feedback"></span>
                         <div v-if="validation.email.dirty && validation.email.required">Email is a required field</div>
                         <div v-if="validation.email.dirty && !validation.email.required && validation.email.illegal">Invalid email address</div>
@@ -2768,23 +2782,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-6 col-md-4" v-for="portal in portals">
-                        <div class="thumbnail ld ld-thumbnail">
-                            <div class="ld ld-thumbnail-inner" :style="{
-                                'background-image': 'url(/uploads/' + portal.publication.thumbnail.dir + '/' + portal.publication.thumbnail.path + ')'
-                            }"></div>
-                            <div class="ld ld-thumbnail-overlay">
-                                <div class="ld ld-overlay-content">
-                                    <div class="ld ld-thumbnail-buttons">
-                                        <a :href="'/view/' + portal.id + '/'" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
+                <transition appear name="fade">
+                    <div class="row">
+                        <div class="col-xs-6 col-md-4" v-for="portal in portals">
+                            <div class="thumbnail ld ld-thumbnail">
+                                <div class="ld ld-thumbnail-inner" :style="{
+                                    'background-image': 'url(/uploads/' + portal.publication.thumbnail.dir + '/' + portal.publication.thumbnail.path + ')'
+                                }"></div>
+                                <div class="ld ld-thumbnail-overlay">
+                                    <div class="ld ld-overlay-content">
+                                        <div class="ld ld-thumbnail-buttons">
+                                            <a :href="'/view/' + portal.id + '/'" class="btn btn-default">Preview</a>
+                                            <a href="#" class="btn btn-primary">Start Editing</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </transition>
             </div>
         </div>
     </div>
@@ -2800,10 +2816,10 @@
                             <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/'})">About</a></li>
                             <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/gallery'})">Gallery</a></li>
                             <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/storage'})">Storage</a></li>
-                            <li v-if="$root.principal == null" role="presentation"><a href="#" @click.prevent="$router.push({ path: '/signup'})">Register</a></li>
-                            <li v-if="$root.principal == null" role="presentation"><a href="#" @click.prevent="$router.push({ path: '/signin'})">Sign In</a></li>
-                            <li v-if="$root.principal != null" role="presentation"><a href="#" @click.prevent="signout()">Sign Out</a></li>
-                            <li v-if="$root.principal != null" role="presentation" class="primary"><a href="#" @click.prevent="$router.push({ path: '/manage'})">Control Panel</a></li>
+                            <li v-if="principal == null" role="presentation"><a href="#" @click.prevent="$router.push({ path: '/signup'})">Register</a></li>
+                            <li v-if="principal == null" role="presentation"><a href="#" @click.prevent="$router.push({ path: '/signin'})">Sign In</a></li>
+                            <li v-if="principal != null" role="presentation"><a href="#" @click.prevent="signout()">Sign Out</a></li>
+                            <li v-if="principal != null" role="presentation" class="primary"><a href="#" @click.prevent="$router.push({ path: '/manage'})">Control Panel</a></li>
                         </ul>
                     </div>
                 </div>
@@ -2826,39 +2842,36 @@
     <div class="ld ld-section ld-body ld-manage ld-manage-clone">
         <div class="ld ld-table">
             <div class="ld ld-cell">
-                <validator name="validation">
-                    <form v-if="form" novalidate @submit.prevent="$validation.valid && clone()">
-                        <div class="form-group">
-                            <h3>Create Portal</h3>
-                        </dif>
-                        <div class="form-group" :class="{
-                            'has-error': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
-                            'has-feedback': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
-                        }">
-                            <input type="text" class="form-control input-lg" placeholder="Title" v-model="form.title" v-validate:title="{
-                                required: { rule: true, message: 'Title is a required field' },
-                            }">
-                            <span v-if="$validation.title.dirty && $validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                            <div v-if="$validation.title.dirty && $validation.title.required">{{ $validation.title.required }}</div>
-                        </div>
-                        <div class="form-group">
-                            <h4>Template</h4>
-                        </dif>
-                        <div class="form-group">
-                            <div class="ld ld-upload">
-                                <div class="thumbnail ld ld-thumbnail" v-if="form.image">
-                                    <div class="ld ld-thumbnail-inner" :style="{
-                                        'background-image': 'url(' + form.image + ')'
-                                    }">
-                                    </div>
+
+                <form v-if="form" novalidate @submit.prevent="validation.valid && clone()">
+                    <div class="form-group">
+                        <h3>Create Portal</h3>
+                    </dif>
+                    <div class="form-group" :class="{
+                        'has-error': validation.title.dirty && validation.title.required,
+                        'has-feedback': validation.title.dirty && validation.title.required,
+                    }">
+                        <input type="text" class="form-control input-lg" placeholder="Title" v-model="form.title">
+                        <span v-if="validation.title.dirty && validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        <div v-if="validation.title.dirty && validation.title.required">Title is a required field</div>
+                    </div>
+                    <div class="form-group">
+                        <h4>Template</h4>
+                    </dif>
+                    <div class="form-group">
+                        <div class="ld ld-upload">
+                            <div class="thumbnail ld ld-thumbnail" v-if="form.image">
+                                <div class="ld ld-thumbnail-inner" :style="{
+                                    'background-image': 'url(' + form.image + ')'
+                                }">
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-lg" v-if="$validation.valid" :disabled="">Create</button>
-                        </div>
-                    </form>
-                </validator>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Create</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -2893,38 +2906,34 @@
     <div class="ld ld-section ld-body ld-manage ld-manage-create">
         <div class="ld ld-table">
             <div class="ld ld-cell">
-                <validator name="validation">
-                    <form v-if="form" novalidate @submit.prevent="$validation.valid && publish()">
-                        <div class="form-group">
-                            <h3>Publish Portal</h3>
-                        </dif>
-                        <div class="form-group" :class="{
-                            'has-error': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
-                            'has-feedback': $validation.title.dirty && ($validation.title.required || $validation.title.pattern),
-                        }">
-                            <input type="text" class="form-control input-lg" placeholder="Title" v-model="form.title" v-validate:title="{
-                                required: { rule: true, message: 'Title is a required field' },
-                            }">
-                            <span v-if="$validation.title.dirty && $validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                            <div v-if="$validation.title.dirty && $validation.title.required">{{ $validation.title.required }}</div>
-                        </div>
-                        <div class="form-group">
-                            <div class="ld ld-upload">
-                                <div class="thumbnail ld ld-thumbnail" v-if="form.image">
-                                    <div class="ld ld-thumbnail-inner" :style="{
-                                        'background-image': 'url(' + form.image + ')'
-                                    }">
-                                    </div>
+                <form v-if="form" novalidate @submit.prevent="validation.valid && publish()">
+                    <div class="form-group">
+                        <h3>Publish Portal</h3>
+                    </dif>
+                    <div class="form-group" :class="{
+                        'has-error': validation.title.dirty && (validation.title.required || validation.title.pattern),
+                        'has-feedback': validation.title.dirty && (validation.title.required || validation.title.pattern),
+                    }">
+                        <input type="text" class="form-control input-lg" placeholder="Title" autofocus v-model="form.title">
+                        <span v-if="validation.title.dirty && validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        <div v-if="validation.title.dirty && validation.title.required">Title is a required field</div>
+                    </div>
+                    <div class="form-group">
+                        <div class="ld ld-upload">
+                            <div class="thumbnail ld ld-thumbnail" v-if="form.image">
+                                <div class="ld ld-thumbnail-inner" :style="{
+                                    'background-image': 'url(' + form.image + ')'
+                                }">
                                 </div>
-                                <div class="btn btn-default btn-block" v-if="!form.image">Upload Thumbnail</div>
-                                <input type="file" name="thumbnail" />
                             </div>
+                            <div class="btn btn-default btn-block" v-if="!form.image">Upload Thumbnail</div>
+                            <input type="file" name="thumbnail" />
                         </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-lg" v-if="$validation.valid && form.image">Publish</button>
-                        </div>
-                    </form>
-                </validator>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid && form.image">Publish</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

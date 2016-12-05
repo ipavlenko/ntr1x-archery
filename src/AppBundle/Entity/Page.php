@@ -42,7 +42,7 @@ class Page
 
     /**
      * @ORM\ManyToOne(targetEntity="Portal")
-     * @ORM\JoinColumn(name="portal_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="portal_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @JMS\Exclude
      */
     private $portal;
