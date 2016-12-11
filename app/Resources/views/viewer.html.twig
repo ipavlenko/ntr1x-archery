@@ -55,6 +55,49 @@
     </section>
 </template>
 
+<template id="bindings-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Edit Param</span>
+                        <span v-if="!original">New Param</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="bindings-dialog-binding">Binding</label>
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span v-if="getStrategy() == 'eval'">Eval </span>
+                                    <span v-if="getStrategy() != 'eval'">Interpolate </span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li :class="{ 'active': getStrategy() == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
+                                    <li :class="{ 'active': getStrategy() != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
+                                </ul>
+                            </div>
+                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding.expression" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
 <template id="domains-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -220,49 +263,6 @@
 
 </template>
 
-<template id="bindings-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Edit Param</span>
-                        <span v-if="!original">New Param</span>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="bindings-dialog-binding">Binding</label>
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span v-if="getStrategy() == 'eval'">Eval </span>
-                                    <span v-if="getStrategy() != 'eval'">Interpolate </span>
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li :class="{ 'active': getStrategy() == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
-                                    <li :class="{ 'active': getStrategy() != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
-                                </ul>
-                            </div>
-                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding.expression" />
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="shell-pages-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -298,7 +298,7 @@
                                     </div>
                                 </div>
                                 <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
+                                    <params :items="items" :owner="context.widget" :tab="tab.name"></params>
                                 </div>
                             </div>
                         </div>
@@ -380,7 +380,7 @@
                                     </div>
                                 </div>
                                 <div v-for="tab in context.prop.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.prop" :tab="tab.name"></params>
+                                    <params :items="items" :owner="context.prop" :tab="tab.name"></params>
                                 </div>
                             </div>
                         </div>
@@ -400,36 +400,28 @@
         <template v-for="(item, index) in items">
             <div v-if="item.prop.tab == tab">
                 <params-asis v-if="item.prop.type == 'asis'" :id="'pages-widgets-dialog-props-' + index"
-                    :item.sync="item"
-                    :globals.sync="globals"
+                    :item="item"
                 ></params-asis>
                 <params-variable v-if="item.prop.type == 'var'" :id="'pages-widgets-dialog-props-' + index"
-                    :item.sync="item"
-                    :globals.sync="globals"
+                    :item="item"
                 ></params-variable>
                 <params-string v-if="item.prop.type == 'string'" :id="'pages-widgets-dialog-props-' + index"
-                    :item.sync="item"
-                    :globals.sync="globals"
+                    :item="item"
                 ></params-string>
                 <params-select v-if="item.prop.type == 'select'" :id="'pages-widgets-dialog-props-' + index"
-                    :item.sync="item"
-                    :globals.sync="globals"
+                    :item="item"
                 ></params-select>
                 <params-rich v-if="item.prop.type == 'rich'" :id="'pages-widgets-dialog-props-' + index"
-                    :item.sync="item"
-                    :globals.sync="globals"
+                    :item="item"
                 ></params-rich>
                 <params-source v-if="item.prop.type == 'source'" :id="'pages-widgets-dialog-props-' + index"
-                    :item.sync="item"
-                    :globals.sync="globals"
+                    :item="item"
                 ></params-source>
                 <params-multiple v-if="item.prop.type == 'multiple'" :id="'pages-widgets-dialog-props-' + index"
-                    :item.sync="item"
-                    :globals.sync="globals"
+                    :item="item"
                 ></params-multiple>
                 <params-object v-if="item.prop.type == 'object'" :id="'pages-widgets-dialog-props-' + index"
-                    :item.sync="item"
-                    :globals.sync="globals"
+                    :item="item"
                 ></params-object>
             </div>
         </template>
@@ -463,7 +455,7 @@
                         <div class="col-xs-9">
                             <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
                                 <div v-for="tab in context.prop.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.prop" :tab="tab.name"></params>
+                                    <params :items="items" :owner="context.prop" :tab="tab.name"></params>
                                 </div>
                             </div>
                         </div>
@@ -481,10 +473,9 @@
 <template id="params-multiple-editor">
     <div>
         <params-multiple-list
-            :items.sync="items"
-            :prop.sync="prop"
-            :param.sync="param"
-            :globals.sync="globals"
+            :items="items"
+            :prop="prop"
+            :param="param"
         ></params-multiple-list>
     </div>
 </template>
@@ -523,10 +514,9 @@
 
 <template id="params-multiple">
     <params-multiple-editor
-        :prop.sync="item.prop"
-        :param.sync="item.param"
-        :items.sync="item.param.value"
-        :globals.sync="globals"
+        :prop="item.prop"
+        :param="item.param"
+        :items="item.param.value"
     ></params-multiple-editor>
 </template>
 
@@ -594,7 +584,7 @@
                                     </div>
                                 </div>
                                 <div v-for="tab in context.prop.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.prop" :tab="tab.name"></params>
+                                    <params :items="items" :owner="context.prop" :tab="tab.name"></params>
                                 </div>
                             </div>
                         </div>
@@ -695,7 +685,7 @@
 
 <template id="params">
     <div class="ge ge-params">
-        <params-list :items.sync="items" :globals.sync="globals" :owner.sync="owner" :tab="tab"></params-list>
+        <params-list :items="items" :owner="owner" :tab="tab"></params-list>
     </div>
 </template>
 
@@ -926,16 +916,16 @@
                         <div class="col-xs-9">
                             <div class="tab-content" style="overflow: auto">
                                 <div class="tab-pane" :class="{ 'active': isActive('domains') }">
-                                    <domains :items.sync="current.domains" :globals.sync="globals"></domains>
+                                    <domains :items="current.domains"></domains>
                                 </div>
                                 <div class="tab-pane" :class="{ 'active': isActive('pages') }">
-                                    <pages :items.sync="current.pages" :globals.sync="globals"></pages>
+                                    <pages :items="current.pages"></pages>
                                 </div>
                                 <div class="tab-pane" :class="{ 'active': isActive('schemes') }">
-                                    <schemes :items.sync="current.schemes" :globals.sync="globals"></schemes>
+                                    <schemes :items="current.schemes"></schemes>
                                 </div>
                                 <div class="tab-pane" :class="{ 'active': isActive('widgets') }">
-                                    <widgets :items.sync="current.widgets" :globals.sync="globals"></widgets>
+                                    <widgets :items="current.widgets"></widgets>
                                 </div>
                             </div>
                         </div>
@@ -1176,7 +1166,6 @@
 </template>
 
 <template id="shell-container">
-
     <section class="ge ge-container" v-scrollable>
         <shell-page v-if="page != null"
             :page="page"
@@ -1186,7 +1175,6 @@
             }"
         ></shell-page>
     </section>
-
 </template>
 
 <template id="shell-decorator-canvas">
@@ -1194,10 +1182,7 @@
         <div class="ge ge-content">
             <default-stack-canvas
                 ref="widget"
-                :globals="globals"
                 :page="page"
-                :data="data"
-                :storage="storage"
                 :bindings="bindings"
                 :children="children"
                 :editable="editable"
@@ -1213,14 +1198,12 @@
                 :is="widget.tag"
                 ref="widget"
                 :page.sync="page"
-                :data.sync="data"
-                :storage.sync="storage"
                 :bindings.sync="bindings"
                 :children.sync="children"
                 :editable.sync="selected"
             ></div>
         </div>
-        <div class="ge ge-overlay" v-if="$route && $route.private && editable">
+        <div class="ge ge-overlay" v-if="$route && $route.meta.private && editable">
             <div class="ge ge-overlay-left">
                 <a href="#" v-if="!selected" @click.stop.prevent="selectTarget()" class="label label-success">Unlock</a>
                 <a href="#" v-if="selected" @click.stop.prevent="unselectTarget()" class="label label-success">Lock</a>
@@ -1240,8 +1223,6 @@
                 :is="widget.tag"
                 ref="widget"
                 :page="page"
-                :data="data"
-                :storage="storage"
                 :bindings="bindings"
             ></div>
         </div>
@@ -1282,8 +1263,6 @@
                 :is="widget.tag"
                 ref="widget"
                 :page="page"
-                :data="data"
-                :storage="storage"
                 :bindings="bindings"
             ></div>
         </div>
@@ -1298,7 +1277,7 @@
 
 <template id="shell-domains">
     <section class="ge ge-panel ge-domains">
-        <domains :items.sync="domains" :globals.sync="globals" inline-template>
+        <domains :items="domains" inline-template>
             <h5>
                 <span>Domains</span>
                 <span class="ge ge-overlays">
@@ -1345,11 +1324,8 @@
         <div
             :is="decorator"
             :page="page"
-            :data="data"
-            :storage="storage"
             :model="page.root"
             :widget="widget"
-            :items="page.root.widgets"
             :editable="editable"
         ></div>
     </div>
@@ -1409,7 +1385,7 @@
                     </button>
                     <ul class="dropdown-menu">
                         <template v-for="category in $store.getters.palette.categories()">
-                            <li v-if="!category.ignore"><a @click.prevent="$store.dispatch('palette/category', category)">{{ category.title }}</a></li>
+                            <li v-if="!category.ignore"><a @click.prevent="$store.commit('palette/category', category)">{{ category.title }}</a></li>
                         </template>
                     </ul>
                 </div>
@@ -1562,62 +1538,11 @@
     <div class="ge ge-decorator">
         <div
             :is="decorator"
-            :globals.sync="globals"
-            :settings.sync="settings"
-            :page.sync="page"
-            :data.sync="data"
-            :storage.sync="storage"
-            :model.sync="model"
-            :widget.sync="widget"
-            :editable.sync="editable"
-            :items.sync="model.widgets"
+            :page="page"
+            :model="model"
+            :widget="widget"
+            :editable="editable"
         ></div>
-    </div>
-</template>
-
-<template id="shell-widgets-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                  @submit.prevent="submit"
-                  @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Редактирование виджета</span>
-                        <span v-if="!original">Новый виджет</span>
-                        <span>&gt;</span>
-                        <template v-for="tab in context.widget.tabs">
-                            <span  v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                        </template>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <template v-for="tab in context.widget.tabs">
-                                    <li v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                                </template>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
     </div>
 </template>
 
@@ -1954,6 +1879,52 @@
 
 </template>
 
+<template id="shell-widgets-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                  @submit.prevent="submit"
+                  @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Редактирование виджета</span>
+                        <span v-if="!original">Новый виджет</span>
+                        <span>&gt;</span>
+                        <template v-for="tab in context.widget.tabs">
+                            <span  v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                        </template>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <template v-for="tab in context.widget.tabs">
+                                    <li v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                                </template>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items="items" :owner="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
 <template id="default-carousel">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-carousel'">
             <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
@@ -2155,19 +2126,14 @@
         <div class="wg wg-content wg-sortable-content">
             <div class="wg wg-sortable-inner">
                 <div class="wg wg-sortable-container wg-sortable-vertical" :class="{ 'wg-sortable-editable': editable }">
-                    <div class="wg wg-sortable-item" :class="{ 'wg-sortable-editable': editable }" v-for="(child, index) in children">
-                        <div class="wg wg-item-content" :key="index">
+                    <div class="wg wg-sortable-item" :class="{ 'wg-sortable-editable': editable }" v-for="child in children">
+                        <div class="wg wg-item-content" :key="child.uuid">
                             <div class="wg wg-inner">
                                 <shell-widget
-                                    :globals="globals"
-                                    :settings="settings"
                                     :stack="page"
                                     :page="page"
-                                    :data="data"
-                                    :storage="storage"
                                     :model="child"
                                     :editable="editable"
-                                    :items="child.widgets"
                                 ></shell-widget>
                             </div>
                         </div>
@@ -2199,18 +2165,13 @@
             }">
                 <div class="wg wg-sortable-container wg-sortable-horizontal" :class="{ 'wg-sortable-editable': editable }">
                     <div class="wg wg-sortable-item" :class="{ 'wg-sortable-editable': editable }" v-for="child in children">
-                        <div class="wg wg-item-content">
+                        <div class="wg wg-item-content" :key="child.uuid">
                             <div class="wg wg-inner">
                                 <shell-widget
-                                    :globals.sync="globals"
-                                    :settings.sync="settings"
-                                    :stack.sync="page"
-                                    :page.sync="page"
-                                    :data.sync="data"
-                                    :storage.sync="storage"
-                                    :model.sync="child"
-                                    :editable.sync="editable"
-                                    :items.sync="child.widgets"
+                                    :stack="page"
+                                    :page="page"
+                                    :model="child"
+                                    :editable="editable"
                                 ></shell-widget>
                             </div>
                         </div>
@@ -2242,18 +2203,13 @@
             }">
                 <div class="wg wg-sortable-container wg-sortable-vertical" :class="{ 'wg-sortable-editable': editable }">
                     <div class="wg wg-sortable-item" :class="{ 'wg-sortable-editable': editable }" v-for="child in children">
-                        <div class="wg wg-item-content">
+                        <div class="wg wg-item-content" :key="child.uuid">
                             <div class="wg wg-inner">
                                 <shell-widget
-                                    :globals.sync="globals"
-                                    :settings.sync="settings"
-                                    :stack.sync="page"
-                                    :page.sync="page"
-                                    :data.sync="data"
-                                    :storage.sync="storage"
-                                    :model.sync="child"
-                                    :editable.sync="editable"
-                                    :items.sync="child.widgets"
+                                    :stack="page"
+                                    :page="page"
+                                    :model="child"
+                                    :editable="editable"
                                 ></shell-widget>
                             </div>
                         </div>
@@ -3298,6 +3254,26 @@
     </default-box>
 </template>
 
+<template id="academy-menu">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-menu">
+        <ul class="wg wg-menu-table" v-if="bindings.items.collection">
+            <li v-for="item in bindings.items.collection" class="wg wg-table-item" :class="{ 'active': item.active }">
+                <a  v-if="item.vlink" @click.prevent="$router.push({ path: item.vlink })" :style="{
+                    'margin': item.margin || bindings.items.style.margin,
+                    'padding': item.padding || bindings.items.style.padding,
+                    'background': item.background || bindings.items.style.background,
+                }">{{ item.title }}</a>
+                <a v-if="!item.vlink" :href="item.href" :style="{
+                    'margin': item.margin || bindings.items.style.margin,
+                    'padding': item.padding || bindings.items.style.padding,
+                    'background': item.background || bindings.items.style.background,
+                }"
+                >{{ item.title }}</a>
+            </li>
+        </ul>
+    </default-box>
+</template>
+
 <template id="academy-header">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-header">
         <div class="wg wg-header-table">
@@ -3326,26 +3302,6 @@
                 </div>
             </div>
         </div>
-    </default-box>
-</template>
-
-<template id="academy-menu">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-menu">
-        <ul class="wg wg-menu-table" v-if="bindings.items.collection">
-            <li v-for="item in bindings.items.collection" class="wg wg-table-item" :class="{ 'active': item.active }">
-                <a  v-if="item.vlink" @click.prevent="$router.push({ path: item.vlink })" :style="{
-                    'margin': item.margin || bindings.items.style.margin,
-                    'padding': item.padding || bindings.items.style.padding,
-                    'background': item.background || bindings.items.style.background,
-                }">{{ item.title }}</a>
-                <a v-if="!item.vlink" :href="item.href" :style="{
-                    'margin': item.margin || bindings.items.style.margin,
-                    'padding': item.padding || bindings.items.style.padding,
-                    'background': item.background || bindings.items.style.background,
-                }"
-                >{{ item.title }}</a>
-            </li>
-        </ul>
     </default-box>
 </template>
 
