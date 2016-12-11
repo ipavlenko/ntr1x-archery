@@ -27,22 +27,43 @@ class DefaultController extends Controller {
      */
     public function editAction(Request $request) {
 
-        // TODO $domain = ... Взять его нужно по имени домена, с которого открыт ресурс
-
         $em = $this->getDoctrine()->getManager();
 
-        $portal = $this
-            ->getDoctrine()
-            ->getRepository('AppBundle:Portal')
-            ->findOneBy([ 'id' => $request->attributes->get('id') ], [])
+        $view = [];
+
+        $principal = $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')
+            ? $this->get('security.token_storage')->getToken()->getUser()
+            : null
         ;
 
-        $view = [
-            'principal' => $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')
-                ? $this->get('security.token_storage')->getToken()->getUser()
-                : null,
-            'portal' => $portal,
-        ];
+        try {
+
+            $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$view, &$serializer, &$principal) {
+
+                $portal = $this
+                    ->getDoctrine()
+                    ->getRepository('AppBundle:Portal')
+                    ->findOneBy([ 'id' => $request->attributes->get('id') ], [])
+                ;
+
+                $pages = $this
+                    ->getDoctrine()
+                    ->getRepository('AppBundle:Page')
+                    ->findBy([ 'portal' => $portal ], [])
+                ;
+
+                $view['principal'] = $portal;
+                $view['portal'] = $portal;
+                $view['pages'] = $pages;
+            });
+
+        } catch (\Exception $e) {
+
+            $view['error'] = [
+                'message' => 'Internal server error',
+                'message2' => $e->getMessage(),
+            ];
+        }
 
         return $this->render('designer.html.twig', $view);
     }
@@ -63,43 +84,33 @@ class DefaultController extends Controller {
             : null
         ;
 
-        // if (!empty($principal)) {
+        try {
 
-            try {
+            $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$view, &$serializer, &$principal) {
 
-                $em->getConnection()->transactional(function($conn) use (&$em, &$request, &$view, &$serializer, &$principal) {
+                $portal = $this
+                    ->getDoctrine()
+                    ->getRepository('AppBundle:Portal')
+                    ->findOneBy([ 'id' => $request->attributes->get('id') /*, 'user' => $user */ ], [])
+                ;
 
-                    // $user = $this
-                    //     ->getDoctrine()
-                    //     ->getRepository('AppBundle:User')
-                    //     ->find($principal->getId())
-                    // ;
+                $pages = $this
+                    ->getDoctrine()
+                    ->getRepository('AppBundle:Page')
+                    ->findBy([ 'portal' => $portal ], [])
+                ;
 
-                    $portal = $this
-                        ->getDoctrine()
-                        ->getRepository('AppBundle:Portal')
-                        ->findOneBy([ 'id' => $request->attributes->get('id') /*, 'user' => $user */ ], [])
-                    ;
+                $view['portal'] = $portal;
+                $view['pages'] = $pages;
+            });
 
-                    $pages = $this
-                        ->getDoctrine()
-                        ->getRepository('AppBundle:Page')
-                        ->findBy([ 'portal' => $portal ], [])
-                    ;
+        } catch (\Exception $e) {
 
-                    // $view['principal'] = $principal;
-                    $view['portal'] = $portal;
-                    $view['pages'] = $pages;
-                });
-
-            } catch (\Exception $e) {
-
-                $view['error'] = [
-                    'message' => 'Internal server error',
-                    'message2' => $e->getMessage(),
-                ];
-            }
-        // }
+            $view['error'] = [
+                'message' => 'Internal server error',
+                'message2' => $e->getMessage(),
+            ];
+        }
 
         return $this->render('viewer.html.twig', $view);
     }

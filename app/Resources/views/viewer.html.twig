@@ -55,99 +55,6 @@
     </section>
 </template>
 
-<template id="bindings-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Edit Param</span>
-                        <span v-if="!original">New Param</span>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="bindings-dialog-binding">Binding</label>
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span v-if="getStrategy() == 'eval'">Eval </span>
-                                    <span v-if="getStrategy() != 'eval'">Interpolate </span>
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li :class="{ 'active': getStrategy() == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
-                                    <li :class="{ 'active': getStrategy() != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
-                                </ul>
-                            </div>
-                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding.expression" />
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
-<template id="shell-pages-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Настройки страницы</span>
-                        <span v-if="!original">Новая страница</span>
-                        <span>&gt;</span>
-                        <span v-if="isActive('main')">Основное</span>
-                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
-                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
-                                    <div class="form-group">
-                                        <label for="dialog-page-name">Имя</label>
-                                        <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
-                                    </div>
-                                </div>
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="domains-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -311,6 +218,99 @@
 
     <domains-list :items.sync="items"></domains-list>
 
+</template>
+
+<template id="bindings-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Edit Param</span>
+                        <span v-if="!original">New Param</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="bindings-dialog-binding">Binding</label>
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span v-if="getStrategy() == 'eval'">Eval </span>
+                                    <span v-if="getStrategy() != 'eval'">Interpolate </span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li :class="{ 'active': getStrategy() == 'eval' }"><a href="#" @click="setStrategy('eval')">Eval</a></li>
+                                    <li :class="{ 'active': getStrategy() != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
+                                </ul>
+                            </div>
+                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding.expression" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="shell-pages-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
+                        <span v-if="original">&nbsp;Настройки страницы</span>
+                        <span v-if="!original">Новая страница</span>
+                        <span>&gt;</span>
+                        <span v-if="isActive('main')">Основное</span>
+                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
+                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
+                                    <div class="form-group">
+                                        <label for="dialog-page-name">Имя</label>
+                                        <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
+                                    </div>
+                                </div>
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items.sync="items" :globals.sync="globals" :owner.sync="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </template>
 
 <template id="params-asis">
@@ -1135,11 +1135,14 @@
         </div>
         <div class="pull-right">
 
-            <button type="button" class="btn btn-shell" @click="$store.dispatch('zoomIn')">
+            <button type="button" class="btn btn-shell" @click="$store.dispatch('designer/zoomIn')">
                 <span class="glyphicon glyphicon-zoom-in"></span>
                 <span>Zoom in</span>
             </button>
-            <button type="button" class="btn btn-shell" @click="$store.dispatch('zoomOut')">
+            <button type="button" class="btn btn-shell" @click="$store.dispatch('designer/zoom', 1)">
+                <span>100%</span>
+            </button>
+            <button type="button" class="btn btn-shell" @click="$store.dispatch('designer/zoomOut')">
                 <span class="glyphicon glyphicon-zoom-out"></span>
                 <span>Zoom out</span>
             </button>
@@ -1175,11 +1178,12 @@
 <template id="shell-container">
 
     <section class="ge ge-container" v-scrollable>
-        <shell-page
-            :globals.sync="globals"
-            :page.sync="page"
-            :items.sync="page.widgets"
+        <shell-page v-if="page != null"
+            :page="page"
             :editable="true"
+            :style="{
+               'transform': 'scale(' + $store.state.designer.scale + ')'
+            }"
         ></shell-page>
     </section>
 
@@ -1326,27 +1330,20 @@
 
 <template id="shell-loader-private">
     <div class="ge ge-shell-loader">
-        <shell-private v-if="model != null"
-            :model="model"
-        ></shell-private>
+        <shell-private></shell-private>
     </div>
 </template>
 
 <template id="shell-loader-public">
     <div class="ge ge-shell-loader">
-        <shell-public v-if="model != null"
-            :model="model"
-        ></shell-public>
+        <shell-public></shell-public>
     </div>
 </template>
 
 <template id="shell-page">
-    <div class="ge ge-page" :style="{
-        'transform': 'scale(' + $store.state.editor.scale + ')'
-    }">
+    <div class="ge ge-page" :style="style">
         <div
             :is="decorator"
-            :globals="globals"
             :page="page"
             :data="data"
             :storage="storage"
@@ -1378,8 +1375,8 @@
         <div class="ge ge-block-content">
             <ul class="nav nav-pills nav-stacked">
                 <template v-for="item in items">
-                    <li v-if="item.type == type.name" :class="{ 'active': item == globals.selection.page }">
-                        <a href="#" @click="trigger('selectPage', item)">
+                    <li :key="item.uuid" v-if="item.type == type.name" :class="{ 'active': item == active }">
+                        <a href="#" @click="$store.commit('designer/pages/select', item)">
                             <span v-if="item.name != ''">{{ item.name }}</span>
                             <span v-if="item.name == ''"><i>default</i></span>
                             <span class="ge ge-overlays">
@@ -1408,19 +1405,18 @@
             <div class="btn-toolbar">
                 <div class="btn-group btn-group-justified">
                     <button class="btn btn-shell dropdown-toggle" type="button" data-toggle="dropdown" style="width: 100%">
-                        {{ globals.selection.category.title }} <span class="caret"></span>
+                        {{ $store.state.palette.category.title }} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <template v-for="category in categories">
-                            <li v-if="!category.ignore"><a @click.prevent="trigger('selectCategory', category)">{{ category.title }}</a></li>
+                        <template v-for="category in $store.getters.palette.categories()">
+                            <li v-if="!category.ignore"><a @click.prevent="$store.dispatch('palette/category', category)">{{ category.title }}</a></li>
                         </template>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="ge ge-palette-categories wg-sortable-container" v-scrollable>
-
-            <template v-for="group in category.groups()">
+            <template v-for="group in $store.state.palette.category.groups()">
                 <div v-if="!group.ignore" class="ge ge-palette-category">
                     <div class="ge ge-category-title">{{ group.title }}</div>
                     <div class="ge ge-category-palette">
@@ -1441,54 +1437,33 @@
 <template id="shell-private">
     <div class="ge ge-shell ge-shell-private">
         <div class="ge ge-head">
-            <shell-brand
-                :model="model"
-                :globals="globals"
-            ></shell-brand>
+            <shell-brand></shell-brand>
         </div>
         <div class="ge ge-body">
             <div class="ge ge-body-table">
-                <div class="ge ge-left" :class="{ 'ge-left-open' : leftOpen }" v-scrollable>
+                <div class="ge ge-left" :class="{ 'ge-left-open' : $store.state.designer.leftOpen }" v-scrollable>
                     <div class="ge ge-hover">
-                        <a class="ge ge-hover-button" @click = "leftOpen = !leftOpen">
+                        <a class="ge ge-hover-button" @click = "$store.dispatch('designer/rightToggle')">
                             <span class="glyphicon glyphicon-th"></span>
                             Palette
                         </a>
                     </div>
                     <div class="ge ge-subnav">
-                        <shell-palette
-                            :category="globals.selection.category"
-                            :globals="globals"
-                        ></shell-palette>
+                        <shell-palette></shell-palette>
                     </div>
                 </div>
                 <div class="ge ge-editor">
-                    <shell-actions
-                        :model="model"
-                        :globals="globals"
-                    ></shell-actions>
-                    <shell-container
-                        :globals="globals"
-                        :page="globals.selection.page"
-                    ></shell-container>
+                    <shell-actions></shell-actions>
+                    <shell-container :page="page"></shell-container>
                 </div>
-                <div class="ge ge-right" :class="{ 'ge-right-open' : rightOpen }"  v-scrollable>
+                <div class="ge ge-right" :class="{ 'ge-right-open' : $store.state.designer.rightOpen }"  v-scrollable>
                     <div class="ge ge-subnav">
-                        <shell-pages
-                            :pages="model.pages"
-                            :globals="globals"
-                        ></shell-pages>
-                        <shell-sources
-                            :sources="globals.selection.page.sources"
-                            :globals="globals"
-                        ></shell-sources>
-                        <shell-storages
-                            :storages="globals.selection.page.storages"
-                            :globals="globals"
-                        ></shell-storages>
+                        <shell-pages></shell-pages>
+                        <shell-sources></shell-sources>
+                        <shell-storages></shell-storages>
                     </div>
                     <div class="ge ge-hover">
-                        <a class="ge ge-hover-button" @click = "rightOpen = !rightOpen">
+                        <a class="ge ge-hover-button" @click = "$store.dispatch('designer/rightToggle')">
                             <span class="glyphicon glyphicon-th"></span>
                             Stucture
                         </a>
@@ -1496,18 +1471,13 @@
                 </div>
             </div>
         </div>
-        <shell-modal-stack
-            :pages="model.pages"
-        ></shell-modal-stack>
+        <shell-modal-stack></shell-modal-stack>
     </div>
 </template>
 
 <template id="shell-public">
     <div class="ge ge-shell ge-shell-public">
-        <shell-page
-            :page="page"
-            :items="page.widgets"
-        ></shell-page>
+        <shell-page></shell-page>
         <shell-modal-stack></shell-modal-stack>
     </div>
 </template>
@@ -1567,8 +1537,8 @@
         <div class="ge ge-block-content">
             <ul class="nav nav-pills nav-stacked">
                 <template v-for="item in items">
-                    <li v-if="item.type == type.name" :class="{ 'active': item == globals.selection.storage }">
-                        <a href="#" @click="trigger('selectStorage', item)">
+                    <li :key="item.uuid" v-if="item.type == type.name" :class="{ 'active': item == active }">
+                        <a href="#" @click="$store.commit('designer/storages/select', item)">
                             <span>{{ item.name }}</span>
                             <span class="ge ge-overlays">
                                 <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
@@ -2438,24 +2408,6 @@
     </default-box>
 </template>
 
-<template id="default-box">
-    <section :class="clazz" :id="bindings.id" :style="{
-        'border': bindings.outer.border,
-        'background': bindings.outer.background,
-        'margin': bindings.outer.margin,
-        'padding': bindings.outer.padding,
-    }">
-        <div class="wg wg-content" :style="{
-            'height': bindings.height,
-            'width': bindings.width,
-            'margin': bindings.inner.margin,
-            'padding': bindings.inner.padding,
-            'border': bindings.inner.border,
-            'background': bindings.inner.background,
-        }"><slot>Empty</slot></div>
-    </section>
-</template>
-
 <template id="default-text">
     <section class="wg wg-default-text" :id="bindings.id"
         :class="{
@@ -2484,6 +2436,24 @@
             }"
             v-html="bindings.content"
         ></div>
+    </section>
+</template>
+
+<template id="default-box">
+    <section :class="clazz" :id="bindings.id" :style="{
+        'border': bindings.outer.border,
+        'background': bindings.outer.background,
+        'margin': bindings.outer.margin,
+        'padding': bindings.outer.padding,
+    }">
+        <div class="wg wg-content" :style="{
+            'height': bindings.height,
+            'width': bindings.width,
+            'margin': bindings.inner.margin,
+            'padding': bindings.inner.padding,
+            'border': bindings.inner.border,
+            'background': bindings.inner.background,
+        }"><slot>Empty</slot></div>
     </section>
 </template>
 
@@ -2796,7 +2766,7 @@
                                 <div class="ld ld-overlay-content">
                                     <div class="ld ld-thumbnail-buttons">
                                         <a :href="'/view/' + portal.id + '/'" class="btn btn-default">Preview</a>
-                                        <a href="#" class="btn btn-primary">Start Editing</a>
+                                        <a href="#" class="btn btn-primary" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/clone' })">Clone &amp; Edit</a>
                                     </div>
                                 </div>
                             </div>
@@ -2831,7 +2801,7 @@
                                     <div class="ld ld-overlay-content">
                                         <div class="ld ld-thumbnail-buttons">
                                             <a :href="'/view/' + portal.id + '/'" class="btn btn-default">Preview</a>
-                                            <a href="#" class="btn btn-primary">Start Editing</a>
+                                            <a href="#" class="btn btn-primary" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/clone' })">Clone &amp; Edit</a>
                                         </div>
                                     </div>
                                 </div>

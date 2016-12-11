@@ -26,6 +26,13 @@ class Page
      */
     private $id;
 
+    // /**
+    //  * @var int
+    //  *
+    //  * @ORM\Column(name="name", type="string", length=511)
+    //  */
+    // private $uuid;
+
     /**
      * @var string
      *
