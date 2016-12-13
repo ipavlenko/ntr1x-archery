@@ -37,7 +37,9 @@
 {% verbatim %}
 <template id="shell-modal-stack">
     <section class="ge ge-modal-stack">
-        <shell-modal v-for="modal in $store.state.modals.items" :page="modal.page"></shell-modal>
+        <template v-for="modal in $store.state.modals.items">
+            <component :is="modal.name" :original="modal.original" :context="modal.context" :events="modal.events"></component>
+        </template>
     </section>
 </template>
 
@@ -55,7 +57,7 @@
 </template>
 
 <template id="bindings-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
+    <div class="ge ge-modal modal modal-medium" role="dialog">
         <div class="modal-dialog">
             <form class="modal-content"
                 @submit.prevent="submit"
@@ -64,9 +66,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                     <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Edit Param</span>
-                        <span v-if="!original">New Param</span>
+                        <span class="label label-primary">Edit Binding</span>
                     </h4>
                 </div>
                 <div class="modal-body">
@@ -84,7 +84,7 @@
                                     <li :class="{ 'active': getStrategy() != 'eval' }"><a href="#" @click="setStrategy('interpolate')">Interpolate</a></li>
                                 </ul>
                             </div>
-                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.binding.expression" />
+                            <input class="form-control" type="text" id="bindings-dialog-binding" v-model="current.expression" />
                         </div>
                     </div>
                 </div>
@@ -262,7 +262,7 @@
 
 </template>
 
-<template id="shell-pages-dialog">
+<template id="pages-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
             <form class="modal-content"
@@ -940,18 +940,18 @@
 </template>
 
 <template id="storages-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
+    <section class="ge ge-modal modal modal-medium" role="dialog">
         <div class="modal-dialog">
             <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
+                @submit.prevent="submit()"
+                @reset.prevent="reset()"
             >
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                     <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Edit Storage</span>
-                        <span v-if="!original">New Storage</span>
+                        <span v-if="context.type == 'update'" class="label label-primary">Edit Storage</span>
+                        <span v-if="context.type == 'create'" class="label label-primary">New Storage</span>
+                        <span v-if="original.name">&nbsp;{{ original.name }}</span>
                     </h4>
                 </div>
                 <div class="modal-body">
@@ -962,7 +962,7 @@
                     <div class="form-group">
                         <label for="storages-dialog-params">Variables</label>
                         <div>
-                            <storages-variables :items.sync="current.variables"></storages-variables>
+                            <storages-variables :owner="current" property="variables"></storages-variables>
                         </div>
                     </div>
                 </div>
@@ -972,7 +972,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </section>
 </template>
 
 <template id="storages-list">
@@ -1004,18 +1004,18 @@
 </template>
 
 <template id="storages-variables-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
+    <section class="ge ge-modal modal modal-medium" role="dialog">
         <div class="modal-dialog">
             <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
+                @submit.prevent="submit()"
+                @reset.prevent="reset()"
             >
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                     <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Edit Variable</span>
-                        <span v-if="!original">New Variable</span>
+                        <span v-if="context.type == 'update'" class="label label-primary">Edit Variable</span>
+                        <span v-if="context.type == 'create'" class="label label-primary">New Variable</span>
+                        <span v-if="original.name">&nbsp;{{ original.name }}</span>
                     </h4>
                 </div>
                 <div class="modal-body">
@@ -1028,7 +1028,7 @@
                         <div class="input-group">
                             <input class="form-control" type="text" id="storages-variables-dialog-value" v-model="current.value" />
                             <div class="input-group-btn">
-                                <bindings :model.sync="current" inline-template>
+                                <bindings :owner="current" property="binding" inline-template>
                                     <button type="button" class="btn btn-default" @click="open">...</button>
                                 </bindings>
                             </div>
@@ -1041,7 +1041,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </section>
 </template>
 
 <template id="storages-variables-list">
@@ -1049,15 +1049,15 @@
         <table class="table table-condensed">
             <thead>
                 <tr>
-                    <th></th>
+                    <th>#</th>
                     <th style="width: 20%">Name</th>
                     <th style="width: 40%">Value</th>
                     <th><a class="btn btn-xs btn-primary" @click="create({ value: null, binding: null})">Add</a></th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
+                <tr v-for="(item, index) in items">
+                    <td>{{ index + 1 }}</td>
                     <td>{{ item.name }}</td>
                     <td>
                         <span>{{ item.value }}</span>
@@ -1076,7 +1076,7 @@
 
 <template id="storages-variables">
 
-    <storages-variables-list :items.sync="items"></storages-variables-list>
+    <storages-variables-list :owner="owner" :property="property"></storages-variables-list>
 
 </template>
 
@@ -1343,7 +1343,7 @@
                     </ul>
                 </div>
                 <div class="btn-group pull-right">
-                    <button class="btn btn-shell" @click="create({ type: type.name, sources: [], storages: [], widgets: [] })"><span class="glyphicon glyphicon-plus-sign"></span></button>
+                    <button class="btn btn-shell" @click="create()"><span class="glyphicon glyphicon-plus-sign"></span></button>
                 </div>
             </div>
         </div>
@@ -1477,8 +1477,8 @@
         <div class="ge ge-block-content">
             <ul class="nav nav-pills nav-stacked">
                 <template v-for="item in items">
-                    <li v-if="item.type == type.name" :class="{ 'active': item == globals.selection.source }">
-                        <a href="#" @click="trigger('selectSource', item)">
+                    <li :key="item.uuid" v-if="item.type == type.name" :class="{ 'active': item == active }">
+                        <a href="#" @click="$store.commit('designer/sources/select', item)">
                             <span>{{ item.name }}</span>
                             <span class="ge ge-overlays">
                                 <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
@@ -1505,7 +1505,7 @@
                     </ul>
                 </div>
                 <div class="btn-group pull-right">
-                    <button class="btn btn-shell" @click="create({ type: 'storage', variables: [] })"><span class="glyphicon glyphicon-plus-sign"></span></button>
+                    <button class="btn btn-shell" @click="create()"><span class="glyphicon glyphicon-plus-sign"></span></button>
                 </div>
             </div>
         </div>
@@ -1588,7 +1588,7 @@
                             </div>
                             <input class="form-control" type="text" id="pages-sources-dialog-url" v-model="current.url" />
                             <div class="input-group-btn">
-                                <pages-sources-setup :model.sync="current" inline-template>-
+                                <pages-sources-setup :model="current" inline-template>
                                     <button type="button" class="btn btn-default" @click="open({})">...</button>
                                 </pages-sources-setup>
                             </div>
@@ -1720,8 +1720,8 @@
     <section>
         <table class="table table-condensed">
             <tbody>
-                <tr v-for="item in items" v-show="item._action != 'remove'">
-                    <td>{{ $index + 1 }}</td>
+                <tr v-for="(item, index) in items" :key="item.uuid">
+                    <td>{{ index + 1 }}</td>
                     <td>
                         <div style="white-space: nowrap">
                             <span class="label" :class="{
@@ -1806,7 +1806,7 @@
                                 <td>
                                     <div>{{ method.path }}</div>
                                 </td>
-                                <td style="width: 1%"><a class="btn btn-default btn-xs" @click="submit(method)">Choose</a></td>
+                                <td style="width: 1%"><a class="btn btn-default btn-xs" @click.stop.prevent="submit(method)">Choose</a></td>
                             </tr>
                         </table>
                     </div>
@@ -1867,8 +1867,8 @@
 
 <template id="pages-sources-setup-dialog">
     <div class="ge ge-modal modal modal-center pages-sources-setup-dialog">
-        <page-spec v-if="page == 'spec'" :selection.sync="selection"></page-spec>
-        <page-method v-if="page == 'method'" :selection.sync="selection"></page-method>
+        <page-spec v-if="page == 'spec'" :selection="selection"></page-spec>
+        <page-method v-if="page == 'method'" :selection="selection"></page-method>
     </div>
 </template>
 
