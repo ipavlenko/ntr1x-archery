@@ -504,6 +504,9 @@
 
 <template id="params-multiple-editor">
     <div>
+        <pre>{{ items }}</pre>
+        <pre>{{ prop }}</pre>
+        <pre>{{ param }}</pre>
         <params-multiple-list
             :items="items"
             :prop="prop"
@@ -1183,6 +1186,7 @@
             <default-stack-canvas
                 ref="widget"
                 :page="page"
+                :stack="page.root"
                 :bindings="bindings"
                 :children="children"
                 :editable="editable"
@@ -1197,10 +1201,11 @@
             <div
                 :is="widget.tag"
                 ref="widget"
-                :page.sync="page"
-                :bindings.sync="bindings"
-                :children.sync="children"
-                :editable.sync="selected"
+                :page="page"
+                :stack="model"
+                :bindings="bindings"
+                :children="children"
+                :editable="selected"
             ></div>
         </div>
         <div class="ge ge-overlay" v-if="$route && $route.meta.private && editable">
@@ -1223,6 +1228,7 @@
                 :is="widget.tag"
                 ref="widget"
                 :page="page"
+                :stack="stack"
                 :bindings="bindings"
             ></div>
         </div>
@@ -1235,15 +1241,14 @@
             <div
                 :is="widget.tag"
                 ref="widget"
-                :page.sync="page"
-                :data.sync="data"
-                :storage.sync="storage"
-                :bindings.sync="bindings"
-                :children.sync="children"
-                :editable.sync="selected"
+                :page="page"
+                :stack="model"
+                :bindings="bindings"
+                :children="children"
+                :editable="selected"
             ></div>
         </div>
-        <div class="ge ge-overlay" v-if="$route && $route.private && editable">
+        <div class="ge ge-overlay" v-if="$route && $route.meta.private && editable">
             <div class="ge ge-overlay-left">
                 <a href="#" v-if="!selected" @click.stop.prevent="selectTarget()" class="label label-success">Unlock</a>
                 <a href="#" v-if="selected" @click.stop.prevent="unselectTarget()" class="label label-success">Lock</a>
@@ -1263,6 +1268,7 @@
                 :is="widget.tag"
                 ref="widget"
                 :page="page"
+                :stack="stack"
                 :bindings="bindings"
             ></div>
         </div>
@@ -1539,6 +1545,7 @@
         <div
             :is="decorator"
             :page="page"
+            :stack="stack"
             :model="model"
             :widget="widget"
             :editable="editable"
@@ -1556,10 +1563,12 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                     <h4 class="modal-title">
-                        <span v-if="original" class="label label-primary">{{ original.name }}</span>
-                        <span v-if="original">&nbsp;Редактирование виджета</span>
-                        <span v-if="!original">Новый виджет</span>
-                        <span>&gt;</span>
+                        <span v-if="context.type == 'update'" class="label label-primary">Edit Widget</span>
+                        <span v-if="context.type == 'create'" class="label label-primary">New Widget</span>
+                        <!--
+                            <span v-if="original.name">&nbsp;{{ original.name }}</span>
+                            <span>&gt;</span>
+                         -->
                         <template v-for="tab in context.widget.tabs">
                             <span  v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
                         </template>
@@ -1960,30 +1969,6 @@
         </default-box>
 </template>
 
-<template id="default-navbar">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-navbar">
-        <nav class="navbar" :class="{
-            'navbar-default': bindings.stereotype == 'default',
-            'navbar-inverse': bindings.stereotype == 'inverse',
-        }">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">
-                        <img alt="Brand" height="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAB+0lEQVR4AcyYg5LkUBhG+1X2PdZGaW3btm3btm3bHttWrPomd1r/2Jn/VJ02TpxcH4CQ/dsuazWgzbIdrm9dZVd4pBz4zx2igTaFHrhvjneVXNHCSqIlFEjiwMyyyOBilRgGSqLNF1jnwNQdIvAt48C3IlBmHCiLQHC2zoHDu6zG1iXn6+y62ScxY9AODO6w0pvAqf23oSE4joOfH6OxfMoRnoGUm+de8wykbFt6wZtA07QwtNOqKh3ZbS3Wzz2F+1c/QJY0UCJ/J3kXWJfv7VhxCRRV1jGw7XI+gcO7rEFFRvdYxydwcPsVsC0bQdKScngt4iUTD4Fy/8p7PoHzRu1DclwmgmiqgUXjD3oTKHbAt869qdJ7l98jNTEblPTkXMwetpvnftA0LLHb4X8kiY9Kx6Q+W7wJtG0HR7fdrtYz+x7iya0vkEtUULIzCjC21wY+W/GYXusRH5kGytWTLxgEEhePPwhKYb7EK3BQuxWwTBuUkd3X8goUn6fMHLyTT+DCsQdAEXNzSMeVPAJHdF2DmH8poCREp3uwm7HsGq9J9q69iuunX6EgrwQVObjpBt8z6rdPfvE8kiiyhsvHnomrQx6BxYUyYiNS8f75H1w4/ISepDZLoDhNJ9cdNUquhRsv+6EP9oNH7Iff2A9g8h8CLt1gH0Qf9NMQAFnO60BJFQe0AAAAAElFTkSuQmCC" width="20" />
-                    </a>
-                </div>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-left">
-                        <li class="active"><a href="#">Project</a></li>
-                        <li><a href="#">Offers <span class="caret"></span></a></li>
-                    </ul>
-                    <button type="submit" class="btn btn-primary navbar-btn navbar-right">Signup</button>
-                </div>
-            </div>
-        </nav>
-    </default-box>
-</template>
-
 <template id="default-gallery">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-gallery">
 
@@ -2066,6 +2051,30 @@
     </default-box>
 </template>
 
+<template id="default-navbar">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-navbar">
+        <nav class="navbar" :class="{
+            'navbar-default': bindings.stereotype == 'default',
+            'navbar-inverse': bindings.stereotype == 'inverse',
+        }">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <img alt="Brand" height="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAB+0lEQVR4AcyYg5LkUBhG+1X2PdZGaW3btm3btm3bHttWrPomd1r/2Jn/VJ02TpxcH4CQ/dsuazWgzbIdrm9dZVd4pBz4zx2igTaFHrhvjneVXNHCSqIlFEjiwMyyyOBilRgGSqLNF1jnwNQdIvAt48C3IlBmHCiLQHC2zoHDu6zG1iXn6+y62ScxY9AODO6w0pvAqf23oSE4joOfH6OxfMoRnoGUm+de8wykbFt6wZtA07QwtNOqKh3ZbS3Wzz2F+1c/QJY0UCJ/J3kXWJfv7VhxCRRV1jGw7XI+gcO7rEFFRvdYxydwcPsVsC0bQdKScngt4iUTD4Fy/8p7PoHzRu1DclwmgmiqgUXjD3oTKHbAt869qdJ7l98jNTEblPTkXMwetpvnftA0LLHb4X8kiY9Kx6Q+W7wJtG0HR7fdrtYz+x7iya0vkEtUULIzCjC21wY+W/GYXusRH5kGytWTLxgEEhePPwhKYb7EK3BQuxWwTBuUkd3X8goUn6fMHLyTT+DCsQdAEXNzSMeVPAJHdF2DmH8poCREp3uwm7HsGq9J9q69iuunX6EgrwQVObjpBt8z6rdPfvE8kiiyhsvHnomrQx6BxYUyYiNS8f75H1w4/ISepDZLoDhNJ9cdNUquhRsv+6EP9oNH7Iff2A9g8h8CLt1gH0Qf9NMQAFnO60BJFQe0AAAAAElFTkSuQmCC" width="20" />
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="active"><a href="#">Project</a></li>
+                        <li><a href="#">Offers <span class="caret"></span></a></li>
+                    </ul>
+                    <button type="submit" class="btn btn-primary navbar-btn navbar-right">Signup</button>
+                </div>
+            </div>
+        </nav>
+    </default-box>
+</template>
+
 <template id="default-table">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-table">
         <table class="table table-striped" v-if="
@@ -2119,26 +2128,6 @@
     </section>
 </template>
 
-<template id="default-button">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
-        <div class="form-group">
-            <button :type="bindings.type" class="btn btn-block" @click="$store.dispatch('action', bindings.click)" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                }"
-                :style="{
-                    height: bindings.height
-                }"
-            >{{ bindings.title }}</button>
-        </div>
-    </default-box>
-</template>
-
 <template id="default-stack-canvas">
     <section class="wg wg-default-stack wg-default-stack-canvas wg-sortable" :style="{
         width: bindings.width || '1200px'
@@ -2150,7 +2139,7 @@
                         <div class="wg wg-item-content" :key="child.uuid">
                             <div class="wg wg-inner">
                                 <shell-widget
-                                    :stack="page"
+                                    :stack="page.root"
                                     :page="page"
                                     :model="child"
                                     :editable="editable"
@@ -2188,7 +2177,7 @@
                         <div class="wg wg-item-content" :key="child.uuid">
                             <div class="wg wg-inner">
                                 <shell-widget
-                                    :stack="page"
+                                    :stack="stack"
                                     :page="page"
                                     :model="child"
                                     :editable="editable"
@@ -2226,7 +2215,7 @@
                         <div class="wg wg-item-content" :key="child.uuid">
                             <div class="wg wg-inner">
                                 <shell-widget
-                                    :stack="page"
+                                    :stack="stack"
                                     :page="page"
                                     :model="child"
                                     :editable="editable"
@@ -2238,6 +2227,26 @@
             </div>
         </div>
     </section>
+</template>
+
+<template id="default-button">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
+        <div class="form-group">
+            <button :type="bindings.type" class="btn btn-block" @click="$store.dispatch('action', bindings.click)" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                }"
+                :style="{
+                    height: bindings.height
+                }"
+            >{{ bindings.title }}</button>
+        </div>
+    </default-box>
 </template>
 
 <template id="default-check">
@@ -2802,96 +2811,6 @@
     </div>
 </template>
 
-<template id="landing-pricing">
-    <div class="ld ld-section ld-pricing">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-hdd"></span> Pricing</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-pricing-offers">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                                        <div class="ld ld-pricing-offer">
-                                            <h4>Starter</h4>
-                                            <div class="ld ld-offer-price">$10 / month</div>
-                                            <div class="ld ld-offer-discount">30% discount for 1 year subscription</div>
-                                            <ul class="ld ld-offer-options">
-                                                <li>One portal</li>
-                                                <li>Unlimited number of pages</li>
-                                                <li>500 Mb Storage</li>
-                                            </ul>
-                                            <div class="ld ld-offer-promo">
-                                                <p>Better suited for personal, event and product pages.</p>
-                                                <a href="#" class="btn btn-primary">Create Portal</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                                        <div class="ld ld-pricing-offer">
-                                            <h4>Business</h4>
-                                            <div class="ld ld-offer-price">$100 / month</div>
-                                            <div class="ld ld-offer-discount">30% discount for 1 year subscription</div>
-                                            <ul class="ld ld-offer-options">
-                                                <li>Up to 10 portals</li>
-                                                <li>Unlimited number of pages</li>
-                                                <li>2 Gb Storage per each portal</li>
-                                            </ul>
-                                            <div class="ld ld-offer-promo">
-                                                <p>Better suited for small campanies and startups.</p>
-                                                <a href="#" class="btn btn-primary">Create Portal</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                                        <div class="ld ld-pricing-offer">
-                                            <h4>Server</h4>
-                                            <div class="ld ld-offer-price">$5000</div>
-                                            <div class="ld ld-offer-discount">30% discount for each additional server licence</div>
-                                            <ul class="ld ld-offer-options">
-                                                <li>Up to 100 portals</li>
-                                                <li>1 year subscription for updates</li>
-                                                <li>Deploy to your own hardrare</li>
-                                            </ul>
-                                            <div class="ld ld-offer-promo">
-                                                <p>Better suited for web-developers and service providers.</p>
-                                                <a href="#" class="btn btn-primary">Apply</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                                        <div class="ld ld-pricing-offer">
-                                            <h4>Advanced</h4>
-                                            <div class="ld ld-offer-price">Price on request</div>
-                                            <div class="ld ld-offer-discount">Do not see a suitable plan? Need a special offer?</div>
-                                            <ul class="ld ld-offer-options">
-                                                <li>Branding</li>
-                                                <li>Integrations</li>
-                                                <li>Custom setup</li>
-                                            </ul>
-                                            <div class="ld ld-offer-promo">
-                                                <p>We are welcome you as a partner. Please mail us.</p>
-                                                <a href="#" class="btn btn-primary">Apply</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <template id="landing-manage-clone">
     <div class="ld ld-section ld-body ld-manage ld-manage-clone">
         <div class="ld ld-table">
@@ -3027,6 +2946,96 @@
                                 <div class="ld ld-portal-buttons">
                                     <a href="#" @click="$router.push({ path: '/gallery' })" class="btn btn-primary">Browse Gallery</a>
                                     <a href="#" @click="$router.push({ path: '/manage/create' })" class="btn btn-default">Create Blank</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-pricing">
+    <div class="ld ld-section ld-pricing">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-hdd"></span> Pricing</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-pricing-offers">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                                        <div class="ld ld-pricing-offer">
+                                            <h4>Starter</h4>
+                                            <div class="ld ld-offer-price">$10 / month</div>
+                                            <div class="ld ld-offer-discount">30% discount for 1 year subscription</div>
+                                            <ul class="ld ld-offer-options">
+                                                <li>One portal</li>
+                                                <li>Unlimited number of pages</li>
+                                                <li>500 Mb Storage</li>
+                                            </ul>
+                                            <div class="ld ld-offer-promo">
+                                                <p>Better suited for personal, event and product pages.</p>
+                                                <a href="#" class="btn btn-primary">Create Portal</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                                        <div class="ld ld-pricing-offer">
+                                            <h4>Business</h4>
+                                            <div class="ld ld-offer-price">$100 / month</div>
+                                            <div class="ld ld-offer-discount">30% discount for 1 year subscription</div>
+                                            <ul class="ld ld-offer-options">
+                                                <li>Up to 10 portals</li>
+                                                <li>Unlimited number of pages</li>
+                                                <li>2 Gb Storage per each portal</li>
+                                            </ul>
+                                            <div class="ld ld-offer-promo">
+                                                <p>Better suited for small campanies and startups.</p>
+                                                <a href="#" class="btn btn-primary">Create Portal</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                                        <div class="ld ld-pricing-offer">
+                                            <h4>Server</h4>
+                                            <div class="ld ld-offer-price">$5000</div>
+                                            <div class="ld ld-offer-discount">30% discount for each additional server licence</div>
+                                            <ul class="ld ld-offer-options">
+                                                <li>Up to 100 portals</li>
+                                                <li>1 year subscription for updates</li>
+                                                <li>Deploy to your own hardrare</li>
+                                            </ul>
+                                            <div class="ld ld-offer-promo">
+                                                <p>Better suited for web-developers and service providers.</p>
+                                                <a href="#" class="btn btn-primary">Apply</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                                        <div class="ld ld-pricing-offer">
+                                            <h4>Advanced</h4>
+                                            <div class="ld ld-offer-price">Price on request</div>
+                                            <div class="ld ld-offer-discount">Do not see a suitable plan? Need a special offer?</div>
+                                            <ul class="ld ld-offer-options">
+                                                <li>Branding</li>
+                                                <li>Integrations</li>
+                                                <li>Custom setup</li>
+                                            </ul>
+                                            <div class="ld ld-offer-promo">
+                                                <p>We are welcome you as a partner. Please mail us.</p>
+                                                <a href="#" class="btn btn-primary">Apply</a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

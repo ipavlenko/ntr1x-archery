@@ -29,8 +29,8 @@ textarea.form-control{min-height:80px;border:1px solid #ccc;border-radius:4px;li
 .wg.wg-default-check input[type=checkbox]{position:absolute;clip:rect(0,0,0,0);pointer-events:none}
 .wg.wg-default-dropdown>.wg.wg-content{overflow:visible}.wg.wg-default-dropdown>.wg.wg-content>.form-group>.btn-group{display:table;width:100%}.wg.wg-default-dropdown>.wg.wg-content>.form-group>.btn-group>.dropdown-menu{width:100%}
 
-.wg.wg-default-radio input[type=radio]{position:absolute;clip:rect(0,0,0,0);pointer-events:none}
 .wg.wg-default-image>.wg.wg-content>img{width:100%;min-height:40px}
+.wg.wg-default-radio input[type=radio]{position:absolute;clip:rect(0,0,0,0);pointer-events:none}
 .wg.wg-default-text,.wg.wg-default-text .wg.wg-content{box-sizing:border-box}.wg.wg-default-text{position:relative;width:100%;overflow:hidden}
 .wg.wg-default-box{position:relative;width:100%;overflow:hidden;box-sizing:border-box}.wg.wg-default-box .wg.wg-content{box-sizing:border-box;min-height:15px;min-width:50px}
 .wg.wg-default-placeholder{position:relative;width:100%;overflow:hidden;box-sizing:border-box}.wg.wg-default-placeholder .wg.wg-content{box-sizing:border-box}.wg.wg-default-placeholder .wg.wg-content .wg.wg-table{display:table;width:100%}.wg.wg-default-placeholder .wg.wg-content .wg.wg-table .wg.wg-cell{display:table-cell;vertical-align:middle;text-align:center}.wg.wg-default-placeholder .wg.wg-content .wg.wg-table .wg.wg-cell:empty:after{content:"<Empty>"}
