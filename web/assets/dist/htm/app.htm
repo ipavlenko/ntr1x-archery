@@ -275,38 +275,6 @@
     </div>
 </template>
 
-<template id="shell-publications-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span>Publish Portal</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label for="dialog-page-name">Имя</label>
-                                <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="params-asis">
     <div class="ge ge-param form-group" :class="{ 'has-error': this.error }">
         <div class="ge ge-param-label">
@@ -464,28 +432,15 @@
     </div>
 </template>
 
-<template id="params-multiple-editor">
-    <div>
-        <pre>{{ items }}</pre>
-        <pre>{{ prop }}</pre>
-        <pre>{{ param }}</pre>
-        <params-multiple-list
-            :items="items"
-            :prop="prop"
-            :param="param"
-        ></params-multiple-list>
-    </div>
-</template>
-
-<template id="params-multiple-list">
+<template id="params-multiple">
     <section>
         <table class="table table-condensed">
             <thead>
                 <tr>
-                    <th style="width: 80%" colspan="2">{{ prop.title }}</th>
+                    <th style="width: 80%" colspan="2">{{ item.prop.title }}</th>
                     <th>
                         <div class="pull-right">
-                            <a class="btn btn-xs btn-primary" @click="create({}, { prop: prop })">Add</a>
+                            <a class="btn btn-xs btn-primary" @click="create()">Add</a>
                             <params-proto :model.sync="param" :context="{ prop: prop }" inline-template>
                                 <a class="btn btn-xs btn-default" @click="open()">Advanced</a>
                             </params-proto>
@@ -494,27 +449,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item, index) in items" v-show="item._action != 'remove'">
+                <tr v-for="(child, index) in item.param.value">
                     <td>{{ index + 1 }}</td>
-                    <td>{{ getLabel(item) }}</td>
+                    <td>{{ label(child, index) }}</td>
                     <td>
                         <div class="pull-right">
-                            <a class="btn btn-xs btn-default" @click="update(item, { prop: prop })">Edit</a>
-                            <a class="btn btn-xs btn-danger" @click="remove(item, { prop: prop })">Remove</a>
+                            <a class="btn btn-xs btn-default" @click="update(child, index)">Edit</a>
+                            <a class="btn btn-xs btn-danger" @click="remove(index)">Remove</a>
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>
     </section>
-</template>
-
-<template id="params-multiple">
-    <params-multiple-editor
-        :prop="item.prop"
-        :param="item.param"
-        :items="item.param.value"
-    ></params-multiple-editor>
 </template>
 
 <template id="params-object">
@@ -683,6 +630,38 @@
 <template id="params">
     <div class="ge ge-params">
         <params-list :items="items" :tab="tab"></params-list>
+    </div>
+</template>
+
+<template id="shell-publications-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span>Publish Portal</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="dialog-page-name">Имя</label>
+                                <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 

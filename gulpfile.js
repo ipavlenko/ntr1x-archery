@@ -9,7 +9,7 @@ var streamqueue = require('streamqueue');
 var gulpif = require('gulp-if');
 var lib = require('bower-files')();
 
-var debug = false;
+var debug = true;
 
 gulp.task('vendor-scripts', function(cb) {
     gulp.src(lib.ext('js').files)
