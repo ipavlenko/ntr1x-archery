@@ -441,7 +441,7 @@
                     <th>
                         <div class="pull-right">
                             <a class="btn btn-xs btn-primary" @click="create()">Add</a>
-                            <params-proto :model.sync="param" :context="{ prop: prop }" inline-template>
+                            <params-proto :owner="item.param" property="proto" :context="{ type: 'update', prop: item.prop }" inline-template>
                                 <a class="btn btn-xs btn-default" @click="open()">Advanced</a>
                             </params-proto>
                         </div>
@@ -2314,6 +2314,24 @@
     </default-box>
 </template>
 
+<template id="default-box">
+    <section :class="clazz" :id="bindings.id" :style="{
+        'border': bindings.outer.border,
+        'background': bindings.outer.background,
+        'margin': bindings.outer.margin,
+        'padding': bindings.outer.padding,
+    }">
+        <div class="wg wg-content" :style="{
+            'height': bindings.height,
+            'width': bindings.width,
+            'margin': bindings.inner.margin,
+            'padding': bindings.inner.padding,
+            'border': bindings.inner.border,
+            'background': bindings.inner.background,
+        }"><slot>Empty</slot></div>
+    </section>
+</template>
+
 <template id="default-text">
     <section class="wg wg-default-text" :id="bindings.id"
         :class="{
@@ -2342,24 +2360,6 @@
             }"
             v-html="bindings.content"
         ></div>
-    </section>
-</template>
-
-<template id="default-box">
-    <section :class="clazz" :id="bindings.id" :style="{
-        'border': bindings.outer.border,
-        'background': bindings.outer.background,
-        'margin': bindings.outer.margin,
-        'padding': bindings.outer.padding,
-    }">
-        <div class="wg wg-content" :style="{
-            'height': bindings.height,
-            'width': bindings.width,
-            'margin': bindings.inner.margin,
-            'padding': bindings.inner.padding,
-            'border': bindings.inner.border,
-            'background': bindings.inner.background,
-        }"><slot>Empty</slot></div>
     </section>
 </template>
 
