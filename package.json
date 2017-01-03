@@ -1,19 +1,28 @@
 {
   "name": "ntr1x-archery",
   "version": "1.0.0",
-  "description": "Symfony Standard Edition ========================",
-  "main": "index.js",
+  "description": "Archery",
   "directories": {
     "test": "tests"
   },
   "scripts": {
     "postinstall": "node ./node_modules/bower/bin/bower install && node ./node_modules/gulp-cli/bin/gulp",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./www/bin/server"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "bower": "1.7.9"
+    "body-parser": "~1.15.2",
+    "bower": "1.7.9",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "express": "~4.14.0",
+    "hbs": "^4.0.1",
+    "jade": "~1.11.0",
+    "morgan": "~1.7.0",
+    "request": "^2.79.0",
+    "serve-favicon": "~2.3.0"
   },
   "repository": {
     "type": "git",

@@ -5,12 +5,14 @@
     },
     "globals": {
         "_": false,
+        "module": false,
         "jQuery": false,
         "require": false,
         "Vue": false,
         "Core": true,
         "Shell": true,
         "Landing": true,
+        "Cookies": false
     },
     "parser": "babel-eslint",
     "extends": "eslint:recommended",
