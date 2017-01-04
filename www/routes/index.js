@@ -33,7 +33,7 @@ router.get('/view/:id', function(req, res) {
 router.get('/*', function(req, res) {
 
     Promise.all([
-        backend.loadPrincipal({ token: req.cookies.token }).catch(() => new Promise({ user: null, token: null })),
+        backend.loadPrincipal({ token: req.cookies.token }).catch(() => Promise.resolve({ user: null, token: null })),
         backend.loadSharedPortals().catch(() => new Promise(null))
     ])
         .then(
