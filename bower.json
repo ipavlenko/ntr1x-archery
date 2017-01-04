@@ -80,5 +80,8 @@
         "dist/lodash.min.js"
       ]
     }
+  },
+  "resolutions": {
+    "jquery": "^3.1.0"
   }
 }
