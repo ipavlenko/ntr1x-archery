@@ -1,48 +1,45 @@
 const express = require('express');
-const request = require('request');
+const backend = require('../services/backend');
+const config = require('config');
 
 const router = express.Router();
 
+router.get('/edit/:id', function(req, res) {
+
+    Promise.all([
+        backend.loadPrincipal({ token: req.cookies.token }),
+        backend.loadPortal({ token: req.cookies.token, id: req.params.id }),
+        backend.loadPortalContent({ token: req.cookies.token, id: req.params.id }),
+    ])
+        .then(
+            ([ principal, portal, content ]) => res.render('designer', { principal, portal, content, config: config.get('public') }),
+            (e) => { throw new Error(e) }
+        )
+});
+
+router.get('/view/:id', function(req, res) {
+
+    Promise.all([
+        backend.loadPrincipal({ token: req.cookies.token }),
+        backend.loadPortal({ token: req.cookies.token, id: req.params.id }),
+        backend.loadPortalContent({ token: req.cookies.token, id: req.params.id }),
+    ])
+        .then(
+            ([ principal, portal, content ]) => res.render('designer', { principal, portal, content, config: config.get('public') }),
+            (e) => { throw new Error(e) }
+        )
+});
+
 router.get('/*', function(req, res) {
 
-    let principal = {
-        user: null,
-        token: null
-    }
-
-    new Promise((resolve) => {
-
-        if (req.cookies.token) {
-
-            let target = {
-                url: 'http://api.storage.tp.ntr1x.com/me/profile',
-                headers: {
-                    Authorization: req.cookies.token
-                }
-            }
-
-            request(target, (error, response, body) => {
-
-                if (!error && response.statusCode == 200) {
-
-                    Object.assign(principal, {
-                        user: JSON.parse(body),
-                        token: req.cookies.token
-                    })
-                }
-
-                resolve(principal)
-            })
-
-        } else {
-
-            resolve(principal)
-        }
-    })
-    .then(
-        () => res.render('landing', { principal: principal }),
-        () => res.render('landing', { principal: principal })
-    )
+    Promise.all([
+        backend.loadPrincipal({ token: req.cookies.token }).catch(() => new Promise({ user: null, token: null })),
+        backend.loadSharedPortals().catch(() => new Promise(null))
+    ])
+        .then(
+            ([ principal, shared ]) => res.render('landing', { principal, shared, config: config.get('public') }),
+            (e) => { throw new Error(e) }
+        )
 });
 
 module.exports = router;
