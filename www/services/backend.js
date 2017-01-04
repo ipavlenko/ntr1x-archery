@@ -3,8 +3,6 @@ const config = require('config');
 
 const local = config.get('local');
 
-console.log(local)
-
 const backend = {
 
     loadPrincipal: ({ token }) => {

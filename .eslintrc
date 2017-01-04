@@ -5,6 +5,7 @@
     },
     "globals": {
         "_": false,
+        "process": false,
         "module": false,
         "jQuery": false,
         "require": false,

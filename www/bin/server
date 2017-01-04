@@ -3,16 +3,18 @@
 /**
  * Module dependencies.
  */
+var config = require('config').get('instance');
 
 var app = require('../app');
-var debug = require('debug')('ntr1x-archery:server');
+var debug = require('debug')(config.name);
 var http = require('http');
+
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || config.port);
 app.set('port', port);
 
 /**
