@@ -4,33 +4,31 @@ const config = require('config');
 
 const router = express.Router();
 
-router.get('/edit/:id', function(req, res) {
+router.get('/edit/:id', function(req, res, next) {
 
     Promise.all([
         backend.loadPrincipal({ token: req.cookies.token }),
-        backend.loadPortal({ token: req.cookies.token, id: req.params.id }),
         backend.loadPortalContent({ token: req.cookies.token, id: req.params.id }),
     ])
         .then(
-            ([ principal, portal, content ]) => res.render('designer', { principal, portal, content, config: config.get('public') }),
-            (e) => { throw new Error(e) }
+            ([ principal, model ]) => res.render('designer', { principal, model, config: config.get('public') }),
+            (e) => { next(new Error(e)) }
         )
 });
 
-router.get('/view/:id', function(req, res) {
+router.get('/view/:id', function(req, res, next) {
 
     Promise.all([
         backend.loadPrincipal({ token: req.cookies.token }),
-        backend.loadPortal({ token: req.cookies.token, id: req.params.id }),
         backend.loadPortalContent({ token: req.cookies.token, id: req.params.id }),
     ])
         .then(
-            ([ principal, portal, content ]) => res.render('designer', { principal, portal, content, config: config.get('public') }),
-            (e) => { throw new Error(e) }
+            ([ principal, model ]) => res.render('viewer', { principal, model, config: config.get('public') }),
+            (e) => { next(new Error(e)) }
         )
 });
 
-router.get('/*', function(req, res) {
+router.get('/*', function(req, res, next) {
 
     Promise.all([
         backend.loadPrincipal({ token: req.cookies.token }).catch(() => Promise.resolve({ user: null, token: null })),
@@ -38,7 +36,7 @@ router.get('/*', function(req, res) {
     ])
         .then(
             ([ principal, shared ]) => res.render('landing', { principal, shared, config: config.get('public') }),
-            (e) => { throw new Error(e) }
+            (e) => { next(new Error(e)) }
         )
 });
 

@@ -9,33 +9,41 @@ const backend = {
 
         return new Promise(function(resolve, reject) {
 
-            if (!token) {
-                reject(null)
-                return
-            }
+            try {
 
-            let target = {
-                url: `${local.endpoint}/me/profile`,
-                headers: {
-                    Authorization: token
-                }
-            }
-
-            request(target, (error, response, body) => {
-
-                if (!error && response.statusCode == 200) {
-
-                    resolve({
-                        user: JSON.parse(body),
-                        token: token
-                    })
+                if (!token) {
+                    reject(null)
                     return
-
                 }
 
-                reject(null)
+                let target = {
+                    url: `${local.endpoint}/me/profile`,
+                    headers: {
+                        Authorization: token
+                    }
+                }
+
+                request(target, (error, response, body) => {
+
+                    if (!error && response.statusCode == 200) {
+
+                        resolve({
+                            user: JSON.parse(body),
+                            token: token
+                        })
+                        return
+
+                    }
+
+                    reject(null)
+                    return
+                })
+
+            } catch (e) {
+
+                reject(e)
                 return
-            })
+            }
         })
     },
 
@@ -43,24 +51,32 @@ const backend = {
 
         return new Promise(function(resolve, reject) {
 
-            let target = {
-                url: `${local.endpoint}/portals/shared`,
-                qs: {
-                    size: 3
+            try {
+
+                let target = {
+                    url: `${local.endpoint}/portals/shared`,
+                    qs: {
+                        size: 3
+                    }
                 }
-            }
 
-            request(target, (error, response, body) => {
+                request(target, (error, response, body) => {
 
-                if (!error && response.statusCode == 200) {
+                    if (!error && response.statusCode == 200) {
 
-                    resolve(JSON.parse(body))
+                        resolve(JSON.parse(body))
+                        return
+                    }
+
+                    reject()
                     return
-                }
+                })
 
-                reject()
+            } catch (e) {
+
+                reject(e)
                 return
-            })
+            }
         });
     },
 
@@ -68,30 +84,37 @@ const backend = {
 
         return new Promise(function(resolve, reject) {
 
-            if (!token) {
-                reject()
-                return
-            }
+            try {
 
-            let target = {
-                url: `${local.endpoint}/portals/i/${id}`,
-                headers: {
-                    Authorization: token
-                }
-            }
-
-            request(target, (error, response, body) => {
-
-                if (!error && response.statusCode == 200) {
-
-                    resolve(JSON.parse(body))
+                if (!token) {
+                    reject()
                     return
-
                 }
 
-                reject()
+                let target = {
+                    url: `${local.endpoint}/portals/i/${id}`,
+                    headers: {
+                        Authorization: token
+                    }
+                }
+
+                request(target, (error, response, body) => {
+
+                    if (!error && response.statusCode == 200) {
+
+                        resolve(JSON.parse(body))
+                        return
+                    }
+
+                    reject()
+                    return
+                })
+
+            } catch (e) {
+
+                reject(e)
                 return
-            })
+            }
         });
     },
 
@@ -99,30 +122,37 @@ const backend = {
 
         return new Promise(function(resolve, reject) {
 
-            if (!token) {
-                reject()
-                return
-            }
+            try {
 
-            let target = {
-                url: `${local.endpoint}/portals/i/${id}/pull`,
-                headers: {
-                    Authorization: token
-                }
-            }
-
-            request(target, (error, response, body) => {
-
-                if (!error && response.statusCode == 200) {
-
-                    resolve(JSON.parse(body))
+                if (!token) {
+                    reject()
                     return
-
                 }
 
-                reject()
+                let target = {
+                    url: `${local.endpoint}/portals/i/${id}/pull`,
+                    headers: {
+                        Authorization: token
+                    }
+                }
+
+                request(target, (error, response, body) => {
+
+                    if (!error && response.statusCode == 200) {
+
+                        resolve(JSON.parse(body))
+                        return
+                    }
+
+                    reject()
+                    return
+                })
+
+            } catch (e) {
+
+                reject(e)
                 return
-            })
+            }
         });
     },
 }
