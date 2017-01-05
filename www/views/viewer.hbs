@@ -2,40 +2,33 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>{% block title %}NTR1X Archery{% endblock %}</title>
+    <title>{{ model.portal.title }}</title>
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
     <!--
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic,100,100italic,900,900italic&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic" rel="stylesheet" />
     -->
 
-    {% block stylesheets %}
-        <link href="{{ asset('assets/dist/css/vendor.css') }}" rel="stylesheet" />
-        <link href="{{ asset('assets/dist/css/app.css') }}" rel="stylesheet" />
-    {% endblock %}
+    <link href="/assets/css/vendor.css" rel="stylesheet" />
+    <link href="/assets/css/app.css" rel="stylesheet" />
 
-    {% block javascripts %}
-        <script src="{{ asset('assets/dist/js/vendor.js') }}"></script>
-        <script src="{{ asset('assets/dist/js/app.js') }}"></script>
-        <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}" async></script>
-    {% endblock %}
+    <script src="/assets/js/vendor.js"></script>
+    <script src="/assets/js/app.js"></script>
+    <script src="/ckeditor/ckeditor.js" async></script>
 </head>
 <body
     data-vue-viewer
-    data-portal="{{ portal | serialize('json') }}"
-    data-pages="{{ pages | serialize('json') }}"
-    style="overflow: none"
+    data-config="{{ json config }}"
+    data-principal="{{ json principal }}"
+    data-model="{{ json model }}"
 >
 
-{% verbatim %}
-    <div data-vue-body style="overflow: auto">
+    <div data-vue-body>
         <router-view></router-view>
     </div>
-{% endverbatim %}
 
-{% block templates %}
-{% verbatim %}
+{{{{raw}}}}
 <template id="shell-modal-stack">
     <section class="ge ge-modal-stack">
         <template v-for="modal in $store.state.modals.items">
@@ -94,6 +87,56 @@
                 <div class="modal-footer">
                     <button type="reset" class="btn btn-default">Cancel</button>
                     <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="pages-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="context.type == 'update'" class="label label-primary">Edit Page</span>
+                        <span v-if="context.type == 'create'" class="label label-primary">New Page</span>
+                        <span v-if="original.name">&nbsp;{{ original.name || 'default' }}</span>
+                        <span>&gt;</span>
+                        <span v-if="isActive('main')">Основное</span>
+                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
+                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
+                                    <div class="form-group">
+                                        <label for="dialog-page-name">Имя</label>
+                                        <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
+                                    </div>
+                                </div>
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items="items" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
             </form>
         </div>
@@ -263,56 +306,6 @@
 
     <domains-list :items.sync="items"></domains-list>
 
-</template>
-
-<template id="pages-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="context.type == 'update'" class="label label-primary">Edit Page</span>
-                        <span v-if="context.type == 'create'" class="label label-primary">New Page</span>
-                        <span v-if="original.name">&nbsp;{{ original.name || 'default' }}</span>
-                        <span>&gt;</span>
-                        <span v-if="isActive('main')">Основное</span>
-                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
-                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
-                                    <div class="form-group">
-                                        <label for="dialog-page-name">Имя</label>
-                                        <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
-                                    </div>
-                                </div>
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items="items" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
 </template>
 
 <template id="params-asis">
@@ -1074,11 +1067,11 @@
 <template id="shell-actions">
     <section class="ge ge-actions">
         <div class="pull-left">
-            <button type="button" class="btn btn-shell" @click="trigger('push')">
+            <button type="button" class="btn btn-shell" @click="$store.dispatch('designer/push')">
                 <span class="glyphicon glyphicon-cloud-upload"></span>
                 <span>Store Changes</span>
             </button>
-            <button type="button" class="btn btn-shell" @click="trigger('pull')">
+            <button type="button" class="btn btn-shell" @click="$store.dispatch('designer/pull')">
                 <span class="glyphicon glyphicon-cloud-download"></span>
                 <span>Discard Changes</span>
             </button>
@@ -1296,7 +1289,7 @@
 
 <template id="shell-loader-private">
     <div class="ge ge-shell-loader">
-        <shell-private></shell-private>
+        <shell-private v-if="$store.state.designer.content"></shell-private>
     </div>
 </template>
 
@@ -1440,7 +1433,7 @@
 
 <template id="shell-public">
     <div class="ge ge-shell ge-shell-public">
-        <shell-page></shell-page>
+        <shell-page :page="page"></shell-page>
         <shell-modal-stack></shell-modal-stack>
     </div>
 </template>
@@ -1531,54 +1524,6 @@
             :widget="widget"
             :editable="editable"
         ></div>
-    </div>
-</template>
-
-<template id="shell-widgets-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                  @submit.prevent="submit"
-                  @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="context.type == 'update'" class="label label-primary">Edit Widget</span>
-                        <span v-if="context.type == 'create'" class="label label-primary">New Widget</span>
-                        <!--
-                            <span v-if="original.name">&nbsp;{{ original.name }}</span>
-                            <span>&gt;</span>
-                         -->
-                        <template v-for="tab in context.widget.tabs">
-                            <span  v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                        </template>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <template v-for="tab in context.widget.tabs">
-                                    <li v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                                </template>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items="items" :owner="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
     </div>
 </template>
 
@@ -1914,6 +1859,54 @@
 
 </template>
 
+<template id="shell-widgets-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                  @submit.prevent="submit"
+                  @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="context.type == 'update'" class="label label-primary">Edit Widget</span>
+                        <span v-if="context.type == 'create'" class="label label-primary">New Widget</span>
+                        <!--
+                            <span v-if="original.name">&nbsp;{{ original.name }}</span>
+                            <span>&gt;</span>
+                         -->
+                        <template v-for="tab in context.widget.tabs">
+                            <span  v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                        </template>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <template v-for="tab in context.widget.tabs">
+                                    <li v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                                </template>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items="items" :owner="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
 <template id="default-carousel">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-carousel'">
             <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
@@ -2209,6 +2202,26 @@
     </section>
 </template>
 
+<template id="default-button">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
+        <div class="form-group">
+            <button :type="bindings.type" class="btn btn-block" @click="$store.dispatch('action', bindings.click)" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                }"
+                :style="{
+                    height: bindings.height
+                }"
+            >{{ bindings.title }}</button>
+        </div>
+    </default-box>
+</template>
+
 <template id="default-check">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-check">
         <div class="btn-group">
@@ -2228,26 +2241,6 @@
             >
                 <input type="checkbox" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
             </label>
-        </div>
-    </default-box>
-</template>
-
-<template id="default-button">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
-        <div class="form-group">
-            <button :type="bindings.type" class="btn btn-block" @click="$store.dispatch('action', bindings.click)" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                }"
-                :style="{
-                    height: bindings.height
-                }"
-            >{{ bindings.title }}</button>
         </div>
     </default-box>
 </template>
@@ -3363,8 +3356,7 @@
     </default-box>
 </template>
 
-{% endverbatim %}
-{% endblock %}
+{{{{/raw}}}}
 
 </body>
 </html>
