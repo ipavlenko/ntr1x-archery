@@ -6,10 +6,6 @@ function backend(config) {
 
         loadPrincipal: ({ token, host }) => {
 
-            console.log('!!!token', token);
-            console.log('!!!host', host);
-
-
             return new Promise(function(resolve, reject) {
 
                 try {
