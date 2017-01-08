@@ -8,7 +8,7 @@ function backend(config) {
 
             console.log('!!!token', token);
             console.log('!!!host', host);
-            
+
 
             return new Promise(function(resolve, reject) {
 
@@ -57,17 +57,15 @@ function backend(config) {
 
                 try {
 
-                    if (!token) {
-                        reject(null)
-                        return
-                    }
-
                     let target = {
                         url: `${config.endpoint}/context`,
                         headers: {
-                            'Authorization': token,
                             'X-Client-Host': host
                         }
+                    }
+
+                    if (token) {
+                        target.headers['Authorization'] = token
                     }
 
                     request(target, (error, response, body) => {
@@ -106,17 +104,15 @@ function backend(config) {
 
                 try {
 
-                    if (!token) {
-                        reject(null)
-                        return
-                    }
-
                     let target = {
                         url: `${config.endpoint}/context/i/${id}`,
                         headers: {
-                            'Authorization': token,
                             'X-Client-Host': host
                         }
+                    }
+
+                    if (token) {
+                        target.headers['Authorization'] = token
                     }
 
                     request(target, (error, response, body) => {
