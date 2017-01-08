@@ -2,8 +2,10 @@
 
 const launch = require('../launch')
 const setup = require('../setup')
+const routes = require('../routes/server.js')
+
 const config = require('config')
 
-const c = config.get('instance.server')
+const c = config.get('server')
 
-launch(c, setup(c))
+launch(c, setup(c, routes))

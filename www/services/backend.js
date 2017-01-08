@@ -1,212 +1,265 @@
 const request = require('request');
-const config = require('config');
 
-const local = config.get('storage.local');
+function backend(config) {
 
-const backend = {
+    return {
 
-    loadPrincipal: ({ token }) => {
+        loadPrincipal: ({ token, host }) => {
 
-        return new Promise(function(resolve, reject) {
+            console.log('!!!token', token);
+            console.log('!!!host', host);
+            
 
-            try {
+            return new Promise(function(resolve, reject) {
 
-                if (!token) {
-                    reject(null)
-                    return
-                }
+                try {
 
-                let target = {
-                    url: `${local.endpoint}/me/profile`,
-                    headers: {
-                        'Authorization': token,
-                        'X-Client-Host': local.host
-                    }
-                }
-
-                request(target, (error, response, body) => {
-
-                    if (!error && response.statusCode == 200) {
-
-                        resolve({
-                            user: JSON.parse(body),
-                            token: token
-                        })
+                    if (!token) {
+                        reject(null)
                         return
-
                     }
 
-                    reject(null)
-                    return
-                })
-
-            } catch (e) {
-
-                reject(e)
-                return
-            }
-        })
-    },
-
-    loadContext: ({ token }) => {
-
-        return new Promise(function(resolve, reject) {
-
-            try {
-
-                if (!token) {
-                    reject(null)
-                    return
-                }
-
-                let target = {
-                    url: `${local.endpoint}/context`,
-                    headers: {
-                        'Authorization': token,
-                        'X-Client-Host': local.host
+                    let target = {
+                        url: `${config.endpoint}/me/profile`,
+                        headers: {
+                            'Authorization': token,
+                            'X-Client-Host': host
+                        }
                     }
-                }
 
-                request(target, (error, response, body) => {
+                    request(target, (error, response, body) => {
 
-                    if (!error && response.statusCode == 200) {
+                        if (!error && response.statusCode == 200) {
 
-                        let d = JSON.parse(body);
-
-                        resolve({
-                            principal: {
-                                user: d.user,
+                            resolve({
+                                user: JSON.parse(body),
                                 token: token
-                            },
-                            portal: d.portal,
-                            content: d.content
-                        })
+                            })
+                            return
+
+                        }
+
+                        reject(null)
                         return
+                    })
 
-                    }
+                } catch (e) {
 
-                    reject(null)
+                    reject(e)
                     return
-                })
-
-            } catch (e) {
-
-                reject(e)
-                return
-            }
-        })
-    },
-
-    loadSharedPortals: () => {
-
-        return new Promise(function(resolve, reject) {
-
-            try {
-
-                let target = {
-                    url: `${local.endpoint}/portals/shared`,
-                    qs: {
-                        size: 3
-                    }
                 }
+            })
+        },
 
-                request(target, (error, response, body) => {
+        loadContext: ({ token, host }) => {
 
-                    if (!error && response.statusCode == 200) {
+            return new Promise(function(resolve, reject) {
 
-                        resolve(JSON.parse(body))
+                try {
+
+                    if (!token) {
+                        reject(null)
                         return
                     }
 
-                    reject()
-                    return
-                })
-
-            } catch (e) {
-
-                reject(e)
-                return
-            }
-        });
-    },
-
-    loadPortal: ({ id, token }) => {
-
-        return new Promise(function(resolve, reject) {
-
-            try {
-
-                if (!token) {
-                    reject()
-                    return
-                }
-
-                let target = {
-                    url: `${local.endpoint}/portals/i/${id}`,
-                    headers: {
-                        'Authorization': token,
-                        'X-Client-Host': local.host
+                    let target = {
+                        url: `${config.endpoint}/context`,
+                        headers: {
+                            'Authorization': token,
+                            'X-Client-Host': host
+                        }
                     }
+
+                    request(target, (error, response, body) => {
+
+                        if (!error && response.statusCode == 200) {
+
+                            let d = JSON.parse(body);
+
+                            resolve({
+                                principal: {
+                                    user: d.user,
+                                    token: token
+                                },
+                                portal: d.portal,
+                                content: d.content
+                            })
+                            return
+
+                        }
+
+                        reject(null)
+                        return
+                    })
+
+                } catch (e) {
+
+                    reject(e)
+                    return
                 }
+            })
+        },
 
-                request(target, (error, response, body) => {
+        loadSpecificContext: ({ token, host, id }) => {
 
-                    if (!error && response.statusCode == 200) {
+            return new Promise(function(resolve, reject) {
 
-                        resolve(JSON.parse(body))
+                try {
+
+                    if (!token) {
+                        reject(null)
                         return
                     }
 
-                    reject()
-                    return
-                })
-
-            } catch (e) {
-
-                reject(e)
-                return
-            }
-        });
-    },
-
-    loadPortalContent: ({ id, token }) => {
-
-        return new Promise(function(resolve, reject) {
-
-            try {
-
-                if (!token) {
-                    reject()
-                    return
-                }
-
-                let target = {
-                    url: `${local.endpoint}/portals/i/${id}/pull`,
-                    headers: {
-                        'Authorization': token,
-                        'X-Client-Host': local.host
+                    let target = {
+                        url: `${config.endpoint}/context/i/${id}`,
+                        headers: {
+                            'Authorization': token,
+                            'X-Client-Host': host
+                        }
                     }
+
+                    request(target, (error, response, body) => {
+
+                        if (!error && response.statusCode == 200) {
+
+                            let d = JSON.parse(body);
+
+                            resolve({
+                                principal: {
+                                    user: d.user,
+                                    token: token
+                                },
+                                portal: d.portal,
+                                content: d.content
+                            })
+                            return
+
+                        }
+
+                        reject(null)
+                        return
+                    })
+
+                } catch (e) {
+
+                    reject(e)
+                    return
                 }
+            })
+        },
 
-                request(target, (error, response, body) => {
+        loadSharedPortals: () => {
 
-                    if (!error && response.statusCode == 200) {
+            return new Promise(function(resolve, reject) {
 
-                        resolve(JSON.parse(body))
+                try {
+
+                    let target = {
+                        url: `${config.endpoint}/portals/shared`,
+                        qs: {
+                            size: 3
+                        }
+                    }
+
+                    request(target, (error, response, body) => {
+
+                        if (!error && response.statusCode == 200) {
+
+                            resolve(JSON.parse(body))
+                            return
+                        }
+
+                        reject()
+                        return
+                    })
+
+                } catch (e) {
+
+                    reject(e)
+                    return
+                }
+            });
+        },
+
+        loadPortal: ({ id, token, host }) => {
+
+            return new Promise(function(resolve, reject) {
+
+                try {
+
+                    if (!token) {
+                        reject()
                         return
                     }
 
-                    reject()
+                    let target = {
+                        url: `${config.endpoint}/portals/i/${id}`,
+                        headers: {
+                            'Authorization': token,
+                            'X-Client-Host': host
+                        }
+                    }
+
+                    request(target, (error, response, body) => {
+
+                        if (!error && response.statusCode == 200) {
+
+                            resolve(JSON.parse(body))
+                            return
+                        }
+
+                        reject()
+                        return
+                    })
+
+                } catch (e) {
+
+                    reject(e)
                     return
-                })
+                }
+            });
+        },
 
-            } catch (e) {
+        loadPortalContent: ({ id, token, host }) => {
 
-                reject(e)
-                return
-            }
-        });
-    },
+            return new Promise(function(resolve, reject) {
+
+                try {
+
+                    if (!token) {
+                        reject()
+                        return
+                    }
+
+                    let target = {
+                        url: `${config.endpoint}/portals/i/${id}/pull`,
+                        headers: {
+                            'Authorization': token,
+                            'X-Client-Host': host
+                        }
+                    }
+
+                    request(target, (error, response, body) => {
+
+                        if (!error && response.statusCode == 200) {
+
+                            resolve(JSON.parse(body))
+                            return
+                        }
+
+                        reject()
+                        return
+                    })
+
+                } catch (e) {
+
+                    reject(e)
+                    return
+                }
+            });
+        },
+    }
 }
 
 module.exports = backend;

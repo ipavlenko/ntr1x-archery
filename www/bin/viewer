@@ -2,8 +2,10 @@
 
 const launch = require('../launch')
 const setup = require('../setup')
+const routes = require('../routes/viewer.js')
+
 const config = require('config')
 
-const c = config.get('instance.viewer')
+const c = config.get('viewer')
 
-launch(c, setup(c))
+launch(c, setup(c, routes))

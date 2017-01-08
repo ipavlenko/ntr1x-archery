@@ -1,22 +1,23 @@
 module.exports = {
-    instance: {
-        server: {
-            port: 3000,
-            name: 'ntr1x-archery:engine'
-        },
-        viewer: {
-            port: 3001,
-            name: 'ntr1x-archery:viewer'
+    server: {
+        port: 3000,
+        name: 'ntr1x-archery:server',
+        storage: {
+            endpoint: 'http://storage.ntr1x.com',
         }
     },
-    storage: {
-        local: {
+    viewer: {
+        port: 3001,
+        name: 'ntr1x-archery:viewer',
+        storage: {
             endpoint: 'http://storage.ntr1x.com',
-            host: 'localhost:3000',
-        },
-        public: {
+        }
+    },
+    editor: {
+        port: 3002,
+        name: 'ntr1x-archery:editor',
+        storage: {
             endpoint: 'http://storage.ntr1x.com',
-            host: 'localhost:3000',
         }
     }
 }

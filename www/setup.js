@@ -6,8 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var hbs = require('hbs');
 
-var index = require('./routes/index');
-
 hbs.registerHelper('json', function(obj) {
     return JSON.stringify(obj);
 })
@@ -16,7 +14,7 @@ hbs.registerHelper('raw', function(opts) {
     return opts.fn();
 })
 
-function setup() {
+function setup(config, routes) {
 
     var app = express();
 
@@ -33,7 +31,7 @@ function setup() {
     app.use(express.static(path.join(__dirname, 'public')));
     app.use(express.static(path.join(__dirname, '../bower_components')));
 
-    app.use('/', index);
+    app.use('/', routes);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
