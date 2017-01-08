@@ -8,7 +8,8 @@
   "scripts": {
     "postinstall": "node ./node_modules/bower/bin/bower install && node ./node_modules/gulp-cli/bin/gulp",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./www/bin/server"
+    "start-server": "node ./www/bin/server",
+    "start-viewer": "node ./www/bin/viewer"
   },
   "author": "",
   "license": "MIT",

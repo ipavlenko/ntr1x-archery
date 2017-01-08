@@ -7,6 +7,7 @@
         "_": false,
         "process": false,
         "module": false,
+        "__dirname": false,
         "jQuery": false,
         "require": false,
         "Vue": false,

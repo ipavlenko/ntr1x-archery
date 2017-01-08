@@ -6,24 +6,20 @@ const router = express.Router();
 
 router.get('/edit/:id', function(req, res, next) {
 
-    Promise.all([
-        backend.loadPrincipal({ token: req.cookies.token }),
-        backend.loadPortalContent({ token: req.cookies.token, id: req.params.id }),
-    ])
+    backend
+        .loadContext({ token: req.cookies.token })
         .then(
-            ([ principal, model ]) => res.render('designer', { principal, model, config: config.get('public') }),
+            (d) => res.render('designer', { context: d, config: config.get('storage.public') }),
             (e) => { next(new Error(e)) }
         )
 });
 
 router.get('/view/:id', function(req, res, next) {
 
-    Promise.all([
-        backend.loadPrincipal({ token: req.cookies.token }),
-        backend.loadPortalContent({ token: req.cookies.token, id: req.params.id }),
-    ])
+    backend
+        .loadContext({ token: req.cookies.token })
         .then(
-            ([ principal, model ]) => res.render('viewer', { principal, model, config: config.get('public') }),
+            (d) => res.render('viewer', { context: d, config: config.get('storage.public') }),
             (e) => { next(new Error(e)) }
         )
 });
@@ -35,7 +31,7 @@ router.get('/*', function(req, res, next) {
         backend.loadSharedPortals().catch(() => new Promise(null))
     ])
         .then(
-            ([ principal, shared ]) => res.render('landing', { principal, shared, config: config.get('public') }),
+            ([ principal, shared ]) => res.render('landing', { principal, shared, config: config.get('storage.public') }),
             (e) => { next(new Error(e)) }
         )
 });

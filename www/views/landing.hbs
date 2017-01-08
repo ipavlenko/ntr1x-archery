@@ -93,56 +93,6 @@
     </div>
 </template>
 
-<template id="pages-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="context.type == 'update'" class="label label-primary">Edit Page</span>
-                        <span v-if="context.type == 'create'" class="label label-primary">New Page</span>
-                        <span v-if="original.name">&nbsp;{{ original.name || 'default' }}</span>
-                        <span>&gt;</span>
-                        <span v-if="isActive('main')">Основное</span>
-                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
-                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
-                                    <div class="form-group">
-                                        <label for="dialog-page-name">Имя</label>
-                                        <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
-                                    </div>
-                                </div>
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items="items" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="domains-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -306,6 +256,56 @@
 
     <domains-list :items.sync="items"></domains-list>
 
+</template>
+
+<template id="pages-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="context.type == 'update'" class="label label-primary">Edit Page</span>
+                        <span v-if="context.type == 'create'" class="label label-primary">New Page</span>
+                        <span v-if="original.name">&nbsp;{{ original.name || 'default' }}</span>
+                        <span>&gt;</span>
+                        <span v-if="isActive('main')">Основное</span>
+                        <span v-for="tab in context.widget.tabs" v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li :class="{ 'active': isActive('main') }"><a href="#" @click="activate('main')">Основное</a></li>
+                                <li v-for="tab in context.widget.tabs" v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div class="tab-pane" :class="{ 'active': isActive('main') }">
+                                    <div class="form-group">
+                                        <label for="dialog-page-name">Имя</label>
+                                        <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
+                                    </div>
+                                </div>
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items="items" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </template>
 
 <template id="params-asis">
@@ -1527,6 +1527,54 @@
     </div>
 </template>
 
+<template id="shell-widgets-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                  @submit.prevent="submit"
+                  @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="context.type == 'update'" class="label label-primary">Edit Widget</span>
+                        <span v-if="context.type == 'create'" class="label label-primary">New Widget</span>
+                        <!--
+                            <span v-if="original.name">&nbsp;{{ original.name }}</span>
+                            <span>&gt;</span>
+                         -->
+                        <template v-for="tab in context.widget.tabs">
+                            <span  v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                        </template>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <template v-for="tab in context.widget.tabs">
+                                    <li v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                                </template>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items="items" :owner="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
 <template id="pages-sources-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
@@ -1857,54 +1905,6 @@
 
     <pages-sources-list :items.sync="items"></pages-sources-list>
 
-</template>
-
-<template id="shell-widgets-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                  @submit.prevent="submit"
-                  @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="context.type == 'update'" class="label label-primary">Edit Widget</span>
-                        <span v-if="context.type == 'create'" class="label label-primary">New Widget</span>
-                        <!--
-                            <span v-if="original.name">&nbsp;{{ original.name }}</span>
-                            <span>&gt;</span>
-                         -->
-                        <template v-for="tab in context.widget.tabs">
-                            <span  v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                        </template>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <template v-for="tab in context.widget.tabs">
-                                    <li v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                                </template>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items="items" :owner="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
 </template>
 
 <template id="default-carousel">
@@ -2444,12 +2444,23 @@
     </div>
 </template>
 
-<template id="landing-manage-publish-page">
+<template id="landing-manage-details-page">
     <div class="ld ld-page ld-fullscreen-page">
         <landing-super></landing-super>
         <landing-header></landing-header>
         <transition appear name="fade">
-            <landing-manage-publish></landing-manage-publish>
+            <landing-manage-details></landing-manage-details>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-manage-domain-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-manage-domain></landing-manage-domain>
         </transition>
         <landing-footer></landing-footer>
     </div>
@@ -2791,7 +2802,7 @@
                 <form v-if="form" novalidate @submit.prevent="validation.valid && clone()">
                     <div class="form-group">
                         <h3>Clone Portal</h3>
-                    </dif>
+                    </div>
                     <div class="form-group" :class="{
                         'has-error': validation.title.dirty && validation.title.required,
                         'has-feedback': validation.title.dirty && validation.title.required,
@@ -2826,7 +2837,7 @@
                 <form novalidate @submit.prevent="validation.valid && create()">
                     <div class="form-group">
                         <h3>Create Portal</h3>
-                    </dif>
+                    </div>
                     <div class="form-group" :class="{
                         'has-error': validation.title.dirty && validation.title.required,
                         'has-feedback': validation.title.dirty && validation.title.required,
@@ -2844,14 +2855,14 @@
     </div>
 </template>
 
-<template id="landing-manage-publish">
-    <div class="ld ld-section ld-body ld-manage ld-manage-publish">
+<template id="landing-manage-details">
+    <div class="ld ld-section ld-body ld-manage ld-manage-details">
         <div class="ld ld-table">
             <div class="ld ld-cell">
-                <form v-if="form" novalidate @submit.prevent="validation.valid && publish()">
+                <form v-if="form" novalidate @submit.prevent="validation.valid && update()">
                     <div class="form-group">
-                        <h3>Publish Portal</h3>
-                    </dif>
+                        <h3>Portal Settings</h3>
+                    </div>
                     <div class="form-group" :class="{
                         'has-error': validation.title.dirty && validation.title.required,
                         'has-feedback': validation.title.dirty && validation.title.required,
@@ -2873,7 +2884,51 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Publish</button>
+                        <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-manage-domain">
+    <div class="ld ld-section ld-body ld-manage ld-manage-domain">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <form v-if="form" novalidate @submit.prevent="validation.valid && register()">
+                    <div class="form-group">
+                        <h3>Domain Registration</h3>
+                    </div>
+                    <div class="form-group" :class="{
+                        'has-error': validation.name.dirty && validation.name.required,
+                        'has-feedback': validation.name.dirty && validation.name.required,
+                    }">
+                        <input type="text" class="form-control input-lg" placeholder="yoursitename.up.ntr1x.com" autofocus v-model="form.name">
+                        <span v-if="validation.name.dirty && validation.name.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        <div v-if="validation.name.dirty && validation.name.required">Name is a required field</div>
+                    </div>
+                    <div class="form-group">
+                        <div class="btn-group btn-block">
+                            <button type="button" class="btn btn-lg btn-block btn-default dropdown-toggle dropdown-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="select-title">
+                                    <span v-if="form.portal == null"><i>Select Portal</i></span>
+                                    <span v-if="form.portal != null">{{ form.portal.title }}</span>
+                                </span>
+                                <span class="caret select-caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" style="width: 100%">
+                                <li v-for="portal in portals"><a href="#" @click.prevent="form.portal = portal">{{ portal.title }}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        Domains in *.up.ntr1x.com and *.ui.ntr1x.com zones are free to use and handled by our servers by design.
+                        If you would like to use your own domain make sure its DNS record points to one of our IP addresses.
+                        For some domains commercial subscription required.
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Register</button>
                     </div>
                 </form>
             </div>
@@ -2885,7 +2940,7 @@
     <div class="ld ld-section ld-manage">
         <div class="ld ld-container">
             <div class="container-fluid">
-                <div class="row" v-if="portals">
+                <div class="row" v-if="portals && domains">
                     <div class="col-xs-6">
                         <div class="ld ld-offset-header">
                             <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-globe"></span> Portals</h3>
@@ -2897,12 +2952,12 @@
                                     <div class="ld ld-data-ref"><a :href="'/view/' + portal.id + '/'">/view/{{ portal.id }}/</a></div>
                                 </div>
                                 <div class="ld ld-portal-buttons">
-                                    <a class="btn btn-primary" v-if="!portal.shared" :href="'/edit/' + portal.id + '/'">Edit</a>
-                                    <a class="btn btn-default" v-if="portal.shared" :href="'/view/' + portal.id + '/'">View</a>
+                                    <a class="btn btn-sm btn-primary" v-if="!portal.shared" :href="'/edit/' + portal.id + '/'">Edit</a>
+                                    <a class="btn btn-sm btn-default" v-if="portal.shared" :href="'/view/' + portal.id + '/'">View</a>
                                     <div class="btn-group pull-right">
-                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
+                                        <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/publish' })">Publish</a></li>
+                                            <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/details' })">Settings</a></li>
                                             <li><a href="#" v-if="portal.shared" @click.prevent="unshare(portal.id)">Unpublish</a></li>
                                             <li><a href="#" v-if="portal.shared" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/clone' })">Clone</a></li>
                                             <li role="separator" class="divider"></li>
@@ -2913,8 +2968,38 @@
                             </div>
                             <div class="ld ld-portal">
                                 <div class="ld ld-portal-buttons">
-                                    <a href="#" @click="$router.push({ path: '/gallery' })" class="btn btn-primary">Browse Gallery</a>
-                                    <a href="#" @click="$router.push({ path: '/manage/create' })" class="btn btn-default">Create Blank</a>
+                                    <a href="#" @click.prevent="$router.push({ path: '/gallery' })" class="btn btn-primary">Browse Gallery</a>
+                                    <a href="#" @click.prevent="$router.push({ path: '/manage/create' })" class="btn btn-default">Create Blank</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-globe"></span> Domains</h3>
+                        </div>
+                        <div class="ld ld-portals">
+                            <div class="ld ld-portal" v-for="domain in domains.content">
+                                <div class="ld ld-portal-data">
+                                    <div class="ld ld-data-title"><a :href="'http://' + domain.name">{{ domain.name }}</a></div>
+                                    <div class="ld ld-portal-data">
+                                        <div class="ld ld-data-ref">{{ domain.portal.title }}</div>
+                                    </div>
+                                </div>
+                                <div class="ld ld-portal-buttons">
+                                    <a class="btn btn-sm btn-primary" :href="'http://' + domain.name">View</a>
+                                    <div class="btn-group pull-right">
+                                        <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" @click.prevent="removeDomain(domain.id)">Remove</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ld ld-portal">
+                                <div class="ld ld-portal-buttons">
+                                    <div class="pull-left"></div>
+                                    <a href="#" @click.prevent="$router.push({ path: '/manage/domain' })" class="btn btn-primary">Register</a>
                                 </div>
                             </div>
                         </div>

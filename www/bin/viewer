@@ -4,6 +4,6 @@ const launch = require('../launch')
 const setup = require('../setup')
 const config = require('config')
 
-const c = config.get('instance.server')
+const c = config.get('instance.viewer')
 
 launch(c, setup(c))
