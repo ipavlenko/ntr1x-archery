@@ -141,7 +141,7 @@ function backend(config) {
             })
         },
 
-        loadSharedPortals: () => {
+        loadSharedPortals: ({ host }) => {
 
             return new Promise(function(resolve, reject) {
 
@@ -151,6 +151,9 @@ function backend(config) {
                         url: `${config.endpoint}/portals/shared`,
                         qs: {
                             size: 3
+                        },
+                        headers: {
+                            'X-Client-Host': host
                         }
                     }
 

@@ -35,7 +35,7 @@ router.get('/*', function(req, res, next) {
 
     Promise.all([
         backend.loadPrincipal({ token: req.cookies.token, host: host }).catch(() => Promise.resolve({ user: null, token: null })),
-        backend.loadSharedPortals().catch(() => new Promise(null))
+        backend.loadSharedPortals({ host: host }).catch(() => new Promise(null))
     ])
         .then(
             ([ principal, shared ]) => res.render('landing', { principal, shared, config: config.get('server.storage') }),
