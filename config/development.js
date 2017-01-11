@@ -1,7 +1,7 @@
 module.exports = {
     server: {
         port: 3000,
-        name: 'ntr1x-archery:engine',
+        name: 'ntr1x-archery:server',
         storage: {
             endpoint: 'http://storage.ntr1x.com',
         }

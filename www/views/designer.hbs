@@ -31,9 +31,12 @@
 {{{{raw}}}}
 <template id="shell-modal-stack">
     <section class="ge ge-modal-stack">
-        <template v-for="modal in $store.state.modals.items">
-            <transition name="bounce" appear>
-                <component :is="modal.name" :original="modal.original" :context="modal.context" :events="modal.events"></component>
+        <template v-for="item in $store.state.modals.items">
+            <transition v-if="item.type == 'editor'" name="bounce" appear>
+                <component :is="item.modal.name" :context="item.modal.context" :original="item.modal.original" :events="item.modal.events"></component>
+            </transition>
+            <transition v-if="item.type == 'page'" name="bounce" appear>
+                <shell-modal :page="item.modal.page" :context="item.modal.context"></shell-modal>
             </transition>
         </template>
     </section>
@@ -308,6 +311,60 @@
     </div>
 </template>
 
+<template id="shell-publications-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span>Publish Portal</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="dialog-page-name">Имя</label>
+                                <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="params-action">
+    <div class="ge ge-param form-group">
+        <div class="ge ge-param-label">
+            <label class="pull-left" :for="id">{{ item.prop.title }}</label>
+            <div class="pull-right">
+                <params-bindings :owner="item.owner" :property="item.prop.name" :context="{ type: 'update', prop: item.prop }" inline-template>
+                    <button type="button" class="btn btn-xs btn-default" @click="open()">Advanced</button>
+                </params-bindings>
+            </div>
+        </div>
+        <div class="input-group">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{ item.param.action }} <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li v-for="a in actions"><a @click="select(a)">{{ a }}</a></li>
+                </ul>
+            </div>
+            <input class="form-control" type="text" :id="id" v-model="item.param.value" />
+        </div>
+    </div>
+</template>
+
 <template id="params-asis">
     <div class="ge ge-param form-group" :class="{ 'has-error': this.error }">
         <div class="ge ge-param-label">
@@ -418,6 +475,9 @@
                 <params-object v-if="item.prop.type == 'object'" :id="'pages-widgets-dialog-props-' + index"
                     :item="item"
                 ></params-object>
+                <params-action v-if="item.prop.type == 'action'" :id="'pages-widgets-dialog-props-' + index"
+                    :item="item"
+                ></params-action>
             </div>
         </template>
     </div>
@@ -663,38 +723,6 @@
 <template id="params">
     <div class="ge ge-params">
         <params-list :items="items" :tab="tab"></params-list>
-    </div>
-</template>
-
-<template id="shell-publications-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span>Publish Portal</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label for="dialog-page-name">Имя</label>
-                                <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
     </div>
 </template>
 
@@ -1129,6 +1157,18 @@
     </section>
 </template>
 
+<template id="shell-container">
+    <section class="ge ge-container" v-scrollable>
+        <shell-page v-if="page != null"
+            :page="page"
+            :editable="true"
+            :style="{
+               'transform': 'scale(' + $store.state.designer.scale + ')'
+            }"
+        ></shell-page>
+    </section>
+</template>
+
 <template id="shell-categories">
     <section class="ge ge-categories">
         <div v-for="category in categories">
@@ -1139,18 +1179,6 @@
                 <li v-for="item in category.categories" :class="{ 'active': item == globals.selection.category }"><a href="#" @click="trigger('selectCategory', item)">{{ item.title }}</a></li>
             </ul>
         </div>
-    </section>
-</template>
-
-<template id="shell-container">
-    <section class="ge ge-container" v-scrollable>
-        <shell-page v-if="page != null"
-            :page="page"
-            :editable="true"
-            :style="{
-               'transform': 'scale(' + $store.state.designer.scale + ')'
-            }"
-        ></shell-page>
     </section>
 </template>
 
@@ -2048,31 +2076,6 @@
     </default-box>
 </template>
 
-<template id="default-table">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-table">
-        <table class="table table-striped" v-if="
-               bindings.columns
-            && bindings.columns.collection
-            && bindings.columns.collection.length
-        ">
-            <thead>
-                <tr>
-                    <th v-for="column in bindings.columns.collection">{{ column.title }}</th>
-                </tr>
-            </thead>
-            <tbody v-if="
-                   bindings.rows
-                && bindings.rows.collection
-                && bindings.rows.collection.length
-            ">
-                <tr v-for="row in bindings.rows.collection">
-                    <td v-for="column in bindings.columns.collection">{{ row | get(column.name) }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </default-box>
-</template>
-
 <template id="default-frame">
     <section class="wg wg-default-frame" :id="bindings.id"
         :style="{
@@ -2099,6 +2102,31 @@
             <router-view></router-view>
         </div>
     </section>
+</template>
+
+<template id="default-table">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-table">
+        <table class="table table-striped" v-if="
+               bindings.columns
+            && bindings.columns.collection
+            && bindings.columns.collection.length
+        ">
+            <thead>
+                <tr>
+                    <th v-for="column in bindings.columns.collection">{{ column.title }}</th>
+                </tr>
+            </thead>
+            <tbody v-if="
+                   bindings.rows
+                && bindings.rows.collection
+                && bindings.rows.collection.length
+            ">
+                <tr v-for="row in bindings.rows.collection">
+                    <td v-for="column in bindings.columns.collection">{{ row | get(column.name) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </default-box>
 </template>
 
 <template id="default-stack-canvas">
@@ -2205,7 +2233,7 @@
 <template id="default-button">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
         <div class="form-group">
-            <button :type="bindings.type" class="btn btn-block" @click="$store.dispatch('action', bindings.click)" :class="{
+            <button :type="bindings.type" class="btn btn-block" @click="$store.dispatch(bindings.click.action, bindings.click.payload)" :class="{
                     'btn-default': bindings.stereotype == 'default',
                     'btn-primary': bindings.stereotype == 'primary',
                     'btn-success': bindings.stereotype == 'success',
@@ -2218,6 +2246,29 @@
                     height: bindings.height
                 }"
             >{{ bindings.title }}</button>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-check">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-check">
+        <div class="btn-group">
+            <label class="btn" v-for="item in bindings.items" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                    'active': bindings.model.value.indexOf(item.value) > -1,
+                }"
+                :style="{
+                    height: bindings.height
+                }"
+            >
+                <input type="checkbox" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
+            </label>
         </div>
     </default-box>
 </template>
@@ -2244,29 +2295,6 @@
                     <li v-for="item in bindings.items.collection" :class="{ 'active': isSelected(item) }"><a @click="select(item)">{{ item.title }}</a></li>
                 </ul>
             </div>
-        </div>
-    </default-box>
-</template>
-
-<template id="default-check">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-check">
-        <div class="btn-group">
-            <label class="btn" v-for="item in bindings.items" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                    'active': bindings.model.value.indexOf(item.value) > -1,
-                }"
-                :style="{
-                    height: bindings.height
-                }"
-            >
-                <input type="checkbox" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
-            </label>
         </div>
     </default-box>
 </template>
@@ -3103,12 +3131,111 @@
 <template id="landing-storage-full">
     <div class="ld ld-section ld-storage ld-storage-full">
         <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div style="height: 1200px">
+            <transition appear name="fade">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="ld ld-offset-header">
+                                <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-eye-open"></span> Security</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ld ld-api" style="margin-bottom: 20px">
+                        <div class="col-sm-12 col-md-6">
+                            <img style="width: 100%" src="/assets/vendor/ntr1x-archery-landing/src/landing/storage/apis/security.png" />
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="ld ld-api-promo">
+                                <h4>Security</h4>
+                                <p>
+                                    Built-in support of the authorizatin flow. Social login, token-based access, email confirmation.
+                                    Powerfull access control and declarative security for developers.
+                                    Phone number validation and two-factory authentication for advanced integrations.
+                                </p>
+                                <a href="http://archery.swagger.ntr1x.com" class="btn btn-primary">Explore</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </transition>
+            <transition appear name="fade">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="ld ld-offset-header">
+                                <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-eye-open"></span> Users</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ld ld-api" style="margin-bottom: 20px">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="ld ld-api-promo">
+                                <h4>Users</h4>
+                                <p>
+                                    User management including listing, querying, locking and all relevant CRUD operations.
+                                </p>
+                                <a href="http://archery.swagger.ntr1x.com" class="btn btn-primary">Explore</a>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <img style="width: 100%" src="/assets/vendor/ntr1x-archery-landing/src/landing/storage/apis/users.png" />
+                        </div>
+                    </div>
+                </div>
+            </transition>
+            <transition appear name="fade">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="ld ld-offset-header">
+                                <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-eye-open"></span> Me</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ld ld-api" style="margin-bottom: 20px">
+                        <div class="col-sm-12 col-md-6">
+                            <img style="width: 100%" src="/assets/vendor/ntr1x-archery-landing/src/landing/storage/apis/me.png" />
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="ld ld-api-promo">
+                                <h4>Me</h4>
+                                <p>
+                                    User profile and user scope data accessors. The entry point for all queries for user own data.
+                                </p>
+                                <a href="http://archery.swagger.ntr1x.com" class="btn btn-primary">Explore</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+            <transition appear name="fade">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="ld ld-offset-header">
+                                <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-eye-open"></span> Media</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ld ld-api" style="margin-bottom: 20px">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="ld ld-api-promo">
+                                <h4>Media</h4>
+                                <p>
+                                    Blogs, news and events. Built-in support of tagging.
+                                    Support of thumbnails and media attachments.
+                                    Moderation and pre-moderation.
+                                    Full-text morphological search.
+                                </p>
+                                <a href="http://archery.swagger.ntr1x.com" class="btn btn-primary">Explore</a>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <img style="width: 100%" src="/assets/vendor/ntr1x-archery-landing/src/landing/storage/apis/media.png" />
+                        </div>
+                    </div>
+                </div>
+            </transition>
         </div>
     </div>
 </template>
@@ -3198,44 +3325,6 @@
     </div>
 </template>
 
-<template id="landing-video">
-    <div class="ld ld-section ld-video">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-facetime-video"></span> Video Tutorial</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                        <div class="ld ld-video">
-                            <iframe width="100%" height="260" src="https://www.youtube.com/embed/aqRBN7qvyxs" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                        <div class="ld ld-message">
-                            <p>
-                                Archery is made to be simple and agile.
-                                No extra skills required, you can start in several clicks.
-                            </p>
-                            <p>
-                                Create project from scratch or use any template from the gallery.
-                                With a little effort you will get a functional online service in a few minutes.
-                            </p>
-                            <p>
-                                You can publish your portal immediately and update it any time you want.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <template id="landing-usecases">
     <div class="ld ld-section ld-usecases">
         <div class="ld ld-container">
@@ -3285,6 +3374,44 @@
                                     a powerful dashboard.
                                 </p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-video">
+    <div class="ld ld-section ld-video">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-offset-header">
+                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-facetime-video"></span> Video Tutorial</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="ld ld-video">
+                            <iframe width="100%" height="260" src="https://www.youtube.com/embed/aqRBN7qvyxs" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="ld ld-message">
+                            <p>
+                                Archery is made to be simple and agile.
+                                No extra skills required, you can start in several clicks.
+                            </p>
+                            <p>
+                                Create project from scratch or use any template from the gallery.
+                                With a little effort you will get a functional online service in a few minutes.
+                            </p>
+                            <p>
+                                You can publish your portal immediately and update it any time you want.
+                            </p>
                         </div>
                     </div>
                 </div>
