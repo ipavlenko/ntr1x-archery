@@ -311,38 +311,6 @@
     </div>
 </template>
 
-<template id="shell-publications-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span>Publish Portal</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label for="dialog-page-name">Имя</label>
-                                <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="params-action">
     <div class="ge ge-param form-group">
         <div class="ge ge-param-label">
@@ -723,6 +691,38 @@
 <template id="params">
     <div class="ge ge-params">
         <params-list :items="items" :tab="tab"></params-list>
+    </div>
+</template>
+
+<template id="shell-publications-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span>Publish Portal</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="dialog-page-name">Имя</label>
+                                <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -1157,18 +1157,6 @@
     </section>
 </template>
 
-<template id="shell-container">
-    <section class="ge ge-container" v-scrollable>
-        <shell-page v-if="page != null"
-            :page="page"
-            :editable="true"
-            :style="{
-               'transform': 'scale(' + $store.state.designer.scale + ')'
-            }"
-        ></shell-page>
-    </section>
-</template>
-
 <template id="shell-categories">
     <section class="ge ge-categories">
         <div v-for="category in categories">
@@ -1179,6 +1167,18 @@
                 <li v-for="item in category.categories" :class="{ 'active': item == globals.selection.category }"><a href="#" @click="trigger('selectCategory', item)">{{ item.title }}</a></li>
             </ul>
         </div>
+    </section>
+</template>
+
+<template id="shell-container">
+    <section class="ge ge-container" v-scrollable>
+        <shell-page v-if="page != null"
+            :page="page"
+            :editable="true"
+            :style="{
+               'transform': 'scale(' + $store.state.designer.scale + ')'
+            }"
+        ></shell-page>
     </section>
 </template>
 
@@ -2076,6 +2076,31 @@
     </default-box>
 </template>
 
+<template id="default-table">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-table">
+        <table class="table table-striped" v-if="
+               bindings.columns
+            && bindings.columns.collection
+            && bindings.columns.collection.length
+        ">
+            <thead>
+                <tr>
+                    <th v-for="column in bindings.columns.collection">{{ column.title }}</th>
+                </tr>
+            </thead>
+            <tbody v-if="
+                   bindings.rows
+                && bindings.rows.collection
+                && bindings.rows.collection.length
+            ">
+                <tr v-for="row in bindings.rows.collection">
+                    <td v-for="column in bindings.columns.collection">{{ row | get(column.name) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </default-box>
+</template>
+
 <template id="default-frame">
     <section class="wg wg-default-frame" :id="bindings.id"
         :style="{
@@ -2102,31 +2127,6 @@
             <router-view></router-view>
         </div>
     </section>
-</template>
-
-<template id="default-table">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-table">
-        <table class="table table-striped" v-if="
-               bindings.columns
-            && bindings.columns.collection
-            && bindings.columns.collection.length
-        ">
-            <thead>
-                <tr>
-                    <th v-for="column in bindings.columns.collection">{{ column.title }}</th>
-                </tr>
-            </thead>
-            <tbody v-if="
-                   bindings.rows
-                && bindings.rows.collection
-                && bindings.rows.collection.length
-            ">
-                <tr v-for="row in bindings.rows.collection">
-                    <td v-for="column in bindings.columns.collection">{{ row | get(column.name) }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </default-box>
 </template>
 
 <template id="default-stack-canvas">
@@ -2423,19 +2423,19 @@
     </section>
 </template>
 
-<template id="default-placeholder">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
-        <div class="wg wg-table" :style="{
-            height: bindings.height,
-        }">
+<template id="default-stub">
+    <default-box :bindings.sync="bindings" class="wg wg-default-stub">
+        <div class="wg wg-table">
             <span class="wg wg-cell" v-html="bindings.content"></span>
         </div>
     </default-box>
 </template>
 
-<template id="default-stub">
-    <default-box :bindings.sync="bindings" class="wg wg-default-stub">
-        <div class="wg wg-table">
+<template id="default-placeholder">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
+        <div class="wg wg-table" :style="{
+            height: bindings.height,
+        }">
             <span class="wg wg-cell" v-html="bindings.content"></span>
         </div>
     </default-box>
@@ -3134,16 +3134,13 @@
             <transition appear name="fade">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xs-12">
+                        <div class="col-sm-12 col-md-6">
                             <div class="ld ld-offset-header">
-                                <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-eye-open"></span> Security</h3>
+                                <h3 class="ld ld-decorate ld-decorate-left ld-decorate-center"><span class="glyphicon glyphicon-eye-open"></span> Security</h3>
                             </div>
                         </div>
                     </div>
                     <div class="row ld ld-api" style="margin-bottom: 20px">
-                        <div class="col-sm-12 col-md-6">
-                            <img style="width: 100%" src="/assets/vendor/ntr1x-archery-landing/src/landing/storage/apis/security.png" />
-                        </div>
                         <div class="col-sm-12 col-md-6">
                             <div class="ld ld-api-promo">
                                 <h4>Security</h4>
@@ -3155,15 +3152,18 @@
                                 <a href="http://archery.swagger.ntr1x.com" class="btn btn-primary">Explore</a>
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-6">
+                            <img style="width: 100%" src="/assets/vendor/ntr1x-archery-landing/src/landing/storage/apis/security.png" />
+                        </div>
                     </div>
                 </div>
             </transition>
             <transition appear name="fade">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xs-12">
+                        <div class="col-sm-12 col-md-6">
                             <div class="ld ld-offset-header">
-                                <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-eye-open"></span> Users</h3>
+                                <h3 class="ld ld-decorate ld-decorate-right ld-decorate-center"><span class="glyphicon glyphicon-eye-open"></span> Users</h3>
                             </div>
                         </div>
                     </div>
@@ -3186,16 +3186,13 @@
             <transition appear name="fade">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xs-12">
+                        <div class="col-xs-12 col-md-6">
                             <div class="ld ld-offset-header">
-                                <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-eye-open"></span> Me</h3>
+                                <h3 class="ld ld-decorate ld-decorate-left ld-decorate-center"><span class="glyphicon glyphicon-eye-open"></span> Me</h3>
                             </div>
                         </div>
                     </div>
                     <div class="row ld ld-api" style="margin-bottom: 20px">
-                        <div class="col-sm-12 col-md-6">
-                            <img style="width: 100%" src="/assets/vendor/ntr1x-archery-landing/src/landing/storage/apis/me.png" />
-                        </div>
                         <div class="col-sm-12 col-md-6">
                             <div class="ld ld-api-promo">
                                 <h4>Me</h4>
@@ -3205,15 +3202,18 @@
                                 <a href="http://archery.swagger.ntr1x.com" class="btn btn-primary">Explore</a>
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-6">
+                            <img style="width: 100%" src="/assets/vendor/ntr1x-archery-landing/src/landing/storage/apis/me.png" />
+                        </div>
                     </div>
                 </div>
             </transition>
             <transition appear name="fade">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xs-12">
+                        <div class="col-xs-12 col-md-6">
                             <div class="ld ld-offset-header">
-                                <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-eye-open"></span> Media</h3>
+                                <h3 class="ld ld-decorate ld-decorate-right ld-decorate-center"><span class="glyphicon glyphicon-eye-open"></span> Media</h3>
                             </div>
                         </div>
                     </div>
