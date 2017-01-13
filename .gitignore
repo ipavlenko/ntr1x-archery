@@ -1,6 +1,7 @@
 # phpstorm project files
 .idea
 
+/www/views/
 /www/public/
 /node_modules/
 /bower_components/
