@@ -338,7 +338,7 @@
         <div class="ge ge-param-label">
             <label class="pull-left" :for="id">{{ item.prop.title }}</label>
             <div class="pull-right">
-                <params-bindings :model.sync="item.param" :context="{ prop: item.prop }" inline-template>
+                <params-bindings :owner="item.owner" :property="item.prop.name" :context="{ type: 'update', prop: item.prop }" inline-template>
                     <button type="button" class="btn btn-xs btn-default" @click="open()">Advanced</button>
                 </params-bindings>
             </div>
@@ -498,11 +498,11 @@
         <table class="table table-condensed">
             <thead>
                 <tr>
-                    <th style="width: 80%" colspan="2">{{ item.prop.title }}</th>
+                    <th style="width: 70%" colspan="2">{{ item.prop.title }}</th>
                     <th>
                         <div class="pull-right">
                             <a class="btn btn-xs btn-primary" @click="create()">Add</a>
-                            <params-proto :owner="item.param" property="proto" :context="{ type: 'update', prop: item.prop }" inline-template>
+                            <params-proto :owner="item.owner" :property="item.prop.name" :context="{ type: 'update', prop: item.prop }" inline-template>
                                 <a class="btn btn-xs btn-default" @click="open()">Advanced</a>
                             </params-proto>
                         </div>
@@ -522,6 +522,7 @@
                 </tr>
             </tbody>
         </table>
+        <pre>{{ item.param }}</pre>
     </section>
 </template>
 
@@ -553,7 +554,9 @@
                         <span v-if="original">&nbsp;Edit Param</span>
                         <span v-if="!original">New Param</span>
                         <span>&gt;</span>
-                        <span v-for="tab in context.prop.tabs" v-if="isActive(tab.name)">{{ tab.title }}</span>
+                        <template v-for="tab in context.prop.tabs">
+                            <span v-if="isActive(tab.name)">{{ tab.title }}</span>
+                        </template>
                         <span v-if="isActive('binding')">Binding</span>
                     </h4>
                 </div>
@@ -1182,30 +1185,6 @@
     </section>
 </template>
 
-<template id="shell-domains">
-    <section class="ge ge-panel ge-domains">
-        <domains :items="domains" inline-template>
-            <h5>
-                <span>Domains</span>
-                <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({ title: {} })"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                </span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
-                    <a href="#" @click="trigger('selectDomain', item)">
-                        <span>{{ item.name }}</span>
-                        <span class="ge ge-overlays">
-                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </domains>
-    </section>
-</template>
-
 <template id="shell-decorator-canvas">
     <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
         <div class="ge ge-content">
@@ -1305,6 +1284,30 @@
             </div>
         </div>
     </div>
+</template>
+
+<template id="shell-domains">
+    <section class="ge ge-panel ge-domains">
+        <domains :items="domains" inline-template>
+            <h5>
+                <span>Domains</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ title: {} })"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
+                    <a href="#" @click="trigger('selectDomain', item)">
+                        <span>{{ item.name }}</span>
+                        <span class="ge ge-overlays">
+                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </domains>
+    </section>
 </template>
 
 <template id="shell-loader-frame">
@@ -1501,12 +1504,6 @@
     </section>
 </template>
 
-<template id="shell-target">
-    <div class="ge ge-target">
-        <span>Drop Here</span>
-    </div>
-</template>
-
 <template id="shell-storages">
     <section class="ge ge-panel ge-shell-block ge-storages">
         <div class="ge ge-block-selector">
@@ -1540,6 +1537,12 @@
             </ul>
         </div>
     </section>
+</template>
+
+<template id="shell-target">
+    <div class="ge ge-target">
+        <span>Drop Here</span>
+    </div>
 </template>
 
 <template id="shell-widget">
@@ -2129,26 +2132,6 @@
     </section>
 </template>
 
-<template id="default-button">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
-        <div class="form-group">
-            <button :type="bindings.type" class="btn btn-block" @click="$store.dispatch(bindings.click.action, bindings.click.payload)" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                }"
-                :style="{
-                    height: bindings.height
-                }"
-            >{{ bindings.title }}</button>
-        </div>
-    </default-box>
-</template>
-
 <template id="default-stack-canvas">
     <section class="wg wg-default-stack wg-default-stack-canvas wg-sortable" :style="{
         width: bindings.width || '1200px'
@@ -2250,10 +2233,10 @@
     </section>
 </template>
 
-<template id="default-check">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-check">
-        <div class="btn-group">
-            <label class="btn" v-for="item in bindings.items" :class="{
+<template id="default-button">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
+        <div class="form-group">
+            <button :type="bindings.type" class="btn btn-block" @click="$store.dispatch(bindings.click.action, bindings.click.payload)" :class="{
                     'btn-default': bindings.stereotype == 'default',
                     'btn-primary': bindings.stereotype == 'primary',
                     'btn-success': bindings.stereotype == 'success',
@@ -2261,14 +2244,11 @@
                     'btn-warning': bindings.stereotype == 'warning',
                     'btn-danger': bindings.stereotype == 'danger',
                     'btn-link': bindings.stereotype == 'link',
-                    'active': bindings.model.value.indexOf(item.value) > -1,
                 }"
                 :style="{
                     height: bindings.height
                 }"
-            >
-                <input type="checkbox" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
-            </label>
+            >{{ bindings.title }}</button>
         </div>
     </default-box>
 </template>
@@ -2295,6 +2275,29 @@
                     <li v-for="item in bindings.items.collection" :class="{ 'active': isSelected(item) }"><a @click="select(item)">{{ item.title }}</a></li>
                 </ul>
             </div>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-check">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-check">
+        <div class="btn-group">
+            <label class="btn" v-for="item in bindings.items" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                    'active': bindings.model.value.indexOf(item.value) > -1,
+                }"
+                :style="{
+                    height: bindings.height
+                }"
+            >
+                <input type="checkbox" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
+            </label>
         </div>
     </default-box>
 </template>
@@ -2552,12 +2555,6 @@
     </div>
 </template>
 
-<template id="landing-benefits">
-    <div class="ld ld-section ld-benefits">
-        <h3>Benefits</h3>
-    </div>
-</template>
-
 
 <template id="landing-account-signin">
     <div class="ld ld-section ld-body ld-account ld-account-signin">
@@ -2626,6 +2623,12 @@
                 </form>
             </div>
         </div>
+    </div>
+</template>
+
+<template id="landing-benefits">
+    <div class="ld ld-section ld-benefits">
+        <h3>Benefits</h3>
     </div>
 </template>
 
@@ -2729,38 +2732,6 @@
     </div>
 </template>
 
-<template id="landing-header">
-    <div class="ld ld-section ld-header">
-        <div class="ld ld-section ld-header-affix" v-affix="{ offset: { top: 25 } }">
-            <div class="ld ld-container">
-                <div class="container-fluid">
-                    <div class="row">
-                        <ul class="nav nav-pills pull-right">
-                            <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/'})">About</a></li>
-                            <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/gallery'})">Gallery</a></li>
-                            <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/storage'})">Storage</a></li>
-                            <li v-if="$store.state.security.principal.user == null" role="presentation"><a href="#" @click.prevent="$router.push({ path: '/signup'})">Register</a></li>
-                            <li v-if="$store.state.security.principal.user == null" role="presentation"><a href="#" @click.prevent="$router.push({ path: '/signin'})">Sign In</a></li>
-                            <li v-if="$store.state.security.principal.user != null" role="presentation"><a href="#" @click.prevent="signout()">Sign Out</a></li>
-                            <li v-if="$store.state.security.principal.user != null" role="presentation" class="primary"><a href="#" @click.prevent="$router.push({ path: '/manage'})">Control Panel</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="ld ld-offer">
-                        <h1>Open your online universe!</h1>
-                        <h2>Archery is the Cloud platform to build business friendly online services.</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <template id="landing-gallery-full">
     <div class="ld ld-section ld-gallery ld-gallery-full">
         <div class="ld ld-container">
@@ -2818,6 +2789,38 @@
                         </div>
                     </div>
                 </transition>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-header">
+    <div class="ld ld-section ld-header">
+        <div class="ld ld-section ld-header-affix" v-affix="{ offset: { top: 25 } }">
+            <div class="ld ld-container">
+                <div class="container-fluid">
+                    <div class="row">
+                        <ul class="nav nav-pills pull-right">
+                            <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/'})">About</a></li>
+                            <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/gallery'})">Gallery</a></li>
+                            <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/storage'})">Storage</a></li>
+                            <li v-if="$store.state.security.principal.user == null" role="presentation"><a href="#" @click.prevent="$router.push({ path: '/signup'})">Register</a></li>
+                            <li v-if="$store.state.security.principal.user == null" role="presentation"><a href="#" @click.prevent="$router.push({ path: '/signin'})">Sign In</a></li>
+                            <li v-if="$store.state.security.principal.user != null" role="presentation"><a href="#" @click.prevent="signout()">Sign Out</a></li>
+                            <li v-if="$store.state.security.principal.user != null" role="presentation" class="primary"><a href="#" @click.prevent="$router.push({ path: '/manage'})">Control Panel</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="ld ld-offer">
+                        <h1>Open your online universe!</h1>
+                        <h2>Archery is the Cloud platform to build business friendly online services.</h2>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -3444,6 +3447,26 @@
     </default-box>
 </template>
 
+<template id="academy-menu">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-menu">
+        <ul class="wg wg-menu-table" v-if="bindings.items.collection">
+            <li v-for="item in bindings.items.collection" class="wg wg-table-item" :class="{ 'active': item.active }">
+                <a  v-if="item.vlink" @click.prevent="$router.push({ path: item.vlink })" :style="{
+                    'margin': item.margin || bindings.items.style.margin,
+                    'padding': item.padding || bindings.items.style.padding,
+                    'background': item.background || bindings.items.style.background,
+                }">{{ item.title }}</a>
+                <a v-if="!item.vlink" :href="item.href" :style="{
+                    'margin': item.margin || bindings.items.style.margin,
+                    'padding': item.padding || bindings.items.style.padding,
+                    'background': item.background || bindings.items.style.background,
+                }"
+                >{{ item.title }}</a>
+            </li>
+        </ul>
+    </default-box>
+</template>
+
 <template id="academy-header">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-header">
         <div class="wg wg-header-table">
@@ -3472,26 +3495,6 @@
                 </div>
             </div>
         </div>
-    </default-box>
-</template>
-
-<template id="academy-menu">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-academy-menu">
-        <ul class="wg wg-menu-table" v-if="bindings.items.collection">
-            <li v-for="item in bindings.items.collection" class="wg wg-table-item" :class="{ 'active': item.active }">
-                <a  v-if="item.vlink" @click.prevent="$router.push({ path: item.vlink })" :style="{
-                    'margin': item.margin || bindings.items.style.margin,
-                    'padding': item.padding || bindings.items.style.padding,
-                    'background': item.background || bindings.items.style.background,
-                }">{{ item.title }}</a>
-                <a v-if="!item.vlink" :href="item.href" :style="{
-                    'margin': item.margin || bindings.items.style.margin,
-                    'padding': item.padding || bindings.items.style.padding,
-                    'background': item.background || bindings.items.style.background,
-                }"
-                >{{ item.title }}</a>
-            </li>
-        </ul>
     </default-box>
 </template>
 
