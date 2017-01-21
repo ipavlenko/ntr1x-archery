@@ -854,30 +854,6 @@
     </section>
 </template>
 
-<template id="shell-domains">
-    <section class="ge ge-panel ge-domains">
-        <domains :items="domains" inline-template>
-            <h5>
-                <span>Domains</span>
-                <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({ title: {} })"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                </span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
-                    <a href="#" @click="trigger('selectDomain', item)">
-                        <span>{{ item.name }}</span>
-                        <span class="ge ge-overlays">
-                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </domains>
-    </section>
-</template>
-
 <template id="shell-decorator-canvas">
     <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
         <div class="ge ge-content">
@@ -977,6 +953,30 @@
             </div>
         </div>
     </div>
+</template>
+
+<template id="shell-domains">
+    <section class="ge ge-panel ge-domains">
+        <domains :items="domains" inline-template>
+            <h5>
+                <span>Domains</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ title: {} })"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
+                    <a href="#" @click="trigger('selectDomain', item)">
+                        <span>{{ item.name }}</span>
+                        <span class="ge ge-overlays">
+                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </domains>
+    </section>
 </template>
 
 <template id="shell-loader-frame">
@@ -1224,6 +1224,54 @@
             :widget="widget"
             :editable="editable"
         ></div>
+    </div>
+</template>
+
+<template id="shell-widgets-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                  @submit.prevent="submit"
+                  @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="context.type == 'update'" class="label label-primary">Edit Widget</span>
+                        <span v-if="context.type == 'create'" class="label label-primary">New Widget</span>
+                        <!--
+                            <span v-if="original.name">&nbsp;{{ original.name }}</span>
+                            <span>&gt;</span>
+                         -->
+                        <template v-for="tab in context.widget.tabs">
+                            <span  v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                        </template>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <template v-for="tab in context.widget.tabs">
+                                    <li v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                                </template>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items="items" :owner="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -1558,54 +1606,6 @@
 
     <pages-sources-list :items.sync="items"></pages-sources-list>
 
-</template>
-
-<template id="shell-widgets-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                  @submit.prevent="submit"
-                  @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="context.type == 'update'" class="label label-primary">Edit Widget</span>
-                        <span v-if="context.type == 'create'" class="label label-primary">New Widget</span>
-                        <!--
-                            <span v-if="original.name">&nbsp;{{ original.name }}</span>
-                            <span>&gt;</span>
-                         -->
-                        <template v-for="tab in context.widget.tabs">
-                            <span  v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                        </template>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <template v-for="tab in context.widget.tabs">
-                                    <li v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                                </template>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items="items" :owner="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
 </template>
 
 <template id="default-carousel">
@@ -2178,6 +2178,28 @@
     </div>
 </template>
 
+<template id="landing-manage-meta-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-manage-meta></landing-manage-meta>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-manage-router-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-manage-router></landing-manage-router>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
 <template id="landing-manage-page">
     <div class="ld ld-page ld-fullscreen-page">
         <landing-super></landing-super>
@@ -2680,7 +2702,7 @@
                         <div class="form-group">
                             <label>New Property</label>
                             <div class="input-group input-group-sm">
-                                <span class="input-group-addon">Key {{ validation.valid }}</span>
+                                <span class="input-group-addon">Key</span>
                                 <input type="text" class="form-control input-sm" placeholder="mail.*" v-model="form.name" list="mail-properties-list" />
                                 <datalist id="mail-properties-list">
                                     <option value="mail.host" />
@@ -2705,6 +2727,107 @@
                     <form v-if="details" class="form-horizontal" novalidate @submit.prevent="update()">
                         <div class="form-group">
                             <label>Properties</label>
+                            <div v-for="item in sorted()" :key="item.uuid" style="margin-bottom: 4px">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon" style="min-width: 280px; text-align: left">{{ item.name }}</span>
+                                    <input type="text" class="form-control input-sm" v-model="item.value" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" @click="remove(item)">Remove</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-manage-meta">
+    <div class="ld ld-section ld-body ld-manage ld-manage-meta">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <div class="ld ld-center">
+                    <form v-if="details" class="form-horizontal" novalidate @submit.prevent="validation.valid && add()">
+                        <div class="form-group">
+                            <h3>Meta Settings</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>New Meta</label>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">Name</span>
+                                <input type="text" class="form-control input-sm" v-model="form.name" list="meta-properties-list" />
+                                <datalist id="meta-properties-list">
+                                    <option value="description" />
+                                    <option value="keywords" />
+                                    <option value="author" />
+                                    <option value="viewport" />
+                                </datalist>
+                                <span class="input-group-addon">Value</span>
+                                <input type="text" class="form-control input-sm" placeholder="" v-model="form.value" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit" :disabled="!validation.valid">Add</button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                    <form v-if="details" class="form-horizontal" novalidate @submit.prevent="update()">
+                        <div class="form-group">
+                            <label>Meta Strings</label>
+                            <div v-for="item in sorted()" :key="item.uuid" style="margin-bottom: 4px">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon" style="min-width: 280px; text-align: left">{{ item.name }}</span>
+                                    <input type="text" class="form-control input-sm" v-model="item.value" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" @click="remove(item)">Remove</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-manage-router">
+    <div class="ld ld-section ld-body ld-manage ld-manage-router">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <div class="ld ld-center">
+                    <form v-if="details" class="form-horizontal" novalidate @submit.prevent="validation.valid && add()">
+                        <div class="form-group">
+                            <h3>Router Settings</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>New Route</label>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">Key</span>
+                                <input type="text" class="form-control input-sm" placeholder="route.*" v-model="form.name" list="route-properties-list" />
+                                <datalist id="route-properties-list">
+                                    <option value="route.email.confirmed" />
+                                    <option value="route.passwd.confirmed" />
+                                    <option value="route.recover.confirmed" />
+                                </datalist>
+                                <span class="input-group-addon">Value</span>
+                                <input type="text" class="form-control input-sm" placeholder="" v-model="form.value" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit" :disabled="!validation.valid">Add</button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                    <form v-if="details" class="form-horizontal" novalidate @submit.prevent="update()">
+                        <div class="form-group">
+                            <label>Routes</label>
                             <div v-for="item in sorted()" :key="item.uuid" style="margin-bottom: 4px">
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-addon" style="min-width: 280px; text-align: left">{{ item.name }}</span>
@@ -2751,6 +2874,8 @@
                                             <li><a href="#" v-if="portal.shared" @click.prevent="unshare(portal.id)">Unshare</a></li>
                                             <li><a href="#" v-if="portal.shared" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/clone' })">Clone</a></li>
                                             <li role="separator" class="divider"></li>
+                                            <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/router' })">Router Settings</a></li>
+                                            <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/meta' })">Meta Settings</a></li>
                                             <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/mail' })">Mail Settings</a></li>
                                             <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/templates' })">Mail Templates</a></li>
                                             <li role="separator" class="divider"></li>
