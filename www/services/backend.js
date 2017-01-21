@@ -4,13 +4,13 @@ function backend(config) {
 
     return {
 
-        loadPrincipal: ({ token, host }) => {
+        loadPrincipal: ({ authorization, host }) => {
 
             return new Promise(function(resolve, reject) {
 
                 try {
 
-                    if (!token) {
+                    if (!authorization) {
                         reject(null)
                         return
                     }
@@ -18,7 +18,7 @@ function backend(config) {
                     let target = {
                         url: `${config.endpoint}/me/profile`,
                         headers: {
-                            'Authorization': token,
+                            'Authorization': authorization,
                             'X-Client-Host': host
                         }
                     }
@@ -29,7 +29,7 @@ function backend(config) {
 
                             resolve({
                                 user: JSON.parse(body),
-                                token: token
+                                token: authorization
                             })
                             return
 
@@ -47,7 +47,7 @@ function backend(config) {
             })
         },
 
-        loadContext: ({ token, host }) => {
+        loadContext: ({ authorization, host }) => {
 
             return new Promise(function(resolve, reject) {
 
@@ -60,8 +60,8 @@ function backend(config) {
                         }
                     }
 
-                    if (token) {
-                        target.headers['Authorization'] = token
+                    if (authorization) {
+                        target.headers['Authorization'] = authorization
                     }
 
                     request(target, (error, response, body) => {
@@ -73,7 +73,7 @@ function backend(config) {
                             resolve({
                                 principal: {
                                     user: d.user,
-                                    token: token
+                                    token: authorization
                                 },
                                 portal: d.portal,
                                 content: d.content
@@ -94,7 +94,7 @@ function backend(config) {
             })
         },
 
-        loadSpecificContext: ({ token, host, id }) => {
+        loadSpecificContext: ({ authorization, host, id }) => {
 
             return new Promise(function(resolve, reject) {
 
@@ -107,8 +107,8 @@ function backend(config) {
                         }
                     }
 
-                    if (token) {
-                        target.headers['Authorization'] = token
+                    if (authorization) {
+                        target.headers['Authorization'] = authorization
                     }
 
                     request(target, (error, response, body) => {
@@ -120,7 +120,7 @@ function backend(config) {
                             resolve({
                                 principal: {
                                     user: d.user,
-                                    token: token
+                                    token: authorization
                                 },
                                 portal: d.portal,
                                 content: d.content
@@ -177,13 +177,13 @@ function backend(config) {
             });
         },
 
-        loadPortal: ({ id, token, host }) => {
+        loadPortal: ({ id, authorization, host }) => {
 
             return new Promise(function(resolve, reject) {
 
                 try {
 
-                    if (!token) {
+                    if (!authorization) {
                         reject()
                         return
                     }
@@ -191,7 +191,7 @@ function backend(config) {
                     let target = {
                         url: `${config.endpoint}/portals/i/${id}`,
                         headers: {
-                            'Authorization': token,
+                            'Authorization': authorization,
                             'X-Client-Host': host
                         }
                     }
@@ -216,7 +216,46 @@ function backend(config) {
             });
         },
 
-        loadPortalContent: ({ id, token, host }) => {
+        loadPortalContent: ({ id, authorization, host }) => {
+
+            return new Promise(function(resolve, reject) {
+
+                try {
+
+                    if (!authorization) {
+                        reject()
+                        return
+                    }
+
+                    let target = {
+                        url: `${config.endpoint}/portals/i/${id}/pull`,
+                        headers: {
+                            'Authorization': authorization,
+                            'X-Client-Host': host
+                        }
+                    }
+
+                    request(target, (error, response, body) => {
+
+                        if (!error && response.statusCode == 200) {
+
+                            resolve(JSON.parse(body))
+                            return
+                        }
+
+                        reject()
+                        return
+                    })
+
+                } catch (e) {
+
+                    reject(e)
+                    return
+                }
+            });
+        },
+
+        execSignupConfirm: ({ token, host }) => {
 
             return new Promise(function(resolve, reject) {
 
@@ -228,16 +267,19 @@ function backend(config) {
                     }
 
                     let target = {
-                        url: `${config.endpoint}/portals/i/${id}/pull`,
+                        url: `${config.endpoint}/security/signup/confirm/${token}`,
                         headers: {
-                            'Authorization': token,
                             'X-Client-Host': host
                         }
                     }
 
+                    console.log(target);
+
                     request(target, (error, response, body) => {
 
                         if (!error && response.statusCode == 200) {
+
+                            console.log(body)
 
                             resolve(JSON.parse(body))
                             return

@@ -10,7 +10,7 @@ router.get('/*', function(req, res, next) {
     let host = req.headers['x-forwarded-host'] || req.headers.host
 
     backend
-        .loadContext({ token: req.cookies.token, host: host, id: req.params.id  })
+        .loadContext({ authorization: req.cookies.authorization, host: host, id: req.params.id  })
         .then(
             (d) => res.render('viewer', { context: d, config: config.get('viewer.storage'), root: '/' }),
             (e) => { next(new Error(e)) }

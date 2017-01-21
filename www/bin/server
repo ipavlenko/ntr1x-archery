@@ -2,7 +2,16 @@
 
 const launch = require('../launch')
 const setup = require('../setup')
-const routes = require('../routes/server.js')
+const routes = [
+    {
+        path: '/security',
+        routes: require('../routes/security.js')
+    },
+    {
+        path: '/',
+        routes: require('../routes/server.js')
+    },
+]
 
 const config = require('config')
 

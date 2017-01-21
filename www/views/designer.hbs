@@ -854,6 +854,30 @@
     </section>
 </template>
 
+<template id="shell-domains">
+    <section class="ge ge-panel ge-domains">
+        <domains :items="domains" inline-template>
+            <h5>
+                <span>Domains</span>
+                <span class="ge ge-overlays">
+                    <span class="ge ge-overlay" @click="create({ title: {} })"><span class="glyphicon glyphicon-plus-sign"></span></span>
+                </span>
+            </h5>
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
+                    <a href="#" @click="trigger('selectDomain', item)">
+                        <span>{{ item.name }}</span>
+                        <span class="ge ge-overlays">
+                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
+                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </domains>
+    </section>
+</template>
+
 <template id="shell-decorator-canvas">
     <div class="ge ge-widget" :class="{ 'ge-widget-selected': selected }">
         <div class="ge ge-content">
@@ -953,30 +977,6 @@
             </div>
         </div>
     </div>
-</template>
-
-<template id="shell-domains">
-    <section class="ge ge-panel ge-domains">
-        <domains :items="domains" inline-template>
-            <h5>
-                <span>Domains</span>
-                <span class="ge ge-overlays">
-                    <span class="ge ge-overlay" @click="create({ title: {} })"><span class="glyphicon glyphicon-plus-sign"></span></span>
-                </span>
-            </h5>
-            <ul class="nav nav-pills nav-stacked">
-                <li v-for="item in items" v-show="item._action != 'remove'" :class="{ 'active': item == globals.selection.domain }">
-                    <a href="#" @click="trigger('selectDomain', item)">
-                        <span>{{ item.name }}</span>
-                        <span class="ge ge-overlays">
-                            <span class="ge ge-overlay" @click.stop="remove(item)"><span class="glyphicon glyphicon-trash"></span></span>
-                            <span class="ge ge-overlay" @click.stop="update(item)"><span class="glyphicon glyphicon-edit"></span></span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </domains>
-    </section>
 </template>
 
 <template id="shell-loader-frame">
@@ -1224,54 +1224,6 @@
             :widget="widget"
             :editable="editable"
         ></div>
-    </div>
-</template>
-
-<template id="shell-widgets-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                  @submit.prevent="submit"
-                  @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="context.type == 'update'" class="label label-primary">Edit Widget</span>
-                        <span v-if="context.type == 'create'" class="label label-primary">New Widget</span>
-                        <!--
-                            <span v-if="original.name">&nbsp;{{ original.name }}</span>
-                            <span>&gt;</span>
-                         -->
-                        <template v-for="tab in context.widget.tabs">
-                            <span  v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                        </template>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <template v-for="tab in context.widget.tabs">
-                                    <li v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                                </template>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items="items" :owner="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
     </div>
 </template>
 
@@ -1608,6 +1560,54 @@
 
 </template>
 
+<template id="shell-widgets-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                  @submit.prevent="submit"
+                  @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="context.type == 'update'" class="label label-primary">Edit Widget</span>
+                        <span v-if="context.type == 'create'" class="label label-primary">New Widget</span>
+                        <!--
+                            <span v-if="original.name">&nbsp;{{ original.name }}</span>
+                            <span>&gt;</span>
+                         -->
+                        <template v-for="tab in context.widget.tabs">
+                            <span  v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                        </template>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <template v-for="tab in context.widget.tabs">
+                                    <li v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                                </template>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items="items" :owner="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
 <template id="default-carousel">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-carousel'">
             <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
@@ -1903,6 +1903,26 @@
     </section>
 </template>
 
+<template id="default-button">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
+        <div class="form-group">
+            <button :type="bindings.type" class="btn btn-block" @click="$store.dispatch(bindings.click.action, bindings.click.payload)" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                }"
+                :style="{
+                    height: bindings.height
+                }"
+            >{{ bindings.title }}</button>
+        </div>
+    </default-box>
+</template>
+
 <template id="default-check">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-check">
         <div class="btn-group">
@@ -1948,26 +1968,6 @@
                     <li v-for="item in bindings.items.collection" :class="{ 'active': isSelected(item) }"><a @click="select(item)">{{ item.title }}</a></li>
                 </ul>
             </div>
-        </div>
-    </default-box>
-</template>
-
-<template id="default-button">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
-        <div class="form-group">
-            <button :type="bindings.type" class="btn btn-block" @click="$store.dispatch(bindings.click.action, bindings.click.payload)" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                }"
-                :style="{
-                    height: bindings.height
-                }"
-            >{{ bindings.title }}</button>
         </div>
     </default-box>
 </template>
@@ -2167,6 +2167,17 @@
     </div>
 </template>
 
+<template id="landing-manage-mail-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-manage-mail></landing-manage-mail>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
 <template id="landing-manage-page">
     <div class="ld ld-page ld-fullscreen-page">
         <landing-super></landing-super>
@@ -2230,32 +2241,34 @@
     <div class="ld ld-section ld-body ld-account ld-account-signin">
         <div class="ld ld-table">
             <div class="ld ld-cell">
-                <form novalidate @submit.prevent="validation.valid && signin()">
-                    <div class="form-group">
-                        <h3>Sign In</h3>
-                    </dif>
-                    <div class="form-group" :class="{
-                        'has-error': validation.email.dirty && (validation.email.required || validation.email.illegal),
-                        'has-feedback': validation.email.dirty && (validation.email.required || validation.email.pattern),
-                    }">
-                        <input type="text" class="form-control input-lg" placeholder="Email" autofocus v-model="form.email">
-                        <span v-if="validation.email.dirty && (validation.email.required || validation.email.illegal)" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                        <div v-if="validation.email.dirty && validation.email.required">Email is a required field</div>
-                        <div v-if="validation.email.dirty && !validation.email.required && validation.email.illegal">Invalid email address</div>
-                    </div>
-                    <div class="form-group" :class="{
-                        'has-error': validation.password.dirty && (validation.password.required || validation.password.illegal),
-                        'has-feedback': validation.password.dirty && (validation.password.required || validation.password.illegal),
-                    }">
-                        <input type="password" class="form-control input-lg" placeholder="Password" v-model="form.password">
-                        <span v-if="validation.password.dirty && (validation.password.required || validation.password.illegal)" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                        <div v-if="validation.password.dirty && validation.password.required">Password is a required field</div>
-                        <div v-if="validation.password.dirty && !validation.password.required && validation.password.illegal">Your password is too short</div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Sign In</button>
-                    </div>
-                </form>
+                <div class="ld ld-center">
+                    <form novalidate @submit.prevent="validation.valid && signin()">
+                        <div class="form-group">
+                            <h3>Sign In</h3>
+                        </dif>
+                        <div class="form-group" :class="{
+                            'has-error': validation.email.dirty && (validation.email.required || validation.email.illegal),
+                            'has-feedback': validation.email.dirty && (validation.email.required || validation.email.pattern),
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="Email" autofocus v-model="form.email">
+                            <span v-if="validation.email.dirty && (validation.email.required || validation.email.illegal)" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="validation.email.dirty && validation.email.required">Email is a required field</div>
+                            <div v-if="validation.email.dirty && !validation.email.required && validation.email.illegal">Invalid email address</div>
+                        </div>
+                        <div class="form-group" :class="{
+                            'has-error': validation.password.dirty && (validation.password.required || validation.password.illegal),
+                            'has-feedback': validation.password.dirty && (validation.password.required || validation.password.illegal),
+                        }">
+                            <input type="password" class="form-control input-lg" placeholder="Password" v-model="form.password">
+                            <span v-if="validation.password.dirty && (validation.password.required || validation.password.illegal)" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="validation.password.dirty && validation.password.required">Password is a required field</div>
+                            <div v-if="validation.password.dirty && !validation.password.required && validation.password.illegal">Your password is too short</div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Sign In</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -2265,32 +2278,42 @@
     <div class="ld ld-section ld-body ld-account ld-account-signup">
         <div class="ld ld-table">
             <div class="ld ld-cell">
-                <form novalidate @submit.prevent="validation.valid && signup()">
-                    <div class="form-group">
-                        <h3>Register</h3>
-                    </dif>
-                    <div class="form-group" :class="{
-                        'has-error': validation.email.dirty && (validation.email.required || validation.email.illegal),
-                        'has-feedback': validation.email.dirty && (validation.email.required || validation.email.illegal),
-                    }">
-                        <input type="text" class="form-control input-lg" placeholder="Email" autofocus v-model="form.email">
-                        <span v-if="validation.email.dirty && (validation.email.required || validation.email.illegal)" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                        <div v-if="validation.email.dirty && validation.email.required">Email is a required field</div>
-                        <div v-if="validation.email.dirty && !validation.email.required && validation.email.illegal">Invalid email address</div>
-                    </div>
-                    <div class="form-group" :class="{
-                        'has-error': validation.password.dirty && (validation.password.required || validation.password.illegal),
-                        'has-feedback': validation.password.dirty && (validation.password.required || validation.password.illegal),
-                    }">
-                        <input type="password" class="form-control input-lg" placeholder="Password" v-model="form.password">
-                        <span v-if="validation.password.dirty && (validation.password.required || validation.password.illegal)" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                        <div v-if="validation.password.dirty && validation.password.required">Password is a required field</div>
-                        <div v-if="validation.password.dirty && !validation.password.required && validation.password.illegal">Your password is too short</div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Register</button>
-                    </div>
-                </form>
+                <div class="ld ld-center">
+                    <form novalidate @submit.prevent="validation.valid && signup()">
+                        <div class="form-group">
+                            <h3>Register</h3>
+                        </dif>
+                        <div class="form-group" :class="{
+                            'has-error': validation.name.dirty && (validation.name.required),
+                            'has-feedback': validation.name.dirty && (validation.name.required),
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="Name" autofocus v-model="form.name">
+                            <span v-if="validation.name.dirty && validation.name.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="validation.name.dirty && validation.name.required">Name is a required field</div>
+                        </div>
+                        <div class="form-group" :class="{
+                            'has-error': validation.email.dirty && (validation.email.required || validation.email.illegal),
+                            'has-feedback': validation.email.dirty && (validation.email.required || validation.email.illegal),
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="Email" autofocus v-model="form.email">
+                            <span v-if="validation.email.dirty && (validation.email.required || validation.email.illegal)" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="validation.email.dirty && validation.email.required">Email is a required field</div>
+                            <div v-if="validation.email.dirty && !validation.email.required && validation.email.illegal">Invalid email address</div>
+                        </div>
+                        <div class="form-group" :class="{
+                            'has-error': validation.password.dirty && (validation.password.required || validation.password.illegal),
+                            'has-feedback': validation.password.dirty && (validation.password.required || validation.password.illegal),
+                        }">
+                            <input type="password" class="form-control input-lg" placeholder="Password" v-model="form.password">
+                            <span v-if="validation.password.dirty && (validation.password.required || validation.password.illegal)" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="validation.password.dirty && validation.password.required">Password is a required field</div>
+                            <div v-if="validation.password.dirty && !validation.password.required && validation.password.illegal">Your password is too short</div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Register</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -2500,32 +2523,34 @@
     <div class="ld ld-section ld-body ld-manage ld-manage-clone">
         <div class="ld ld-table">
             <div class="ld ld-cell">
-                <form v-if="form" novalidate @submit.prevent="validation.valid && clone()">
-                    <div class="form-group">
-                        <h3>Clone Portal</h3>
-                    </div>
-                    <div class="form-group" :class="{
-                        'has-error': validation.title.dirty && validation.title.required,
-                        'has-feedback': validation.title.dirty && validation.title.required,
-                    }">
-                        <input type="text" class="form-control input-lg" placeholder="Title" autofocus v-model="form.title">
-                        <span v-if="validation.title.dirty && validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                        <div v-if="validation.title.dirty && validation.title.required">Title is a required field</div>
-                    </div>
-                    <div class="form-group">
-                        <div class="ld ld-upload">
-                            <div class="thumbnail ld ld-thumbnail" v-if="form.thumbnail">
-                                <div class="ld ld-thumbnail-inner" :style="{
-                                    'background-image': 'url(' + $store.state.settings.endpoint + '/images/u/' + form.thumbnail.uuid + '/thumbnail.png)'
-                                }">
+                <div class="ld ld-center">
+                    <form v-if="form" novalidate @submit.prevent="validation.valid && clone()">
+                        <div class="form-group">
+                            <h3>Clone Portal</h3>
+                        </div>
+                        <div class="form-group" :class="{
+                            'has-error': validation.title.dirty && validation.title.required,
+                            'has-feedback': validation.title.dirty && validation.title.required,
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="Title" autofocus v-model="form.title">
+                            <span v-if="validation.title.dirty && validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="validation.title.dirty && validation.title.required">Title is a required field</div>
+                        </div>
+                        <div class="form-group">
+                            <div class="ld ld-upload">
+                                <div class="thumbnail ld ld-thumbnail" v-if="form.thumbnail">
+                                    <div class="ld ld-thumbnail-inner" :style="{
+                                        'background-image': 'url(' + $store.state.settings.endpoint + '/images/u/' + form.thumbnail.uuid + '/thumbnail.png)'
+                                    }">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Clone</button>
-                    </div>
-                </form>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Clone</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -2535,22 +2560,24 @@
     <div class="ld ld-section ld-body ld-manage ld-manage-create">
         <div class="ld ld-table">
             <div class="ld ld-cell">
-                <form novalidate @submit.prevent="validation.valid && create()">
-                    <div class="form-group">
-                        <h3>Create Portal</h3>
-                    </div>
-                    <div class="form-group" :class="{
-                        'has-error': validation.title.dirty && validation.title.required,
-                        'has-feedback': validation.title.dirty && validation.title.required,
-                    }">
-                        <input type="text" class="form-control input-lg" placeholder="Title" autofocus v-model="form.title">
-                        <span v-if="validation.title.dirty && validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                        <div v-if="validation.title.dirty && validation.title.required">Title is a required field</div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Create</button>
-                    </div>
-                </form>
+                <div class="ld ld-center">
+                    <form novalidate @submit.prevent="validation.valid && create()">
+                        <div class="form-group">
+                            <h3>Create Portal</h3>
+                        </div>
+                        <div class="form-group" :class="{
+                            'has-error': validation.title.dirty && validation.title.required,
+                            'has-feedback': validation.title.dirty && validation.title.required,
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="Title" autofocus v-model="form.title">
+                            <span v-if="validation.title.dirty && validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="validation.title.dirty && validation.title.required">Title is a required field</div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Create</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -2560,34 +2587,36 @@
     <div class="ld ld-section ld-body ld-manage ld-manage-details">
         <div class="ld ld-table">
             <div class="ld ld-cell">
-                <form v-if="form" novalidate @submit.prevent="validation.valid && update()">
-                    <div class="form-group">
-                        <h3>Portal Settings</h3>
-                    </div>
-                    <div class="form-group" :class="{
-                        'has-error': validation.title.dirty && validation.title.required,
-                        'has-feedback': validation.title.dirty && validation.title.required,
-                    }">
-                        <input type="text" class="form-control input-lg" placeholder="Title" autofocus v-model="form.title">
-                        <span v-if="validation.title.dirty && validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                        <div v-if="validation.title.dirty && validation.title.required">Title is a required field</div>
-                    </div>
-                    <div class="form-group">
-                        <div class="ld ld-upload">
-                            <div class="thumbnail ld ld-thumbnail" v-if="form.thumbnail">
-                                <div class="ld ld-thumbnail-inner" :style="{
-                                    'background-image': 'url(' + $store.state.settings.endpoint + '/images/u/' + form.thumbnail.uuid + '/thumbnail.png)'
-                                }">
-                                </div>
-                            </div>
-                            <div class="btn btn-default btn-block" v-if="!form.thumbnail">Upload Thumbnail</div>
-                            <input type="file" name="thumbnail" />
+                <div class="ld ld-center">
+                    <form v-if="form" novalidate @submit.prevent="validation.valid && update()">
+                        <div class="form-group">
+                            <h3>Share Settings</h3>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Update</button>
-                    </div>
-                </form>
+                        <div class="form-group" :class="{
+                            'has-error': validation.title.dirty && validation.title.required,
+                            'has-feedback': validation.title.dirty && validation.title.required,
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="Title" autofocus v-model="form.title">
+                            <span v-if="validation.title.dirty && validation.title.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="validation.title.dirty && validation.title.required">Title is a required field</div>
+                        </div>
+                        <div class="form-group">
+                            <div class="ld ld-upload">
+                                <div class="thumbnail ld ld-thumbnail" v-if="form.thumbnail">
+                                    <div class="ld ld-thumbnail-inner" :style="{
+                                        'background-image': 'url(' + $store.state.settings.endpoint + '/images/u/' + form.thumbnail.uuid + '/thumbnail.png)'
+                                    }">
+                                    </div>
+                                </div>
+                                <div class="btn btn-default btn-block" v-if="!form.thumbnail">Upload Thumbnail</div>
+                                <input type="file" name="thumbnail" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Update</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -2597,45 +2626,105 @@
     <div class="ld ld-section ld-body ld-manage ld-manage-domain">
         <div class="ld ld-table">
             <div class="ld ld-cell">
-                <form v-if="form" novalidate @submit.prevent="validation.valid && register()">
-                    <div class="form-group">
-                        <h3>Domain Registration</h3>
-                    </div>
-                    <div class="form-group" :class="{
-                        'has-error': validation.name.dirty && validation.name.required,
-                        'has-feedback': validation.name.dirty && validation.name.required,
-                    }">
-                        <input type="text" class="form-control input-lg" placeholder="yoursitename.up.ntr1x.com" autofocus v-model="form.name">
-                        <span v-if="validation.name.dirty && validation.name.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                        <div v-if="validation.name.dirty && validation.name.required">Name is a required field</div>
-                    </div>
-                    <div class="form-group">
-                        <div class="btn-group btn-block">
-                            <button type="button" class="btn btn-lg btn-block btn-default dropdown-toggle dropdown-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="select-title">
-                                    <span v-if="form.portal == null"><i>Select Portal</i></span>
-                                    <span v-if="form.portal != null">{{ form.portal.title }}</span>
-                                </span>
-                                <span class="caret select-caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" style="width: 100%">
-                                <li v-for="portal in portals"><a href="#" @click.prevent="form.portal = portal">{{ portal.title }}</a></li>
-                            </ul>
+                <div class="ld ld-center">
+                    <form v-if="form" novalidate @submit.prevent="validation.valid && register()">
+                        <div class="form-group">
+                            <h3>Domain Registration</h3>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        Domains in *.up.ntr1x.com and *.ui.ntr1x.com zones are free to use and handled by our servers by design.
-                        If you would like to use your own domain make sure its DNS record points to one of our IP addresses.
-                        For some domains commercial subscription required.
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Register</button>
-                    </div>
-                </form>
+                        <div class="form-group" :class="{
+                            'has-error': validation.name.dirty && validation.name.required,
+                            'has-feedback': validation.name.dirty && validation.name.required,
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="yoursitename.up.ntr1x.com" autofocus v-model="form.name">
+                            <span v-if="validation.name.dirty && validation.name.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="validation.name.dirty && validation.name.required">Name is a required field</div>
+                        </div>
+                        <div class="form-group">
+                            <div class="btn-group btn-block">
+                                <button type="button" class="btn btn-lg btn-block btn-default dropdown-toggle dropdown-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="select-title">
+                                        <span v-if="form.portal == null"><i>Select Portal</i></span>
+                                        <span v-if="form.portal != null">{{ form.portal.title }}</span>
+                                    </span>
+                                    <span class="caret select-caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" style="width: 100%">
+                                    <li v-for="portal in portals"><a href="#" @click.prevent="form.portal = portal">{{ portal.title }}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            Domains in *.up.ntr1x.com and *.ui.ntr1x.com zones are free to use and handled by our servers by design.
+                            If you would like to use your own domain make sure its DNS record points to one of our IP addresses.
+                            For some domains commercial subscription required.
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Register</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </template>
+
+<template id="landing-manage-mail">
+    <div class="ld ld-section ld-body ld-manage ld-manage-mail">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <div class="ld ld-center">
+                    <form v-if="details" class="form-horizontal" novalidate @submit.prevent="validation.valid && add()">
+                        <div class="form-group">
+                            <h3>Mail Settings</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>New Property</label>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">Key {{ validation.valid }}</span>
+                                <input type="text" class="form-control input-sm" placeholder="mail.*" v-model="form.name" list="mail-properties-list" />
+                                <datalist id="mail-properties-list">
+                                    <option value="mail.host" />
+                                    <option value="mail.port" />
+                                    <option value="mail.username" />
+                                    <option value="mail.password" />
+                                    <option value="mail.protocol" />
+                                    <option value="mail.properties.mail.transport.protocol" />
+                                    <option value="mail.properties.mail.smtp.auth" />
+                                    <option value="mail.properties.mail.smtp.starttls.enable" />
+                                    <option value="mail.properties.mail.smtp.socketFactory.class" />
+                                    <option value="mail.properties.mail.smtp.socketFactory.port" />
+                                </datalist>
+                                <span class="input-group-addon">Value</span>
+                                <input type="text" class="form-control input-sm" placeholder="" v-model="form.value" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit" :disabled="!validation.valid">Add</button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                    <form v-if="details" class="form-horizontal" novalidate @submit.prevent="update()">
+                        <div class="form-group">
+                            <label>Properties</label>
+                            <div v-for="item in sorted()" :key="item.uuid" style="margin-bottom: 4px">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon" style="min-width: 280px; text-align: left">{{ item.name }}</span>
+                                    <input type="text" class="form-control input-sm" v-model="item.value" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" @click="remove(item)">Remove</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 
 <template id="landing-manage">
     <div class="ld ld-section ld-manage">
@@ -2658,9 +2747,12 @@
                                     <div class="btn-group pull-right">
                                         <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/details' })">Settings</a></li>
-                                            <li><a href="#" v-if="portal.shared" @click.prevent="unshare(portal.id)">Unpublish</a></li>
+                                            <li><a href="#" v-if="!portal.shared" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/details' })">Share</a></li>
+                                            <li><a href="#" v-if="portal.shared" @click.prevent="unshare(portal.id)">Unshare</a></li>
                                             <li><a href="#" v-if="portal.shared" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/clone' })">Clone</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/mail' })">Mail Settings</a></li>
+                                            <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/templates' })">Mail Templates</a></li>
                                             <li role="separator" class="divider"></li>
                                             <li><a href="#" @click.prevent="remove(portal.id)">Remove</a></li>
                                         </ul>

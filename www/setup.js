@@ -31,7 +31,9 @@ function setup(config, routes) {
     app.use(express.static(path.join(__dirname, 'public')));
     app.use(express.static(path.join(__dirname, '../bower_components')));
 
-    app.use('/', routes);
+    for (let route of routes) {
+        app.use(route.path, route.routes);
+    }
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
