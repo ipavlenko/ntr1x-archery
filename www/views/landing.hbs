@@ -16,6 +16,7 @@
     <script src="/assets/js/vendor.js"></script>
     <script src="/assets/js/app.js"></script>
     <script src="/ckeditor/ckeditor.js" async></script>
+    <script src="/ace-builds/src-min/ace.js" async></script>
 </head>
 <body
     data-vue-landing
@@ -1946,32 +1947,6 @@
     </default-box>
 </template>
 
-<template id="default-dropdown">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-dropdown">
-        <div class="form-group">
-            <div class="btn-group">
-                <button :type="bindings.type" class="btn btn-block dropdown-toggle" data-toggle="dropdown" :class="{
-                        'btn-default': bindings.stereotype == 'default',
-                        'btn-primary': bindings.stereotype == 'primary',
-                        'btn-success': bindings.stereotype == 'success',
-                        'btn-info': bindings.stereotype == 'info',
-                        'btn-warning': bindings.stereotype == 'warning',
-                        'btn-danger': bindings.stereotype == 'danger',
-                        'btn-link': bindings.stereotype == 'link',
-                    }"
-                    :style="{
-                        height: bindings.height
-                    }"
-                >{{ selected ? selected.title : bindings.empty }}
-                &nbsp;<span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li v-for="item in bindings.items.collection" :class="{ 'active': isSelected(item) }"><a @click="select(item)">{{ item.title }}</a></li>
-                </ul>
-            </div>
-        </div>
-    </default-box>
-</template>
-
 <template id="default-input-checkbox">
     <default-box :bindings.sync="bindings" :class="'wg wg-widget wg-default-input-checkbox'">
         <div class="form-group">
@@ -2018,6 +1993,32 @@
     </default-box>
 </template>
 
+<template id="default-dropdown">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-dropdown">
+        <div class="form-group">
+            <div class="btn-group">
+                <button :type="bindings.type" class="btn btn-block dropdown-toggle" data-toggle="dropdown" :class="{
+                        'btn-default': bindings.stereotype == 'default',
+                        'btn-primary': bindings.stereotype == 'primary',
+                        'btn-success': bindings.stereotype == 'success',
+                        'btn-info': bindings.stereotype == 'info',
+                        'btn-warning': bindings.stereotype == 'warning',
+                        'btn-danger': bindings.stereotype == 'danger',
+                        'btn-link': bindings.stereotype == 'link',
+                    }"
+                    :style="{
+                        height: bindings.height
+                    }"
+                >{{ selected ? selected.title : bindings.empty }}
+                &nbsp;<span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li v-for="item in bindings.items.collection" :class="{ 'active': isSelected(item) }"><a @click="select(item)">{{ item.title }}</a></li>
+                </ul>
+            </div>
+        </div>
+    </default-box>
+</template>
+
 <template id="default-radio">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-radio">
         <div class="btn-group">
@@ -2044,6 +2045,34 @@
 <template id="default-image">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-image">
         <img :src="bindings.src" />
+    </default-box>
+</template>
+
+<template id="default-box">
+    <section :class="clazz" :id="bindings.id" :style="{
+        'border': bindings.outer.border,
+        'background': bindings.outer.background,
+        'margin': bindings.outer.margin,
+        'padding': bindings.outer.padding,
+    }">
+        <div class="wg wg-content" :style="{
+            'height': bindings.height,
+            'width': bindings.width,
+            'margin': bindings.inner.margin,
+            'padding': bindings.inner.padding,
+            'border': bindings.inner.border,
+            'background': bindings.inner.background,
+        }"><slot>Empty</slot></div>
+    </section>
+</template>
+
+<template id="default-placeholder">
+    <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
+        <div class="wg wg-table" :style="{
+            height: bindings.height,
+        }">
+            <span class="wg wg-cell" v-html="bindings.content"></span>
+        </div>
     </default-box>
 </template>
 
@@ -2076,34 +2105,6 @@
             v-html="bindings.content"
         ></div>
     </section>
-</template>
-
-<template id="default-box">
-    <section :class="clazz" :id="bindings.id" :style="{
-        'border': bindings.outer.border,
-        'background': bindings.outer.background,
-        'margin': bindings.outer.margin,
-        'padding': bindings.outer.padding,
-    }">
-        <div class="wg wg-content" :style="{
-            'height': bindings.height,
-            'width': bindings.width,
-            'margin': bindings.inner.margin,
-            'padding': bindings.inner.padding,
-            'border': bindings.inner.border,
-            'background': bindings.inner.background,
-        }"><slot>Empty</slot></div>
-    </section>
-</template>
-
-<template id="default-placeholder">
-    <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
-        <div class="wg wg-table" :style="{
-            height: bindings.height,
-        }">
-            <span class="wg wg-cell" v-html="bindings.content"></span>
-        </div>
-    </default-box>
 </template>
 
 <template id="default-stub">
@@ -2156,12 +2157,34 @@
     </div>
 </template>
 
-<template id="landing-manage-domain-page">
+<template id="landing-manage-domains-create-page">
     <div class="ld ld-page ld-fullscreen-page">
         <landing-super></landing-super>
         <landing-header></landing-header>
         <transition appear name="fade">
-            <landing-manage-domain></landing-manage-domain>
+            <landing-manage-domains-create></landing-manage-domains-create>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-manage-domains-update-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-manage-domains-update></landing-manage-domains-update>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-manage-domains-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-manage-domains></landing-manage-domains>
         </transition>
         <landing-footer></landing-footer>
     </div>
@@ -2195,6 +2218,39 @@
         <landing-header></landing-header>
         <transition appear name="fade">
             <landing-manage-router></landing-manage-router>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-manage-templates-create-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-manage-templates-create></landing-manage-templates-create>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-manage-templates-update-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-manage-templates-update></landing-manage-templates-update>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-manage-templates-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-manage-templates></landing-manage-templates>
         </transition>
         <landing-footer></landing-footer>
     </div>
@@ -2341,15 +2397,15 @@
     </div>
 </template>
 
-<template id="landing-benefits">
-    <div class="ld ld-section ld-benefits">
-        <h3>Benefits</h3>
-    </div>
-</template>
-
 <template id="landing-contacts">
     <div class="ld ld-section ld-contacts">
         <h3>Contacts</h3>
+    </div>
+</template>
+
+<template id="landing-benefits">
+    <div class="ld ld-section ld-benefits">
+        <h3>Benefits</h3>
     </div>
 </template>
 
@@ -2431,22 +2487,6 @@
     </div>
 </template>
 
-<template id="landing-footer">
-    <div class="ld ld-section ld-footer">
-        <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ld ld-copyright">
-                            &copy; 2016 NTR, LLC. Archery Cloud Platform.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <template id="landing-gallery-full">
     <div class="ld ld-section ld-gallery ld-gallery-full">
         <div class="ld ld-container">
@@ -2504,6 +2544,22 @@
                         </div>
                     </div>
                 </transition>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-footer">
+    <div class="ld ld-section ld-footer">
+        <div class="ld ld-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="ld ld-copyright">
+                            &copy; 2016 NTR, LLC. Archery Cloud Platform.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -2644,14 +2700,14 @@
     </div>
 </template>
 
-<template id="landing-manage-domain">
-    <div class="ld ld-section ld-body ld-manage ld-manage-domain">
+<template id="landing-manage-domains-create">
+    <div class="ld ld-section ld-body ld-manage ld-manage-domains-create">
         <div class="ld ld-table">
             <div class="ld ld-cell">
                 <div class="ld ld-center">
-                    <form v-if="form" novalidate @submit.prevent="validation.valid && register()">
+                    <form v-if="form" novalidate @submit.prevent="validation.valid && create()">
                         <div class="form-group">
-                            <h3>Domain Registration</h3>
+                            <h3>Create Domain</h3>
                         </div>
                         <div class="form-group" :class="{
                             'has-error': validation.name.dirty && validation.name.required,
@@ -2662,18 +2718,36 @@
                             <div v-if="validation.name.dirty && validation.name.required">Name is a required field</div>
                         </div>
                         <div class="form-group">
-                            <div class="btn-group btn-block">
-                                <button type="button" class="btn btn-lg btn-block btn-default dropdown-toggle dropdown-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="select-title">
-                                        <span v-if="form.portal == null"><i>Select Portal</i></span>
-                                        <span v-if="form.portal != null">{{ form.portal.title }}</span>
-                                    </span>
-                                    <span class="caret select-caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" style="width: 100%">
-                                    <li v-for="portal in portals"><a href="#" @click.prevent="form.portal = portal">{{ portal.title }}</a></li>
-                                </ul>
-                            </div>
+                            Domains in *.up.ntr1x.com and *.ui.ntr1x.com zones are free to use and handled by our servers by design.
+                            If you would like to use your own domain make sure its DNS record points to one of our IP addresses.
+                            For some domains commercial subscription required.
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Create</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-manage-domains-update">
+    <div class="ld ld-section ld-body ld-manage ld-manage-domains-update">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <div class="ld ld-center">
+                    <form v-if="form" novalidate @submit.prevent="validation.valid && update()">
+                        <div class="form-group">
+                            <h3>Update Domain</h3>
+                        </div>
+                        <div class="form-group" :class="{
+                            'has-error': validation.name.dirty && validation.name.required,
+                            'has-feedback': validation.name.dirty && validation.name.required,
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="yoursitename.up.ntr1x.com" autofocus v-model="form.name">
+                            <span v-if="validation.name.dirty && validation.name.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="validation.name.dirty && validation.name.required">Name is a required field</div>
                         </div>
                         <div class="form-group">
                             Domains in *.up.ntr1x.com and *.ui.ntr1x.com zones are free to use and handled by our servers by design.
@@ -2681,9 +2755,49 @@
                             For some domains commercial subscription required.
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Register</button>
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Update</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-manage-domains">
+    <div class="ld ld-section ld-manage ld-manage-domains">
+        <div class="ld ld-table" v-if="details">
+            <div class="ld ld-cell">
+                <div class="ld ld-center">
+                    <div>
+                        <h3>Portal Domains</h3>
+                    </div>
+                    <div class="ld ld-portals">
+                        <div class="ld ld-portal" v-for="item in sorted()">
+                            <div class="ld ld-portal-data">
+                                <div class="ld ld-data-title"><a :href="'http://' + item.name">{{ item.name }}</a></div>
+                                <div class="ld ld-portal-data">
+                                    <div class="ld ld-data-ref">{{ item.portal.title }}</div>
+                                </div>
+                            </div>
+                            <div class="ld ld-portal-buttons">
+                                <a class="btn btn-sm btn-primary" :href="'http://' + item.name">View</a>
+                                <div class="btn-group pull-right">
+                                    <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + item.portal.id + '/domains/i/' + item.id })" >Edit</a></li>
+                                        <li><a href="#" @click.prevent="remove(item.id)">Remove</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ld ld-portal">
+                            <div class="ld ld-portal-buttons">
+                                <div class="pull-left"></div>
+                                <a href="#" @click.prevent="$router.push({ path: '/manage/i/' + details.portal.id + '/domains/create' })" class="btn btn-primary">Register</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2695,7 +2809,7 @@
         <div class="ld ld-table">
             <div class="ld ld-cell">
                 <div class="ld ld-center">
-                    <form v-if="details" class="form-horizontal" novalidate @submit.prevent="validation.valid && add()">
+                    <form v-if="details" novalidate @submit.prevent="validation.valid && add()">
                         <div class="form-group">
                             <h3>Mail Settings</h3>
                         </div>
@@ -2724,7 +2838,7 @@
                             </div>
                         </div>
                     </form>
-                    <form v-if="details" class="form-horizontal" novalidate @submit.prevent="update()">
+                    <form v-if="details" novalidate @submit.prevent="update()">
                         <div class="form-group">
                             <label>Properties</label>
                             <div v-for="item in sorted()" :key="item.uuid" style="margin-bottom: 4px">
@@ -2752,7 +2866,7 @@
         <div class="ld ld-table">
             <div class="ld ld-cell">
                 <div class="ld ld-center">
-                    <form v-if="details" class="form-horizontal" novalidate @submit.prevent="validation.valid && add()">
+                    <form v-if="details" novalidate @submit.prevent="validation.valid && add()">
                         <div class="form-group">
                             <h3>Meta Settings</h3>
                         </div>
@@ -2775,7 +2889,7 @@
                             </div>
                         </div>
                     </form>
-                    <form v-if="details" class="form-horizontal" novalidate @submit.prevent="update()">
+                    <form v-if="details" novalidate @submit.prevent="update()">
                         <div class="form-group">
                             <label>Meta Strings</label>
                             <div v-for="item in sorted()" :key="item.uuid" style="margin-bottom: 4px">
@@ -2803,7 +2917,7 @@
         <div class="ld ld-table">
             <div class="ld ld-cell">
                 <div class="ld ld-center">
-                    <form v-if="details" class="form-horizontal" novalidate @submit.prevent="validation.valid && add()">
+                    <form v-if="details" novalidate @submit.prevent="validation.valid && add()">
                         <div class="form-group">
                             <h3>Router Settings</h3>
                         </div>
@@ -2825,7 +2939,7 @@
                             </div>
                         </div>
                     </form>
-                    <form v-if="details" class="form-horizontal" novalidate @submit.prevent="update()">
+                    <form v-if="details" novalidate @submit.prevent="update()">
                         <div class="form-group">
                             <label>Routes</label>
                             <div v-for="item in sorted()" :key="item.uuid" style="margin-bottom: 4px">
@@ -2848,76 +2962,166 @@
     </div>
 </template>
 
-
-<template id="landing-manage">
-    <div class="ld ld-section ld-manage">
+<template id="landing-manage-templates-create">
+    <div class="ld ld-section ld-manage ld-manage-templates-create">
         <div class="ld ld-container">
-            <div class="container-fluid">
-                <div class="row" v-if="portals && domains">
-                    <div class="col-xs-6">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-left"><span class="glyphicon glyphicon-globe"></span> Portals</h3>
+            <form novalidate @submit.prevent="validation.valid && create()">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3>Create Template</h3>
                         </div>
-                        <div class="ld ld-portals">
-                            <div class="ld ld-portal" v-for="portal in portals.content">
-                                <div class="ld ld-portal-data">
-                                    <div class="ld ld-data-title">{{ portal.title }} <span class="label label-success" v-if="portal.shared">Published</span></div>
-                                    <div class="ld ld-data-ref"><a :href="'/view/' + portal.id + '/'">/view/{{ portal.id }}/</a></div>
-                                </div>
-                                <div class="ld ld-portal-buttons">
-                                    <a class="btn btn-sm btn-primary" v-if="!portal.shared" :href="'/edit/' + portal.id + '/'">Edit</a>
-                                    <a class="btn btn-sm btn-default" v-if="portal.shared" :href="'/view/' + portal.id + '/'">View</a>
-                                    <div class="btn-group pull-right">
-                                        <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#" v-if="!portal.shared" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/details' })">Share</a></li>
-                                            <li><a href="#" v-if="portal.shared" @click.prevent="unshare(portal.id)">Unshare</a></li>
-                                            <li><a href="#" v-if="portal.shared" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/clone' })">Clone</a></li>
-                                            <li role="separator" class="divider"></li>
-                                            <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/router' })">Router Settings</a></li>
-                                            <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/meta' })">Meta Settings</a></li>
-                                            <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/mail' })">Mail Settings</a></li>
-                                            <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/templates' })">Mail Templates</a></li>
-                                            <li role="separator" class="divider"></li>
-                                            <li><a href="#" @click.prevent="remove(portal.id)">Remove</a></li>
-                                        </ul>
-                                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" v-model="form.name" />
+                            </div>
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <input type="text" class="form-control" v-model="form.subject" />
+                            </div>
+                            <div class="form-group">
+                                <label>Sender</label>
+                                <input type="text" class="form-control" v-model="form.sender" />
+                            </div>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="form-group">
+                                <label>Content</label>
+                                <textarea v-code class="form-control input-lg" v-model="form.content"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-lg">Create</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="landing-manage-templates-update">
+    <div class="ld ld-section ld-manage ld-manage-templates-update">
+        <div class="ld ld-container">
+            <form v-if="details" novalidate @submit.prevent="validation.valid && update()">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3>Update Template</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" v-model="form.name" />
+                            </div>
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <input type="text" class="form-control" v-model="form.subject" />
+                            </div>
+                            <div class="form-group">
+                                <label>Sender</label>
+                                <input type="text" class="form-control" v-model="form.sender" />
+                            </div>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="form-group">
+                                <label>Content</label>
+                                <textarea v-code class="form-control input-lg" v-model="form.content"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-lg">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="landing-manage-templates">
+    <div class="ld ld-section ld-manage">
+        <div class="ld ld-table" v-if="details">
+            <div class="ld ld-cell">
+                <div class="ld ld-center">
+                    <div>
+                        <h3>Mail Templates</h3>
+                    </div>
+                    <div class="ld ld-portals">
+                        <div class="ld ld-portal" v-for="item in sorted()">
+                            <div class="ld ld-portal-data">
+                                <div class="ld ld-data-title">{{ item.subject }}</div>
+                                <div class="ld ld-data-ref">{{ item.name }}</div>
+                            </div>
+                            <div class="ld ld-portal-buttons">
+                                <div class="btn-group pull-right">
+                                    <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + details.portal.id + '/templates/i/' + item.id })"
+                                        >Edit</a></li>
+                                        <li><a href="#" @click.prevent="remove(item.id)">Remove</a></li>
+                                    </ul>
                                 </div>
                             </div>
+                        </div>
+                        <div class="ld ld-portal">
+                            <div class="ld ld-portal-buttons">
+                                <a href="#" class="btn btn-primary"
+                                    @click.prevent="$router.push({ path: '/manage/i/' + details.portal.id + '/templates/create' })"
+                                >Create</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-manage">
+    <div class="ld ld-section ld-manage ld-manage-portals">
+        <div class="ld ld-table" v-if="portals">
+            <div class="ld ld-cell">
+                <div class="ld ld-center">
+                    <div>
+                        <h3>Portals</h3>
+                    </div>
+                    <div class="ld ld-portals">
+                        <div class="ld ld-portal" v-for="portal in portals">
+                            <div class="ld ld-portal-data">
+                                <div class="ld ld-data-title">{{ portal.title }} <span class="label label-success" v-if="portal.shared">Published</span></div>
+                                <div class="ld ld-data-ref"><a :href="'/view/' + portal.id + '/'">/view/{{ portal.id }}/</a></div>
+                            </div>
+                            <div class="ld ld-portal-buttons">
+                                <a class="btn btn-sm btn-primary" v-if="!portal.shared" :href="'/edit/' + portal.id + '/'">Edit</a>
+                                <a class="btn btn-sm btn-default" v-if="portal.shared" :href="'/view/' + portal.id + '/'">View</a>
+                                <div class="btn-group pull-right">
+                                    <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#" v-if="!portal.shared" @click.prevent="$router.push({ path: '/manage/i/' + portal.id })">Settings</a></li>
+                                        <li><a href="#" v-if="portal.shared" @click.prevent="unshare(portal.id)">Unshare</a></li>
+                                        <li><a href="#" v-if="portal.shared" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/clone' })">Clone</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/domains' })">Portal Domains</a></li>
+                                        <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/meta' })">Meta Settings</a></li>
+                                        <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/router' })">Router Settings</a></li>
+                                        <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/mail' })">Mail Settings</a></li>
+                                        <li><a href="#" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/templates' })">Mail Templates</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#" @click.prevent="remove(portal.id)">Remove</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                             <div class="ld ld-portal">
                                 <div class="ld ld-portal-buttons">
                                     <a href="#" @click.prevent="$router.push({ path: '/gallery' })" class="btn btn-primary">Browse Gallery</a>
                                     <a href="#" @click.prevent="$router.push({ path: '/manage/create' })" class="btn btn-default">Create Blank</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="ld ld-offset-header">
-                            <h3 class="ld ld-decorate ld-decorate-right"><span class="glyphicon glyphicon-globe"></span> Domains</h3>
-                        </div>
-                        <div class="ld ld-portals">
-                            <div class="ld ld-portal" v-for="domain in domains.content">
-                                <div class="ld ld-portal-data">
-                                    <div class="ld ld-data-title"><a :href="'http://' + domain.name">{{ domain.name }}</a></div>
-                                    <div class="ld ld-portal-data">
-                                        <div class="ld ld-data-ref">{{ domain.portal.title }}</div>
-                                    </div>
-                                </div>
-                                <div class="ld ld-portal-buttons">
-                                    <a class="btn btn-sm btn-primary" :href="'http://' + domain.name">View</a>
-                                    <div class="btn-group pull-right">
-                                        <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#" @click.prevent="removeDomain(domain.id)">Remove</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ld ld-portal">
-                                <div class="ld ld-portal-buttons">
-                                    <div class="pull-left"></div>
-                                    <a href="#" @click.prevent="$router.push({ path: '/manage/domain' })" class="btn btn-primary">Register</a>
                                 </div>
                             </div>
                         </div>
