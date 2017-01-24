@@ -1227,54 +1227,6 @@
     </div>
 </template>
 
-<template id="shell-widgets-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                  @submit.prevent="submit"
-                  @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="context.type == 'update'" class="label label-primary">Edit Widget</span>
-                        <span v-if="context.type == 'create'" class="label label-primary">New Widget</span>
-                        <!--
-                            <span v-if="original.name">&nbsp;{{ original.name }}</span>
-                            <span>&gt;</span>
-                         -->
-                        <template v-for="tab in context.widget.tabs">
-                            <span  v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                        </template>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <template v-for="tab in context.widget.tabs">
-                                    <li v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                                </template>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items="items" :owner="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="pages-sources-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
@@ -1606,6 +1558,54 @@
 
     <pages-sources-list :items.sync="items"></pages-sources-list>
 
+</template>
+
+<template id="shell-widgets-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                  @submit.prevent="submit"
+                  @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="context.type == 'update'" class="label label-primary">Edit Widget</span>
+                        <span v-if="context.type == 'create'" class="label label-primary">New Widget</span>
+                        <!--
+                            <span v-if="original.name">&nbsp;{{ original.name }}</span>
+                            <span>&gt;</span>
+                         -->
+                        <template v-for="tab in context.widget.tabs">
+                            <span  v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                        </template>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <template v-for="tab in context.widget.tabs">
+                                    <li v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                                </template>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items="items" :owner="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </template>
 
 <template id="default-carousel">
@@ -2018,12 +2018,6 @@
     </default-box>
 </template>
 
-<template id="default-image">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-image">
-        <img :src="bindings.src" />
-    </default-box>
-</template>
-
 <template id="default-radio">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-radio">
         <div class="btn-group">
@@ -2047,22 +2041,10 @@
     </default-box>
 </template>
 
-<template id="default-box">
-    <section :class="clazz" :id="bindings.id" :style="{
-        'border': bindings.outer.border,
-        'background': bindings.outer.background,
-        'margin': bindings.outer.margin,
-        'padding': bindings.outer.padding,
-    }">
-        <div class="wg wg-content" :style="{
-            'height': bindings.height,
-            'width': bindings.width,
-            'margin': bindings.inner.margin,
-            'padding': bindings.inner.padding,
-            'border': bindings.inner.border,
-            'background': bindings.inner.background,
-        }"><slot>Empty</slot></div>
-    </section>
+<template id="default-image">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-image">
+        <img :src="bindings.src" />
+    </default-box>
 </template>
 
 <template id="default-text">
@@ -2093,6 +2075,24 @@
             }"
             v-html="bindings.content"
         ></div>
+    </section>
+</template>
+
+<template id="default-box">
+    <section :class="clazz" :id="bindings.id" :style="{
+        'border': bindings.outer.border,
+        'background': bindings.outer.background,
+        'margin': bindings.outer.margin,
+        'padding': bindings.outer.padding,
+    }">
+        <div class="wg wg-content" :style="{
+            'height': bindings.height,
+            'width': bindings.width,
+            'margin': bindings.inner.margin,
+            'padding': bindings.inner.padding,
+            'border': bindings.inner.border,
+            'background': bindings.inner.background,
+        }"><slot>Empty</slot></div>
     </section>
 </template>
 
@@ -3192,6 +3192,7 @@
                                     <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">Advanced <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
                                         <li><a href="#" v-if="!portal.shared" @click.prevent="$router.push({ path: '/manage/i/' + portal.id })">Settings</a></li>
+                                        <li><a href="#" v-if="!portal.shared && portal.thumbnail" @click.prevent="share(portal.id)">Share</a></li>
                                         <li><a href="#" v-if="portal.shared" @click.prevent="unshare(portal.id)">Unshare</a></li>
                                         <li><a href="#" v-if="portal.shared" @click.prevent="$router.push({ path: '/manage/i/' + portal.id + '/clone' })">Clone</a></li>
                                         <li role="separator" class="divider"></li>
@@ -3489,6 +3490,24 @@
     </div>
 </template>
 
+<template id="landing-super">
+    <div class="ld ld-section ld-super">
+        <div class="ld ld-container">
+            <ul class="nav nav-pills pull-left">
+                <li role="presentation"><a href="#">NTR1X</a></li>
+                <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/'})">Archery</a></li>
+                <li role="presentation"><a href="#">Blog</a></li>
+            </ul>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation"><a href="#">FAQ</a></li>
+                <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/'})">About</a></li>
+                <li role="presentation"><a href="#">Contacts</a></li>
+                <li role="presentation"><a href="#">Documentation</a></li>
+            </ul>
+        </div>
+    </div>
+</template>
+
 <template id="landing-usecases">
     <div class="ld ld-section ld-usecases">
         <div class="ld ld-container">
@@ -3542,24 +3561,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</template>
-
-<template id="landing-super">
-    <div class="ld ld-section ld-super">
-        <div class="ld ld-container">
-            <ul class="nav nav-pills pull-left">
-                <li role="presentation"><a href="#">NTR1X</a></li>
-                <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/'})">Archery</a></li>
-                <li role="presentation"><a href="#">Blog</a></li>
-            </ul>
-            <ul class="nav nav-pills pull-right">
-                <li role="presentation"><a href="#">FAQ</a></li>
-                <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/'})">About</a></li>
-                <li role="presentation"><a href="#">Contacts</a></li>
-                <li role="presentation"><a href="#">Documentation</a></li>
-            </ul>
         </div>
     </div>
 </template>
