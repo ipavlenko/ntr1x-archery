@@ -16,6 +16,7 @@
     <script src="/assets/js/vendor.js"></script>
     <script src="/assets/js/app.js"></script>
     <script src="/ckeditor/ckeditor.js" async></script>
+    <script src="/ace-builds/src-min/ace.js" async></script>
 </head>
 <body
     data-vue-designer
@@ -146,25 +147,55 @@
     </div>
 </template>
 
+<template id="shell-publications-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span>Publish Portal</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="dialog-page-name">Имя</label>
+                                <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
 <template id="params-action">
     <div class="ge ge-param form-group">
         <div class="ge ge-param-label">
             <label class="pull-left" :for="id">{{ item.prop.title }}</label>
             <div class="pull-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">{{ item.param.action }} <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li v-for="a in actions"><a @click="select(a)">{{ a }}</a></li>
+                    </ul>
+                </div>
                 <params-bindings :owner="item.owner" :property="item.prop.name" :context="{ type: 'update', prop: item.prop }" inline-template>
                     <button type="button" class="btn btn-xs btn-default" @click="open()">Advanced</button>
                 </params-bindings>
             </div>
         </div>
-        <div class="input-group">
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{ item.param.action }} <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li v-for="a in actions"><a @click="select(a)">{{ a }}</a></li>
-                </ul>
-            </div>
-            <input class="form-control" type="text" :id="id" v-model="item.param.value" />
-        </div>
+        <texteditor class="form-control" mode="ace/mode/javascript" theme="ace/theme/chrome" v-model="item.param.value"></texteditor>
     </div>
 </template>
 
@@ -528,38 +559,6 @@
 <template id="params">
     <div class="ge ge-params">
         <params-list :items="items" :tab="tab"></params-list>
-    </div>
-</template>
-
-<template id="shell-publications-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span>Publish Portal</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label for="dialog-page-name">Имя</label>
-                                <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
     </div>
 </template>
 
@@ -1227,6 +1226,54 @@
     </div>
 </template>
 
+<template id="shell-widgets-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                  @submit.prevent="submit"
+                  @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span v-if="context.type == 'update'" class="label label-primary">Edit Widget</span>
+                        <span v-if="context.type == 'create'" class="label label-primary">New Widget</span>
+                        <!--
+                            <span v-if="original.name">&nbsp;{{ original.name }}</span>
+                            <span>&gt;</span>
+                         -->
+                        <template v-for="tab in context.widget.tabs">
+                            <span  v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
+                        </template>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-pills nav-stacked">
+                                <template v-for="tab in context.widget.tabs">
+                                    <li v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
+                                </template>
+                            </ul>
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
+                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
+                                    <params :items="items" :owner="context.widget" :tab="tab.name"></params>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
 <template id="pages-sources-dialog">
     <div class="ge ge-modal modal modal-center" role="dialog">
         <div class="modal-dialog">
@@ -1560,54 +1607,6 @@
 
 </template>
 
-<template id="shell-widgets-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                  @submit.prevent="submit"
-                  @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span v-if="context.type == 'update'" class="label label-primary">Edit Widget</span>
-                        <span v-if="context.type == 'create'" class="label label-primary">New Widget</span>
-                        <!--
-                            <span v-if="original.name">&nbsp;{{ original.name }}</span>
-                            <span>&gt;</span>
-                         -->
-                        <template v-for="tab in context.widget.tabs">
-                            <span  v-if="tab && isActive(tab.name)">{{ tab.title }}</span>
-                        </template>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <ul class="nav nav-pills nav-stacked">
-                                <template v-for="tab in context.widget.tabs">
-                                    <li v-if="tab && hasProps(tab.name)" :class="{ 'active': tab && isActive(tab.name) }"><a href="#" @click="activate(tab.name)">{{ tab.title }}</a></li>
-                                </template>
-                            </ul>
-                        </div>
-                        <div class="col-xs-9">
-                            <div class="tab-content" style="min-height: 450px; max-height: 450px; overflow: auto;">
-                                <div v-for="tab in context.widget.tabs" class="tab-pane" :class="{ 'active': isActive(tab.name) }">
-                                    <params :items="items" :owner="context.widget" :tab="tab.name"></params>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="default-carousel">
         <default-box :bindings.sync="bindings" :class="'wg wg-default-carousel'">
             <div v-if="bindings.items" id="{{ systemId }}" class="carousel slide" data-ride="carousel">
@@ -1906,7 +1905,10 @@
 <template id="default-button">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-button">
         <div class="form-group">
-            <button :type="bindings.type" class="btn btn-block" @click="$store.dispatch(bindings.click.action, bindings.click.payload)" :class="{
+            <button :type="bindings.type" class="btn btn-block" @click="$store.dispatch(bindings.click.action, {
+                source: this,
+                script: bindings.click.payload
+            })" :class="{
                     'btn-default': bindings.stereotype == 'default',
                     'btn-primary': bindings.stereotype == 'primary',
                     'btn-success': bindings.stereotype == 'success',
@@ -2010,10 +2012,13 @@
 <template id="default-input-textarea">
     <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-input-textarea">
         <div class="form-group">
-            <label v-if="bindings.label" for="{{ systemId }}-input">{{ bindings.label }}</label>
-            <textarea class="form-control" id="{{ systemId }}-input" placeholder="{{ bindings.placeholder}}" v-model="bindings.model.value" style="{
-                height: bindings.height
-            }"></textarea>
+            <label v-if="bindings.label" :for="systemId + '-input'">{{ bindings.label }}</label>
+            <textarea class="form-control"
+                :id="systemId + '-input'"
+                :placeholder="bindings.placeholder"
+                :value="bindings.model && bindings.model.value"
+                @input="$store.commit('storage/value', { parent: bindings.model, property: 'value', value: $event.target.value })"
+            ></textarea>
         </div>
     </default-box>
 </template>
@@ -2047,6 +2052,24 @@
     </default-box>
 </template>
 
+<template id="default-box">
+    <section :class="clazz" :id="bindings.id" :style="{
+        'border': bindings.outer.border,
+        'background': bindings.outer.background,
+        'margin': bindings.outer.margin,
+        'padding': bindings.outer.padding,
+    }">
+        <div class="wg wg-content" :style="{
+            'height': bindings.height,
+            'width': bindings.width,
+            'margin': bindings.inner.margin,
+            'padding': bindings.inner.padding,
+            'border': bindings.inner.border,
+            'background': bindings.inner.background,
+        }"><slot>Empty</slot></div>
+    </section>
+</template>
+
 <template id="default-text">
     <section class="wg wg-default-text" :id="bindings.id"
         :class="{
@@ -2075,24 +2098,6 @@
             }"
             v-html="bindings.content"
         ></div>
-    </section>
-</template>
-
-<template id="default-box">
-    <section :class="clazz" :id="bindings.id" :style="{
-        'border': bindings.outer.border,
-        'background': bindings.outer.background,
-        'margin': bindings.outer.margin,
-        'padding': bindings.outer.padding,
-    }">
-        <div class="wg wg-content" :style="{
-            'height': bindings.height,
-            'width': bindings.width,
-            'margin': bindings.inner.margin,
-            'padding': bindings.inner.padding,
-            'border': bindings.inner.border,
-            'background': bindings.inner.background,
-        }"><slot>Empty</slot></div>
     </section>
 </template>
 
@@ -2266,12 +2271,187 @@
     </div>
 </template>
 
+<template id="landing-profile-email-alert">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-layout-center>
+                <div class="text-center">
+                    <h3>Email confirmation required</h3>
+                    <p>We have sent a message to specified email address.
+                        Please open the email message and click on the confirmation
+                        link to confirm your new email address.</p>
+                    <a href="#" class="btn btn-primary" @click.prevent="$router.push({ path: '/' })">Go to Main Page</a>
+                </div>
+            </landing-layout-center>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-profile-email-success">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-layout-center>
+                <div class="text-center">
+                    <h3>Email updated</h3>
+                    <p>Your email address has been updated.</p>
+                    <a href="#" class="btn btn-primary" @click.prevent="$router.push({ path: '/' })">Go to Main Page</a>
+                </div>
+            </landing-layout-center>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-profile-passwd-success">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-layout-center>
+                <div class="text-center">
+                    <h3>Password updated</h3>
+                    <p>Your password has been updated.</p>
+                    <a href="#" class="btn btn-primary" @click.prevent="$router.push({ path: '/' })">Go to Main Page</a>
+                </div>
+            </landing-layout-center>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-profile-success">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-layout-center>
+                <div class="text-center">
+                    <h3>Profile updated</h3>
+                    <p>Your profile data has been successfully updated.</p>
+                    <a href="#" class="btn btn-primary" @click.prevent="$router.push({ path: '/' })">Go to Main Page</a>
+                </div>
+            </landing-layout-center>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-profile-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-account-profile></landing-account-profile>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-recover-alert">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-layout-center>
+                <div class="text-center">
+                    <h3>Recover password with email</h3>
+                    <p>We have sent a message to specified email address.
+                        Please open the email message and click on the confirmation
+                        link to proceed with password recovery.</p>
+                    <a href="#" class="btn btn-primary" @click.prevent="$router.push({ path: '/' })">Go to Main Page</a>
+                </div>
+            </landing-layout-center>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-recover-passwd-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-account-recover-passwd></landing-account-recover-passwd>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-recover-success">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-layout-center>
+                <div class="text-center">
+                    <h3>Password updated</h3>
+                    <p>Your password has been updated. You are automatically logged in.</p>
+                    <a href="#" class="btn btn-primary" @click.prevent="$router.push({ path: '/' })">Go to Main Page</a>
+                </div>
+            </landing-layout-center>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-recover-page">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-account-recover></landing-account-recover>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
 <template id="landing-signin-page">
     <div class="ld ld-page ld-fullscreen-page">
         <landing-super></landing-super>
         <landing-header></landing-header>
         <transition appear name="fade">
             <landing-account-signin></landing-account-signin>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-signup-alert">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-layout-center>
+                <div class="text-center">
+                    <h3>Email confirmation required</h3>
+                    <p>We have sent a message to specified email address.
+                        Please open the email message and click on the confirmation
+                        link to verify your account.</p>
+                    <a href="#" class="btn btn-primary" @click.prevent="$router.push({ path: '/' })">Go to Main Page</a>
+                </div>
+            </landing-layout-center>
+        </transition>
+        <landing-footer></landing-footer>
+    </div>
+</template>
+
+<template id="landing-signup-success">
+    <div class="ld ld-page ld-fullscreen-page">
+        <landing-super></landing-super>
+        <landing-header></landing-header>
+        <transition appear name="fade">
+            <landing-layout-center>
+                <div class="text-center">
+                    <h3>Signup complete</h3>
+                    <p>You have been successfully registered. You are automatically logged in.</p>
+                    <a href="#" class="btn btn-primary" @click.prevent="$router.push({ path: '/' })">Go to Main Page</a>
+                </div>
+            </landing-layout-center>
         </transition>
         <landing-footer></landing-footer>
     </div>
@@ -2313,6 +2493,185 @@
     </div>
 </template>
 
+<template id="landing-account-profile-email">
+    <form novalidate @submit.prevent="validation.valid && update()">
+        <div class="form-group">
+            <h3>Update Email</h3>
+        </div>
+        <div class="form-group" :class="{
+            'has-error': validation.email.dirty && (validation.email.required),
+            'has-feedback': validation.email.dirty && (validation.email.required),
+        }">
+            <input type="text" class="form-control input-lg" placeholder="Email" autofocus v-model="form.email">
+            <span v-if="validation.email.dirty && validation.email.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+            <div v-if="validation.email.dirty && validation.email.required">Email is a required field</div>
+            <div v-if="validation.email.dirty && !validation.email.required && validation.email.illegal">Invalid email address</div>
+        </div>
+        <div class="form-group" :class="{
+            'has-error': validation.password.dirty && (validation.password.required || validation.password.illegal),
+            'has-feedback': validation.password.dirty && (validation.password.required || validation.password.illegal),
+        }">
+            <input type="password" class="form-control input-lg" placeholder="Password" v-model="form.password">
+            <span v-if="validation.password.dirty && (validation.password.required || validation.password.illegal)" class="glyphicon glyphicon-remove form-control-feedback"></span>
+            <div v-if="validation.password.dirty && validation.password.required">Password is a required field</div>
+            <div v-if="validation.password.dirty && !validation.password.required && validation.password.illegal">Your password is too short</div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Update</button>
+        </div>
+    </form>
+</template>
+
+<template id="landing-account-profile-main">
+    <form novalidate @submit.prevent="validation.valid && update()">
+        <div class="form-group">
+            <h3>Update Profile</h3>
+        </div>
+        <div class="form-group" :class="{
+            'has-error': validation.name.dirty && (validation.name.required),
+            'has-feedback': validation.name.dirty && (validation.name.required),
+        }">
+            <input type="text" class="form-control input-lg" placeholder="Name" autofocus v-model="form.name">
+            <span v-if="validation.name.dirty && validation.name.required" class="glyphicon glyphicon-remove form-control-feedback"></span>
+            <div v-if="validation.name.dirty && validation.name.required">Name is a required field</div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Update</button>
+        </div>
+    </form>
+</template>
+
+<template id="landing-account-profile-passwd">
+    <form novalidate @submit.prevent="validation.valid && update()">
+        <div class="form-group">
+            <h3>Update Password</h3>
+        </div>
+        <div class="form-group" :class="{
+            'has-error': validation.password.dirty && (validation.password.required || validation.password.illegal),
+            'has-feedback': validation.password.dirty && (validation.password.required || validation.password.illegal),
+        }">
+            <input type="password" class="form-control input-lg" placeholder="Old password" v-model="form.password">
+            <span v-if="validation.password.dirty && (validation.password.required || validation.password.illegal)"
+                class="glyphicon glyphicon-remove form-control-feedback"></span>
+            <div v-if="validation.password.dirty && validation.password.required"
+            >Old Password is a required field</div>
+            <div v-if="validation.password.dirty && !validation.password.required && validation.password.illegal"
+            >Old password is too short</div>
+        </div>
+        <div class="form-group" :class="{
+            'has-error': validation.newPassword.dirty && (validation.newPassword.required || validation.newPassword.illegal),
+            'has-feedback': validation.newPassword.dirty && (validation.newPassword.required || validation.newPassword.illegal),
+        }">
+            <input type="password" class="form-control input-lg" placeholder="New password" v-model="form.newPassword">
+            <span v-if="validation.newPassword.dirty && (validation.newPassword.required || validation.newPassword.illegal)"
+                class="glyphicon glyphicon-remove form-control-feedback"></span>
+            <div v-if="validation.newPassword.dirty && validation.newPassword.required"
+            >Password is a required field</div>
+            <div v-if="validation.newPassword.dirty && !validation.newPassword.required && validation.newPassword.illegal"
+            >Your password is too short</div>
+        </div>
+        <div class="form-group" :class="{
+            'has-error': validation.confirmPassword.dirty && (validation.confirmPassword.required || validation.confirmPassword.illegal),
+            'has-feedback': validation.confirmPassword.dirty && (validation.confirmPassword.required || validation.confirmPassword.illegal),
+        }">
+            <input type="password" class="form-control input-lg" placeholder="New password confirmation" v-model="form.confirmPassword">
+            <span v-if="validation.confirmPassword.dirty && (validation.confirmPassword.required || validation.confirmPassword.illegal)"
+                class="glyphicon glyphicon-remove form-control-feedback"></span>
+            <div v-if="validation.confirmPassword.dirty && validation.confirmPassword.required"
+            >Password confirmation is a required field</div>
+            <div v-if="validation.confirmPassword.dirty && !validation.confirmPassword.required && validation.confirmPassword.illegal"
+            >Password confirmation should be equal to the Password field</div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Update</button>
+        </div>
+    </form>
+</template>
+
+<template id="landing-account-profile">
+    <div class="ld ld-section ld-body ld-account ld-account-profile">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <div class="ld ld-center">
+                    <landing-account-profile-main></landing-account-profile-main>
+                    <landing-account-profile-email></landing-account-profile-email>
+                    <landing-account-profile-passwd></landing-account-profile-passwd>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-account-recover-passwd">
+    <div class="ld ld-section ld-body ld-account ld-account-profile">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <div class="ld ld-center">
+                    <form novalidate @submit.prevent="validation.valid && update()">
+                        <div class="form-group">
+                            <h3>Update Password</h3>
+                        </div>
+                        <div class="form-group" :class="{
+                            'has-error': validation.newPassword.dirty && (validation.newPassword.required || validation.newPassword.illegal),
+                            'has-feedback': validation.newPassword.dirty && (validation.newPassword.required || validation.newPassword.illegal),
+                        }">
+                            <input type="password" class="form-control input-lg" placeholder="New password" v-model="form.newPassword">
+                            <span v-if="validation.newPassword.dirty && (validation.newPassword.required || validation.newPassword.illegal)"
+                                class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="validation.newPassword.dirty && validation.newPassword.required"
+                            >Password is a required field</div>
+                            <div v-if="validation.newPassword.dirty && !validation.newPassword.required && validation.newPassword.illegal"
+                            >Your password is too short</div>
+                        </div>
+                        <div class="form-group" :class="{
+                            'has-error': validation.confirmPassword.dirty && (validation.confirmPassword.required || validation.confirmPassword.illegal),
+                            'has-feedback': validation.confirmPassword.dirty && (validation.confirmPassword.required || validation.confirmPassword.illegal),
+                        }">
+                            <input type="password" class="form-control input-lg" placeholder="New password confirmation" v-model="form.confirmPassword">
+                            <span v-if="validation.confirmPassword.dirty && (validation.confirmPassword.required || validation.confirmPassword.illegal)"
+                                class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="validation.confirmPassword.dirty && validation.confirmPassword.required"
+                            >Password confirmation is a required field</div>
+                            <div v-if="validation.confirmPassword.dirty && !validation.confirmPassword.required && validation.confirmPassword.illegal"
+                            >Password confirmation should be equal to the Password field</div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-account-recover">
+    <div class="ld ld-section ld-body ld-account ld-account-recover">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <div class="ld ld-center">
+                    <form novalidate @submit.prevent="validation.valid && recover()">
+                        <div class="form-group">
+                            <h3>Recover Password</h3>
+                        </div>
+                        <div class="form-group" :class="{
+                            'has-error': validation.email.dirty && (validation.email.required || validation.email.illegal),
+                            'has-feedback': validation.email.dirty && (validation.email.required || validation.email.pattern),
+                        }">
+                            <input type="text" class="form-control input-lg" placeholder="Email" autofocus v-model="form.email">
+                            <span v-if="validation.email.dirty && (validation.email.required || validation.email.illegal)" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div v-if="validation.email.dirty && validation.email.required">Email is a required field</div>
+                            <div v-if="validation.email.dirty && !validation.email.required && validation.email.illegal">Invalid email address</div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" :disabled="!validation.valid">Recover</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
 
 <template id="landing-account-signin">
     <div class="ld ld-section ld-body ld-account ld-account-signin">
@@ -2322,7 +2681,7 @@
                     <form novalidate @submit.prevent="validation.valid && signin()">
                         <div class="form-group">
                             <h3>Sign In</h3>
-                        </dif>
+                        </div>
                         <div class="form-group" :class="{
                             'has-error': validation.email.dirty && (validation.email.required || validation.email.illegal),
                             'has-feedback': validation.email.dirty && (validation.email.required || validation.email.pattern),
@@ -2342,7 +2701,8 @@
                             <div v-if="validation.password.dirty && !validation.password.required && validation.password.illegal">Your password is too short</div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-lg" v-if="validation.valid">Sign In</button>
+                            <button type="submit" class="btn btn-primary btn-lg" :disabled="!validation.valid">Sign In</button>
+                            <button type="button" class="btn btn-link btn-lg" @click.prevent="$router.push({ path: '/recover' })">Recover</button>
                         </div>
                     </form>
                 </div>
@@ -2359,7 +2719,7 @@
                     <form novalidate @submit.prevent="validation.valid && signup()">
                         <div class="form-group">
                             <h3>Register</h3>
-                        </dif>
+                        </div>
                         <div class="form-group" :class="{
                             'has-error': validation.name.dirty && (validation.name.required),
                             'has-feedback': validation.name.dirty && (validation.name.required),
@@ -2574,10 +2934,16 @@
                             <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/'})">About</a></li>
                             <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/gallery'})">Gallery</a></li>
                             <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/storage'})">Storage</a></li>
-                            <li v-if="$store.state.security.principal.user == null" role="presentation"><a href="#" @click.prevent="$router.push({ path: '/signup'})">Register</a></li>
-                            <li v-if="$store.state.security.principal.user == null" role="presentation"><a href="#" @click.prevent="$router.push({ path: '/signin'})">Sign In</a></li>
-                            <li v-if="$store.state.security.principal.user != null" role="presentation"><a href="#" @click.prevent="signout()">Sign Out</a></li>
-                            <li v-if="$store.state.security.principal.user != null" role="presentation" class="primary"><a href="#" @click.prevent="$router.push({ path: '/manage'})">Control Panel</a></li>
+                            <li v-if="$store.state.security.principal.user == null" role="presentation">
+                                <a href="#" @click.prevent="$router.push({ path: '/signup'})">Register</a></li>
+                            <li v-if="$store.state.security.principal.user == null" role="presentation">
+                                <a href="#" @click.prevent="$router.push({ path: '/signin'})">Sign In</a></li>
+                            <li v-if="$store.state.security.principal.user != null" role="presentation">
+                                <a href="#" @click.prevent="$router.push({ path: '/profile'})">Profile</a></li>
+                            <li v-if="$store.state.security.principal.user != null" role="presentation">
+                                <a href="#" @click.prevent="signout()">Sign Out</a></li>
+                            <li v-if="$store.state.security.principal.user != null" role="presentation" class="primary">
+                                <a href="#" @click.prevent="$router.push({ path: '/manage'})">Control Panel</a></li>
                         </ul>
                     </div>
                 </div>
@@ -2590,6 +2956,18 @@
                         <h1>Open your online universe!</h1>
                         <h2>Archery is the Cloud platform to build business friendly online services.</h2>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="landing-layout-center">
+    <div class="ld ld-section ld-body">
+        <div class="ld ld-table">
+            <div class="ld ld-cell">
+                <div class="ld ld-center">
+                    <slot></slot>
                 </div>
             </div>
         </div>

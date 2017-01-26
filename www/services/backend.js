@@ -273,13 +273,85 @@ function backend(config) {
                         }
                     }
 
-                    console.log(target);
+                    request(target, (error, response, body) => {
+
+                        if (!error && response.statusCode == 200) {
+
+                            resolve(JSON.parse(body))
+                            return
+                        }
+
+                        reject()
+                        return
+                    })
+
+                } catch (e) {
+
+                    reject(e)
+                    return
+                }
+            });
+        },
+
+        execEmailConfirm: ({ token, host }) => {
+
+            return new Promise(function(resolve, reject) {
+
+                try {
+
+                    if (!token) {
+                        reject()
+                        return
+                    }
+
+                    let target = {
+                        url: `${config.endpoint}/security/email/confirm/${token}`,
+                        headers: {
+                            'X-Client-Host': host
+                        }
+                    }
 
                     request(target, (error, response, body) => {
 
                         if (!error && response.statusCode == 200) {
 
-                            console.log(body)
+                            resolve(JSON.parse(body))
+                            return
+                        }
+
+                        reject()
+                        return
+                    })
+
+                } catch (e) {
+
+                    reject(e)
+                    return
+                }
+            });
+        },
+
+        execRecoverConfirm: ({ token, host }) => {
+
+            return new Promise(function(resolve, reject) {
+
+                try {
+
+                    if (!token) {
+                        reject()
+                        return
+                    }
+
+                    let target = {
+                        url: `${config.endpoint}/security/recover/confirm/${token}`,
+                        headers: {
+                            'X-Client-Host': host
+                        }
+                    }
+
+                    request(target, (error, response, body) => {
+
+                        if (!error && response.statusCode == 200) {
 
                             resolve(JSON.parse(body))
                             return

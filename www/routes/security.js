@@ -14,7 +14,7 @@ router.get('/signup/confirm/:token', function(req, res, next) {
         .then(
             (d) => {
                 res.cookie('authorization', d.token, { maxAge: 365 * 24 * 3600 * 1000 })
-                res.redirect('/')
+                res.redirect('/signup/success')
             },
             (e) => { next(new Error(e)) }
         )
@@ -29,7 +29,7 @@ router.get('/email/confirm/:token', function(req, res, next) {
         .then(
             (d) => {
                 res.cookie('authorization', d.token, { maxAge: 365 * 24 * 3600 * 1000 })
-                res.redirect('/')
+                res.redirect('/profile/email/success')
             },
             (e) => { next(new Error(e)) }
         )
@@ -43,9 +43,7 @@ router.get('/recover/confirm/:token', function(req, res, next) {
         .execRecoverConfirm({ host: host, token: req.params.token })
         .then(
             (d) => {
-                res.cookie('authorization', d.token, { maxAge: 365 * 24 * 3600 * 1000 })
-                res.cookie('token-passwd', d.token, { expires: 0 })
-                res.redirect('/')
+                res.redirect(`/recover/passwd/${d.passwdToken}`)
             },
             (e) => { next(new Error(e)) }
         )
