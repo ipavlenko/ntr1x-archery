@@ -529,38 +529,6 @@
     </div>
 </template>
 
-<template id="shell-publications-dialog">
-    <div class="ge ge-modal modal modal-center" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <form class="modal-content"
-                @submit.prevent="submit"
-                @reset.prevent="reset"
-            >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">
-                        <span>Publish Portal</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="height: 500px;">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label for="dialog-page-name">Имя</label>
-                                <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-default">Отменить</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</template>
-
 <template id="settings-dialog">
     <div class="ge ge-modal modal modal-center">
         <div class="modal-dialog modal-lg">
@@ -602,6 +570,38 @@
                                 <div class="tab-pane" :class="{ 'active': isActive('widgets') }">
                                     <widgets :items="current.widgets"></widgets>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default">Отменить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<template id="shell-publications-dialog">
+    <div class="ge ge-modal modal modal-center" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content"
+                @submit.prevent="submit"
+                @reset.prevent="reset"
+            >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">
+                        <span>Publish Portal</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height: 500px;">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="dialog-page-name">Имя</label>
+                                <input class="form-control" type="text" id="dialog-page-name" v-model="current.name" />
                             </div>
                         </div>
                     </div>
@@ -823,7 +823,7 @@
 
 <template id="shell-brand">
     <section class="ge ge-brand">
-        <a href="#"></a>
+        <landing-super></landing-super>
     </section>
 </template>
 
@@ -1973,29 +1973,6 @@
     </default-box>
 </template>
 
-<template id="default-radio">
-    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-radio">
-        <div class="btn-group">
-            <label class="btn" v-for="item in bindings.items" :class="{
-                    'btn-default': bindings.stereotype == 'default',
-                    'btn-primary': bindings.stereotype == 'primary',
-                    'btn-success': bindings.stereotype == 'success',
-                    'btn-info': bindings.stereotype == 'info',
-                    'btn-warning': bindings.stereotype == 'warning',
-                    'btn-danger': bindings.stereotype == 'danger',
-                    'btn-link': bindings.stereotype == 'link',
-                    'active': bindings.model.value == item.value,
-                }"
-                :style="{
-                    height: bindings.height
-                }"
-            >
-                <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
-            </label>
-        </div>
-    </default-box>
-</template>
-
 <template id="default-input-checkbox">
     <default-box :bindings.sync="bindings" :class="'wg wg-widget wg-default-input-checkbox'">
         <div class="form-group">
@@ -2051,6 +2028,29 @@
     </default-box>
 </template>
 
+<template id="default-radio">
+    <default-box :bindings.sync="bindings" class="wg wg-widget wg-default-radio">
+        <div class="btn-group">
+            <label class="btn" v-for="item in bindings.items" :class="{
+                    'btn-default': bindings.stereotype == 'default',
+                    'btn-primary': bindings.stereotype == 'primary',
+                    'btn-success': bindings.stereotype == 'success',
+                    'btn-info': bindings.stereotype == 'info',
+                    'btn-warning': bindings.stereotype == 'warning',
+                    'btn-danger': bindings.stereotype == 'danger',
+                    'btn-link': bindings.stereotype == 'link',
+                    'active': bindings.model.value == item.value,
+                }"
+                :style="{
+                    height: bindings.height
+                }"
+            >
+                <input type="radio" :name="bindings.name" :value="item.value" v-model="bindings.model.value"> {{ item.label }}
+            </label>
+        </div>
+    </default-box>
+</template>
+
 <template id="default-text">
     <section class="wg wg-default-text" :id="bindings.id"
         :class="{
@@ -2100,19 +2100,19 @@
     </section>
 </template>
 
-<template id="default-stub">
-    <default-box :bindings.sync="bindings" class="wg wg-default-stub">
-        <div class="wg wg-table">
-            <span class="wg wg-cell" v-html="bindings.content"></span>
-        </div>
-    </default-box>
-</template>
-
 <template id="default-placeholder">
     <default-box :bindings.sync="bindings" :class="'wg wg-default-placeholder'">
         <div class="wg wg-table" :style="{
             height: bindings.height,
         }">
+            <span class="wg wg-cell" v-html="bindings.content"></span>
+        </div>
+    </default-box>
+</template>
+
+<template id="default-stub">
+    <default-box :bindings.sync="bindings" class="wg wg-default-stub">
+        <div class="wg wg-table">
             <span class="wg wg-cell" v-html="bindings.content"></span>
         </div>
     </default-box>
@@ -2912,7 +2912,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="ld ld-copyright">
-                            &copy; 2016 NTR, LLC. Archery Cloud Platform.
+                            &copy; 2015 - 2017 NTR, LLC. Archery Cloud Platform.
                         </div>
                     </div>
                 </div>
@@ -3935,15 +3935,15 @@
     <div class="ld ld-section ld-super">
         <div class="ld ld-container">
             <ul class="nav nav-pills pull-left">
-                <li role="presentation"><a href="#">NTR1X</a></li>
-                <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/'})">Archery</a></li>
-                <li role="presentation"><a href="#">Blog</a></li>
+                <li role="presentation"><a href="http://ntr1x.com">NTR1X</a></li>
+                <li role="presentation"><a href="http://archery.ntr1x.com">Archery</a></li>
+                <li role="presentation"><a href="http://blog.ntr1x.com">Blog</a></li>
             </ul>
             <ul class="nav nav-pills pull-right">
-                <li role="presentation"><a href="#">FAQ</a></li>
-                <li role="presentation"><a href="#" @click.prevent="$router.push({ path: '/'})">About</a></li>
-                <li role="presentation"><a href="#">Contacts</a></li>
-                <li role="presentation"><a href="#">Documentation</a></li>
+                <li role="presentation"><a href="http://faq.ntr1x.com">FAQ</a></li>
+                <li role="presentation"><a href="http://archery.ntr1x.com">About</a></li>
+                <li role="presentation"><a href="http://archery.ntr1x.com">Contacts</a></li>
+                <li role="presentation"><a href="http://archery.ntr1x.com">Documentation</a></li>
             </ul>
         </div>
     </div>
