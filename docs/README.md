@@ -1,8 +1,8 @@
 # About
 
-This repository contains build scripts for the Archery Cloud Platform (also known as Little Big Cloud).
-The Platform is deployed to
-[http://archery.ntr1x.com](http://archery.ntr1x.com).
+This repository contains build scripts for the _Archery Engine_. The Platform is deployed to
+[http://archery.ntr1x.com](http://archery.ntr1x.com), you can see it in action there.
+This page describes how to build and install it.
 
 # Installation
 
@@ -46,7 +46,7 @@ cd $PROJECT_DIR/ntr1x-archery && npm i
 
 The app will be built to the `$PROJECT_DIR/ntr1x-archery/`
 
-# Running
+# Launching
 
 There are two launch entry points, one for the cloud editor
 installations and another for the portal viewers. You have
