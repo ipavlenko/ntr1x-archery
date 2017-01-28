@@ -1,8 +1,0 @@
-services:
-
-    ntr1_x_layout.component.twig:
-        class: AppBundle\Twig\LayoutTwigExtension
-        arguments: ["@ntr1_x_layout.component.manager"]
-        public: false
-        tags:
-            - { name: twig.extension }

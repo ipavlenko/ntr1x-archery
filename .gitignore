@@ -1,24 +1,10 @@
 # phpstorm project files
 .idea
 
-/web/assets/vendor
-/web/bundles/
-/web/uploads/
-/build/
-/phpunit.xml
-/var/*
-!/var/cache
-/var/cache/*
-!var/cache/.gitkeep
-!/var/logs
-/var/logs/*
-!var/logs/.gitkeep
-!/var/sessions
-/var/sessions/*
-!var/sessions/.gitkeep
-!var/SymfonyRequirements.php
-/vendor/
+/www/views/
+/www/public/
 /node_modules/
+/bower_components/
 
 /app/config/parameters.yml
 /web/.htaccess

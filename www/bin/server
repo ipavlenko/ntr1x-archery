@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+const launch = require('../launch')
+const setup = require('../setup')
+const routes = [
+    {
+        path: '/security',
+        routes: require('../routes/security.js')
+    },
+    {
+        path: '/',
+        routes: require('../routes/server.js')
+    },
+]
+
+const config = require('config')
+
+const c = config.get('server')
+
+launch(c, setup(c, routes))

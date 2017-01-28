@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+const launch = require('../launch')
+const setup = require('../setup')
+const routes = [
+    {
+        path: '/',
+        routes: require('../routes/viewer.js')
+    },
+    {
+        path: '/security',
+        routes: require('../routes/security.js')
+    },
+]
+
+const config = require('config')
+
+const c = config.get('viewer')
+
+launch(c, setup(c, routes))
