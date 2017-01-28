@@ -64,7 +64,9 @@ The Viewer ill be launched at http://localhost:3001/.
 > target portals, so you will not be able to use Viewer until you
 > configure domain proxy.
 
-# Configure
+# Configuration
 
 The configuration is located in $PROJECT_DIR/ntr1x-archery/config folder
 You can change there the default server endpoint and application ports.
+
+With the endpoint provided you will see all the data published at http://archery.ntr1x.com. You can change the Storage endpoint when you launch your own Storage. 
