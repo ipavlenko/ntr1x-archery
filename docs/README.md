@@ -1,23 +1,23 @@
 # About
 
-This repository contains build scripts for the _Archery Engine_. The Platform is deployed to
+This repository contains build scripts for the _Archery Engine_. The _Engine_ is deployed to
 [http://archery.ntr1x.com](http://archery.ntr1x.com), you can see it in action there.
 This page describes how to build and install it. Here you can read more about the whole project:
 [https://ntr1x.github.io/](https://ntr1x.github.io/).
 
 # Installation
 
-Let's assume that you have a $PROJECT_DIR folder and want to build archery there.
+Let's assume that you have a $PROJECT_DIR folder and want to build _Engine_ there.
 
 ``` bash
 cd $PROJECT_DIR
 ```
 
-Archery consists of several modules.
-This repository contains only build scripts and configs.
-You have to clone all necessary modules before you build Archery.
+_Engine_ consists of several modules. You have to clone all
+necessary modules before you build Archery.
 
 ``` bash
+
 git clone git@github.com:ntr1x/ntr1x-archery.git
 git clone git@github.com:ntr1x/ntr1x-archery-core.git
 git clone git@github.com:ntr1x/ntr1x-archery-shell.git
