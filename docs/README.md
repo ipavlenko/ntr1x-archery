@@ -1,7 +1,8 @@
 # About
 
 This repository contains build scripts for the Archery Cloud Platform (also known as Little Big Cloud).
-The Platform is deployed to http://archery.ntr1x.com.
+The Platform is deployed to
+[http://archery.ntr1x.com](http://archery.ntr1x.com).
 
 # Installation
 
@@ -43,7 +44,7 @@ Finally build the app:
 cd $PROJECT_DIR/ntr1x-archery && npm i
 ```
 
-The app will be built to the $PROJECT_DIR/ntr1x-archery/
+The app will be built to the `$PROJECT_DIR/ntr1x-archery/`
 
 # Running
 
@@ -56,8 +57,10 @@ pm2 start $PROJECT_DIR/ntr1x-archery/www/bin/server
 pm2 start $PROJECT_DIR/ntr1x-archery/www/bin/viewer
 ```
 
-The Server will be launched at http://localhost:3000/.
-The Viewer ill be launched at http://localhost:3001/.
+The Server will be launched at
+[http://localhost:3000/](http://localhost:3000/).
+The Viewer ill be launched at
+[http://localhost:3001/](http://localhost:3001/).
 
 > The Server link will be accessible without additional configuration.
 > But the Viewer will fail. The Viewer app uses domain names to determine
@@ -66,7 +69,8 @@ The Viewer ill be launched at http://localhost:3001/.
 
 # Configuration
 
-The configuration is located in $PROJECT_DIR/ntr1x-archery/config folder
+The configuration is located in `$PROJECT_DIR/ntr1x-archery/config` folder
 You can change there the default server endpoint and application ports.
 
-With the endpoint provided you will see all the data published at http://archery.ntr1x.com. You can change the Storage endpoint when you launch your own Storage. 
+With the endpoint provided you will see all the data published at [http://archery.ntr1x.com](http://archery.ntr1x.com).
+You can change the Storage endpoint when you launch your own Storage.
