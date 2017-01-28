@@ -2,7 +2,8 @@
 
 This repository contains build scripts for the _Archery Engine_. The Platform is deployed to
 [http://archery.ntr1x.com](http://archery.ntr1x.com), you can see it in action there.
-This page describes how to build and install it.
+This page describes how to build and install it. Here you can read more about the whole project:
+[https://ntr1x.github.io/](https://ntr1x.github.io/).
 
 # Installation
 
