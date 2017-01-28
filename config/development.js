@@ -13,11 +13,4 @@ module.exports = {
             endpoint: 'http://storage.ntr1x.com',
         }
     },
-    editor: {
-        port: 3002,
-        name: 'ntr1x-archery:editor',
-        storage: {
-            endpoint: 'http://storage.ntr1x.com',
-        }
-    }
 }

@@ -114,6 +114,7 @@ gulp.task('build', function(cb) {
             'src/designer.hbs',
             'src/viewer.hbs',
             'src/landing.hbs',
+            'src/error.hbs',
         ])
         .pipe(fileinclude({ prefix: '@@', basepath: '@file' }))
         .pipe(gulp.dest('www/views/'))
@@ -166,6 +167,7 @@ gulp.task('watch', function() {
     gulp.watch('src/landing.hbs', [ 'build' ])
     gulp.watch('src/designer.hbs', [ 'build' ])
     gulp.watch('src/viewer.hbs', [ 'build' ])
+    gulp.watch('src/error.hbs', [ 'build' ])
 
     gulp.watch('www/public/assets/htm/app.htm', [ 'build' ])
 })

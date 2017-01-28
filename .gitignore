@@ -9,3 +9,4 @@
 /app/config/parameters.yml
 /web/.htaccess
 Procfile
+npm-debug.log
