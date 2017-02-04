@@ -177,6 +177,42 @@ function backend(config) {
             });
         },
 
+        loadOffers: ({ host }) => {
+
+            return new Promise(function(resolve, reject) {
+
+                try {
+
+                    let target = {
+                        url: `${config.endpoint}/store/offers`,
+                        qs: {
+                            size: 4
+                        },
+                        headers: {
+                            'X-Client-Host': host
+                        }
+                    }
+
+                    request(target, (error, response, body) => {
+
+                        if (!error && response.statusCode == 200) {
+
+                            resolve(JSON.parse(body))
+                            return
+                        }
+
+                        reject()
+                        return
+                    })
+
+                } catch (e) {
+
+                    reject(e)
+                    return
+                }
+            });
+        },
+
         loadPortal: ({ id, authorization, host }) => {
 
             return new Promise(function(resolve, reject) {

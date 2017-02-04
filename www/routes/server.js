@@ -35,10 +35,11 @@ router.get('/*', function(req, res, next) {
 
     Promise.all([
         backend.loadPrincipal({ authorization: req.cookies.authorization, host: host }).catch(() => Promise.resolve({ user: null, token: null })),
-        backend.loadSharedPortals({ host: host }).catch(() => new Promise(null))
+        backend.loadSharedPortals({ host: host }).catch(() => new Promise(null)),
+        backend.loadOffers({ host: host }).catch(() => new Promise(null))
     ])
         .then(
-            ([ principal, shared ]) => res.render('landing', { principal, shared, config: config.get('server.storage') }),
+            ([ principal, shared, offers ]) => res.render('landing', { principal, shared, offers, config: config.get('server.storage') }),
             (e) => { next(new Error(e)) }
         )
 });
