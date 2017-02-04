@@ -54,7 +54,7 @@ function backend(config) {
                 try {
 
                     let target = {
-                        url: `${config.endpoint}/context`,
+                        url: `${config.endpoint}/archery/context`,
                         headers: {
                             'X-Client-Host': host
                         }
@@ -101,7 +101,7 @@ function backend(config) {
                 try {
 
                     let target = {
-                        url: `${config.endpoint}/context/i/${id}`,
+                        url: `${config.endpoint}/archery/context/i/${id}`,
                         headers: {
                             'X-Client-Host': host
                         }
@@ -148,7 +148,7 @@ function backend(config) {
                 try {
 
                     let target = {
-                        url: `${config.endpoint}/portals/shared`,
+                        url: `${config.endpoint}/archery/portals/shared`,
                         qs: {
                             size: 3
                         },
@@ -189,7 +189,7 @@ function backend(config) {
                     }
 
                     let target = {
-                        url: `${config.endpoint}/portals/i/${id}`,
+                        url: `${config.endpoint}/archery/portals/i/${id}`,
                         headers: {
                             'Authorization': authorization,
                             'X-Client-Host': host
@@ -228,7 +228,7 @@ function backend(config) {
                     }
 
                     let target = {
-                        url: `${config.endpoint}/portals/i/${id}/pull`,
+                        url: `${config.endpoint}/archery/portals/i/${id}/pull`,
                         headers: {
                             'Authorization': authorization,
                             'X-Client-Host': host
