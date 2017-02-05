@@ -5,7 +5,7 @@ const backend = require('../services/backend')(config.get('server.storage'));
 
 const router = express.Router();
 
-router.get('/edit/:id', function(req, res, next) {
+router.get('/edit/:id/*', function(req, res, next) {
 
     let host = req.headers['x-forwarded-host'] || req.headers.host
 
@@ -17,7 +17,11 @@ router.get('/edit/:id', function(req, res, next) {
         )
 });
 
-router.get('/view/:id', function(req, res, next) {
+router.get('/edit/:id', function(req, res) {
+    res.redirect(`/edit/${req.params.id}/`);
+});
+
+router.get('/view/:id/*', function(req, res, next) {
 
     let host = req.headers['x-forwarded-host'] || req.headers.host
 
@@ -27,6 +31,10 @@ router.get('/view/:id', function(req, res, next) {
             (d) => res.render('viewer', { context: d, config: config.get('server.storage'), root: `/view/${req.params.id}/` }),
             (e) => { next(new Error(e)) }
         )
+});
+
+router.get('/view/:id', function(req, res) {
+    res.redirect(`/view/${req.params.id}/`);
 });
 
 router.get('/*', function(req, res, next) {
