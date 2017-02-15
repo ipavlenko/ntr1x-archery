@@ -1,3 +1,8 @@
+---
+layout: page
+title: Archery Engine
+---
+
 # About
 
 This repository contains build scripts for the _Archery Engine_. The _Engine_ is deployed to
