@@ -1,3 +1,24 @@
-title: Archery Engine
-description: Control Panel and Visual Editor of the Archery Cloud Platform.
-theme: jekyll-theme-cayman
+# Dependencies
+markdown:         redcarpet
+pygments:         true
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            Archery Engine
+tagline:          'Archery Engine'
+description:      'Control Panel and Visual Editor of the Archery Cloud Platform.'
+url:              http://archery.ntr1x.com
+
+author:
+  name:           'Mark Otto'
+  url:            https://twitter.com/mdo
+
+paginate:         5
+
+# Custom vars
+version:          2.0.0
+
+github:
+  repo:           https://github.com/ntr1x/ntr1x-archery
