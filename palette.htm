@@ -1,0 +1,145 @@
+<html>
+<head>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+      background: #141422;
+    }
+
+    .row {
+        display: table;
+        border-spacing: 10px;
+    }
+
+    .cell {
+        display: table-cell;
+        width: 120px;
+        height: 60px;
+        /*background: #F0F0F0;*/
+        background: #34495E;
+        /*border-radius: 4px;*/
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .micro {
+
+        min-width: 2em;
+        height: 2em;
+        display: inline-block;
+
+        background-color: #0277BD;
+        color: #FFFFFF;
+        box-sizing: border-box;
+    }
+
+    .micro-icon {
+        line-height: 2em;
+        font-size: 1em;
+        border-radius: 50%;
+        background-color: #009688;
+    }
+
+    .micro-text {
+        line-height: 2em;
+        font-size: 1em;
+        padding: 0px 0.5em;
+        background-color: #3F51B5;
+    }
+
+    .micro-text2 {
+        line-height: 2em;
+        font-size: 0.8em;
+        border-radius: 0.25em;
+        padding: 0.6px 0.6em;
+        background-color: #2196F3;
+    }
+
+    .micro-text3 {
+        line-height: 1.2em;
+        font-size: 1em;
+        padding: 0.4em 0.6em;
+        color: #FFFFFF;
+        background-color: transparent;
+    }
+
+    .micro-text4 {
+        line-height: 0.9em;
+        font-size: 0.8em;
+        text-align: center;
+        padding: 0.1em 0.6em;
+        color: #FFFFFF;
+        background-color: transparent;
+    }
+
+    .micro-rich {
+        line-height: 1.2em;
+        font-size: 1em;
+        padding: 0.4em 0.6em;
+        color: #FFFFFF;
+        background-color: transparent;
+    }
+
+    .micro-button {
+        line-height: 1.6em;
+        font-size: 1em;
+        padding: 0.2em 0.6em;
+        color: #FFFFFF;
+        background-color: #265a88;
+        background-image: linear-gradient(to bottom,#337ab7 0,#265a88 100%);
+        border: 1px solid #204d74;
+        border-radius: 0.2em;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.15),0 1px 1px rgba(0,0,0,.075);
+        text-shadow: 0 -1px 0 rgba(0,0,0,.2);
+    }
+
+    .micro-image {
+        line-height: 2em;
+        font-size: 1em;
+        background-image: url('http://www.freetexturesdownload.com/image/Grass-Free-Textures-15015.jpg');
+        border-radius: 0.2em;
+    }
+
+    </style>
+</head>
+    <body>
+        <div style="font-size: 16px">
+            <div class="row">
+                <div class="cell">
+                    <i class="fa fa-twitter micro micro-icon"></i>
+                </div>
+                <div class="cell">
+                    <div class="micro micro-text">10</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell">
+                    <div class="micro micro-text2">23 OCT</div>
+                </div>
+                <div class="cell">
+                    <div class="micro micro-text3">Regular Text</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell">
+                    <div class="micro micro-rich"><i>Rich</i> <b>Text</b></div>
+                </div>
+                <div class="cell">
+                    <button class="micro micro-button">Button</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell">
+                    <div class="micro micro-text4"><div>USD</div><div>250</div></div>
+                </div>
+                <div class="cell">
+                    <div class="micro micro-image"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
