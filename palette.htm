@@ -139,6 +139,33 @@
     .repeater-vertical .bar2 { top: 27px; height: 6px; left: 57px; width: 6px; }
     .repeater-vertical .bar3 { top: 37px; height: 6px; left: 57px; width: 6px; }
 
+    .layers {
+        position: relative;
+        float: left;
+        width: 120px;
+        height: 60px;
+    }
+
+    .layers .layer {
+        border-radius: 4px;
+        border: 2px solid #FFFFFF;
+        position: absolute;
+        top: 15px;
+        left: 35px;
+        width: 25px;
+        height: 25px;
+        background-color: #12AA8B;
+        -webkit-transform: rotate3d(1,1,1,60deg) ;
+    }
+
+    .layers .layer0 { left: 35px; }
+    .layers .layer1 { left: 45px; }
+    .layers .layer2 { left: 55px; }
+
+    .layers .layer3 { top: 12px; left: 35px; width: 30px; height: 30px; background-color: #12AAC0; }
+    .layers .layer4 { top: 12px; left: 45px; background-color: #12AAC0; }
+    .layers .layer5 { top: 12px; left: 55px; width: 20px; height: 20px; background-color: #12AAC0; }
+
     </style>
 </head>
     <body>
@@ -231,6 +258,22 @@
                         <div class="bar bar1"></div>
                         <div class="bar bar2"></div>
                         <div class="bar bar3"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell">
+                    <div class="layers">
+                        <div class="layer layer0"></div>
+                        <div class="layer layer1"></div>
+                        <div class="layer layer2"></div>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="layers">
+                        <div class="layer layer3"></div>
+                        <div class="layer layer4"></div>
+                        <div class="layer layer5"></div>
                     </div>
                 </div>
             </div>
