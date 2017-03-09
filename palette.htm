@@ -112,32 +112,62 @@
         height: 60px;
     }
 
-    .relative .bar {
+    .relative.repeater .bar {
         position: absolute;
-        top: 27px;
-        height: 6px;
+        top: 18px;
+        height: 24px;
         width: 6px;
         background-color: #12AA8B;
+        box-sizing: border-box;
+        border: 2px solid #FFFFFF;
+        border-radius: 4px;
     }
 
-    .repeater-left .bar1 { left: 36px; }
-    .repeater-left .bar2 { left: 46px; }
-    .repeater-left .bar3 { left: 56px; }
-    .repeater-left .bar4 { left: 66px; width: 18px; }
+    .relative.repeater.repeater-left .bar1 { left: 36px; }
+    .relative.repeater.repeater-left .bar2 { left: 46px; }
+    .relative.repeater.repeater-left .bar3 { left: 56px; }
+    .relative.repeater.repeater-left .bar4 { left: 66px; width: 18px; top: 20px; height: 20px; }
 
-    .repeater-right .bar1 { right: 36px; }
-    .repeater-right .bar2 { right: 46px; }
-    .repeater-right .bar3 { right: 56px; }
-    .repeater-right .bar4 { right: 66px; width: 18px; }
+    .relative.repeater.repeater-right .bar1 { right: 36px; }
+    .relative.repeater.repeater-right .bar2 { right: 46px; }
+    .relative.repeater.repeater-right .bar3 { right: 56px; }
+    .relative.repeater.repeater-right .bar4 { right: 66px; width: 18px; top: 20px; height: 20px; }
 
-    .repeater-center .bar0 { right: 72px; width: 12px; }
-    .repeater-center .bar1 { left: 52px; }
-    .repeater-center .bar2 { left: 62px; }
-    .repeater-center .bar3 { left: 72px; width: 12px; }
+    .relative.repeater.repeater-center .bar0 { right: 72px; width: 12px; top: 20px; height: 20px; }
+    .relative.repeater.repeater-center .bar1 { left: 52px; }
+    .relative.repeater.repeater-center .bar2 { left: 62px; }
+    .relative.repeater.repeater-center .bar3 { left: 72px; width: 12px; top: 20px; height: 20px; }
 
-    .repeater-vertical .bar1 { top: 17px; height: 6px; left: 57px; width: 6px; }
-    .repeater-vertical .bar2 { top: 27px; height: 6px; left: 57px; width: 6px; }
-    .repeater-vertical .bar3 { top: 37px; height: 6px; left: 57px; width: 6px; }
+    .relative.repeater.repeater-vertical .bar1 { top: 17px; height: 6px; left: 48px; width: 24px; }
+    .relative.repeater.repeater-vertical .bar2 { top: 27px; height: 6px; left: 48px; width: 24px; }
+    .relative.repeater.repeater-vertical .bar3 { top: 37px; height: 6px; left: 48px; width: 24px; }
+
+    .relative.stack .bar {
+        position: absolute;
+        top: 18px;
+        height: 24px;
+        width: 6px;
+        background-color: #12AAC0;
+        box-sizing: border-box;
+        border: 2px solid #FFFFFF;
+        border-radius: 4px;
+    }
+
+    .relative.stack.stack-left .bar2 { left: 36px; width: 11px; }
+    .relative.stack.stack-left .bar3 { left: 51px; width: 11px; }
+    .relative.stack.stack-left .bar4 { left: 66px; width: 18px;  top: 20px; height: 20px; }
+
+    .relative.stack.stack-right .bar1 { right: 36px; width: 11px; }
+    .relative.stack.stack-right .bar2 { right: 51px; width: 11px; }
+    .relative.stack.stack-right .bar3 { right: 66px; width: 18px; top: 20px; height: 20px; }
+
+    .relative.stack.stack-center .bar0 { right: 75px; width: 7px; top: 20px; height: 20px; }
+    .relative.stack.stack-center .bar1 { left: 49px; width: 11px; }
+    .relative.stack.stack-center .bar2 { left: 64px; width: 11px; }
+    .relative.stack.stack-center .bar3 { left: 79px; width: 7px; top: 20px; height: 20px; }
+
+    .relative.stack.stack-vertical .bar1 { top: 17px; height: 10px; left: 48px; width: 24px; }
+    .relative.stack.stack-vertical .bar2 { top: 30px; height: 13px; left: 48px; width: 24px; }
 
     .layers {
         position: relative;
@@ -165,6 +195,20 @@
     .layers .layer3 { top: 12px; left: 35px; width: 30px; height: 30px; background-color: #12AAC0; }
     .layers .layer4 { top: 12px; left: 45px; background-color: #12AAC0; }
     .layers .layer5 { top: 12px; left: 55px; width: 20px; height: 20px; background-color: #12AAC0; }
+
+    .frame .frame1 {
+        border-radius: 4px;
+        border: 2px solid #FFFFFF;
+        position: absolute;
+        top: 18px;
+        left: 40px;
+        width: 40px;
+        height: 24px;
+        box-sizing: border-box;
+        background-color: #FFDB71;
+    }
+
+
 
     </style>
 </head>
@@ -228,7 +272,7 @@
             </div>
             <div class="row">
                 <div class="cell">
-                    <div class="relative repeater-left">
+                    <div class="relative repeater repeater-left">
                         <div class="bar bar1"></div>
                         <div class="bar bar2"></div>
                         <div class="bar bar3"></div>
@@ -236,17 +280,31 @@
                     </div>
                 </div>
                 <div class="cell">
-                    <div class="relative repeater-right">
+                    <div class="relative repeater repeater-right">
                         <div class="bar bar1"></div>
                         <div class="bar bar2"></div>
                         <div class="bar bar3"></div>
                         <div class="bar bar4"></div>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="relative stack stack-left">
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                        <div class="bar bar4"></div>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="relative stack stack-right">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="cell">
-                    <div class="relative repeater-center">
+                    <div class="relative repeater repeater-center">
                         <div class="bar bar0"></div>
                         <div class="bar bar1"></div>
                         <div class="bar bar2"></div>
@@ -254,10 +312,24 @@
                     </div>
                 </div>
                 <div class="cell">
-                    <div class="relative repeater-vertical">
+                    <div class="relative repeater repeater-vertical">
                         <div class="bar bar1"></div>
                         <div class="bar bar2"></div>
                         <div class="bar bar3"></div>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="relative stack stack-center">
+                        <div class="bar bar0"></div>
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="relative stack stack-vertical">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
                     </div>
                 </div>
             </div>
@@ -274,6 +346,12 @@
                         <div class="layer layer3"></div>
                         <div class="layer layer4"></div>
                         <div class="layer layer5"></div>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="relative frame">
+                        <div class="frame1"></div>
+                        <div class="frame2"></div>
                     </div>
                 </div>
             </div>
