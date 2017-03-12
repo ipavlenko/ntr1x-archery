@@ -24,7 +24,6 @@ gulp.task('vendor-scripts', function(cb) {
 
 gulp.task('vendor-styles', function(cb) {
 
-    console.log(lib.ext('css').files)
     gulp.src(lib.ext('css').files)
         .pipe(sourcemaps.init())
         .pipe(cleancss())
