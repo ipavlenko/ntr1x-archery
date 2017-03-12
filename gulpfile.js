@@ -23,6 +23,8 @@ gulp.task('vendor-scripts', function(cb) {
 })
 
 gulp.task('vendor-styles', function(cb) {
+
+    console.log(lib.ext('css').files)
     gulp.src(lib.ext('css').files)
         .pipe(sourcemaps.init())
         .pipe(cleancss())
@@ -36,7 +38,8 @@ gulp.task('vendor-styles', function(cb) {
 gulp.task('vendor-fonts', function(cb) {
     gulp.src([
         'bower_components/bootstrap/dist/fonts/**/*',
-        'bower_components/font-awesome/fonts/**/*'
+        'bower_components/font-awesome/fonts/**/*',
+        'bower_components/roboto-fontface/fonts/**/*'
     ])
         .pipe(gulp.dest('www/public/assets/fonts/'))
         .on('end', cb)
