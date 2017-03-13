@@ -1,0 +1,210 @@
+<html>
+<head>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <style>
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+      background: #141422;
+    }
+
+    .row {
+        display: table;
+        border-spacing: 10px;
+    }
+
+    .cell {
+        display: table-cell;
+        width: 120px;
+        height: 60px;
+        background: #34495E;
+        vertical-align: middle;
+        text-align: center;
+        color: #FFFFFF;
+    }
+
+    .relative {
+        position: relative;
+        float: left;
+        width: 120px;
+        height: 60px;
+    }
+
+    .widget-text {
+        height: 2em;
+        line-height: 2em;
+        box-sizing: border-box;
+        width: 70px;
+        font-size: 0.7em;
+        padding: 0 0.5em;
+        vertical-align: middle;
+        display: inline-block;
+        background: rgba(150,200,255,0.2);
+        color: #FFFFFF;
+        /*box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);*/
+        border: 0.1em solid #66afe9;
+        border-radius: 0.2em;
+    }
+
+    textarea.widget-text {
+        height: 2.8em;
+    }
+
+    .widget-checkbox,
+    .widget-radio {
+        position: relative;
+        display: inline-block;
+        line-height: 2em;
+        height: 2em;
+        width: auto;
+        overflow: visible;
+        font-size: 1em;
+        margin: 0.2em;
+    }
+
+    .widget-checkbox input,
+    .widget-radio input {
+        visibility: hidden;
+        width: 2em;
+        height: 2em;
+    }
+
+    .widget-checkbox label,
+    .widget-radio label {
+
+        display: block;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 1.1em;
+        height: 1.1em;
+        margin: 0.45em;
+        box-sizing: border-box;
+        border-radius: 0.2em;
+
+        background: rgba(150,200,255,0.2);
+        /*box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);*/
+        border: 0.1em solid #66afe9;
+    }
+
+    .widget-checkbox label::after {
+        content: '';
+        width: 65%;
+        height: 40%;
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        border: 0.20em solid #FFFFFF;
+        border-top: none;
+        border-right: none;
+        background: transparent;
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+    }
+
+    .widget-radio label {
+
+        border-radius: 50%;
+        border: 0.12em solid #66afe9;
+    }
+
+    .widget-radio label::after {
+        content: '';
+        width: 50%;
+        height: 50%;
+        position: absolute;
+        border-radius: 50%;
+        top: 25%;
+        left: 25%;
+        background: #FFFFFF;
+    }
+
+    .widget-button {
+        height: 1.6em;
+        line-height: 1.6em;
+        margin: 0.2em 0em;
+        font-size: 1em;
+        vertical-align: middle;
+        padding: 0 0.5em;
+    }
+
+    .widget-button .widget-button-text {
+        font-size: 0.7em;
+    }
+
+    </style>
+</head>
+    <body>
+        <div style="font-size: 16px">
+            <div class="row" style="font-size: 1em;">
+                <div class="cell">
+                    <input type="text" class="form-control widget-text" value="Text" />
+                </div>
+                <div class="cell">
+                    <input type="password" class="form-control widget-text" value="Password" />
+                </div>
+                <div class="cell">
+                    <select class="form-control widget-text">
+                        <option>Select</option>
+                    </select>
+                </div>
+                <div class="cell">
+                    <textarea class="form-control widget-text widget-textarea">Textarea</textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell">
+                    <div class="widget-checkbox">
+                        <input type="checkbox" value="Checkbox" />
+                        <label></label>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="widget-radio">
+                        <input type="radio" value="Radio" />
+                        <label></label>
+                    </div>
+                </div>
+                <div class="cell">
+                    <button class="btn btn-primary widget-button">
+                        <span class="widget-button-text">Button</span>
+                    </button>
+                </div>
+                <div class="cell">
+                    <button class="btn btn-primary widget-button">
+                        <span class="widget-button-text">Dropdown <span class="caret"></span></span>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell">
+                    <div class="btn-group">
+                        <button class="btn btn-primary widget-button">
+                            <span class="widget-button-text">On</span>
+                        </button>
+                        <button class="btn btn-primary widget-button active">
+                            <span class="widget-button-text">Off</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="btn-group">
+                        <button class="btn btn-primary widget-button active">
+                            <span class="widget-button-text">A</span>
+                        </button>
+                        <button class="btn btn-primary widget-button active">
+                            <span class="widget-button-text">B</span>
+                        </button>
+                        <button class="btn btn-primary widget-button">
+                            <span class="widget-button-text">C</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
